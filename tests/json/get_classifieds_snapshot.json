@@ -1,0 +1,475 @@
+{
+    "listings": [
+        {
+            "steamid": "76561198179707937",
+            "offers": 1,
+            "buyout": 1,
+            "details": "180 pure 190+ unusuals",
+            "intent": "sell",
+            "timestamp": 1636650831,
+            "price": 10649.7,
+            "item": {
+                "id": 10080129222,
+                "original_id": 746826603,
+                "defindex": 53,
+                "level": 68,
+                "quality": 5,
+                "inventory": 2147483688,
+                "quantity": 1,
+                "origin": 8,
+                "attributes": [
+                    {
+                        "defindex": 134,
+                        "value": 1092616192,
+                        "float_value": 10
+                    },
+                    {
+                        "defindex": 142,
+                        "value": 1266641332,
+                        "float_value": 16738740
+                    },
+                    {
+                        "defindex": 189,
+                        "value": 1084227584,
+                        "float_value": 5
+                    },
+                    {
+                        "defindex": 211,
+                        "value": 1619334000,
+                        "float_value": 76713049415233830000
+                    },
+                    {
+                        "defindex": 261,
+                        "value": 1266641332,
+                        "float_value": 16738740
+                    },
+                    {
+                        "defindex": 519,
+                        "value": 3232759808,
+                        "float_value": -5.5
+                    },
+                    {
+                        "defindex": 520,
+                        "value": 1065353216,
+                        "float_value": 1
+                    },
+                    {
+                        "defindex": 746,
+                        "value": 1065353216,
+                        "float_value": 1
+                    },
+                    {
+                        "defindex": 692,
+                        "value": 1,
+                        "float_value": 1.401298464324817e-45
+                    },
+                    {
+                        "defindex": 292,
+                        "value": 1115684864,
+                        "float_value": 64
+                    },
+                    {
+                        "defindex": 388,
+                        "value": 1115684864,
+                        "float_value": 64
+                    }
+                ]
+            },
+            "currencies": {
+                "keys": 180
+            },
+            "bump": 1637708170
+        },
+        {
+            "steamid": "76561198139679163",
+            "offers": 1,
+            "buyout": 1,
+            "details": "😊I use my own 𝐨𝐟𝐟𝐞𝐫 𝐧𝐨𝐭𝐢𝐟𝐢𝐜𝐚𝐭𝐢𝐨𝐧 via steam API (on phone&loud sound)😊𝐈 𝐩𝐚𝐲 𝐦𝐨𝐫𝐞 always😊I can 𝐫𝐨𝐮𝐧𝐝 𝐭𝐨 𝐟𝐮𝐥𝐥 keys😊🟥🟧🟨🟩🟦🟪🟥🟧🟨🟩🟦🟪🟥🟧🟨🟩🟦🟪🟥🟧🟨🟩🟦🟪",
+            "intent": "buy",
+            "timestamp": 1637689070,
+            "price": 6999.1900000000005,
+            "item": {
+                "defindex": 53,
+                "quality": 5,
+                "attributes": [
+                    {
+                        "float_value": 10,
+                        "defindex": 134
+                    }
+                ]
+            },
+            "currencies": {
+                "metal": 17.72,
+                "keys": 118
+            },
+            "bump": 1637704014
+        },
+        {
+            "steamid": "76561198453530349",
+            "offers": 1,
+            "buyout": 1,
+            "details": "24/7 Bot with best speed, price and refunds! I can buy 1 for 118 keys 0.88 ref. Offer⚡or chat me💬(2 clicks for ez copy):  sell_Purple_Energy_Trophy_Belt █████████████████████████████████████",
+            "intent": "buy",
+            "timestamp": 1637703344,
+            "price": 6982.35,
+            "item": {
+                "defindex": 53,
+                "quality": 5,
+                "attributes": [
+                    {
+                        "float_value": 10,
+                        "defindex": 134
+                    }
+                ]
+            },
+            "currencies": {
+                "metal": 0.88,
+                "keys": 118
+            },
+            "bump": 1637714024,
+            "userAgent": {
+                "lastPulse": 1637714447,
+                "client": "-"
+            }
+        },
+        {
+            "steamid": "76561198088707185",
+            "offers": 1,
+            "buyout": 1,
+            "details": "Add 10 ref to the highest buy order for an instant response. 　　　Feel free to add me! I can send the offer for you. 　　　　　　　　　　　　　⚡",
+            "intent": "buy",
+            "timestamp": 1637713957,
+            "price": 6982.305,
+            "item": {
+                "defindex": 53,
+                "quality": 5,
+                "attributes": [
+                    {
+                        "float_value": 10,
+                        "defindex": 134
+                    }
+                ]
+            },
+            "currencies": {
+                "metal": 60,
+                "keys": 117
+            },
+            "bump": 1637713957,
+            "userAgent": {
+                "lastPulse": 1637714449,
+                "client": "python-requests/2.22.0"
+            }
+        },
+        {
+            "steamid": "76561199132665029",
+            "offers": 1,
+            "buyout": 1,
+            "details": "Buying this item for 117 keys 59 ref! Send a trade offer or add me and type !sell Purple Energy Trophy Belt",
+            "intent": "buy",
+            "timestamp": 1637710652,
+            "price": 6981.305,
+            "item": {
+                "defindex": 53,
+                "quality": 5,
+                "attributes": [
+                    {
+                        "float_value": 10,
+                        "defindex": 134
+                    }
+                ]
+            },
+            "currencies": {
+                "metal": 59,
+                "keys": 117
+            },
+            "bump": 1637714258,
+            "userAgent": {
+                "lastPulse": 1637714363,
+                "client": "Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/67.0.3396.99 Safari/537.36"
+            }
+        },
+        {
+            "steamid": "76561199102407070",
+            "offers": 1,
+            "buyout": 1,
+            "details": "[⇄] 24/7 Auto-accept // Buying quicksell unusuals 117 keys 59 ref Send me a trade offer or add me and type !sell Purple Energy Trophy Belt. Thanks!",
+            "intent": "buy",
+            "timestamp": 1637712297,
+            "price": 6981.305,
+            "item": {
+                "defindex": 53,
+                "quality": 5,
+                "attributes": [
+                    {
+                        "float_value": 10,
+                        "defindex": 134
+                    }
+                ]
+            },
+            "currencies": {
+                "metal": 59,
+                "keys": 117
+            },
+            "bump": 1637714098,
+            "userAgent": {
+                "lastPulse": 1637714365,
+                "client": "Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/67.0.3396.99 Safari/537.36"
+            }
+        },
+        {
+            "steamid": "76561198795826430",
+            "offers": 1,
+            "buyout": 1,
+            "details": "Buying for 𝟭𝟭𝟳 𝙠𝙚𝙮𝙨 + 𝟱𝟵 𝙧𝙚𝙛𝙞𝙣𝙚𝙙. || Current stock: 0/1 💬 !s Purple Energy Trophy Belt",
+            "intent": "buy",
+            "timestamp": 1637701084,
+            "price": 6981.305,
+            "item": {
+                "defindex": 53,
+                "quality": 5,
+                "attributes": [
+                    {
+                        "float_value": 10,
+                        "defindex": 134
+                    }
+                ]
+            },
+            "currencies": {
+                "metal": 59,
+                "keys": 117
+            },
+            "bump": 1637713696,
+            "userAgent": {
+                "lastPulse": 1637714109,
+                "client": "Yes_Im_A_Bot"
+            }
+        },
+        {
+            "steamid": "76561199125348079",
+            "offers": 1,
+            "buyout": 1,
+            "details": "Buying Purple Energy Trophy Belt for 117 keys 59 ref! Fastest accept in the bot world so just send me an offer and have your pure within seconds!",
+            "intent": "buy",
+            "timestamp": 1637711737,
+            "price": 6981.305,
+            "item": {
+                "defindex": 53,
+                "quality": 5,
+                "attributes": [
+                    {
+                        "float_value": 10,
+                        "defindex": 134
+                    }
+                ]
+            },
+            "currencies": {
+                "metal": 59,
+                "keys": 117
+            },
+            "bump": 1637713546,
+            "userAgent": {
+                "lastPulse": 1637714425,
+                "client": "Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/67.0.3396.99 Safari/537.36"
+            }
+        },
+        {
+            "steamid": "76561199101711836",
+            "offers": 1,
+            "buyout": 1,
+            "details": "⚡️𝟮𝟰/𝟳 𝗕𝗢𝗧⚡️ Buying for 117 keys 59 ref. Stock: 0/1. Send a trade offer, or add me and type !sell Purple Energy Trophy Belt.",
+            "intent": "buy",
+            "timestamp": 1637706310,
+            "price": 6981.305,
+            "item": {
+                "defindex": 53,
+                "quality": 5,
+                "attributes": [
+                    {
+                        "float_value": 10,
+                        "defindex": 134
+                    }
+                ]
+            },
+            "currencies": {
+                "metal": 59,
+                "keys": 117
+            },
+            "bump": 1637713526,
+            "userAgent": {
+                "lastPulse": 1637714366,
+                "client": "Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/67.0.3396.99 Safari/537.36"
+            }
+        },
+        {
+            "steamid": "76561199193412191",
+            "offers": 1,
+            "buyout": 1,
+            "details": "Buying Purple Energy Trophy Belt, for 117 keys 59 ref! (0/1) | Can pay more in certain cases (eg. Strange Unusual/Factory New), just contact my owner! (@Moder#0247) 王 ",
+            "intent": "buy",
+            "timestamp": 1637707952,
+            "price": 6981.305,
+            "item": {
+                "defindex": 53,
+                "quality": 5,
+                "attributes": [
+                    {
+                        "float_value": 10,
+                        "defindex": 134
+                    }
+                ]
+            },
+            "currencies": {
+                "metal": 59,
+                "keys": 117
+            },
+            "bump": 1637713364,
+            "userAgent": {
+                "lastPulse": 1637714444,
+                "client": "Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/67.0.3396.99 Safari/537.36"
+            }
+        },
+        {
+            "steamid": "76561199004799979",
+            "offers": 1,
+            "buyout": 1,
+            "details": "I'm buying the Purple Energy Trophy Belt for 117 keys 59 ref .Too lazy to send an offer? Add me and type \"!sell Purple Energy Trophy Belt\". Current stock : 0/1",
+            "intent": "buy",
+            "timestamp": 1637709416,
+            "price": 6981.305,
+            "item": {
+                "defindex": 53,
+                "quality": 5,
+                "attributes": [
+                    {
+                        "float_value": 10,
+                        "defindex": 134
+                    }
+                ]
+            },
+            "currencies": {
+                "metal": 59,
+                "keys": 117
+            },
+            "bump": 1637713056,
+            "userAgent": {
+                "lastPulse": 1637714413,
+                "client": "Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/67.0.3396.99 Safari/537.36"
+            }
+        },
+        {
+            "steamid": "76561199125443371",
+            "offers": 1,
+            "buyout": 1,
+            "details": "⚡️ Buying for 117 keys 59 ref ⚡️  Send offer for instant accept or add me and type: !sell Purple Energy Trophy Belt ",
+            "intent": "buy",
+            "timestamp": 1637711008,
+            "price": 6981.305,
+            "item": {
+                "defindex": 53,
+                "quality": 5,
+                "attributes": [
+                    {
+                        "float_value": 10,
+                        "defindex": 134
+                    }
+                ]
+            },
+            "currencies": {
+                "metal": 59,
+                "keys": 117
+            },
+            "bump": 1637712810,
+            "userAgent": {
+                "lastPulse": 1637714412,
+                "client": "Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/67.0.3396.99 Safari/537.36"
+            }
+        },
+        {
+            "steamid": "76561199102237820",
+            "offers": 1,
+            "buyout": 1,
+            "details": "FASTER THAN OTHER BOTS! Accepting Dupes! Paying 117 keys 59 ref keys for your Purple Energy Trophy Belt! 0.Send a trade offer for fast accept!⚡.Contact my owner slobek#6997 to discuss price. ",
+            "intent": "buy",
+            "timestamp": 1637703660,
+            "price": 6981.305,
+            "item": {
+                "defindex": 53,
+                "quality": 5,
+                "attributes": [
+                    {
+                        "float_value": 10,
+                        "defindex": 134
+                    }
+                ]
+            },
+            "currencies": {
+                "metal": 59,
+                "keys": 117
+            },
+            "bump": 1637712692,
+            "userAgent": {
+                "lastPulse": 1637714430,
+                "client": "Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/67.0.3396.99 Safari/537.36"
+            }
+        },
+        {
+            "steamid": "76561198337734785",
+            "offers": 1,
+            "buyout": 1,
+            "details": "⛔I'm buying everything on Quicksell.store⛔🍀 24/7 Automatically buying 🍀 I can buy all unusuals you have, just add me 💪 I will beat any higher buyer. Thanks, you are best :) 💚",
+            "intent": "buy",
+            "timestamp": 1637695089,
+            "price": 6980.415,
+            "item": {
+                "defindex": 53,
+                "quality": 5,
+                "attributes": [
+                    {
+                        "float_value": 10,
+                        "defindex": 134
+                    }
+                ]
+            },
+            "currencies": {
+                "metal": 58.11,
+                "keys": 117
+            },
+            "bump": 1637713891,
+            "userAgent": {
+                "lastPulse": 1637714247,
+                "client": "axios/0.15.3"
+            }
+        },
+        {
+            "steamid": "76561199111354228",
+            "offers": 1,
+            "buyout": 1,
+            "details": "24/7 Instant Accept. Send me an offer or add me. Contact my owner on steam/discord (Erik#2641) to sell more hats or sell keys for PayPal! Supply 1000+ keys.",
+            "intent": "buy",
+            "timestamp": 1637700158,
+            "price": 6977.305,
+            "item": {
+                "defindex": 53,
+                "quality": 5,
+                "attributes": [
+                    {
+                        "float_value": 10,
+                        "defindex": 134
+                    }
+                ]
+            },
+            "currencies": {
+                "metal": 55,
+                "keys": 117
+            },
+            "bump": 1637712769,
+            "userAgent": {
+                "lastPulse": 1637714450,
+                "client": "Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/67.0.3396.99 Safari/537.36"
+            }
+        }
+    ],
+    "appid": 440,
+    "sku": "Purple Energy Trophy Belt",
+    "createdAt": 1637714459
+}

@@ -1,0 +1,396 @@
+{
+    "results": [
+        {
+            "id": "440_76561198080179568_76c096345919b66f01980381017e31e8",
+            "steamid": "76561198080179568",
+            "appid": 440,
+            "currencies": {
+                "metal": 2,
+                "keys": 2
+            },
+            "value": {
+                "raw": 135.64999999999998,
+                "short": "2.03 keys",
+                "long": "2 keys, 2 ref"
+            },
+            "tradeOffersPreferred": true,
+            "buyoutOnly": true,
+            "listedAt": 1639511516,
+            "bumpedAt": 1639527977,
+            "intent": "buy",
+            "item": {
+                "appid": 440,
+                "australium": false,
+                "baseName": "Lucky Cat Hat",
+                "craftable": true,
+                "defindex": 30998,
+                "festivized": false,
+                "id": "",
+                "imageUrl": "https://steamcdn-a.akamaihd.net/apps/440/icons/hwn2018_lucky_cat_hat_large.32767807a201a0ecdcba53297f9cfd1fae3cfc2a.png",
+                "marketName": "Lucky Cat Hat",
+                "name": "Lucky Cat Hat",
+                "originalId": "",
+                "priceindex": "0",
+                "price": {
+                    "steam": {
+                        "currency": "usd",
+                        "short": "$7.46",
+                        "long": "239.67 ref, 3.59 keys, $7.19",
+                        "raw": 239.67043269230766,
+                        "value": 746
+                    },
+                    "community": {
+                        "metadata": {
+                            "appid": 440,
+                            "quality": 6,
+                            "defindexes": [
+                                30998
+                            ],
+                            "item_name": "Lucky Cat Hat",
+                            "base_item_name": "Lucky Cat Hat",
+                            "priceindex": "0",
+                            "tradable": true,
+                            "craftable": true,
+                            "value_raw": 250.59374999999994,
+                            "item_slot": "misc",
+                            "release_date": 1540255517
+                        },
+                        "value": 3.65,
+                        "valueHigh": 3.85,
+                        "currency": "keys",
+                        "raw": 250.59374999999994,
+                        "short": "3.65–3.85 keys",
+                        "long": "250.59 ref, $7.52",
+                        "updatedAt": 1639013535,
+                        "difference": -36.75374999999997
+                    },
+                    "suggested": {
+                        "raw": 250.59374999999994,
+                        "short": "3.75 keys",
+                        "long": "250.59 ref, $7.52"
+                    }
+                },
+                "quality": {
+                    "id": 6,
+                    "name": "Unique",
+                    "color": "#FFD700"
+                },
+                "quantity": "1",
+                "slot": "misc",
+                "tradable": true,
+                "summary": {
+                    "value": "Level 1-100 Hat"
+                },
+                "_source": {
+                    "defindex": 30998,
+                    "quality": 6,
+                    "quantity": "1",
+                    "attributes": [
+                        {
+                            "value": null,
+                            "defindex": 229
+                        }
+                    ]
+                }
+            },
+            "count": 1,
+            "status": "active"
+        },
+        {
+            "id": "440_7764221391",
+            "steamid": "76561198080179568",
+            "appid": 440,
+            "currencies": {
+                "keys": 10
+            },
+            "value": {
+                "raw": 668.2499999999999,
+                "short": "10 keys",
+                "long": "10 keys"
+            },
+            "tradeOffersPreferred": true,
+            "buyoutOnly": true,
+            "details": "Instant accept for the listed price 24/7",
+            "listedAt": 1639511458,
+            "bumpedAt": 1639527977,
+            "intent": "sell",
+            "item": {
+                "appid": 440,
+                "australium": false,
+                "baseName": "Lucky Cat Hat",
+                "craftable": true,
+                "defindex": 30998,
+                "equipped": [
+                    {
+                        "class": 3,
+                        "slot": 8
+                    }
+                ],
+                "festivized": false,
+                "id": "7764221391",
+                "imageUrl": "https://steamcdn-a.akamaihd.net/apps/440/icons/hwn2018_lucky_cat_hat_large.32767807a201a0ecdcba53297f9cfd1fae3cfc2a.png",
+                "level": 60,
+                "marketName": "Lucky Cat Hat",
+                "name": "Lucky Cat Hat",
+                "origin": {
+                    "id": 8,
+                    "name": "Found in Crate"
+                },
+                "originalId": "7268030924",
+                "priceindex": "0",
+                "price": {
+                    "steam": {
+                        "currency": "usd",
+                        "short": "$7.46",
+                        "long": "239.67 ref, 3.59 keys, $7.19",
+                        "raw": 239.67043269230766,
+                        "value": 746
+                    },
+                    "community": {
+                        "metadata": {
+                            "appid": 440,
+                            "quality": 6,
+                            "defindexes": [
+                                30998
+                            ],
+                            "item_name": "Lucky Cat Hat",
+                            "base_item_name": "Lucky Cat Hat",
+                            "priceindex": "0",
+                            "tradable": true,
+                            "craftable": true,
+                            "value_raw": 250.59374999999994,
+                            "item_slot": "misc",
+                            "release_date": 1540255517
+                        },
+                        "value": 3.65,
+                        "valueHigh": 3.85,
+                        "currency": "keys",
+                        "raw": 250.59374999999994,
+                        "short": "3.65–3.85 keys",
+                        "long": "250.59 ref, $7.52",
+                        "updatedAt": 1639013535,
+                        "difference": -36.75374999999997
+                    },
+                    "suggested": {
+                        "raw": 290.35462499999994,
+                        "short": "4.35 keys",
+                        "long": "290.35 ref, $8.71"
+                    }
+                },
+                "quality": {
+                    "id": 6,
+                    "name": "Unique",
+                    "color": "#FFD700"
+                },
+                "quantity": 1,
+                "slot": "misc",
+                "tradable": true,
+                "summary": {
+                    "value": "Level 60 Hat"
+                },
+                "_source": {
+                    "id": 7764221391,
+                    "original_id": 7268030924,
+                    "defindex": 30998,
+                    "level": 60,
+                    "quality": 6,
+                    "inventory": 2147486461,
+                    "quantity": 1,
+                    "origin": 8,
+                    "equipped": [
+                        {
+                            "class": 3,
+                            "slot": 8
+                        }
+                    ],
+                    "attributes": [
+                        {
+                            "defindex": 142,
+                            "value": 1266641332,
+                            "float_value": 16738740
+                        },
+                        {
+                            "defindex": 261,
+                            "value": 1266641332,
+                            "float_value": 16738740
+                        },
+                        {
+                            "defindex": 2028,
+                            "value": 1065353216,
+                            "float_value": 1
+                        },
+                        {
+                            "defindex": 746,
+                            "value": 1065353216,
+                            "float_value": 1
+                        },
+                        {
+                            "defindex": 292,
+                            "value": 1115684864,
+                            "float_value": 64
+                        },
+                        {
+                            "defindex": 388,
+                            "value": 1115684864,
+                            "float_value": 64
+                        }
+                    ]
+                },
+                "paint": {
+                    "id": 5051,
+                    "name": "Pink as Hell",
+                    "color": "#ff69b4"
+                }
+            },
+            "count": 1,
+            "status": "active"
+        },
+        {
+            "id": "440_7188274384",
+            "steamid": "76561198080179568",
+            "appid": 440,
+            "currencies": {
+                "keys": 500
+            },
+            "value": {
+                "raw": 33412.49999999999,
+                "short": "500 keys",
+                "long": "500 keys"
+            },
+            "tradeOffersPreferred": true,
+            "buyoutOnly": true,
+            "details": "Please don't buy this",
+            "listedAt": 1639511432,
+            "bumpedAt": 1639527977,
+            "intent": "sell",
+            "item": {
+                "appid": 440,
+                "australium": false,
+                "baseName": "Crone's Dome",
+                "craftable": true,
+                "defindex": 920,
+                "festivized": false,
+                "id": "7188274384",
+                "imageUrl": "https://steamcdn-a.akamaihd.net/apps/440/icons/witchhat_large.b285271e25c1b4dccabab00010daac0e557e8dbd.png",
+                "level": 97,
+                "marketName": "Unusual Crone's Dome",
+                "name": "Massed Flies Crone's Dome",
+                "origin": {
+                    "id": 6,
+                    "name": "Gifted"
+                },
+                "originalId": "6658678594",
+                "particle": {
+                    "id": 12,
+                    "name": "Massed Flies",
+                    "shortName": "flies",
+                    "imageUrl": "/images/440/particles/12_94x94.png",
+                    "type": "standard"
+                },
+                "priceindex": "12",
+                "price": {
+                    "steam": {
+                        "currency": "usd",
+                        "short": "$145.85",
+                        "long": "4,685.78 ref, 70.12 keys, $140.57",
+                        "raw": 4685.781850961538,
+                        "value": 14585
+                    },
+                    "community": {
+                        "metadata": {
+                            "appid": 440,
+                            "quality": 5,
+                            "defindexes": [
+                                920
+                            ],
+                            "item_name": "Massed Flies Crone's Dome",
+                            "base_item_name": "Crone's Dome",
+                            "priceindex": "12",
+                            "tradable": true,
+                            "craftable": true,
+                            "value_raw": 2013.5225,
+                            "particle": 12,
+                            "item_slot": "misc",
+                            "release_date": 1351209600
+                        },
+                        "value": 33,
+                        "valueHigh": 40,
+                        "currency": "keys",
+                        "raw": 2439.1124999999997,
+                        "short": "33–40 keys",
+                        "long": "2,439.11 ref, $73.17",
+                        "updatedAt": 1608854551,
+                        "difference": -193.07749999999987
+                    },
+                    "suggested": {
+                        "raw": 2439.1124999999997,
+                        "short": "36.5 keys",
+                        "long": "2,439.11 ref, $73.17"
+                    }
+                },
+                "quality": {
+                    "id": 5,
+                    "name": "Unusual",
+                    "color": "#8650AC"
+                },
+                "quantity": 1,
+                "slot": "misc",
+                "tradable": true,
+                "summary": {
+                    "value": "Level 97 Hat"
+                },
+                "_source": {
+                    "id": 7188274384,
+                    "original_id": 6658678594,
+                    "defindex": 920,
+                    "level": 97,
+                    "quality": 5,
+                    "inventory": 2147486450,
+                    "quantity": 1,
+                    "origin": 6,
+                    "attributes": [
+                        {
+                            "defindex": 134,
+                            "value": 1094713344,
+                            "float_value": 12
+                        },
+                        {
+                            "defindex": 519,
+                            "value": 1062501089,
+                            "float_value": 0.8299999833106995
+                        },
+                        {
+                            "defindex": 520,
+                            "value": 0,
+                            "float_value": 0
+                        },
+                        {
+                            "defindex": 746,
+                            "value": 1065353216,
+                            "float_value": 1
+                        },
+                        {
+                            "defindex": 292,
+                            "value": 1115684864,
+                            "float_value": 64
+                        },
+                        {
+                            "defindex": 388,
+                            "value": 1115684864,
+                            "float_value": 64
+                        }
+                    ]
+                }
+            },
+            "count": 1,
+            "promoted": true,
+            "status": "active"
+        }
+    ],
+    "cursor": {
+        "skip": 0,
+        "limit": 100,
+        "total": 3,
+        "_info": null
+    }
+}

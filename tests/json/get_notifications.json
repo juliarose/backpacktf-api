@@ -1,0 +1,487 @@
+{
+    "results": [
+        {
+            "id": "61b2dd7a13f0e22e565c434c",
+            "steamid": "76561198080179568",
+            "unread": true,
+            "lastMoved": 1639112058,
+            "elementId": "440_76561199101484822_7bcfcefca8ffa5b69dba185f12a22f4b",
+            "userId": "76561199101484822",
+            "targetUser": {
+                "id": "76561199101484822",
+                "name": "Real Trader\\u2122",
+                "avatar": "https:\\/\\/steamcdn-a.akamaihd.net\\/steamcommunity\\/public\\/images\\/avatars\\/26\\/26972608da0682c9aae0b27d4914404f9c915104_medium.jpg",
+                "avatarFull": "https:\\/\\/steamcdn-a.akamaihd.net\\/steamcommunity\\/public\\/images\\/avatars\\/26\\/26972608da0682c9aae0b27d4914404f9c915104_full.jpg",
+                "premium": true,
+                "online": true,
+                "banned": false,
+                "customNameStyle": "awesome5",
+                "acceptedSuggestions": 0,
+                "class": "awesome5",
+                "style": "",
+                "tradeOfferUrl": "https:\\/\\/steamcommunity.com\\/tradeoffer\\/new\\/?partner=1141219094&token=iF6QGWOa",
+                "isMarketplaceSeller": false,
+                "flagImpersonated": null,
+                "bans": []
+            },
+            "type": 11,
+            "bundle": {
+                "listing": {
+                    "id": "440_76561199101484822_7bcfcefca8ffa5b69dba185f12a22f4b",
+                    "steamid": "76561199101484822",
+                    "appid": 440,
+                    "currencies": {
+                        "metal": 39,
+                        "keys": 69
+                    },
+                    "value": {
+                        "raw": 4649.924999999999,
+                        "short": "69.58 keys",
+                        "long": "69 keys, 39 ref"
+                    },
+                    "tradeOffersPreferred": true,
+                    "buyoutOnly": true,
+                    "details": "Buying Purple Energy Danger for 69 keys 39 ref! Stock: 0\\/1. Send a trade offer for fast accept!\\u26a1Paying less for dupes. Contact my owner aj#8131 to discuss \\ud83d\\udc3c",
+                    "listedAt": 1639112057,
+                    "bumpedAt": 1639112058,
+                    "intent": "buy",
+                    "item": {
+                        "appid": 440,
+                        "australium": false,
+                        "baseName": "Danger",
+                        "class": [
+                            "Engineer"
+                        ],
+                        "craftable": true,
+                        "defindex": 30420,
+                        "festivized": false,
+                        "id": "",
+                        "imageUrl": "https:\\/\\/steamcdn-a.akamaihd.net\\/apps\\/440\\/icons\\/short2014_chemists_pride_large.2d2964c512a4adc60e6f29fa96531a3537bdb8d4.png",
+                        "marketName": "Unusual Danger",
+                        "name": "Purple Energy Danger",
+                        "originalId": "",
+                        "particle": {
+                            "id": 10,
+                            "name": "Purple Energy",
+                            "shortName": "p.energy",
+                            "imageUrl": "\\/images\\/440\\/particles\\/10_94x94.png",
+                            "type": "standard"
+                        },
+                        "priceindex": "10",
+                        "price": {
+                            "steam": {
+                                "currency": "usd",
+                                "short": "$69.12",
+                                "long": "2,356.60 ref, 35.27 keys, $70.70",
+                                "raw": 2356.604081632653,
+                                "value": 6912
+                            },
+                            "community": {
+                                "metadata": {
+                                    "appid": 440,
+                                    "quality": 5,
+                                    "defindexes": [
+                                        30420
+                                    ],
+                                    "item_name": "Purple Energy Danger",
+                                    "base_item_name": "Danger",
+                                    "priceindex": "10",
+                                    "tradable": true,
+                                    "craftable": true,
+                                    "value_raw": 4740.8425,
+                                    "particle": 10,
+                                    "used_by_classes": [
+                                        "Engineer"
+                                    ],
+                                    "item_slot": "misc",
+                                    "release_date": 1402876800
+                                },
+                                "value": 89,
+                                "valueHigh": 92,
+                                "currency": "keys",
+                                "raw": 6047.6624999999985,
+                                "short": "89\\u201392 keys",
+                                "long": "6,047.66 ref, $181.43",
+                                "updatedAt": 1616778504,
+                                "difference": -497.65750000000025
+                            },
+                            "suggested": {
+                                "raw": 6047.6624999999985,
+                                "short": "90.5 keys",
+                                "long": "6,047.66 ref, $181.43"
+                            }
+                        },
+                        "quality": {
+                            "id": 5,
+                            "name": "Unusual",
+                            "color": "#8650AC"
+                        },
+                        "slot": "misc",
+                        "tradable": true,
+                        "summary": {
+                            "value": "Level 1-100 Apparel"
+                        },
+                        "_source": {
+                            "defindex": 30420,
+                            "quality": 5,
+                            "attributes": [
+                                {
+                                    "float_value": 10,
+                                    "defindex": 134
+                                }
+                            ]
+                        }
+                    },
+                    "count": 1,
+                    "status": "active",
+                    "userAgent": {
+                        "client": "Mozilla\\/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit\\/537.36 (KHTML, like Gecko) Chrome\\/67.0.3396.99 Safari\\/537.36",
+                        "lastPulse": 1639112828
+                    },
+                    "user": {
+                        "id": "76561199101484822",
+                        "name": "Real Trader\\u2122",
+                        "avatar": "https:\\/\\/steamcdn-a.akamaihd.net\\/steamcommunity\\/public\\/images\\/avatars\\/26\\/26972608da0682c9aae0b27d4914404f9c915104_medium.jpg",
+                        "avatarFull": "https:\\/\\/steamcdn-a.akamaihd.net\\/steamcommunity\\/public\\/images\\/avatars\\/26\\/26972608da0682c9aae0b27d4914404f9c915104_full.jpg",
+                        "premium": true,
+                        "online": true,
+                        "banned": false,
+                        "customNameStyle": "awesome5",
+                        "acceptedSuggestions": 0,
+                        "class": "awesome5",
+                        "style": "",
+                        "tradeOfferUrl": "https:\\/\\/steamcommunity.com\\/tradeoffer\\/new\\/?partner=1141219094&token=iF6QGWOa",
+                        "isMarketplaceSeller": false,
+                        "flagImpersonated": null,
+                        "bans": []
+                    }
+                }
+            },
+            "contents": {
+                "subject": "Listing alert",
+                "message": "Purple Energy Danger - listed for 4,649.93 ref, 69.58 keys, $139.50 (buy order)",
+                "url": "\\/classifieds?item=Danger&quality=5&tradable=1&craftable=1&particle=10&australium=-1&killstreak_tier=0"
+            }
+        },
+        {
+            "id": "61b2d68936d79b25e4302033",
+            "steamid": "76561198080179568",
+            "unread": true,
+            "lastMoved": 1639110281,
+            "elementId": "440_76561199132665029_887f790524201e77b8a82f61cdea9fcf",
+            "userId": "76561199132665029",
+            "targetUser": {
+                "id": "76561199132665029",
+                "name": "BigChungus 24\\/7",
+                "avatar": "https:\\/\\/steamcdn-a.akamaihd.net\\/steamcommunity\\/public\\/images\\/avatars\\/d0\\/d0c62512cdede12fc2bd21f0293c8c2d261b0024_medium.jpg",
+                "avatarFull": "https:\\/\\/steamcdn-a.akamaihd.net\\/steamcommunity\\/public\\/images\\/avatars\\/d0\\/d0c62512cdede12fc2bd21f0293c8c2d261b0024_full.jpg",
+                "premium": true,
+                "online": true,
+                "banned": false,
+                "customNameStyle": "premium",
+                "acceptedSuggestions": 0,
+                "class": "premium",
+                "style": "",
+                "tradeOfferUrl": "https:\\/\\/steamcommunity.com\\/tradeoffer\\/new\\/?partner=1172399301&token=kv81l-sT",
+                "isMarketplaceSeller": false,
+                "flagImpersonated": null,
+                "bans": []
+            },
+            "type": 11,
+            "bundle": {
+                "listing": {
+                    "id": "440_76561199132665029_887f790524201e77b8a82f61cdea9fcf",
+                    "steamid": "76561199132665029",
+                    "appid": 440,
+                    "currencies": {
+                        "metal": 35.55,
+                        "keys": 29
+                    },
+                    "value": {
+                        "raw": 1973.4749999999997,
+                        "short": "29.53 keys",
+                        "long": "29 keys, 35.55 ref"
+                    },
+                    "tradeOffersPreferred": true,
+                    "buyoutOnly": true,
+                    "details": "Buying this item for 29 keys 35.55 ref! Send a trade offer or add me and type !sell Stormy Storm Tundra Top",
+                    "listedAt": 1639110281,
+                    "bumpedAt": 1639109841,
+                    "intent": "buy",
+                    "item": {
+                        "appid": 440,
+                        "australium": false,
+                        "baseName": "Tundra Top",
+                        "craftable": true,
+                        "defindex": 30976,
+                        "festivized": false,
+                        "id": "",
+                        "imageUrl": "https:\\/\\/steamcdn-a.akamaihd.net\\/apps\\/440\\/icons\\/spr18_tundra_top_large.f56448ebacb9488f3e0b96c953586b49650bd54b.png",
+                        "marketName": "Unusual Tundra Top",
+                        "name": "Stormy Storm Tundra Top",
+                        "originalId": "",
+                        "particle": {
+                            "id": 29,
+                            "name": "Stormy Storm",
+                            "shortName": "stormy",
+                            "imageUrl": "\\/images\\/440\\/particles\\/29_94x94.png",
+                            "type": "standard"
+                        },
+                        "priceindex": "29",
+                        "price": {
+                            "steam": {
+                                "currency": "usd",
+                                "short": "$55.09",
+                                "long": "1,878.26 ref, 28.11 keys, $56.35",
+                                "raw": 1878.2598214285713,
+                                "value": 5509
+                            },
+                            "community": {
+                                "metadata": {
+                                    "appid": 440,
+                                    "quality": 5,
+                                    "defindexes": [
+                                        30976
+                                    ],
+                                    "item_name": "Stormy Storm Tundra Top",
+                                    "base_item_name": "Tundra Top",
+                                    "priceindex": "29",
+                                    "tradable": true,
+                                    "craftable": true,
+                                    "value_raw": 1736.1375,
+                                    "particle": 29,
+                                    "item_slot": "misc",
+                                    "release_date": 1522284321
+                                },
+                                "value": 27,
+                                "valueHigh": 40,
+                                "currency": "keys",
+                                "raw": 2238.6375,
+                                "short": "27\\u201340 keys",
+                                "long": "2,238.64 ref, $67.16",
+                                "updatedAt": 1610271233,
+                                "difference": 388.6875
+                            },
+                            "suggested": {
+                                "raw": 2238.6375,
+                                "short": "33.5 keys",
+                                "long": "2,238.64 ref, $67.16"
+                            }
+                        },
+                        "quality": {
+                            "id": 5,
+                            "name": "Unusual",
+                            "color": "#8650AC"
+                        },
+                        "slot": "misc",
+                        "tradable": true,
+                        "summary": {
+                            "value": "Level 1-100 Hat"
+                        },
+                        "_source": {
+                            "defindex": 30976,
+                            "quality": 5,
+                            "attributes": [
+                                {
+                                    "float_value": 29,
+                                    "defindex": 134
+                                }
+                            ]
+                        }
+                    },
+                    "count": 1,
+                    "status": "active",
+                    "userAgent": {
+                        "client": "Mozilla\\/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit\\/537.36 (KHTML, like Gecko) Chrome\\/67.0.3396.99 Safari\\/537.36",
+                        "lastPulse": 1639112813
+                    },
+                    "user": {
+                        "id": "76561199132665029",
+                        "name": "BigChungus 24\\/7",
+                        "avatar": "https:\\/\\/steamcdn-a.akamaihd.net\\/steamcommunity\\/public\\/images\\/avatars\\/d0\\/d0c62512cdede12fc2bd21f0293c8c2d261b0024_medium.jpg",
+                        "avatarFull": "https:\\/\\/steamcdn-a.akamaihd.net\\/steamcommunity\\/public\\/images\\/avatars\\/d0\\/d0c62512cdede12fc2bd21f0293c8c2d261b0024_full.jpg",
+                        "premium": true,
+                        "online": true,
+                        "banned": false,
+                        "customNameStyle": "premium",
+                        "acceptedSuggestions": 0,
+                        "class": "premium",
+                        "style": "",
+                        "tradeOfferUrl": "https:\\/\\/steamcommunity.com\\/tradeoffer\\/new\\/?partner=1172399301&token=kv81l-sT",
+                        "isMarketplaceSeller": false,
+                        "flagImpersonated": null,
+                        "bans": []
+                    }
+                }
+            },
+            "contents": {
+                "subject": "Listing alert",
+                "message": "Stormy Storm Tundra Top - listed for 1,973.48 ref, 29.53 keys, $59.20 (buy order)",
+                "url": "\\/classifieds?item=Tundra+Top&quality=5&tradable=1&craftable=1&particle=29&australium=-1&killstreak_tier=0"
+            }
+        },
+        {
+            "id": "61b2d4d1c689ac3c8d483df6",
+            "steamid": "76561198080179568",
+            "unread": true,
+            "lastMoved": 1639109841,
+            "elementId": "440_76561199132665029_887f790524201e77b8a82f61cdea9fcf",
+            "userId": "76561199132665029",
+            "targetUser": {
+                "id": "76561199132665029",
+                "name": "BigChungus 24\\/7",
+                "avatar": "https:\\/\\/steamcdn-a.akamaihd.net\\/steamcommunity\\/public\\/images\\/avatars\\/d0\\/d0c62512cdede12fc2bd21f0293c8c2d261b0024_medium.jpg",
+                "avatarFull": "https:\\/\\/steamcdn-a.akamaihd.net\\/steamcommunity\\/public\\/images\\/avatars\\/d0\\/d0c62512cdede12fc2bd21f0293c8c2d261b0024_full.jpg",
+                "premium": true,
+                "online": true,
+                "banned": false,
+                "customNameStyle": "premium",
+                "acceptedSuggestions": 0,
+                "class": "premium",
+                "style": "",
+                "tradeOfferUrl": "https:\\/\\/steamcommunity.com\\/tradeoffer\\/new\\/?partner=1172399301&token=kv81l-sT",
+                "isMarketplaceSeller": false,
+                "flagImpersonated": null,
+                "bans": []
+            },
+            "type": 11,
+            "bundle": {
+                "listing": {
+                    "id": "440_76561199132665029_887f790524201e77b8a82f61cdea9fcf",
+                    "steamid": "76561199132665029",
+                    "appid": 440,
+                    "currencies": {
+                        "metal": 35.55,
+                        "keys": 29
+                    },
+                    "value": {
+                        "raw": 1973.4749999999997,
+                        "short": "29.53 keys",
+                        "long": "29 keys, 35.55 ref"
+                    },
+                    "tradeOffersPreferred": true,
+                    "buyoutOnly": true,
+                    "details": "Buying this item for 29 keys 35.55 ref! Send a trade offer or add me and type !sell Stormy Storm Tundra Top",
+                    "listedAt": 1639109841,
+                    "bumpedAt": 1639109841,
+                    "intent": "buy",
+                    "item": {
+                        "appid": 440,
+                        "australium": false,
+                        "baseName": "Tundra Top",
+                        "craftable": true,
+                        "defindex": 30976,
+                        "festivized": false,
+                        "id": "",
+                        "imageUrl": "https:\\/\\/steamcdn-a.akamaihd.net\\/apps\\/440\\/icons\\/spr18_tundra_top_large.f56448ebacb9488f3e0b96c953586b49650bd54b.png",
+                        "marketName": "Unusual Tundra Top",
+                        "name": "Stormy Storm Tundra Top",
+                        "originalId": "",
+                        "particle": {
+                            "id": 29,
+                            "name": "Stormy Storm",
+                            "shortName": "stormy",
+                            "imageUrl": "\\/images\\/440\\/particles\\/29_94x94.png",
+                            "type": "standard"
+                        },
+                        "priceindex": "29",
+                        "price": {
+                            "steam": {
+                                "currency": "usd",
+                                "short": "$55.09",
+                                "long": "1,878.26 ref, 28.11 keys, $56.35",
+                                "raw": 1878.2598214285713,
+                                "value": 5509
+                            },
+                            "community": {
+                                "metadata": {
+                                    "appid": 440,
+                                    "quality": 5,
+                                    "defindexes": [
+                                        30976
+                                    ],
+                                    "item_name": "Stormy Storm Tundra Top",
+                                    "base_item_name": "Tundra Top",
+                                    "priceindex": "29",
+                                    "tradable": true,
+                                    "craftable": true,
+                                    "value_raw": 1736.1375,
+                                    "particle": 29,
+                                    "item_slot": "misc",
+                                    "release_date": 1522284321
+                                },
+                                "value": 27,
+                                "valueHigh": 40,
+                                "currency": "keys",
+                                "raw": 2238.6375,
+                                "short": "27\\u201340 keys",
+                                "long": "2,238.64 ref, $67.16",
+                                "updatedAt": 1610271233,
+                                "difference": 388.6875
+                            },
+                            "suggested": {
+                                "raw": 2238.6375,
+                                "short": "33.5 keys",
+                                "long": "2,238.64 ref, $67.16"
+                            }
+                        },
+                        "quality": {
+                            "id": 5,
+                            "name": "Unusual",
+                            "color": "#8650AC"
+                        },
+                        "slot": "misc",
+                        "tradable": true,
+                        "summary": {
+                            "value": "Level 1-100 Hat"
+                        },
+                        "_source": {
+                            "defindex": 30976,
+                            "quality": 5,
+                            "attributes": [
+                                {
+                                    "float_value": 29,
+                                    "defindex": 134
+                                }
+                            ]
+                        }
+                    },
+                    "count": 1,
+                    "status": "active",
+                    "userAgent": {
+                        "client": "Mozilla\\/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit\\/537.36 (KHTML, like Gecko) Chrome\\/67.0.3396.99 Safari\\/537.36",
+                        "lastPulse": 1639112813
+                    },
+                    "user": {
+                        "id": "76561199132665029",
+                        "name": "BigChungus 24\\/7",
+                        "avatar": "https:\\/\\/steamcdn-a.akamaihd.net\\/steamcommunity\\/public\\/images\\/avatars\\/d0\\/d0c62512cdede12fc2bd21f0293c8c2d261b0024_medium.jpg",
+                        "avatarFull": "https:\\/\\/steamcdn-a.akamaihd.net\\/steamcommunity\\/public\\/images\\/avatars\\/d0\\/d0c62512cdede12fc2bd21f0293c8c2d261b0024_full.jpg",
+                        "premium": true,
+                        "online": true,
+                        "banned": false,
+                        "customNameStyle": "premium",
+                        "acceptedSuggestions": 0,
+                        "class": "premium",
+                        "style": "",
+                        "tradeOfferUrl": "https:\\/\\/steamcommunity.com\\/tradeoffer\\/new\\/?partner=1172399301&token=kv81l-sT",
+                        "isMarketplaceSeller": false,
+                        "flagImpersonated": null,
+                        "bans": []
+                    }
+                }
+            },
+            "contents": {
+                "subject": "Listing alert",
+                "message": "Stormy Storm Tundra Top - listed for 1,973.48 ref, 29.53 keys, $59.20 (buy order)",
+                "url": "\\/classifieds?item=Tundra+Top&quality=5&tradable=1&craftable=1&particle=29&australium=-1&killstreak_tier=0"
+            }
+        }
+    ],
+    "cursor": {
+        "skip": 0,
+        "limit": 3,
+        "total": 63,
+        "_info": null
+    }
+}

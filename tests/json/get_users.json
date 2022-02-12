@@ -1,0 +1,59 @@
+{
+    "response": {
+        "success": 1,
+        "current_time": 1637801510,
+        "players": {
+            "76561198080179568": {
+                "steamid": "76561198080179568",
+                "success": 1,
+                "backpack_value": {
+                    "440": 199827.16747605862,
+                    "730": 9.66
+                },
+                "backpack_update": {
+                    "440": 1637801020,
+                    "730": 1620722672
+                },
+                "name": "gaming b>keys $1.68",
+                "backpack_tf_reputation": 10546,
+                "backpack_tf_group": true,
+                "backpack_tf_trust": {
+                    "for": 52,
+                    "against": 0
+                }
+            },
+            "76561198802991149": {
+                "steamid": "76561198802991149",
+                "success": 1,
+                "backpack_value": {
+                    "440": 76008.96666836788,
+                    "730": 1353.2199999999998
+                },
+                "backpack_update": {
+                    "440": 1637760732,
+                    "730": 1636755355
+                },
+                "name": "ＣＨＲＩＳ",
+                "backpack_tf_banned": {
+                    "start": 1566682696,
+                    "end": -1,
+                    "reason": "Knowingly trading with a Marked Scammer. \nhttps://backpack.tf/item/8037664333 || https://backpack.tf/profiles/76561198802991149#!/compare/1566432000/1566518400",
+                    "type": 1
+                },
+                "backpack_tf_bans": {
+                    "all": {
+                        "start": 1566682696,
+                        "end": -1,
+                        "reason": "Knowingly trading with a Marked Scammer. \nhttps://backpack.tf/item/8037664333 || https://backpack.tf/profiles/76561198802991149#!/compare/1566432000/1566518400",
+                        "type": 1
+                    }
+                },
+                "backpack_tf_reputation": 4591,
+                "backpack_tf_trust": {
+                    "for": 43,
+                    "against": 0
+                }
+            }
+        }
+    }
+}

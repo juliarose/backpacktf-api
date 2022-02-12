@@ -1,0 +1,30 @@
+{
+    "results": [
+        {
+            "id": "61aa88d8f8011863f8053674",
+            "item_name": "Purple Energy Danger",
+            "intent": "buy",
+            "appid": 440,
+            "steamid": "76561198080179568",
+            "price": {
+                "currency": "keys",
+                "min": 50,
+                "max": 80
+            }
+        },
+        {
+            "id": "61aa8c2547e980762267db7c",
+            "item_name": "Stormy Storm Tundra Top",
+            "intent": "buy",
+            "appid": 440,
+            "steamid": "76561198080179568",
+            "blanket": 1
+        }
+    ],
+    "cursor": {
+        "skip": 0,
+        "limit": 500,
+        "total": 2,
+        "_info": null
+    }
+}
