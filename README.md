@@ -5,7 +5,10 @@ Interface for backpack.tf API endpoints.
 ```rs
 use backpacktf_api::{
     BackpackAPI,
-    request::listing::create_listing::{CreateListing, buy_listing},
+    request::listing::create_listing::{
+        CreateListing,
+        buy_listing
+    },
     tf2_price::{Currencies, scrap},
     tf2_enum::{Quality, KillstreakTier},
 };
@@ -22,7 +25,7 @@ let details = Some(format!("Buying Golden Frying Pan for {}!", &currencies));
 
 item.killstreak_tier = Some(KillstreakTier::Professional);
 
-match backpacktf.create_listing(CreateListing::Buy {
+match backpacktf.create_listing(&CreateListing::Buy {
     item,
     currencies,
     details,
