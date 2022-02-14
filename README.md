@@ -18,15 +18,16 @@ let currencies = request::currencies::Currencies {
     metal: scrap!(1),
 };
 let mut item = create_listing::buy_listing::Item::new(1071, Quality::Strange);
+let details = Some(format!("Buying Golden Frying Pan for {}!", &currencies));
 
 item.killstreak_tier = Some(KillstreakTier::Professional);
 
 match backpacktf.create_listing(CreateListing::Buy {
-    details: Some(format!("Buying Golden Frying Pan for {}!", &currencies)),
+    item,
+    currencies,
+    details,
     buyout: true,
     offers: true,
-    currencies,
-    item
 }).await {
     Ok(response) => println!("Listing created successfully: {:?}", response),
     Err(error) => println!("Error creating listing: {}", error),
