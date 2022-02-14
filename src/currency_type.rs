@@ -1,4 +1,4 @@
-use strum_macros::{EnumString};
+use strum_macros::EnumString;
 use serde::{Serialize, Deserialize};
 
 #[derive(Serialize, Deserialize, PartialEq, Clone, Debug, EnumString)]

@@ -2,7 +2,7 @@ use serde::{Deserialize, Serialize};
 use crate::response::deserializers::{
     listing_intent_enum_from_str
 };
-use crate::response::deserializers::{bool_from_int};
+use crate::response::deserializers::bool_from_int;
 use crate::ListingIntent;
 use steamid_ng::SteamID;
 use super::Price;

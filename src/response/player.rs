@@ -2,8 +2,8 @@ use std::collections::HashMap;
 use serde::{Serialize, Deserialize};
 use steamid_ng::SteamID;
 use crate::time::ServerTime;
-use chrono::serde::{ts_seconds_option};
-use crate::response::deserializers::{bool_from_int};
+use chrono::serde::ts_seconds_option;
+use crate::response::deserializers::bool_from_int;
 
 #[derive(Serialize, Deserialize, PartialEq, Clone, Debug)]
 pub struct Trust {
