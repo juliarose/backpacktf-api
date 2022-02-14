@@ -1,9 +1,9 @@
 use serde::{Deserialize, Serialize};
-use tf2_enums::{KillstreakTier, Wear, Quality};
-use super::{Attributable, BuyListingItemAttribute};
+use tf2_enum::{KillstreakTier, Wear, Quality};
+use super::{Attributable, ItemAttribute};
 use crate::response::attributes::AttributeValue;
 
-#[derive(Deserialize, Serialize, Debug, Clone)]
+#[derive(Deserialize, Serialize, PartialEq, Debug, Clone)]
 pub struct Item {
     pub defindex: u32,
     pub quality: Quality,
@@ -11,19 +11,36 @@ pub struct Item {
     pub killstreak_tier: Option<KillstreakTier>,
     pub particle: Option<u32>,
     pub wear: Option<Wear>,
+    pub skin: Option<u32>,
     pub strange: bool,
     pub festivized: bool,
-    pub skin: Option<u32>,
+}
+
+impl Item {
+    
+    pub fn new(defindex: u32, quality: Quality) -> Self {
+        Self {
+            defindex,
+            quality,
+            craftable: true,
+            killstreak_tier: None,
+            particle: None,
+            wear: None,
+            skin: None,
+            strange: false,
+            festivized: false,
+        }
+    }
 }
 
 impl Attributable for Item {
-    fn as_attributes(&self) -> Vec<BuyListingItemAttribute> {
-        let mut attributes: Vec<BuyListingItemAttribute> = Vec::new();
+    fn as_attributes(&self) -> Vec<ItemAttribute> {
+        let mut attributes: Vec<ItemAttribute> = Vec::new();
         
         if let Some(killstreak_tier) = &self.killstreak_tier {
             let number: u8 = killstreak_tier.clone().into();
             
-            attributes.push(BuyListingItemAttribute {
+            attributes.push(ItemAttribute {
                 // killstreak_tier
                 defindex: 2025,
                 value: None,
@@ -32,7 +49,7 @@ impl Attributable for Item {
         }
         
         if let Some(particle) = self.particle {
-            attributes.push(BuyListingItemAttribute {
+            attributes.push(ItemAttribute {
                 // set_attached_particle
                 defindex: 134,
                 value: None,
@@ -41,7 +58,7 @@ impl Attributable for Item {
         }
         
         if self.strange {
-            attributes.push(BuyListingItemAttribute {
+            attributes.push(ItemAttribute {
                 // kill_eater
                 defindex: 214,
                 value: None,
@@ -50,7 +67,7 @@ impl Attributable for Item {
         }
         
         if self.festivized {
-            attributes.push(BuyListingItemAttribute {
+            attributes.push(ItemAttribute {
                 // is_festive
                 defindex: 2053,
                 value: None,
@@ -67,7 +84,7 @@ impl Attributable for Item {
                 Wear::BattleScarred => 1.0,
             };
             
-            attributes.push(BuyListingItemAttribute {
+            attributes.push(ItemAttribute {
                 // set_item_texture_wear
                 defindex: 725,
                 value: None,
@@ -76,7 +93,7 @@ impl Attributable for Item {
         }
         
         if let Some(skin) = self.skin {
-            attributes.push(BuyListingItemAttribute {
+            attributes.push(ItemAttribute {
                 // paintkit_proto_def_index
                 defindex: 834,
                 value: Some(AttributeValue::Number(skin as u64)),

@@ -1,20 +1,18 @@
 use serde::{Deserialize, Serialize};
-use super::{Attributable, BuyListingItemAttribute, BuyListingItem};
-use tf2_enums::Quality;
+use super::{Attributable, ItemAttribute, Item};
+use tf2_enum::Quality;
 
-// use num_enum::IntoPrimitive;
-
-#[derive(Deserialize, Serialize, Debug, Clone)]
+#[derive(Deserialize, Serialize, PartialEq, Debug, Clone)]
 pub struct ItemParams {
     pub defindex: u32,
     pub quality: Quality,
     pub craftable: bool,
-    pub attributes: Vec<BuyListingItemAttribute>,
+    #[serde(skip_serializing_if = "Vec::is_empty", default)]
+    pub attributes: Vec<ItemAttribute>,
 }
 
-// todo combine these borrowed/unborrowed implementations somehow...
-impl From<&BuyListingItem> for ItemParams {
-    fn from(query: &BuyListingItem) -> ItemParams {
+impl From<&Item> for ItemParams {
+    fn from(query: &Item) -> ItemParams {
         ItemParams {
             defindex: query.defindex,
             quality: query.quality.clone(),
@@ -24,8 +22,8 @@ impl From<&BuyListingItem> for ItemParams {
     }
 }
 
-impl From<BuyListingItem> for ItemParams {
-    fn from(query: BuyListingItem) -> ItemParams {
+impl From<Item> for ItemParams {
+    fn from(query: Item) -> ItemParams {
         ItemParams {
             defindex: query.defindex,
             quality: query.quality.clone(),

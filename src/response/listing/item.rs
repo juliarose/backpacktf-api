@@ -2,9 +2,9 @@ use serde::{Serialize, Deserialize};
 use crate::response::deserializers::{
     from_optional_number_or_string
 };
-use super::{ListingSummary, attributes::*};
+use super::{Summary, attributes};
 
-#[derive(Serialize, Deserialize, Clone, Debug)]
+#[derive(Serialize, Deserialize, PartialEq, Clone, Debug)]
 #[serde(rename_all = "camelCase")]
 pub struct Item {
     pub appid: u32,
@@ -26,12 +26,12 @@ pub struct Item {
     pub image_url: String,
     pub priceindex: String,
     pub slot: String,
-    pub summary: ListingSummary,
-    pub quality: QualityAttribute,
-    pub particle: Option<ParticleAttribute>,
-    pub paint: Option<PaintAttribute>,
-    pub wear_tier: Option<WearTierAttribute>,
-    pub texture: Option<TextureAttribute>,
-    pub elevated_quality: Option<QualityAttribute>,
-    pub kill_eaters: Option<Vec<KillEaterAttribute>>,
+    pub summary: Summary,
+    pub quality: attributes::QualityAttribute,
+    pub particle: Option<attributes::ParticleAttribute>,
+    pub paint: Option<attributes::PaintAttribute>,
+    pub wear_tier: Option<attributes::WearTierAttribute>,
+    pub texture: Option<attributes::TextureAttribute>,
+    pub elevated_quality: Option<attributes::QualityAttribute>,
+    pub kill_eaters: Option<Vec<attributes::KillEaterAttribute>>,
 }

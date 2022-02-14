@@ -1,6 +1,5 @@
 use serde::{Serializer};
 use crate::ListingIntent;
-use tf2_price::{Currencies, CurrenciesForm};
 use steamid_ng::SteamID;
 
 fn comma_delimited_values<T: ToString>(values: &[T]) -> String {
@@ -50,15 +49,6 @@ where
         .join(",");
     
     s.serialize_str(&steamids)
-}
-
-pub fn currencies_into_form<S>(currencies: &Currencies, s: S) -> Result<S::Ok, S::Error>
-where
-    S: Serializer
-{
-    let form: CurrenciesForm = currencies.clone().into();
-    
-    s.serialize_newtype_struct("CurrenciesForm", &form)
 }
 
 pub fn listing_intent_enum_to_str<S>(value: &ListingIntent, s: S) -> Result<S::Ok, S::Error>

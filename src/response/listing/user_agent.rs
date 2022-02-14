@@ -1,8 +1,8 @@
 use serde::{Serialize, Deserialize};
-use chrono::serde::{ts_seconds};
+use chrono::serde::ts_seconds;
 use crate::time::ServerTime;
 
-#[derive(Serialize, Deserialize, Clone, Debug)]
+#[derive(Serialize, Deserialize, PartialEq, Clone, Debug)]
 #[serde(rename_all = "camelCase")]
 pub struct UserAgent {
     pub client: String,

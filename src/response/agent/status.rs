@@ -1,5 +1,5 @@
 use serde::{Serialize, Deserialize};
-use chrono::serde::{ts_seconds};
+use chrono::serde::ts_seconds;
 use crate::time::ServerTime;
 
 #[derive(Serialize, Deserialize, Clone, Debug)]

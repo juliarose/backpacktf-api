@@ -1,9 +1,9 @@
 use serde::{Serialize, Deserialize};
-use chrono::serde::{ts_seconds};
+use chrono::serde::ts_seconds;
 use crate::time::ServerTime;
-use super::{SnapshotListing};
+use super::Listing;
 
-#[derive(Serialize, Deserialize, Clone, Debug)]
+#[derive(Serialize, Deserialize, PartialEq, Clone, Debug)]
 #[serde(rename_all = "camelCase")]
 pub struct Snapshot {
     #[serde(with = "ts_seconds")]
@@ -11,5 +11,5 @@ pub struct Snapshot {
     pub appid: Option<u32>,
     pub sku: String,
     #[serde(default)]
-    pub listings: Vec<SnapshotListing>,
+    pub listings: Vec<Listing>,
 }

@@ -5,13 +5,13 @@ use crate::time::ServerTime;
 use chrono::serde::{ts_seconds_option};
 use crate::response::deserializers::{bool_from_int};
 
-#[derive(Serialize, Deserialize, Clone, Debug)]
+#[derive(Serialize, Deserialize, PartialEq, Clone, Debug)]
 pub struct Trust {
     pub r#for: u32,
     pub against: u32,
 }
 
-#[derive(Serialize, Deserialize, Clone, Debug)]
+#[derive(Serialize, Deserialize, PartialEq, Clone, Debug)]
 pub struct Ban {
     pub r#type: u32,
     pub reason: String,
@@ -31,7 +31,7 @@ impl Ban {
 
 pub type Players = HashMap<SteamID, Player>;
 
-#[derive(Serialize, Deserialize, Clone, Debug)]
+#[derive(Serialize, Deserialize, PartialEq, Clone, Debug)]
 pub struct Player {
     pub steamid: SteamID,
     #[serde(deserialize_with = "bool_from_int")]

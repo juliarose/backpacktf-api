@@ -6,7 +6,7 @@ use crate::response::deserializers::{
 
 pub type Attributes = HashMap<u32, Attribute>;
 
-#[derive(Serialize, Deserialize, Clone, Debug, PartialEq)]
+#[derive(Serialize, Deserialize, PartialEq, Clone, Debug)]
 #[serde(untagged)]
 pub enum AttributeValue {
     Number(u64),
@@ -14,7 +14,7 @@ pub enum AttributeValue {
     Float(f64),
 }
 
-#[derive(Serialize, Deserialize, Clone, Debug)]
+#[derive(Serialize, Deserialize, PartialEq, Clone, Debug)]
 pub struct Attribute {
     pub defindex: u32,
     pub value: Option<AttributeValue>,

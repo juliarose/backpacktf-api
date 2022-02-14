@@ -1,7 +1,7 @@
 use serde::{Serialize, Deserialize};
-use tf2_enums::{Rarity};
+use tf2_enum::Rarity;
 
-#[derive(Serialize, Deserialize, Clone, Debug)]
+#[derive(Serialize, Deserialize, PartialEq, Clone, Debug)]
 #[serde(rename_all = "camelCase")]
 pub struct ParticleAttribute {
     pub id: u32,
@@ -11,7 +11,7 @@ pub struct ParticleAttribute {
     pub r#type: String,
 }
 
-#[derive(Serialize, Deserialize, Clone, Debug)]
+#[derive(Serialize, Deserialize, PartialEq, Clone, Debug)]
 #[serde(rename_all = "camelCase")]
 pub struct QualityAttribute {
     pub id: u32,
@@ -19,7 +19,7 @@ pub struct QualityAttribute {
     pub color: String,
 }
 
-#[derive(Serialize, Deserialize, Clone, Debug)]
+#[derive(Serialize, Deserialize, PartialEq, Clone, Debug)]
 #[serde(rename_all = "camelCase")]
 pub struct PaintAttribute {
     pub id: u32,
@@ -27,7 +27,7 @@ pub struct PaintAttribute {
     pub color: String,
 }
 
-#[derive(Serialize, Deserialize, Clone, Debug)]
+#[derive(Serialize, Deserialize, PartialEq, Clone, Debug)]
 #[serde(rename_all = "camelCase")]
 pub struct WearTierAttribute {
     id: u32,
@@ -35,7 +35,7 @@ pub struct WearTierAttribute {
     short: String,
 }
 
-#[derive(Serialize, Deserialize, Clone, Debug)]
+#[derive(Serialize, Deserialize, PartialEq, Clone, Debug)]
 #[serde(rename_all = "camelCase")]
 pub struct TextureAttribute {
     id: u32,
@@ -44,14 +44,14 @@ pub struct TextureAttribute {
     name: String,
 }
 
-#[derive(Serialize, Deserialize, Clone, Debug)]
+#[derive(Serialize, Deserialize, PartialEq, Clone, Debug)]
 #[serde(rename_all = "camelCase")]
 pub struct KillEaterTypeAttribute {
     id: u32,
     name: String,
 }
 
-#[derive(Serialize, Deserialize, Clone, Debug)]
+#[derive(Serialize, Deserialize, PartialEq, Clone, Debug)]
 #[serde(rename_all = "camelCase")]
 pub struct KillEaterAttribute {
     score: u64,

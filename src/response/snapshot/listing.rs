@@ -3,16 +3,15 @@ use crate::ListingIntent;
 use crate::response::attributes::{AttributeValue};
 use crate::response::deserializers::{
     bool_from_int,
-    currencies_from_form,
     listing_intent_enum_from_str
 };
 use tf2_price::Currencies;
 use chrono::serde::{ts_seconds};
 use crate::time::ServerTime;
 use steamid_ng::SteamID;
-use super::SnapshotItem;
+use super::Item;
 
-#[derive(Serialize, Deserialize, Clone, Debug)]
+#[derive(Serialize, Deserialize, PartialEq, Clone, Debug)]
 pub struct Listing {
     pub steamid: SteamID,
     #[serde(deserialize_with = "bool_from_int")]
@@ -27,8 +26,7 @@ pub struct Listing {
     #[serde(with = "ts_seconds")]
     pub bump: ServerTime,
     pub price: f32,
-    pub item: SnapshotItem,
-    #[serde(deserialize_with = "currencies_from_form")]
+    pub item: Item,
     pub currencies: Currencies,
 }
 

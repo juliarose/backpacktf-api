@@ -1,12 +1,12 @@
 use serde::{Serialize, Deserialize};
-use tf2_enums::Quality;
+use tf2_enum::Quality;
 use crate::response::attributes::{Attributes};
 use crate::response::deserializers::{
     deserialize_attributes,
     from_optional_number_or_string
 };
 
-#[derive(Serialize, Deserialize, Clone, Debug)]
+#[derive(Serialize, Deserialize, PartialEq, Clone, Debug)]
 pub struct Item {
     pub defindex: u32,
     pub quality: Quality,

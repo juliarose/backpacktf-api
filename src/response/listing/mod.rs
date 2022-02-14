@@ -7,10 +7,12 @@ mod value;
 mod item;
 pub mod attributes;
 
+pub mod create_listing;
+pub mod delete_listing;
 pub use listing::Listing;
 pub use batch_limit::BatchLimit;
 pub use user::{User, UserBan};
-pub use summary::Summary as ListingSummary;
-pub use item::Item as ListingItem;
-pub use value::Value as ListingValue;
+pub use summary::Summary;
+pub use item::Item;
+pub use value::Value;
 pub use user_agent::UserAgent;

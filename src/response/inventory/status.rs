@@ -1,8 +1,8 @@
 use serde::{Deserialize, Serialize};
-use crate::time::{ServerTime};
-use chrono::serde::{ts_seconds};
+use crate::time::ServerTime;
+use chrono::serde::ts_seconds;
 
-#[derive(Serialize, Deserialize, Clone, Debug)]
+#[derive(Serialize, Deserialize, PartialEq, Clone, Debug)]
 pub struct Status {
     #[serde(with = "ts_seconds")]
     pub current_time: ServerTime,

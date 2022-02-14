@@ -3,7 +3,6 @@ use crate::response::attributes::{Attributes, Attribute};
 use crate::{ListingIntent, CurrencyType};
 use serde::de::{self, Deserialize, Deserializer, Visitor, SeqAccess, Unexpected, IntoDeserializer};
 use std::str::FromStr;
-use tf2_price::{Currencies, CurrenciesForm};
 use serde_json::Value;
 
 pub fn bool_from_int<'de, D>(deserializer: D) -> Result<bool, D::Error>
@@ -63,16 +62,6 @@ where
         Value::Null => Ok(None),
         _ => Err(de::Error::custom("Not a number")),
     }
-}
-
-pub fn currencies_from_form<'de, D>(deserializer: D) -> Result<Currencies, D::Error>
-where
-    D: Deserializer<'de>
-{
-    let s: CurrenciesForm = Deserialize::deserialize(deserializer)?;
-    let currencies: Currencies = s.into();
-
-    Ok(currencies)
 }
 
 pub fn empty_string_as_none<'de, D, T>(de: D) -> Result<Option<T>, D::Error>

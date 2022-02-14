@@ -1,10 +1,10 @@
 use serde::{Serialize, Deserialize};
-use chrono::serde::{ts_seconds};
+use chrono::serde::ts_seconds;
 use crate::time::ServerTime;
 use steamid_ng::SteamID;
-use super::{NotificationContents, NotificationBundle};
+use super::{Contents, Bundle};
 
-#[derive(Serialize, Deserialize, Clone, Debug)]
+#[derive(Serialize, Deserialize, PartialEq, Clone, Debug)]
 #[serde(rename_all = "camelCase")]
 pub struct Notification {
     pub id: String,
@@ -15,6 +15,6 @@ pub struct Notification {
     pub last_moved: ServerTime,
     pub element_id: String,
     pub user_id: SteamID,
-    pub bundle: NotificationBundle,
-    pub contents: NotificationContents,
+    pub bundle: Bundle,
+    pub contents: Contents,
 }
