@@ -31,8 +31,8 @@ use reqwest_middleware::ClientWithMiddleware;
 use steamid_ng::SteamID;
 use tf2_price::Currencies;
 
-const HOSTNAME: &'static str = "backpack.tf";
-const USER_AGENT_STRING: &'static str = "Mozilla/5.0 (X11; Linux x86_64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/97.0.4692.71 Safari/537.36";
+const HOSTNAME: &str = "backpack.tf";
+const USER_AGENT_STRING: &str = "Mozilla/5.0 (X11; Linux x86_64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/97.0.4692.71 Safari/537.36";
 
 pub struct BackpackAPI {
     key: String,
