@@ -5,11 +5,6 @@ use crate::ListingIntent;
 use crate::response::deserializers::listing_intent_enum_from_str;
 use chrono::serde::ts_seconds;
 use crate::time::ServerTime;
-pub use crate::response::attributes::{
-    Attributes,
-    AttributeValue,
-    Attribute
-};
 use super::{User, UserAgent, Value, Item};
 
 #[derive(Serialize, Deserialize, PartialEq, Clone, Debug)]

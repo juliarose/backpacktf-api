@@ -1,0 +1,48 @@
+{
+    "steamid": "76561198345436872",
+    "offers": 1,
+    "buyout": 0,
+    "details": "Looking for a spelled exorcism strange frying pan (without parts is ok) ! Feel free to add me :D\ncan also buy a strange pan with these parts for 44 keys",
+    "intent": "buy",
+    "timestamp": 1640503799,
+    "price": 3013.78,
+    "item": {
+        "defindex": 264,
+        "quality": 11,
+        "attributes": [
+            {
+                "value": "0",
+                "defindex": "379"
+            },
+            {
+                "float_value": "82",
+                "defindex": "380"
+            },
+            {
+                "value": "0",
+                "defindex": "381"
+            },
+            {
+                "float_value": "95",
+                "defindex": "382"
+            },
+            {
+                "value": "0",
+                "defindex": "383"
+            },
+            {
+                "float_value": "39",
+                "defindex": "384"
+            },
+            {
+                "value": null,
+                "defindex": 229
+            }
+        ],
+        "quantity": "1"
+    },
+    "currencies": {
+        "keys": 44
+    },
+    "bump": 1644994040
+}

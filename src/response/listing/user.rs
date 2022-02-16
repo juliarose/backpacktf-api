@@ -1,4 +1,5 @@
 use serde::{Serialize, Deserialize};
+use crate::response::deserializers::default_on_null;
 
 #[derive(Serialize, Deserialize, PartialEq, Clone, Debug)]
 #[serde(rename_all = "camelCase")]
@@ -23,7 +24,8 @@ pub struct User {
     pub style: String,
     pub trade_offer_url: String,
     pub is_marketplace_seller: bool,
-    // todo define this
-    // pub flag_impersonated: bool,
+    #[serde(default)]
+    #[serde(deserialize_with = "default_on_null")]
+    pub flag_impersonated: bool,
     pub bans: Vec<UserBan>,
 }

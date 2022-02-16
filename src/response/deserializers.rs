@@ -1,8 +1,12 @@
-use std::collections::HashMap;
-use crate::response::attributes::{Attributes, Attribute};
+use std::{
+    str::FromStr,
+    fmt::Display,
+    marker::PhantomData,
+    collections::HashMap,
+};
+use crate::response::attributes::{Attributes, Attribute, Value as AttributeValue};
 use crate::{ListingIntent, CurrencyType};
 use serde::de::{self, Deserialize, Deserializer, Visitor, SeqAccess, Unexpected, IntoDeserializer};
-use std::str::FromStr;
 use serde_json::Value;
 
 pub fn bool_from_int<'de, D>(deserializer: D) -> Result<bool, D::Error>
@@ -30,6 +34,32 @@ where
     T::from_str(&s).map_err(de::Error::custom)
 }
 
+// this is somewhat implicit
+pub fn attribute_value<'de, D>(deserializer: D) -> Result<Option<AttributeValue>, D::Error>
+where
+    D: Deserializer<'de>,
+{
+    match Value::deserialize(deserializer)? {
+        Value::String(s) => {
+            if s.is_empty() {
+                return Ok(None);
+            }
+            
+            match s.parse::<u64>() {
+                Ok(n) => Ok(Some(AttributeValue::Number(n))),
+                Err(_) => Ok(Some(AttributeValue::String(s))),
+            }
+        },
+        Value::Number(num) => {
+            let n: u64 = num.as_u64().ok_or(de::Error::custom("Invalid number"))?;
+            
+            Ok(Some(AttributeValue::Number(n)))
+        },
+        Value::Null => Ok(None),
+        _ => Err(de::Error::custom("Invalid attribute")),
+    }
+}
+
 pub fn from_optional_number_or_string<'de, D, T>(deserializer: D) -> Result<Option<T>, D::Error>
 where
     T: FromStr,
@@ -40,12 +70,12 @@ where
     match Value::deserialize(deserializer)? {
         Value::String(s) => {
             if s.is_empty() {
-                Ok(None)
-            } else {
-                let n = s.parse::<T>().map_err(de::Error::custom)?;
-                
-                Ok(Some(n))
+                return Ok(None);
             }
+            
+            let n = s.parse::<T>().map_err(de::Error::custom)?;
+                
+            Ok(Some(n))
         },
         Value::Number(num) => {
             let n: u64 = num.as_u64().ok_or(de::Error::custom("Invalid number"))?;
@@ -58,6 +88,30 @@ where
                     Err(de::Error::custom("Number too large to fit in target type"))
                 }
             }
+        },
+        Value::Null => Ok(None),
+        _ => Err(de::Error::custom("Not a number")),
+    }
+}
+
+pub fn from_optional_float_or_string<'de, D>(deserializer: D) -> Result<Option<f64>, D::Error>
+where
+    D: Deserializer<'de>
+{
+    match Value::deserialize(deserializer)? {
+        Value::String(s) => {
+            if s.is_empty() {
+                return Ok(None);
+            }
+            
+            let n = s.parse::<f64>().map_err(de::Error::custom)?;
+                
+            Ok(Some(n))
+        },
+        Value::Number(num) => {
+            let n: f64 = num.as_f64().ok_or(de::Error::custom("Invalid number"))?;
+            
+            Ok(Some(n))
         },
         Value::Null => Ok(None),
         _ => Err(de::Error::custom("Not a number")),
@@ -132,4 +186,66 @@ where
         "metal" => Ok(CurrencyType::Metal),
         _ => Err(de::Error::custom("Invalid currency type")),
     }
+}
+
+pub fn default_on_null<'de, D, T>(deserializer: D) -> Result<T, D::Error>
+where
+    D: Deserializer<'de>,
+    T: Deserialize<'de> + Default,
+{
+    Ok(Option::deserialize(deserializer)?.unwrap_or_default())
+}
+
+pub fn string_or_number<'de, D, T>(deserializer: D) -> Result<T, D::Error>
+where
+    D: Deserializer<'de>,
+    T: FromStr + TryFrom<u64> + Deserialize<'de>,
+    T::Err: Display,
+{
+    struct NumericVisitor<T> {
+        marker: PhantomData<T>,
+    }
+    
+    impl<T> NumericVisitor<T> {
+        pub fn new() -> Self {
+            Self {
+                marker: PhantomData,
+            }
+        }
+    }
+    
+    impl<'de, T> de::Visitor<'de> for NumericVisitor<T>
+    where 
+        T: FromStr + TryFrom<u64> + Deserialize<'de>,
+        T::Err: Display,
+    {
+        type Value = T;
+    
+        fn expecting(&self, formatter: &mut std::fmt::Formatter) -> std::fmt::Result {
+            formatter.write_str("an integer or a string")
+        }
+    
+        fn visit_u64<E>(self, v: u64) -> Result<Self::Value, E>
+        where
+            E: de::Error,
+        {
+            match T::try_from(v) {
+                Ok(c) => {
+                    Ok(c)
+                },
+                Err(_e) => {
+                    Err(de::Error::custom("Number too large to fit in target type"))
+                }
+            }
+        }
+    
+        fn visit_str<E>(self, v: &str) -> Result<Self::Value, E>
+        where
+            E: de::Error,
+        {
+            v.parse::<T>().map_err(de::Error::custom)
+        }
+    }
+    
+    deserializer.deserialize_any(NumericVisitor::new())
 }

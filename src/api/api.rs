@@ -14,10 +14,7 @@ use crate::{
             listing_intent_enum_to_str
         }
     },
-    response::{
-        self,
-        deserializers::bool_from_int
-    }
+    response
 };
 use super::{
     RESPONSE_UNSUCCESSFUL_MESSAGE,
@@ -25,13 +22,13 @@ use super::{
     helpers::{
         get_default_middleware,
         parses_response
-    }
+    },
+    response as api_response,
 };
 use serde::{Serialize, Deserialize};
 use url::{Url, ParseError};
 use reqwest::cookie::Jar;
 use reqwest_middleware::ClientWithMiddleware;
-use chrono::serde::ts_seconds_option;
 use steamid_ng::SteamID;
 use tf2_price::Currencies;
 
@@ -125,7 +122,7 @@ impl BackpackAPI {
             })
             .send()
             .await?;
-        let body: GetUsersResponseWrapper = parses_response(response).await?;
+        let body: api_response::GetUsersResponseWrapper = parses_response(response).await?;
         
         if !body.response.success {
             return Err(APIError::Response(body.response.message.unwrap_or(RESPONSE_UNSUCCESSFUL_MESSAGE.to_string()).into()));
@@ -156,7 +153,7 @@ impl BackpackAPI {
             })
             .send()
             .await?;
-        let body: GetAlertsResponse = parses_response(response).await?;
+        let body: api_response::GetAlertsResponse = parses_response(response).await?;
         
         Ok((body.alerts, body.cursor))
     }
@@ -334,7 +331,7 @@ impl BackpackAPI {
             })
             .send()
             .await?;
-        let body: GetNotificationsResponse = parses_response(response).await?;
+        let body: api_response::GetNotificationsResponse = parses_response(response).await?;
         
         Ok((body.notifications, body.cursor))
     }
@@ -354,7 +351,7 @@ impl BackpackAPI {
             })
             .send()
             .await?;
-        let body: GetNotificationsResponse = parses_response(response).await?;
+        let body: api_response::GetNotificationsResponse = parses_response(response).await?;
         
         Ok((body.notifications, body.cursor))
     }
@@ -487,7 +484,7 @@ impl BackpackAPI {
             })
             .send()
             .await?;
-        let body: GetListingsResponse = parses_response(response).await?;
+        let body: api_response::GetListingsResponse = parses_response(response).await?;
         
         Ok((body.listings, body.cursor))
     }
@@ -611,21 +608,23 @@ impl BackpackAPI {
     pub async fn promote_listing(
         &self,
         id: &str,
-    ) -> Result<(), APIError> {
+    ) -> Result<response::listing::Listing, APIError> {
         #[derive(Serialize, Debug)]
         struct Params<'a> {
             token: &'a str,
         }
         
         let uri = format!("{}/{}/promote", self.get_api_uri("/v2/classifieds/listings"), id);
-        self.client.post(uri)
+        let response = self.client.post(uri)
             .json(&Params {
                 token: &self.token
             })
             .send()
             .await?;
+        let body: response::listing::Listing = parses_response(response).await?;
         
-        Ok(())
+        println!("{:?}", body);
+        Ok(body)
     }
     
     pub async fn demote_listing(
@@ -816,128 +815,5 @@ impl BackpackAPI {
             .await?;
         
         Ok(())
-    }
-}
-
-#[derive(Serialize, Deserialize, Clone, Debug)]
-struct GetUsersResponse {
-    #[serde(deserialize_with = "bool_from_int")]
-    success: bool,
-    message: Option<String>,
-    #[serde(default)]
-    #[serde(with = "ts_seconds_option")]
-    current_time: Option<ServerTime>,
-    players: Option<response::player::Players>
-}
-
-#[derive(Serialize, Deserialize, Clone, Debug)]
-struct GetUsersResponseWrapper {
-    response: GetUsersResponse,
-}
-
-#[derive(Serialize, Deserialize, Clone, Debug)]
-struct GetNotificationsResponse {
-    #[serde(rename(deserialize = "results"))]
-    notifications: Vec<response::notification::Notification>,
-    cursor: response::cursor::Cursor,
-}
-
-#[derive(Serialize, Deserialize, Clone, Debug)]
-struct GetListingsResponse {
-    #[serde(rename(deserialize = "results"))]
-    listings: Vec<response::listing::Listing>,
-    cursor: response::cursor::Cursor,
-}
-
-#[derive(Serialize, Deserialize, Clone, Debug)]
-struct GetAlertsResponse {
-    #[serde(rename(deserialize = "results"))]
-    alerts: Vec<response::alert::Alert>,
-    cursor: response::cursor::Cursor,
-}
-
-#[cfg(test)]
-mod tests {
-    use super::*;
-    use std::env;
-    use std::fs;
-    use std::path::Path;
-    use serde::de::DeserializeOwned;
-    use tf2_enum::Quality;
-
-    fn read_file(filename: &str) -> std::io::Result<String> {
-        let rootdir = env!("CARGO_MANIFEST_DIR");
-        let filepath = Path::new(rootdir).join(format!("src/api/fixtures/{}", filename));
-        
-        fs::read_to_string(filepath)
-    }
-    
-    fn read_and_parse_file<D>(filename: &str) -> Result<D, &str>
-    where
-        D: DeserializeOwned
-    {
-        let contents = tests::read_file(filename)
-            .expect("Something went wrong reading the file");
-        let response: D = serde_json::from_str(&contents).unwrap();
-        
-        Ok(response)
-    }
-    
-    #[test]
-    fn parses_delete_listings() {
-        let response: response::listing::delete_listing::DeleteListingsResult = tests::read_and_parse_file("delete_listings.json").unwrap();
-        let deleted = response.deleted;
-        
-        assert_eq!(deleted, 5);
-    }
-    
-    #[test]
-    fn parses_get_classifieds_snapshot() {
-        let response: response::snapshot::Snapshot = tests::read_and_parse_file("get_classifieds_snapshot.json").unwrap();
-        let listing = response.listings.iter().next().unwrap();
-        
-        assert_eq!(180, listing.currencies.keys);
-    }
-    
-    #[test]
-    fn parses_get_classifieds_snapshot_quality() {
-        let response: response::snapshot::Snapshot = tests::read_and_parse_file("get_classifieds_snapshot.json").unwrap();
-        let listing = response.listings.iter().next().unwrap();
-        
-        assert_eq!(Quality::Unusual, listing.item.quality);
-    }
-    
-    #[test]
-    fn parses_get_users() {
-        let response: GetUsersResponseWrapper = tests::read_and_parse_file("get_users.json").unwrap();
-        let players = response.response.players.unwrap();
-        let steamid = SteamID::from(76561198080179568);
-        let player = players.get(&steamid).unwrap();
-        
-        assert_eq!(52, player.backpack_tf_trust.r#for);
-    }
-    
-    #[test]
-    fn parses_get_alerts() {
-        let response: GetAlertsResponse = tests::read_and_parse_file("get_alerts.json").unwrap();
-        let alert = response.alerts.first().unwrap();
-
-        assert_eq!("Purple Energy Danger".to_string(), alert.item_name);    
-    }
-
-    #[test]
-    fn parses_get_notifications() {
-        let response: GetNotificationsResponse = tests::read_and_parse_file("get_notifications.json").unwrap();
-        let particle = response.notifications.first().as_ref().unwrap().bundle.listing.as_ref().unwrap().item.particle.as_ref().unwrap();
-
-        assert_eq!("Purple Energy".to_string(), particle.name); 
-    }
-
-    #[test]
-    fn parses_get_listings() {
-        let response: GetListingsResponse = tests::read_and_parse_file("get_listings.json").unwrap();
-        let listing = response.listings.first().unwrap();
-        
-        assert_eq!("Lucky Cat Hat".to_string(), listing.item.name); 
     }
 }

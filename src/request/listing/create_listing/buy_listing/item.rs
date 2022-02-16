@@ -1,7 +1,7 @@
 use serde::{Deserialize, Serialize};
 use tf2_enum::{KillstreakTier, Wear, Quality};
+use crate::response::attributes::{Value as AttributeValue, FloatValue};
 use super::{Attributable, ItemAttribute};
-use crate::response::attributes::AttributeValue;
 
 #[derive(Deserialize, Serialize, PartialEq, Debug, Clone)]
 pub struct Item {
@@ -44,7 +44,7 @@ impl Attributable for Item {
                 // killstreak_tier
                 defindex: 2025,
                 value: None,
-                float_value: Some(AttributeValue::Number(number as u64)),
+                float_value: Some(number as f64),
             });
         }
         
@@ -53,7 +53,7 @@ impl Attributable for Item {
                 // set_attached_particle
                 defindex: 134,
                 value: None,
-                float_value: Some(AttributeValue::Number(particle as u64)),
+                float_value: Some(particle as f64),
             });
         }
         
@@ -76,7 +76,7 @@ impl Attributable for Item {
         }
         
         if let Some(wear) = &self.wear {
-            let float_value: f64 = match wear {
+            let float_value: FloatValue = match wear {
                 Wear::FactoryNew => 0.2,
                 Wear::MinimalWear => 0.4,
                 Wear::FieldTested => 0.6,
@@ -88,7 +88,7 @@ impl Attributable for Item {
                 // set_item_texture_wear
                 defindex: 725,
                 value: None,
-                float_value: Some(AttributeValue::Float(float_value as f64)),
+                float_value: Some(float_value),
             });
         }
         
