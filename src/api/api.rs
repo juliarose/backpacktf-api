@@ -2,7 +2,6 @@ use std::sync::Arc;
 use crate::{
     ListingIntent,
     currency_type::CurrencyType,
-    time::ServerTime,
     request::{
         self,
         listing::create_listing::buy_listing::serializers::{
