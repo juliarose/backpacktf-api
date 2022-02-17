@@ -47,7 +47,7 @@ pub struct TextureAttribute {
 #[derive(Serialize, Deserialize, PartialEq, Clone, Debug)]
 #[serde(rename_all = "camelCase")]
 pub struct KillEaterTypeAttribute {
-    id: u32,
+    id: Option<u32>,
     name: String,
 }
 
