@@ -81,6 +81,10 @@ impl Item {
         None
     }
     
+    pub fn is_australium(&self) -> bool {
+        self.attributes.contains_key(&2027)
+    }
+    
     pub fn is_festive(&self) -> bool {
         self.attributes.contains_key(&2053)
     }
