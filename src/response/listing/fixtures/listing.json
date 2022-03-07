@@ -1,0 +1,96 @@
+{
+    "id": "440_76561198080179568_76c096345919b66f01980381017e31e8",
+    "steamid": "76561198080179568",
+    "appid": 440,
+    "currencies": {
+        "metal": 2,
+        "keys": 2
+    },
+    "value": {
+        "raw": 135.64999999999998,
+        "short": "2.03 keys",
+        "long": "2 keys, 2 ref"
+    },
+    "tradeOffersPreferred": true,
+    "buyoutOnly": true,
+    "listedAt": 1639511516,
+    "bumpedAt": 1639527977,
+    "intent": "buy",
+    "item": {
+        "appid": 440,
+        "australium": false,
+        "baseName": "Lucky Cat Hat",
+        "craftable": true,
+        "defindex": 30998,
+        "festivized": false,
+        "id": "",
+        "imageUrl": "https://steamcdn-a.akamaihd.net/apps/440/icons/hwn2018_lucky_cat_hat_large.32767807a201a0ecdcba53297f9cfd1fae3cfc2a.png",
+        "marketName": "Lucky Cat Hat",
+        "name": "Lucky Cat Hat",
+        "originalId": "",
+        "priceindex": "0",
+        "price": {
+            "steam": {
+                "currency": "usd",
+                "short": "$7.46",
+                "long": "239.67 ref, 3.59 keys, $7.19",
+                "raw": 239.67043269230766,
+                "value": 746
+            },
+            "community": {
+                "metadata": {
+                    "appid": 440,
+                    "quality": 6,
+                    "defindexes": [
+                        30998
+                    ],
+                    "item_name": "Lucky Cat Hat",
+                    "base_item_name": "Lucky Cat Hat",
+                    "priceindex": "0",
+                    "tradable": true,
+                    "craftable": true,
+                    "value_raw": 250.59374999999994,
+                    "item_slot": "misc",
+                    "release_date": 1540255517
+                },
+                "value": 3.65,
+                "valueHigh": 3.85,
+                "currency": "keys",
+                "raw": 250.59374999999994,
+                "short": "3.65–3.85 keys",
+                "long": "250.59 ref, $7.52",
+                "updatedAt": 1639013535,
+                "difference": -36.75374999999997
+            },
+            "suggested": {
+                "raw": 250.59374999999994,
+                "short": "3.75 keys",
+                "long": "250.59 ref, $7.52"
+            }
+        },
+        "quality": {
+            "id": 6,
+            "name": "Unique",
+            "color": "#FFD700"
+        },
+        "quantity": "1",
+        "slot": "misc",
+        "tradable": true,
+        "summary": {
+            "value": "Level 1-100 Hat"
+        },
+        "_source": {
+            "defindex": 30998,
+            "quality": 6,
+            "quantity": "1",
+            "attributes": [
+                {
+                    "value": null,
+                    "defindex": 229
+                }
+            ]
+        }
+    },
+    "count": 1,
+    "status": "active"
+}

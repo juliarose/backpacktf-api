@@ -6,7 +6,9 @@ use std::{
 };
 use crate::response::attributes::{Attributes, Attribute, Value as AttributeValue};
 use crate::{ListingIntent, CurrencyType};
-use serde::de::{self, Deserialize, Deserializer, Visitor, SeqAccess, Unexpected, IntoDeserializer};
+use num_enum::TryFromPrimitive;
+use serde::{Deserialize, Serialize};
+use serde::de::{self, Deserializer, Visitor, SeqAccess, Unexpected, IntoDeserializer};
 use serde_json::Value;
 
 pub fn bool_from_int<'de, D>(deserializer: D) -> Result<bool, D::Error>
@@ -32,6 +34,46 @@ where
     let s = String::deserialize(deserializer)?;
     
     T::from_str(&s).map_err(de::Error::custom)
+}
+
+// todo optimize this
+pub fn presence<'de, D>(deserializer: D) -> Result<bool, D::Error>
+where
+    D: Deserializer<'de>,
+{
+    match Value::deserialize(deserializer)? {
+        Value::Null => Ok(false),
+        _ => Ok(true),
+    }
+}
+
+#[derive(Deserialize, Serialize)]
+struct EnumMap {
+    id: u8,
+}
+
+pub fn map_to_enum<'de, D, T>(deserializer: D) -> Result<T, D::Error>
+where
+    D: Deserializer<'de>,
+    T: TryFromPrimitive + TryFrom<u8>,
+    <T as TryFrom<u8>>::Error: std::fmt::Display
+{
+    let map = EnumMap::deserialize(deserializer)?;
+    let value = T::try_from(map.id).map_err(de::Error::custom)?;
+    
+    Ok(value)
+}
+
+pub fn map_to_enum_option<'de, D, T>(deserializer: D) -> Result<Option<T>, D::Error>
+where
+    D: Deserializer<'de>,
+    T: TryFromPrimitive + TryFrom<u8>,
+    <T as TryFrom<u8>>::Error: std::fmt::Display
+{
+    let map = EnumMap::deserialize(deserializer)?;
+    let value = T::try_from(map.id).map_err(de::Error::custom)?;
+    
+    Ok(Some(value))
 }
 
 // this is somewhat implicit

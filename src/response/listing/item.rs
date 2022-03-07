@@ -1,8 +1,12 @@
 use serde::{Serialize, Deserialize};
 use crate::response::deserializers::{
-    from_optional_number_or_string
+    from_optional_number_or_string,
+    map_to_enum,
+    map_to_enum_option,
+    presence,
 };
 use super::{Summary, attributes};
+use tf2_enum::{Wear, KillstreakTier, Quality};
 
 #[derive(Serialize, Deserialize, PartialEq, Clone, Debug)]
 #[serde(rename_all = "camelCase")]
@@ -23,15 +27,23 @@ pub struct Item {
     pub tradable: bool,
     pub australium: bool,
     pub festivized: bool,
+    #[serde(default)]
+    #[serde(deserialize_with = "presence", rename = "elevated_quality")]
+    pub strange: bool,
     pub image_url: String,
     pub priceindex: String,
     pub slot: String,
     pub summary: Summary,
-    pub quality: attributes::QualityAttribute,
+    #[serde(deserialize_with = "map_to_enum")]
+    pub quality: Quality,
+    #[serde(default)]
+    #[serde(deserialize_with = "map_to_enum_option", rename = "wear_tier")]
+    pub wear: Option<Wear>,
+    #[serde(default)]
+    #[serde(deserialize_with = "map_to_enum_option")]
+    pub killstreak_tier: Option<KillstreakTier>,
     pub particle: Option<attributes::ParticleAttribute>,
     pub paint: Option<attributes::PaintAttribute>,
-    pub wear_tier: Option<attributes::WearTierAttribute>,
     pub texture: Option<attributes::TextureAttribute>,
-    pub elevated_quality: Option<attributes::QualityAttribute>,
     pub kill_eaters: Option<Vec<attributes::KillEaterAttribute>>,
 }

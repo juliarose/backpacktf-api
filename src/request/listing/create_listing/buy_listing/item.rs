@@ -14,6 +14,7 @@ pub struct Item {
     pub skin: Option<u32>,
     pub strange: bool,
     pub festivized: bool,
+    pub australium: bool,
 }
 
 impl Item {
@@ -29,6 +30,7 @@ impl Item {
             skin: None,
             strange: false,
             festivized: false,
+            australium: false,
         }
     }
 }
@@ -61,6 +63,15 @@ impl Attributable for Item {
             attributes.push(ItemAttribute {
                 // kill_eater
                 defindex: 214,
+                value: None,
+                float_value: None,
+            });
+        }
+        
+        if self.australium {
+            attributes.push(ItemAttribute {
+                // is_australium_item
+                defindex: 2027,
                 value: None,
                 float_value: None,
             });

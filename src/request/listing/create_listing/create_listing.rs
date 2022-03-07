@@ -85,6 +85,7 @@ mod tests {
                 skin: None,
                 strange: false,
                 festivized: false,
+                australium: false,
             },
             details: Some("hello".into()),
             currencies: Currencies {

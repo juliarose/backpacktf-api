@@ -32,3 +32,19 @@ pub struct Listing {
     pub user_agent: Option<UserAgent>,
     pub user: Option<User>,
 }
+
+#[cfg(test)]
+mod tests {
+    use super::*;
+    use tf2_enum::Quality;
+
+    #[test]
+    fn parses_listing() {
+        let response: Listing = serde_json::from_str(include_str!("fixtures/listing.json")).unwrap();
+        let strange = response.item.strange;
+        
+        assert_eq!(response.item.quality, Quality::Unique);
+        assert_eq!(response.item.base_name, "Lucky Cat Hat");
+        assert_eq!(strange, false);
+    }
+}
