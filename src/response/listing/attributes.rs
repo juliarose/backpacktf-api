@@ -30,30 +30,30 @@ pub struct PaintAttribute {
 #[derive(Serialize, Deserialize, PartialEq, Clone, Debug)]
 #[serde(rename_all = "camelCase")]
 pub struct WearTierAttribute {
-    id: u32,
-    name: String,
-    short: String,
+    pub id: u32,
+    pub name: String,
+    pub short: String,
 }
 
 #[derive(Serialize, Deserialize, PartialEq, Clone, Debug)]
 #[serde(rename_all = "camelCase")]
 pub struct TextureAttribute {
-    id: u32,
-    item_defindex: Option<u32>,
-    rarity: Rarity,
-    name: String,
+    pub id: u32,
+    pub item_defindex: Option<u32>,
+    pub rarity: Rarity,
+    pub name: String,
 }
 
 #[derive(Serialize, Deserialize, PartialEq, Clone, Debug)]
 #[serde(rename_all = "camelCase")]
 pub struct KillEaterTypeAttribute {
-    id: Option<u32>,
-    name: String,
+    pub id: Option<u32>,
+    pub name: String,
 }
 
 #[derive(Serialize, Deserialize, PartialEq, Clone, Debug)]
 #[serde(rename_all = "camelCase")]
 pub struct KillEaterAttribute {
-    score: u64,
-    kill_eater: KillEaterTypeAttribute,
+    pub score: u64,
+    pub kill_eater: KillEaterTypeAttribute,
 }
