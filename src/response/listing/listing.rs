@@ -33,6 +33,22 @@ pub struct Listing {
     pub user: Option<User>,
 }
 
+use std::time::Duration;
+use chrono::{Utc, Duration as ChronoDuration};
+
+impl Listing {
+    
+    fn relistable(&self, interval: Duration) -> bool {
+        if let Ok(interval) = ChronoDuration::from_std(interval) {
+            let cutoff = Utc::now() - interval;
+            
+            self.listed_at < cutoff
+        } else {
+            false
+        }
+    }
+}
+
 #[cfg(test)]
 mod tests {
     use super::*;

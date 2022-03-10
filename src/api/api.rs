@@ -18,11 +18,11 @@ use crate::{
 use super::{
     RESPONSE_UNSUCCESSFUL_MESSAGE,
     APIError,
+    response as api_response,
     helpers::{
         get_default_middleware,
         parses_response
     },
-    response as api_response,
 };
 use serde::{Serialize, Deserialize};
 use url::{Url, ParseError};
@@ -514,6 +514,8 @@ impl BackpackAPI {
             return Err(APIError::Parameter("Maximum of 100 listings allowed"));
         }
         
+        println!("{}", &serde_json::to_string(&query).unwrap());
+        
         let uri = self.get_api_uri("/v2/classifieds/listings/batch");
         let response = self.client.post(uri)
             .query(&Params {
@@ -668,12 +670,12 @@ impl BackpackAPI {
     
     pub async fn delete_listings(
         &self,
-        listing_ids: &[&str],
+        listing_ids: &Vec<String>,
     ) -> Result<response::listing::delete_listing::DeleteListingsResult, APIError> {
         #[derive(Serialize, Debug)]
-        struct Params<'a, 'b, 'c> {
+        struct Params<'a, 'b> {
             token: &'a str,
-            listing_ids: &'c [&'b str],
+            listing_ids: &'b Vec<String>,
         }
         
         let uri = self.get_api_uri("/classifieds/delete/v1");
