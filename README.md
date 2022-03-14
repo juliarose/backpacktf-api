@@ -13,22 +13,22 @@ use backpacktf_api::{
     tf2_enum::{Quality, KillstreakTier},
 };
 
-let key = "XXXXXXXXXXXXXXXXXXXXXXXX";
-let token = "XXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXX=";
-let backpacktf = BackpackAPI::new(key, token);
+let backpacktf = BackpackAPI::builder()
+    .key("key")
+    .token("token")
+    .build();
 let currencies = Currencies {
     keys: 0,
     metal: scrap!(1),
 };
 let mut item = buy_listing::Item::new(1071, Quality::Strange);
-let details = Some(format!("Buying Golden Frying Pan for {}!", &currencies));
 
 item.killstreak_tier = Some(KillstreakTier::Professional);
 
 match backpacktf.create_listing(&CreateListing::Buy {
     item,
-    currencies,
-    details,
+    currencies: &currencies.into(),
+    details: Some(format!("Buying Golden Frying Pan for {}!", &currencies)),
     buyout: true,
     offers: true,
 }).await {

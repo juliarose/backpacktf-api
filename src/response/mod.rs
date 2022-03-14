@@ -7,5 +7,6 @@ pub mod player;
 pub mod inventory;
 pub mod agent;
 pub mod alert;
+pub mod currencies;
 
 pub mod deserializers;

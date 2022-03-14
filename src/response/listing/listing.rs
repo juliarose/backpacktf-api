@@ -1,10 +1,12 @@
 use serde::{Serialize, Deserialize};
 use steamid_ng::SteamID;
-use tf2_price::Currencies;
-use crate::ListingIntent;
-use crate::response::deserializers::listing_intent_enum_from_str;
+use crate::{
+    ListingIntent,
+    time::ServerTime,
+    request::currencies::Currencies,
+    response::deserializers::listing_intent_enum_from_str,
+};
 use chrono::serde::ts_seconds;
-use crate::time::ServerTime;
 use super::{User, UserAgent, Value, Item};
 
 #[derive(Serialize, Deserialize, PartialEq, Clone, Debug)]
@@ -38,7 +40,7 @@ use chrono::{Utc, Duration as ChronoDuration};
 
 impl Listing {
     
-    fn relistable(&self, interval: Duration) -> bool {
+    pub fn relistable(&self, interval: Duration) -> bool {
         if let Ok(interval) = ChronoDuration::from_std(interval) {
             let cutoff = Utc::now() - interval;
             

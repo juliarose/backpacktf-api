@@ -2,13 +2,13 @@ use serde::{Serialize, Deserialize};
 use crate::{
     ListingIntent,
     time::ServerTime,
+    response::currencies::Currencies,
     response::deserializers::{
         bool_from_int,
         listing_intent_enum_from_str
     },
 };
 use super::Item;
-use tf2_price::Currencies;
 use chrono::serde::ts_seconds;
 use steamid_ng::SteamID;
 

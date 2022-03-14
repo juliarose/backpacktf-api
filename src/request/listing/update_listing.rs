@@ -1,5 +1,5 @@
 use serde::{Deserialize, Serialize};
-use tf2_price::Currencies;
+use crate::request::currencies::Currencies;
 
 #[derive(Deserialize, Serialize, PartialEq, Debug, Clone)]
 pub struct UpdateListing {

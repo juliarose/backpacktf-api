@@ -25,8 +25,8 @@ strum = { version = "^0.23", features = ["derive"] }
 strum_macros = "^0.23"
 thiserror = "^1.0.30"
 steamid-ng = "1.0.0"
-tf2-enum = { version = "^0.2.0", path = "../tf2-enum" }
-tf2-price = { version = "0.4.0" }
+tf2-enum = { version = "^0.3.0", path = "../tf2-enum" }
+tf2-price = { version = "^0.5.0", path = "../tf2-price" }
 
 [dev-dependencies]
 assert-json-diff = "^2.0.1"

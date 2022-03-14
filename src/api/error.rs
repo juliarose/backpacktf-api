@@ -1,4 +1,3 @@
-use std::fmt;
 use reqwest;
 use reqwest_middleware;
 use anyhow;
@@ -6,29 +5,24 @@ use thiserror::Error;
 
 pub const RESPONSE_UNSUCCESSFUL_MESSAGE: &str = "Empty response";
 
-#[derive(Debug, Error)]
+#[derive(Error, Debug)]
 pub enum APIError {
+    #[error("Missing token")]
+    MissingToken,
+    #[error("Missing key")]
+    MissingKey,
+    #[error("Invalid parameter: {}", .0)]
     Parameter(&'static str),
+    #[error("Unexpected response: {}", .0)]
     Response(String),
-    Reqwest(reqwest::Error),
+    #[error("Request error: {}", .0)]
+    Reqwest(#[from] reqwest::Error),
+    #[error("Request middleware error: {}", .0)]
     ReqwestMiddleware(anyhow::Error),
-    Status(reqwest::StatusCode),
-    Parse(serde_json::Error),
+    #[error("Error parsing response: {}", .0)]
+    Parse(#[from] serde_json::Error),
+    #[error("{}", .0)]
     Http(reqwest::StatusCode),
-}
-
-impl fmt::Display for APIError {
-    fn fmt(&self, f: &mut fmt::Formatter) -> fmt::Result {
-        match self {
-            APIError::Parameter(s) => write!(f, "{}", s),
-            APIError::Response(s) => write!(f, "{}", s),
-            APIError::Reqwest(e) => write!(f, "{}", e),
-            APIError::ReqwestMiddleware(e) => write!(f, "{}", e),
-            APIError::Status(e) => write!(f, "{}", e),
-            APIError::Parse(e) => write!(f, "{}", e),
-            APIError::Http(e) => write!(f, "{}", e),
-        }
-    }
 }
 
 impl From<reqwest_middleware::Error> for APIError {
@@ -41,17 +35,5 @@ impl From<reqwest_middleware::Error> for APIError {
                 APIError::ReqwestMiddleware(e)
             },
         }
-    }
-}
-
-impl From<serde_json::Error> for APIError {
-    fn from(error: serde_json::Error) -> APIError {
-        APIError::Parse(error)
-    }
-}
-
-impl From<reqwest::Error> for APIError {
-    fn from(error: reqwest::Error) -> APIError {
-        APIError::Reqwest(error)
     }
 }

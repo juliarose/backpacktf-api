@@ -1,7 +1,6 @@
 use serde::{Deserialize, Serialize};
-use crate::request::serializers::as_string;
+use crate::request::{currencies::Currencies, serializers::as_string};
 use super::buy_listing::{self, serializers::buy_listing_item_into_params};
-use tf2_price::Currencies;
 
 #[derive(Deserialize, Serialize, PartialEq, Debug, Clone)]
 #[serde(tag = "intent")]
@@ -32,7 +31,7 @@ pub enum CreateListing {
 #[cfg(test)]
 mod tests {
     use super::*;
-    use tf2_price::{Currencies, refined, scrap};
+    use crate::tf2_price::{Currencies, refined, scrap};
     use tf2_enum::{Quality, KillstreakTier};
     use assert_json_diff::assert_json_include;
     use serde_json::{self, json, Value};
@@ -45,7 +44,7 @@ mod tests {
             currencies: Currencies {
                 keys: 5,
                 metal: refined!(5),
-            },
+            }.into(),
             buyout: false,
             offers: false,
         }).unwrap();
@@ -91,7 +90,7 @@ mod tests {
             currencies: Currencies {
                 keys: 5,
                 metal: refined!(5) + scrap!(3),
-            },
+            }.into(),
             buyout: false,
             offers: false,
         }).unwrap();

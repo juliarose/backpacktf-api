@@ -19,41 +19,49 @@ use super::{
     RESPONSE_UNSUCCESSFUL_MESSAGE,
     APIError,
     response as api_response,
-    helpers::{
-        get_default_middleware,
-        parses_response
-    },
+    helpers::parses_response,
 };
 use serde::{Serialize, Deserialize};
 use url::{Url, ParseError};
 use reqwest::cookie::Jar;
 use reqwest_middleware::ClientWithMiddleware;
 use steamid_ng::SteamID;
-use tf2_price::Currencies;
+use crate::BackpackAPIBuilder;
 
 const HOSTNAME: &str = "backpack.tf";
-const USER_AGENT_STRING: &str = "Mozilla/5.0 (X11; Linux x86_64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/97.0.4692.71 Safari/537.36";
 
+/// Interface for backpack.tf API endpoints.
 pub struct BackpackAPI {
-    key: String,
-    token: String,
+    key: Option<String>,
+    token: Option<String>,
     cookies: Arc<Jar>,
     client: ClientWithMiddleware,
 }
 
+impl Default for BackpackAPI {
+    
+    fn default() -> Self {
+        Self::builder().build()
+    }
+}
+
 impl BackpackAPI {
     
+    pub fn builder() -> BackpackAPIBuilder {
+        BackpackAPIBuilder::default()
+    }
+    
     pub fn new(
-        key: &str,
-        token: &str,
+        key: Option<String>,
+        token: Option<String>,
+        cookies: Arc<Jar>,
+        client: ClientWithMiddleware
     ) -> Self {
-        let cookies = Arc::new(Jar::default());
-        
         Self {
-            key: key.into(),
-            token: token.into(),
-            cookies: Arc::clone(&cookies),
-            client: get_default_middleware(Arc::clone(&cookies), USER_AGENT_STRING),
+            key,
+            token,
+            cookies,
+            client,
         }
     }
     
@@ -70,6 +78,22 @@ impl BackpackAPI {
         endpoint: &str,
     ) -> String {
         format!("{}{}", self.get_uri("/api"), endpoint)
+    }
+    
+    fn get_token(&self) -> Result<&str, APIError> {
+        if let Some(token) = &self.token {
+            Ok(token)
+        } else {
+            Err(APIError::MissingToken)
+        }
+    }
+    
+    fn get_key(&self) -> Result<&str, APIError> {
+        if let Some(key) = &self.key {
+            Ok(key)
+        } else {
+            Err(APIError::MissingKey)
+        }
     }
     
     pub fn set_cookies(
@@ -114,9 +138,10 @@ impl BackpackAPI {
             return Err(APIError::Parameter("No steamids given"));
         }
         
+        let key = self.get_key()?;
         let response = self.client.get(self.get_api_uri("/IGetUsers/v3"))
             .query(&Params {
-                key: &self.key,
+                key,
                 steamids,
             })
             .send()
@@ -143,10 +168,11 @@ impl BackpackAPI {
             limit: u32,
         }
         
+        let token = self.get_token()?;
         let uri = self.get_api_uri("/classifieds/alerts");
         let response = self.client.get(uri)
             .query(&Params {
-                token: &self.token,
+                token,
                 limit: 500,
                 skip,
             })
@@ -172,7 +198,8 @@ impl BackpackAPI {
             max: Option<u32>,
             blanket: Option<bool>,
         }
-
+        
+        let token = self.get_token()?;
         let mut currency: Option<CurrencyType> = None;
         let mut min: Option<u32> = None;
         let mut max: Option<u32> = None;
@@ -188,7 +215,7 @@ impl BackpackAPI {
 
         self.client.post(self.get_api_uri("/classifieds/alerts"))
             .query(&Params {
-                token: &self.token,
+                token,
                 item_name: &query.item_name,
                 intent: &query.intent,
                 currency: &currency,
@@ -215,9 +242,11 @@ impl BackpackAPI {
             intent: &'b ListingIntent,
         }
         
+        let token = self.get_token()?;
+        
         self.client.delete(self.get_api_uri("/classifieds/alerts"))
             .query(&Params {
-                token: &self.token,
+                token,
                 item_name,
                 intent,
             })
@@ -236,10 +265,11 @@ impl BackpackAPI {
             token: &'a str,
         }
         
+        let token = self.get_token()?;
         let uri = format!("{}/{}", self.get_api_uri("/classifieds/alerts"), id);
         self.client.delete(uri)
             .query(&Params {
-                token: &self.token,
+                token,
             })
             .send()
             .await?;
@@ -256,10 +286,11 @@ impl BackpackAPI {
             token: &'a str,
         }
         
+        let token = self.get_token()?;
         let uri = format!("{}/{}", self.get_api_uri("/classifieds/alerts"), id);
         let response = self.client.get(uri)
             .query(&Params {
-                token: &self.token,
+                token,
             })
             .send()
             .await?;
@@ -277,9 +308,10 @@ impl BackpackAPI {
             token: &'a str,
         }
         
+        let token = self.get_token()?;
         let response = self.client.get(format!("{}/{}", self.get_api_uri("/notifications"), id))
             .query(&Params {
-                token: &self.token,
+                token,
             })
             .send()
             .await?;
@@ -297,10 +329,11 @@ impl BackpackAPI {
             token: &'a str,
         }
 
+        let token = self.get_token()?;
         let uri = format!("{}/{}", self.get_api_uri("/notifications"), id);
         self.client.delete(uri)
             .query(&Params {
-                token: &self.token,
+                token,
             })
             .send()
             .await?;
@@ -320,10 +353,11 @@ impl BackpackAPI {
             unread: bool,
         }
         
+        let token = self.get_token()?;
         let uri = self.get_api_uri("/notifications");
         let response = self.client.get(uri)
             .query(&Params {
-                token: &self.token,
+                token,
                 skip: query.skip,
                 limit: query.limit,
                 unread: query.unread,
@@ -343,10 +377,11 @@ impl BackpackAPI {
             token: &'a str,
         }
         
+        let token = self.get_token()?;
         let uri = self.get_api_uri("/notifications/unread");
         let response = self.client.post(uri)
             .query(&Params {
-                token: &self.token,
+                token,
             })
             .send()
             .await?;
@@ -363,10 +398,11 @@ impl BackpackAPI {
             token: &'a str,
         }
         
+        let token = self.get_token()?;
         let uri = self.get_api_uri("/notifications/unread");
         self.client.post(uri)
             .query(&Params {
-                token: &self.token,
+                token,
             })
             .send()
             .await?;
@@ -385,10 +421,11 @@ impl BackpackAPI {
             appid: u32,
         }
         
+        let token = self.get_token()?;
         let uri = self.get_api_uri("/classifieds/listings/snapshot");
         let response = self.client.get(uri)
             .query(&Params {
-                token: &self.token,
+                token,
                 appid: 440,
                 sku,
             })
@@ -408,10 +445,11 @@ impl BackpackAPI {
             token: &'a str,
         }
         
+        let token = self.get_token()?;
         let uri = format!("{}/{}/values", self.get_api_uri("/inventory"), u64::from(steamid.clone()));
         let response = self.client.get(uri)
             .query(&Params {
-                token: &self.token,
+                token,
             })
             .send()
             .await?;
@@ -429,10 +467,11 @@ impl BackpackAPI {
             token: &'a str,
         }
         
+        let token = self.get_token()?;
         let uri = format!("{}/{}/status", self.get_api_uri("/inventory"), u64::from(steamid.clone()));
         let response = self.client.get(uri)
             .query(&Params {
-                token: &self.token,
+                token,
             })
             .send()
             .await?;
@@ -450,10 +489,11 @@ impl BackpackAPI {
             token: &'a str,
         }
         
+        let token = self.get_token()?;
         let uri = format!("{}/{}/refresh", self.get_api_uri("/inventory"), u64::from(steamid.clone()));
         let response = self.client.post(uri)
             .query(&Params {
-                token: &self.token,
+                token,
             })
             .send()
             .await?;
@@ -474,12 +514,13 @@ impl BackpackAPI {
             limit: u32,
         }
         
+        let token = self.get_token()?;
         let uri = self.get_api_uri("/v2/classifieds/listings");
         let response = self.client.get(uri)
             .query(&Params {
-                token: &self.token,
-                skip: skip,
-                limit: limit,
+                token,
+                skip,
+                limit,
             })
             .send()
             .await?;
@@ -514,12 +555,11 @@ impl BackpackAPI {
             return Err(APIError::Parameter("Maximum of 100 listings allowed"));
         }
         
-        println!("{}", &serde_json::to_string(&query).unwrap());
-        
+        let token = self.get_token()?;
         let uri = self.get_api_uri("/v2/classifieds/listings/batch");
         let response = self.client.post(uri)
             .query(&Params {
-                token: &self.token,
+                token,
             })
             .json(query)
             .send()
@@ -562,11 +602,12 @@ impl BackpackAPI {
             token: &'a str,
         }
         
+        let token = self.get_token()?;
         let uri = format!("{}/{}", self.get_api_uri("/v2/classifieds/listings"), id);
         // This does not produce an output
         self.client.delete(uri)
             .query(&Params {
-                token: &self.token,
+                token,
             })
             .send()
             .await?;
@@ -581,7 +622,7 @@ impl BackpackAPI {
     ) -> Result<response::listing::Listing, APIError> {
         #[derive(Serialize, Debug)]
         struct JSONParams<'b> {
-            currencies: &'b Currencies,
+            currencies: &'b request::currencies::Currencies,
             details: &'b Option<String>,
         }
         
@@ -590,6 +631,7 @@ impl BackpackAPI {
             token: &'a str,
         }
         
+        let token = self.get_token()?;
         let uri = format!("{}/{}", self.get_api_uri("/v2/classifieds/listings"), id);
         let response = self.client.patch(uri)
             .json(&JSONParams {
@@ -597,7 +639,7 @@ impl BackpackAPI {
                 details: &query.details,
             })
             .query(&Params {
-                token: &self.token,
+                token,
             })
             .send()
             .await?;
@@ -615,10 +657,11 @@ impl BackpackAPI {
             token: &'a str,
         }
         
+        let token = self.get_token()?;
         let uri = format!("{}/{}/promote", self.get_api_uri("/v2/classifieds/listings"), id);
         let response = self.client.post(uri)
             .json(&Params {
-                token: &self.token
+                token,
             })
             .send()
             .await?;
@@ -637,10 +680,11 @@ impl BackpackAPI {
             token: &'a str,
         }
         
+        let token = self.get_token()?;
         let uri = format!("{}/{}/demote", self.get_api_uri("/v2/classifieds/listings"), id);
         self.client.post(uri)
             .json(&Params {
-                token: &self.token
+                token,
             })
             .send()
             .await?;
@@ -656,10 +700,11 @@ impl BackpackAPI {
             token: &'a str,
         }
         
+        let token = self.get_token()?;
         let uri = self.get_api_uri("/v2/classifieds/listings/batch");
         let response = self.client.get(uri)
             .query(&Params {
-                token: &self.token,
+                token,
             })
             .send()
             .await?;
@@ -678,10 +723,11 @@ impl BackpackAPI {
             listing_ids: &'b Vec<String>,
         }
         
+        let token = self.get_token()?;
         let uri = self.get_api_uri("/classifieds/delete/v1");
         let response = self.client.delete(uri)
             .json(&Params {
-                token: &self.token,
+                token,
                 listing_ids,
             })
             .send()
@@ -708,9 +754,10 @@ impl BackpackAPI {
             details: &'b Option<String>,
             buyout: &'b bool,
             offers: &'b bool,
-            currencies: &'b Currencies,
+            currencies: &'b request::currencies::Currencies,
         }
         
+        let token = self.get_token()?;
         let params: Params = match query {
             request::listing::create_listing::CreateListing::Buy {
                 item,
@@ -720,7 +767,7 @@ impl BackpackAPI {
                 offers,
             } => {
                 Params {
-                    token: &self.token,
+                    token,
                     id: None,
                     item: Some(item),
                     intent: ListingIntent::Buy,
@@ -738,7 +785,7 @@ impl BackpackAPI {
                 offers,
             } => {
                 Params {
-                    token: &self.token,
+                    token,
                     id: Some(*id),
                     item: None,
                     intent: ListingIntent::Sell,
@@ -769,9 +816,10 @@ impl BackpackAPI {
             user_agent: &'b str,
         }
         
+        let token = self.get_token()?;
         let response = self.client.post(self.get_api_uri("/agent/pulse"))
             .query(&Params {
-                token: &self.token,
+                token,
                 user_agent,
             })
             .send()
@@ -789,9 +837,10 @@ impl BackpackAPI {
             token: &'a str,
         }
         
+        let token = self.get_token()?;
         let response = self.client.post(self.get_api_uri("/agent/status"))
             .query(&Params {
-                token: &self.token,
+                token,
             })
             .send()
             .await?;
@@ -808,9 +857,10 @@ impl BackpackAPI {
             token: &'a str,
         }
         
+        let token = self.get_token()?;
         self.client.post(self.get_api_uri("/agent/stop"))
             .query(&Params {
-                token: &self.token,
+                token,
             })
             .send()
             .await?;

@@ -23,7 +23,7 @@ mod tests {
         tf2_enum::Quality,
         response::attributes::Value as AttributeValue
     };
-    use tf2_price::Currencies;
+    use crate::request::currencies::Currencies;
     
     #[test]
     fn parses_get_classifieds_snapshot_quality() {
@@ -33,7 +33,7 @@ mod tests {
         assert_eq!(listing.intent, ListingIntent::Sell);
         assert_eq!(listing.item.id, Some(10080129222));
         assert_eq!(listing.item.quality, Quality::Unusual);
-        assert_eq!(listing.currencies, Currencies { keys: 180, metal: 0 });
+        assert_eq!(listing.currencies, Currencies { keys: 180.0, metal: 0 });
     }
     
     #[test]
@@ -45,7 +45,7 @@ mod tests {
         
         assert_eq!(intent, ListingIntent::Buy);
         assert_eq!(listing.item.quality, Quality::Strange);
-        assert_eq!(listing.currencies.keys, 44);
+        assert_eq!(listing.currencies.keys, 44.0);
         assert_eq!(listing.currencies.metal, 0);
         assert_eq!(listing.details, Some("Looking for a spelled exorcism strange frying pan (without parts is ok) ! Feel free to add me :D\ncan also buy a strange pan with these parts for 44 keys".into()));
         assert_eq!(attribute_380.float_value.unwrap(), 82.0);

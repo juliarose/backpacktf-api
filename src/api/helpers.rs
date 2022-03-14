@@ -1,29 +1,5 @@
-use std::sync::Arc;
-use reqwest_middleware::{ClientBuilder, ClientWithMiddleware};
-use reqwest::{header, cookie::CookieStore};
-use reqwest_retry::{RetryTransientMiddleware, policies::ExponentialBackoff};
 use serde::{Deserialize, de::DeserializeOwned};
 use super::APIError;
-
-pub fn get_default_middleware<T>(cookie_store: Arc<T>, user_agent_string: &'static str) -> ClientWithMiddleware
-where
-    T: CookieStore + 'static
-{
-    let retry_policy = ExponentialBackoff::builder().build_with_max_retries(3);
-    let mut headers = header::HeaderMap::new();
-    
-    headers.insert(header::USER_AGENT, header::HeaderValue::from_static(user_agent_string));
-    
-    let client = reqwest::ClientBuilder::new()
-        .cookie_provider(cookie_store)
-        .default_headers(headers)
-        .build()
-        .unwrap();
-    
-    ClientBuilder::new(client)
-        .with(RetryTransientMiddleware::new_with_policy(retry_policy))
-        .build()
-}
 
 pub async fn parses_response<D>(response: reqwest::Response) -> Result<D, APIError>
 where

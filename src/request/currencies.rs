@@ -1,1 +1,1 @@
-pub use tf2_price::Currencies;
+pub use crate::response::currencies::Currencies;
