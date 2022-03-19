@@ -160,6 +160,7 @@ impl BackpackAPI {
     pub async fn get_alerts(
         &self,
         skip: u32,
+        limit: u32,
     ) -> Result<(Vec<response::alert::Alert>, response::cursor::Cursor), APIError> {
         #[derive(Serialize, Debug)]
         struct Params<'a> {
@@ -173,7 +174,7 @@ impl BackpackAPI {
         let response = self.client.get(uri)
             .query(&Params {
                 token,
-                limit: 500,
+                limit,
                 skip,
             })
             .send()
