@@ -2,6 +2,8 @@
 
 Interface for backpack.tf API endpoints.
 
+## Usage
+
 ```rs
 use backpacktf_api::{
     BackpackAPI,

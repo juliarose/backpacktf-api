@@ -5,7 +5,7 @@ use crate::response::deserializers::{
 use crate::response::deserializers::bool_from_int;
 use crate::ListingIntent;
 use steamid_ng::SteamID;
-use super::Price;
+use super::MinMax;
 
 #[derive(Serialize, Deserialize, PartialEq, Clone, Debug)]
 pub struct Alert {
@@ -18,5 +18,5 @@ pub struct Alert {
     #[serde(default)]
     #[serde(deserialize_with = "bool_from_int")]
     pub blanket: bool,
-    pub price: Option<Price>,
+    pub price: Option<MinMax>,
 }

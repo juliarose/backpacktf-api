@@ -4,7 +4,6 @@ use super::buy_listing::{self, serializers::buy_listing_item_into_params};
 
 #[derive(Deserialize, Serialize, PartialEq, Debug, Clone)]
 #[serde(tag = "intent")]
-// #[serde(untagged)]
 pub enum CreateListing {
     #[serde(rename = "sell")]
     Sell {

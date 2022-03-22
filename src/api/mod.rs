@@ -1,7 +1,7 @@
 mod error;
-mod api;
+mod backpack_api;
 mod helpers;
-mod response;
+mod api_response;
 
-pub use error::{APIError, RESPONSE_UNSUCCESSFUL_MESSAGE};
-pub use api::BackpackAPI;
+pub use backpack_api::BackpackAPI;
+pub use error::APIError;

@@ -1,6 +1,7 @@
-use serde::{Serializer};
-use crate::ListingIntent;
+use serde::Serializer;
+use crate::{ListingIntent, CurrencyType};
 use steamid_ng::SteamID;
+use crate::response::attributes::FloatValue;
 
 fn comma_delimited_values<T: ToString>(values: &[T]) -> String {
     values
@@ -51,6 +52,7 @@ where
     s.serialize_str(&steamids)
 }
 
+// todo make this generic
 pub fn listing_intent_enum_to_str<S>(value: &ListingIntent, s: S) -> Result<S::Ok, S::Error>
 where
     S: Serializer
@@ -59,4 +61,33 @@ where
         ListingIntent::Buy => "buy",
         ListingIntent::Sell => "sell",
     })
+}
+
+pub fn currency_type_enum_to_str<S>(value: &Option<CurrencyType>, s: S) -> Result<S::Ok, S::Error>
+where
+    S: Serializer
+{
+    if let Some(currency_type) = value {
+        s.serialize_str(match currency_type {
+            CurrencyType::Keys => "keys",
+            CurrencyType::Metal => "metal",
+        })
+    } else {
+        s.serialize_none()
+    }
+}
+
+pub fn option_float_as_integers_when_whole<S>(value: &Option<FloatValue>, s: S) -> Result<S::Ok, S::Error>
+where
+    S: Serializer,
+{
+    if let Some(value) = value {
+        if value.fract() == 0.0 {
+            s.serialize_u64(*value as u64)
+        } else {
+            s.serialize_f64(*value)
+        }
+    } else {
+        s.serialize_none()
+    }
 }

@@ -36,6 +36,7 @@ impl Item {
 }
 
 impl Attributable for Item {
+    
     fn as_attributes(&self) -> Vec<ItemAttribute> {
         let mut attributes: Vec<ItemAttribute> = Vec::new();
         

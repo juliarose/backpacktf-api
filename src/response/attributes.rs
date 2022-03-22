@@ -1,7 +1,7 @@
 use std::collections::HashMap;
 use serde::{Serialize, Deserialize};
 use crate::{
-    request::listing::create_listing::buy_listing::serializers::option_float_as_integers_when_whole,
+    request::serializers::option_float_as_integers_when_whole,
     response::deserializers::{
         deserialize_attributes,
         string_or_number,

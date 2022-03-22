@@ -4,31 +4,29 @@ use crate::{
     currency_type::CurrencyType,
     request::{
         self,
-        listing::create_listing::buy_listing::serializers::{
-            option_buy_listing_item_into_params
-        },
+        listing_serializers::option_buy_listing_item_into_params,
         serializers::{
             option_number_to_str,
             comma_delimited_steamids,
-            listing_intent_enum_to_str
+            listing_intent_enum_to_str,
+            currency_type_enum_to_str,
         }
     },
-    response
+    response,
 };
 use super::{
-    RESPONSE_UNSUCCESSFUL_MESSAGE,
     APIError,
-    response as api_response,
+    api_response,
     helpers::parses_response,
 };
 use serde::{Serialize, Deserialize};
-use url::{Url, ParseError};
+use url::Url;
 use reqwest::cookie::Jar;
 use reqwest_middleware::ClientWithMiddleware;
 use steamid_ng::SteamID;
 use crate::BackpackAPIBuilder;
 
-const HOSTNAME: &str = "backpack.tf";
+const RESPONSE_UNSUCCESSFUL_MESSAGE: &str = "Empty response";
 
 /// Interface for backpack.tf API endpoints.
 pub struct BackpackAPI {
@@ -46,6 +44,8 @@ impl Default for BackpackAPI {
 }
 
 impl BackpackAPI {
+    
+    const HOSTNAME: &'static str = "backpack.tf";
     
     pub fn builder() -> BackpackAPIBuilder {
         BackpackAPIBuilder::default()
@@ -70,7 +70,7 @@ impl BackpackAPI {
         pathname: &str,
     ) -> String {
         // https://backpack.tf/api/index.html#/webapi-users/800c12bc395d28d411e61a7aa5da1d9c
-        format!("https://{}{}", HOSTNAME, pathname)
+        format!("https://{}{}", Self::HOSTNAME, pathname)
     }
 
     fn get_api_uri(
@@ -99,14 +99,12 @@ impl BackpackAPI {
     pub fn set_cookies(
         &self,
         cookies: &[String],
-    ) -> Result<(), ParseError> {
-        let url = HOSTNAME.parse::<Url>()?;
+    ) {
+        let url = Self::HOSTNAME.parse::<Url>().unwrap();
         
         for cookie_str in cookies {
             self.cookies.add_cookie_str(cookie_str, &url);
         }
-        
-        Ok(())
     }
     
     pub async fn get_user(
@@ -183,51 +181,56 @@ impl BackpackAPI {
         
         Ok((body.alerts, body.cursor))
     }
-
+    
+    /// Creates an alert. If no price is given, creates a blanket alert.
     pub async fn create_alert(
         &self,
-        query: &request::alert::CreateAlert,
-    ) -> Result<(), APIError> {
+        item_name: &str,
+        intent: &ListingIntent,
+        price: Option<request::MinMax>,
+    ) -> Result<response::alert::Alert, APIError> {
         #[derive(Serialize, Debug)]
         struct Params<'a, 'b> {
             token: &'a str,
-            item_name: &'b String,
+            item_name: &'b str,
             #[serde(serialize_with = "listing_intent_enum_to_str")]
             intent: &'b ListingIntent,
-            currency: &'b Option<CurrencyType>,
-            min: Option<u32>,
-            max: Option<u32>,
+            #[serde(serialize_with = "currency_type_enum_to_str")]
+            currency: Option<CurrencyType>,
+            min: Option<f32>,
+            max: Option<f32>,
             blanket: Option<bool>,
         }
         
         let token = self.get_token()?;
         let mut currency: Option<CurrencyType> = None;
-        let mut min: Option<u32> = None;
-        let mut max: Option<u32> = None;
+        let mut min: Option<f32> = None;
+        let mut max: Option<f32> = None;
         // defaults to blanket
         let mut blanket: Option<bool> = Some(true);
 
-        if let Some(values) = &query.values {
+        if let Some(values) = &price {
             currency = Some(values.currency.clone());
             min = Some(values.min);
             max = Some(values.max);
             blanket = None;
         }
-
-        self.client.post(self.get_api_uri("/classifieds/alerts"))
-            .query(&Params {
+        
+        let response = self.client.post(self.get_api_uri("/classifieds/alerts"))
+            .json(&Params {
                 token,
-                item_name: &query.item_name,
-                intent: &query.intent,
-                currency: &currency,
+                item_name,
+                intent,
+                currency,
                 min,
                 max,
                 blanket,
             })
             .send()
             .await?;
+        let body: response::alert::Alert = parses_response(response).await?;
         
-        Ok(())
+        Ok(body)
     }
 
     pub async fn delete_alert_by_name(
@@ -244,8 +247,8 @@ impl BackpackAPI {
         }
         
         let token = self.get_token()?;
-        
-        self.client.delete(self.get_api_uri("/classifieds/alerts"))
+        let uri = self.get_api_uri("/classifieds/alerts");
+        let _ = self.client.delete(uri)
             .query(&Params {
                 token,
                 item_name,
@@ -268,7 +271,7 @@ impl BackpackAPI {
         
         let token = self.get_token()?;
         let uri = format!("{}/{}", self.get_api_uri("/classifieds/alerts"), id);
-        self.client.delete(uri)
+        let _ = self.client.delete(uri)
             .query(&Params {
                 token,
             })
@@ -344,7 +347,9 @@ impl BackpackAPI {
 
     pub async fn get_notifications(
         &self,
-        query: &request::notification::GetNotification,
+        skip: u32,
+        limit: u32,
+        unread: bool,
     ) -> Result<(Vec<response::notification::Notification>, response::cursor::Cursor), APIError> {
         #[derive(Serialize, Debug)]
         struct Params<'a> {
@@ -359,9 +364,9 @@ impl BackpackAPI {
         let response = self.client.get(uri)
             .query(&Params {
                 token,
-                skip: query.skip,
-                limit: query.limit,
-                unread: query.unread,
+                skip,
+                limit,
+                unread,
             })
             .send()
             .await?;
@@ -532,7 +537,7 @@ impl BackpackAPI {
     
     pub async fn create_listings(
         &self,
-        query: &[request::listing::create_listing::CreateListing],
+        listings: &[request::CreateListing],
     ) -> Result<response::listing::create_listing::CreateListingsResult, APIError> {
         #[derive(Serialize, Debug)]
         struct Params<'a> {
@@ -550,9 +555,9 @@ impl BackpackAPI {
             message: String,
         }
         
-        if query.len() == 0 {
+        if listings.len() == 0 {
             return Err(APIError::Parameter("No listings given"));
-        } else if query.len() > 100 {
+        } else if listings.len() > 100 {
             return Err(APIError::Parameter("Maximum of 100 listings allowed"));
         }
         
@@ -562,7 +567,7 @@ impl BackpackAPI {
             .query(&Params {
                 token,
             })
-            .json(query)
+            .json(listings)
             .send()
             .await?;
         let body: Vec<CreateListingResponse> = parses_response(response).await?;
@@ -571,7 +576,7 @@ impl BackpackAPI {
             error: Vec::new(),
         };
         
-        if body.len() != query.len() {
+        if body.len() != listings.len() {
             return Err(APIError::Parameter("Results and query have different number of listings"));
         }
         
@@ -582,7 +587,7 @@ impl BackpackAPI {
                     message: error.message.to_owned(),
                     // this is guaranteed based on the length comparison check above
                     // it will need to be cloned
-                    query: query[i].clone(),
+                    query: listings[i].clone(),
                 });
             } else if let Some(listing) = &response.result {
                 result.success.push(listing.to_owned());
@@ -619,12 +624,13 @@ impl BackpackAPI {
     pub async fn update_listing(
         &self,
         id: &str,
-        query: &request::listing::update_listing::UpdateListing,
+        details: Option<String>,
+        currencies: &request::Currencies,
     ) -> Result<response::listing::Listing, APIError> {
         #[derive(Serialize, Debug)]
         struct JSONParams<'b> {
-            currencies: &'b request::currencies::Currencies,
-            details: &'b Option<String>,
+            currencies: &'b request::Currencies,
+            details: Option<String>,
         }
         
         #[derive(Serialize, Debug)]
@@ -636,8 +642,8 @@ impl BackpackAPI {
         let uri = format!("{}/{}", self.get_api_uri("/v2/classifieds/listings"), id);
         let response = self.client.patch(uri)
             .json(&JSONParams {
-                currencies: &query.currencies,
-                details: &query.details,
+                currencies,
+                details,
             })
             .query(&Params {
                 token,
@@ -740,7 +746,7 @@ impl BackpackAPI {
     
     pub async fn create_listing(
         &self,
-        query: &request::listing::create_listing::CreateListing,
+        listing: &request::CreateListing,
     ) -> Result<response::listing::Listing, APIError> {
         #[derive(Serialize, Debug)]
         struct Params<'a, 'b> {
@@ -748,19 +754,19 @@ impl BackpackAPI {
             #[serde(serialize_with = "option_number_to_str", skip_serializing_if = "Option::is_none")]
             id: Option<u64>,
             #[serde(serialize_with = "option_buy_listing_item_into_params", skip_serializing_if = "Option::is_none")]
-            item: Option<&'b request::listing::create_listing::buy_listing::Item>,
+            item: Option<&'b request::BuyListingItem>,
             #[serde(serialize_with = "listing_intent_enum_to_str")]
             intent: ListingIntent,
             #[serde(skip_serializing_if = "Option::is_none")]
             details: &'b Option<String>,
             buyout: &'b bool,
             offers: &'b bool,
-            currencies: &'b request::currencies::Currencies,
+            currencies: &'b request::Currencies,
         }
         
         let token = self.get_token()?;
-        let params: Params = match query {
-            request::listing::create_listing::CreateListing::Buy {
+        let params: Params = match listing {
+            request::CreateListing::Buy {
                 item,
                 currencies,
                 details,
@@ -778,7 +784,7 @@ impl BackpackAPI {
                     currencies,
                 }
             },
-            request::listing::create_listing::CreateListing::Sell {
+            request::CreateListing::Sell {
                 id,
                 currencies,
                 details,

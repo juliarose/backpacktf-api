@@ -1,9 +1,4 @@
-use reqwest;
-use reqwest_middleware;
-use anyhow;
 use thiserror::Error;
-
-pub const RESPONSE_UNSUCCESSFUL_MESSAGE: &str = "Empty response";
 
 #[derive(Error, Debug)]
 pub enum APIError {

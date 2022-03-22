@@ -1,6 +1,6 @@
 use serde::{Deserialize, Serialize};
 use crate::response::attributes::{Value as AttributeValue, FloatValue};
-use super::serializers::option_float_as_integers_when_whole;
+use crate::request::serializers::option_float_as_integers_when_whole;
 
 #[derive(Deserialize, Serialize, PartialEq, Debug, Clone)]
 pub struct ItemAttribute {

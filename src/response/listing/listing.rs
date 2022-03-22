@@ -3,7 +3,7 @@ use steamid_ng::SteamID;
 use crate::{
     ListingIntent,
     time::ServerTime,
-    request::currencies::Currencies,
+    request::Currencies,
     response::deserializers::listing_intent_enum_from_str,
 };
 use chrono::serde::ts_seconds;

@@ -23,7 +23,7 @@ mod tests {
         tf2_enum::Quality,
         response::attributes::Value as AttributeValue
     };
-    use crate::request::currencies::Currencies;
+    use crate::request::Currencies;
     
     #[test]
     fn parses_get_classifieds_snapshot_quality() {
