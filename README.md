@@ -7,9 +7,9 @@ Interface for backpack.tf API endpoints.
 ```rs
 use backpacktf_api::{
     BackpackAPI,
-    request::listing::create_listing::{
+    request::{
         CreateListing,
-        buy_listing
+        BuyListingItem,
     },
     tf2_price::{Currencies, scrap},
     tf2_enum::{Quality, KillstreakTier},
@@ -23,7 +23,7 @@ let currencies = Currencies {
     keys: 0,
     metal: scrap!(1),
 };
-let mut item = buy_listing::Item::new(1071, Quality::Strange);
+let mut item = BuyListingItem::new(1071, Quality::Strange);
 
 item.killstreak_tier = Some(KillstreakTier::Professional);
 
