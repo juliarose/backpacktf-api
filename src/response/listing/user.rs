@@ -22,7 +22,7 @@ pub struct User {
     pub accepted_suggestions: u32,
     pub class: String,
     pub style: String,
-    pub trade_offer_url: String,
+    pub trade_offer_url: Option<String>,
     pub is_marketplace_seller: bool,
     #[serde(default)]
     #[serde(deserialize_with = "default_on_null")]
