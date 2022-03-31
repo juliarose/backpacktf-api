@@ -377,7 +377,7 @@ impl BackpackAPI {
 
     pub async fn get_unread_notifications(
         &self,
-    ) -> Result<(Vec<response::notification::Notification>, response::cursor::Cursor), APIError> {
+    ) -> Result<Vec<response::notification::Notification>, APIError> {
         #[derive(Serialize, Debug)]
         struct Params<'a> {
             token: &'a str,
@@ -391,9 +391,9 @@ impl BackpackAPI {
             })
             .send()
             .await?;
-        let body: api_response::GetNotificationsResponse = parses_response(response).await?;
+        let notifications: Vec<response::notification::Notification> = parses_response(response).await?;
         
-        Ok((body.notifications, body.cursor))
+        Ok(notifications)
     }
 
     pub async fn mark_unread_notifications(
