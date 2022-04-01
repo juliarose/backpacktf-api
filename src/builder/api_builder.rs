@@ -44,15 +44,15 @@ impl BackpackAPIBuilder {
         self.client = Some(client);
         self
     }
-    
+
     pub fn cookies(mut self, cookies: Arc<Jar>) -> Self {
         self.cookies = Some(cookies);
         self
     }
     
     pub fn build(self) -> BackpackAPI {
-        let cookies = self.cookies.unwrap_or(Arc::new(Jar::default()));
-        let client = self.client.unwrap_or(get_default_middleware(Arc::clone(&cookies)));
+        let cookies = self.cookies.unwrap_or_else(|| Arc::new(Jar::default()));
+        let client = self.client.unwrap_or_else(|| get_default_middleware(Arc::clone(&cookies)));
         
         BackpackAPI::new(self.key, self.token, cookies, client)
     }

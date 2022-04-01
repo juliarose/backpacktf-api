@@ -45,10 +45,8 @@ impl Item {
     
     pub fn get_skin_value(&self) -> Option<u32> {
         if let Some(attribute) = self.attributes.get(&834) {
-            if let Some(value) = &attribute.value {
-                if let AttributeValue::Number(value) = value {
-                    return Some(*value as u32);
-                }
+            if let Some(AttributeValue::Number(value)) = &attribute.value {
+                return Some(*value as u32);
             }
         }
         

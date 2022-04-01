@@ -93,7 +93,7 @@ where
             }
         },
         Value::Number(num) => {
-            let n: u64 = num.as_u64().ok_or(de::Error::custom("Invalid number"))?;
+            let n: u64 = num.as_u64().ok_or_else(|| de::Error::custom("Invalid number"))?;
             
             Ok(Some(AttributeValue::Number(n)))
         },
@@ -120,7 +120,7 @@ where
             Ok(Some(n))
         },
         Value::Number(num) => {
-            let n: u64 = num.as_u64().ok_or(de::Error::custom("Invalid number"))?;
+            let n: u64 = num.as_u64().ok_or_else(|| de::Error::custom("Invalid number"))?;
             
             match T::try_from(n) {
                 Ok(c) => {
@@ -151,7 +151,7 @@ where
             Ok(Some(n))
         },
         Value::Number(num) => {
-            let n: f64 = num.as_f64().ok_or(de::Error::custom("Invalid number"))?;
+            let n: f64 = num.as_f64().ok_or_else(|| de::Error::custom("Invalid number"))?;
             
             Ok(Some(n))
         },
@@ -166,8 +166,8 @@ where
     T: serde::Deserialize<'de>,
 {
     let opt = Option::<String>::deserialize(de)?;
-    let opt = opt.as_ref().map(String::as_str);
-
+    let opt = opt.as_deref();
+    
     match opt {
         None | Some("") => Ok(None),
         Some(s) => T::deserialize(s.into_deserializer()).map(Some)

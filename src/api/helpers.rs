@@ -32,9 +32,9 @@ where
                 Err(parse_error) => {
                     // unexpected response
                     if let Ok(error_body) = serde_json::from_slice::<ErrorResponse>(body) { 
-                        Err(APIError::Response(error_body.message.into()))
+                        Err(APIError::Response(error_body.message))
                     } else {
-                        println!("{}", String::from_utf8_lossy(&body));
+                        println!("{}", String::from_utf8_lossy(body));
                         
                         Err(parse_error.into())
                     }

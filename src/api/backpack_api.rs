@@ -100,10 +100,10 @@ impl BackpackAPI {
         &self,
         cookies: &[String],
     ) {
-        let url = Self::HOSTNAME.parse::<Url>().unwrap();
+        let uri = Self::HOSTNAME.parse::<Url>().unwrap();
         
         for cookie_str in cookies {
-            self.cookies.add_cookie_str(cookie_str, &url);
+            self.cookies.add_cookie_str(cookie_str, &uri);
         }
     }
     
@@ -132,12 +132,13 @@ impl BackpackAPI {
             steamids: &'b [SteamID],
         }
         
-        if steamids.len() == 0 {
+        if steamids.is_empty() {
             return Err(APIError::Parameter("No steamids given"));
         }
         
         let key = self.get_key()?;
-        let response = self.client.get(self.get_api_uri("/IGetUsers/v3"))
+        let uri = self.get_api_uri("/IGetUsers/v3");
+        let response = self.client.get(uri)
             .query(&Params {
                 key,
                 steamids,
@@ -147,7 +148,10 @@ impl BackpackAPI {
         let body: api_response::GetUsersResponseWrapper = parses_response(response).await?;
         
         if !body.response.success {
-            return Err(APIError::Response(body.response.message.unwrap_or(RESPONSE_UNSUCCESSFUL_MESSAGE.to_string()).into()));
+            Err(APIError::Response(
+                body.response.message
+                    .unwrap_or_else(|| RESPONSE_UNSUCCESSFUL_MESSAGE.to_string())
+            ))
         } else if let Some(players) = body.response.players {
             Ok(players)
         } else {
@@ -216,7 +220,8 @@ impl BackpackAPI {
             blanket = None;
         }
         
-        let response = self.client.post(self.get_api_uri("/classifieds/alerts"))
+        let uri = self.get_api_uri("/classifieds/alerts");
+        let response = self.client.post(uri)
             .json(&Params {
                 token,
                 item_name,
@@ -452,7 +457,7 @@ impl BackpackAPI {
         }
         
         let token = self.get_token()?;
-        let uri = format!("{}/{}/values", self.get_api_uri("/inventory"), u64::from(steamid.clone()));
+        let uri = format!("{}/{}/values", self.get_api_uri("/inventory"), u64::from(*steamid));
         let response = self.client.get(uri)
             .query(&Params {
                 token,
@@ -474,7 +479,7 @@ impl BackpackAPI {
         }
         
         let token = self.get_token()?;
-        let uri = format!("{}/{}/status", self.get_api_uri("/inventory"), u64::from(steamid.clone()));
+        let uri = format!("{}/{}/status", self.get_api_uri("/inventory"), u64::from(*steamid));
         let response = self.client.get(uri)
             .query(&Params {
                 token,
@@ -496,7 +501,7 @@ impl BackpackAPI {
         }
         
         let token = self.get_token()?;
-        let uri = format!("{}/{}/refresh", self.get_api_uri("/inventory"), u64::from(steamid.clone()));
+        let uri = format!("{}/{}/refresh", self.get_api_uri("/inventory"), u64::from(*steamid));
         let response = self.client.post(uri)
             .query(&Params {
                 token,
@@ -555,7 +560,7 @@ impl BackpackAPI {
             message: String,
         }
         
-        if listings.len() == 0 {
+        if listings.is_empty() {
             return Err(APIError::Parameter("No listings given"));
         } else if listings.len() > 100 {
             return Err(APIError::Parameter("Maximum of 100 listings allowed"));
@@ -689,7 +694,7 @@ impl BackpackAPI {
         
         let token = self.get_token()?;
         let uri = format!("{}/{}/demote", self.get_api_uri("/v2/classifieds/listings"), id);
-        self.client.post(uri)
+        let _ = self.client.post(uri)
             .json(&Params {
                 token,
             })
@@ -722,12 +727,12 @@ impl BackpackAPI {
     
     pub async fn delete_listings(
         &self,
-        listing_ids: &Vec<String>,
+        listing_ids: &[String],
     ) -> Result<response::listing::delete_listing::DeleteListingsResult, APIError> {
         #[derive(Serialize, Debug)]
         struct Params<'a, 'b> {
             token: &'a str,
-            listing_ids: &'b Vec<String>,
+            listing_ids: &'b [String],
         }
         
         let token = self.get_token()?;
@@ -824,7 +829,8 @@ impl BackpackAPI {
         }
         
         let token = self.get_token()?;
-        let response = self.client.post(self.get_api_uri("/agent/pulse"))
+        let uri = self.get_api_uri("/agent/pulse");
+        let response = self.client.post(uri)
             .query(&Params {
                 token,
                 user_agent,
@@ -845,7 +851,8 @@ impl BackpackAPI {
         }
         
         let token = self.get_token()?;
-        let response = self.client.post(self.get_api_uri("/agent/status"))
+        let uri = self.get_api_uri("/agent/status");
+        let response = self.client.post(uri)
             .query(&Params {
                 token,
             })
@@ -865,7 +872,8 @@ impl BackpackAPI {
         }
         
         let token = self.get_token()?;
-        self.client.post(self.get_api_uri("/agent/stop"))
+        let uri = self.get_api_uri("/agent/stop");
+        let _ = self.client.post(uri)
             .query(&Params {
                 token,
             })
