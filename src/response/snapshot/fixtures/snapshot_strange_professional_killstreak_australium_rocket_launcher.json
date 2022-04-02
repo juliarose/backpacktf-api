@@ -1,0 +1,3840 @@
+{
+    "listings": [
+        {
+            "steamid": "76561198297779899",
+            "offers": 1,
+            "buyout": 1,
+            "details": "Send trade offer or add me to discuss",
+            "intent": "sell",
+            "timestamp": 1648882138,
+            "price": 5620.345,
+            "item": {
+                "id": 11463625910,
+                "original_id": 2521310850,
+                "defindex": 205,
+                "level": 1,
+                "quality": 11,
+                "inventory": 3221225475,
+                "quantity": 1,
+                "origin": 20,
+                "custom_name": "America's Tax dollars at work",
+                "style": 1,
+                "attributes": [
+                    {
+                        "defindex": 500,
+                        "value": "America's Tax dollars at work"
+                    },
+                    {
+                        "defindex": 214,
+                        "value": 0,
+                        "float_value": 0
+                    },
+                    {
+                        "defindex": 542,
+                        "value": 1065353216,
+                        "float_value": 1
+                    },
+                    {
+                        "defindex": 2013,
+                        "value": 1157275648,
+                        "float_value": 2005
+                    },
+                    {
+                        "defindex": 2014,
+                        "value": 1082130432,
+                        "float_value": 4
+                    },
+                    {
+                        "defindex": 2022,
+                        "value": 1073741824,
+                        "float_value": 2
+                    },
+                    {
+                        "defindex": 2025,
+                        "value": 1077936128,
+                        "float_value": 3
+                    },
+                    {
+                        "defindex": 2027,
+                        "value": 1065353216,
+                        "float_value": 1
+                    },
+                    {
+                        "defindex": 719,
+                        "value": "models/weapons/c_models/stattrack.mdl"
+                    },
+                    {
+                        "defindex": 731,
+                        "value": 1065353216,
+                        "float_value": 1
+                    },
+                    {
+                        "defindex": 724,
+                        "value": 1065353216,
+                        "float_value": 1
+                    },
+                    {
+                        "defindex": 796,
+                        "value": "10 -3 -10"
+                    }
+                ]
+            },
+            "currencies": {
+                "keys": 83
+            },
+            "bump": 1648913582
+        },
+        {
+            "steamid": "76561198303760151",
+            "offers": 1,
+            "buyout": 0,
+            "details": "Singularity/Mean Green. 3 parts pure only",
+            "intent": "sell",
+            "timestamp": 1648913121,
+            "price": 5620.345,
+            "item": {
+                "id": 11446299833,
+                "original_id": 2423755272,
+                "defindex": 205,
+                "level": 6,
+                "quality": 11,
+                "inventory": 2147483731,
+                "quantity": 1,
+                "origin": 20,
+                "custom_desc": "english",
+                "style": 1,
+                "attributes": [
+                    {
+                        "defindex": 214,
+                        "value": 0,
+                        "float_value": 0
+                    },
+                    {
+                        "defindex": 379,
+                        "value": 0,
+                        "float_value": 0
+                    },
+                    {
+                        "defindex": 380,
+                        "value": 1118044160,
+                        "float_value": 82
+                    },
+                    {
+                        "defindex": 381,
+                        "value": 0,
+                        "float_value": 0
+                    },
+                    {
+                        "defindex": 382,
+                        "value": 1105199104,
+                        "float_value": 28
+                    },
+                    {
+                        "defindex": 383,
+                        "value": 0,
+                        "float_value": 0
+                    },
+                    {
+                        "defindex": 384,
+                        "value": 1102053376,
+                        "float_value": 22
+                    },
+                    {
+                        "defindex": 542,
+                        "value": 1065353216,
+                        "float_value": 1
+                    },
+                    {
+                        "defindex": 2013,
+                        "value": 1157283840,
+                        "float_value": 2006
+                    },
+                    {
+                        "defindex": 2014,
+                        "value": 1082130432,
+                        "float_value": 4
+                    },
+                    {
+                        "defindex": 2022,
+                        "value": 1073741824,
+                        "float_value": 2
+                    },
+                    {
+                        "defindex": 2025,
+                        "value": 1077936128,
+                        "float_value": 3
+                    },
+                    {
+                        "defindex": 2027,
+                        "value": 1065353216,
+                        "float_value": 1
+                    },
+                    {
+                        "defindex": 501,
+                        "value": "english"
+                    },
+                    {
+                        "defindex": 719,
+                        "value": "models/weapons/c_models/stattrack.mdl"
+                    },
+                    {
+                        "defindex": 731,
+                        "value": 1065353216,
+                        "float_value": 1
+                    },
+                    {
+                        "defindex": 724,
+                        "value": 1065353216,
+                        "float_value": 1
+                    },
+                    {
+                        "defindex": 796,
+                        "value": "10 -3 -10"
+                    }
+                ]
+            },
+            "currencies": {
+                "keys": 83
+            },
+            "bump": 1648913122
+        },
+        {
+            "steamid": "76561198160856661",
+            "offers": 1,
+            "buyout": 0,
+            "details": "Keys/Paypal/Crypto/Items, Feel free to add me.",
+            "intent": "sell",
+            "timestamp": 1648776677,
+            "price": 5620.345,
+            "item": {
+                "id": 11458853251,
+                "original_id": 2128732251,
+                "defindex": 205,
+                "level": 1,
+                "quality": 11,
+                "inventory": 2147483812,
+                "quantity": 1,
+                "origin": 20,
+                "custom_name": "Yiff blaster 5000",
+                "custom_desc": "Fill me with your throbbing blood tube",
+                "style": 1,
+                "attributes": [
+                    {
+                        "defindex": 214,
+                        "value": 0,
+                        "float_value": 0
+                    },
+                    {
+                        "defindex": 542,
+                        "value": 1065353216,
+                        "float_value": 1
+                    },
+                    {
+                        "defindex": 2013,
+                        "value": 1157275648,
+                        "float_value": 2005
+                    },
+                    {
+                        "defindex": 2014,
+                        "value": 1082130432,
+                        "float_value": 4
+                    },
+                    {
+                        "defindex": 2022,
+                        "value": 1073741824,
+                        "float_value": 2
+                    },
+                    {
+                        "defindex": 2025,
+                        "value": 1077936128,
+                        "float_value": 3
+                    },
+                    {
+                        "defindex": 2027,
+                        "value": 1065353216,
+                        "float_value": 1
+                    },
+                    {
+                        "defindex": 500,
+                        "value": "Yiff blaster 5000"
+                    },
+                    {
+                        "defindex": 501,
+                        "value": "Fill me with your throbbing blood tube"
+                    },
+                    {
+                        "defindex": 719,
+                        "value": "models/weapons/c_models/stattrack.mdl"
+                    },
+                    {
+                        "defindex": 731,
+                        "value": 1065353216,
+                        "float_value": 1
+                    },
+                    {
+                        "defindex": 724,
+                        "value": 1065353216,
+                        "float_value": 1
+                    },
+                    {
+                        "defindex": 796,
+                        "value": "10 -3 -10"
+                    }
+                ]
+            },
+            "currencies": {
+                "keys": 83
+            },
+            "bump": 1648879269
+        },
+        {
+            "steamid": "76561199117306150",
+            "offers": 1,
+            "buyout": 1,
+            "details": "Heyo, selling this item for 87 keys 61.33 ref. You can send me a trade offer or add me and type !buy Strange Professional Killstreak Australium Rocket Launcher ",
+            "intent": "sell",
+            "timestamp": 1648915380,
+            "price": 5952.535,
+            "item": {
+                "id": 11459331376,
+                "original_id": 7153711700,
+                "defindex": 205,
+                "level": 26,
+                "quality": 11,
+                "inventory": 2147483690,
+                "quantity": 1,
+                "origin": 20,
+                "custom_name": "tf_weapon_criticals 1",
+                "custom_desc": "Sorry",
+                "style": 1,
+                "attributes": [
+                    {
+                        "defindex": 214,
+                        "value": 0,
+                        "float_value": 0
+                    },
+                    {
+                        "defindex": 379,
+                        "value": 0,
+                        "float_value": 0
+                    },
+                    {
+                        "defindex": 380,
+                        "value": 1119617024,
+                        "float_value": 94
+                    },
+                    {
+                        "defindex": 381,
+                        "value": 0,
+                        "float_value": 0
+                    },
+                    {
+                        "defindex": 382,
+                        "value": 1102577664,
+                        "float_value": 23
+                    },
+                    {
+                        "defindex": 542,
+                        "value": 1065353216,
+                        "float_value": 1
+                    },
+                    {
+                        "defindex": 2013,
+                        "value": 1157259264,
+                        "float_value": 2003
+                    },
+                    {
+                        "defindex": 2014,
+                        "value": 1077936128,
+                        "float_value": 3
+                    },
+                    {
+                        "defindex": 2022,
+                        "value": 1073741824,
+                        "float_value": 2
+                    },
+                    {
+                        "defindex": 2025,
+                        "value": 1077936128,
+                        "float_value": 3
+                    },
+                    {
+                        "defindex": 2027,
+                        "value": 1065353216,
+                        "float_value": 1
+                    },
+                    {
+                        "defindex": 500,
+                        "value": "tf_weapon_criticals 1"
+                    },
+                    {
+                        "defindex": 501,
+                        "value": "Sorry"
+                    },
+                    {
+                        "defindex": 719,
+                        "value": "models/weapons/c_models/stattrack.mdl"
+                    },
+                    {
+                        "defindex": 731,
+                        "value": 1065353216,
+                        "float_value": 1
+                    },
+                    {
+                        "defindex": 724,
+                        "value": 1065353216,
+                        "float_value": 1
+                    },
+                    {
+                        "defindex": 796,
+                        "value": "10 -3 -10"
+                    }
+                ]
+            },
+            "currencies": {
+                "metal": 61.33,
+                "keys": 87
+            },
+            "bump": 1648915380,
+            "userAgent": {
+                "lastPulse": 1648916577,
+                "client": "Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/67.0.3396.99 Safari/537.36"
+            }
+        },
+        {
+            "steamid": "76561199108134313",
+            "offers": 1,
+            "buyout": 1,
+            "details": " World is Yours Chico. and if you pay 87 keys 61.33 ref for this friend, this one is your, Say [!buy Strange Professional Killstreak Australium Rocket Launcher] Then Checkout",
+            "intent": "sell",
+            "timestamp": 1648915777,
+            "price": 5952.535,
+            "item": {
+                "id": 11376937096,
+                "original_id": 10126994390,
+                "defindex": 205,
+                "level": 21,
+                "quality": 11,
+                "inventory": 2147483816,
+                "quantity": 1,
+                "origin": 20,
+                "style": 1,
+                "attributes": [
+                    {
+                        "defindex": 214,
+                        "value": 0,
+                        "float_value": 0
+                    },
+                    {
+                        "defindex": 542,
+                        "value": 1065353216,
+                        "float_value": 1
+                    },
+                    {
+                        "defindex": 2013,
+                        "value": 1157259264,
+                        "float_value": 2003
+                    },
+                    {
+                        "defindex": 2014,
+                        "value": 1073741824,
+                        "float_value": 2
+                    },
+                    {
+                        "defindex": 2022,
+                        "value": 1073741824,
+                        "float_value": 2
+                    },
+                    {
+                        "defindex": 2025,
+                        "value": 1077936128,
+                        "float_value": 3
+                    },
+                    {
+                        "defindex": 2027,
+                        "value": 1065353216,
+                        "float_value": 1
+                    },
+                    {
+                        "defindex": 719,
+                        "value": "models/weapons/c_models/stattrack.mdl"
+                    },
+                    {
+                        "defindex": 731,
+                        "value": 1065353216,
+                        "float_value": 1
+                    },
+                    {
+                        "defindex": 724,
+                        "value": 1065353216,
+                        "float_value": 1
+                    },
+                    {
+                        "defindex": 796,
+                        "value": "10 -3 -10"
+                    }
+                ]
+            },
+            "currencies": {
+                "metal": 61.33,
+                "keys": 87
+            },
+            "bump": 1648914099,
+            "userAgent": {
+                "lastPulse": 1648916600,
+                "client": "Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/67.0.3396.99 Safari/537.36"
+            }
+        },
+        {
+            "steamid": "76561199139201343",
+            "offers": 1,
+            "buyout": 1,
+            "details": "⚡INSTANT ACCEPT⚡Selling Strange Professional Killstreak Australium Rocket Launcher for 87 keys 61.44 ref ! Please add me and write !buy Strange Professional Killstreak Australium Rocket Launcher for f",
+            "intent": "sell",
+            "timestamp": 1648914714,
+            "price": 5952.6449999999995,
+            "item": {
+                "id": 11451119629,
+                "original_id": 3865553345,
+                "defindex": 205,
+                "level": 2,
+                "quality": 11,
+                "inventory": 2147483678,
+                "quantity": 1,
+                "origin": 20,
+                "custom_desc": "Bought this while drunk",
+                "style": 1,
+                "attributes": [
+                    {
+                        "defindex": 214,
+                        "value": 0,
+                        "float_value": 0
+                    },
+                    {
+                        "defindex": 379,
+                        "value": 0,
+                        "float_value": 0
+                    },
+                    {
+                        "defindex": 380,
+                        "value": 1102053376,
+                        "float_value": 22
+                    },
+                    {
+                        "defindex": 381,
+                        "value": 0,
+                        "float_value": 0
+                    },
+                    {
+                        "defindex": 382,
+                        "value": 1107558400,
+                        "float_value": 33
+                    },
+                    {
+                        "defindex": 383,
+                        "value": 0,
+                        "float_value": 0
+                    },
+                    {
+                        "defindex": 384,
+                        "value": 1107820544,
+                        "float_value": 34
+                    },
+                    {
+                        "defindex": 542,
+                        "value": 1065353216,
+                        "float_value": 1
+                    },
+                    {
+                        "defindex": 2013,
+                        "value": 1157300224,
+                        "float_value": 2008
+                    },
+                    {
+                        "defindex": 2014,
+                        "value": 1077936128,
+                        "float_value": 3
+                    },
+                    {
+                        "defindex": 2022,
+                        "value": 1073741824,
+                        "float_value": 2
+                    },
+                    {
+                        "defindex": 2025,
+                        "value": 1077936128,
+                        "float_value": 3
+                    },
+                    {
+                        "defindex": 2027,
+                        "value": 1065353216,
+                        "float_value": 1
+                    },
+                    {
+                        "defindex": 501,
+                        "value": "Bought this while drunk"
+                    },
+                    {
+                        "defindex": 719,
+                        "value": "models/weapons/c_models/stattrack.mdl"
+                    },
+                    {
+                        "defindex": 731,
+                        "value": 1065353216,
+                        "float_value": 1
+                    },
+                    {
+                        "defindex": 724,
+                        "value": 1065353216,
+                        "float_value": 1
+                    },
+                    {
+                        "defindex": 796,
+                        "value": "10 -3 -10"
+                    }
+                ]
+            },
+            "currencies": {
+                "metal": 61.44,
+                "keys": 87
+            },
+            "bump": 1648915487,
+            "userAgent": {
+                "lastPulse": 1648916621,
+                "client": "Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/67.0.3396.99 Safari/537.36"
+            }
+        },
+        {
+            "steamid": "76561198283132487",
+            "offers": 1,
+            "buyout": 1,
+            "details": "⚡ [24/7 Instant Trading] ⚡ [S> 𝟭] 💲 [𝟴𝟳 𝗸𝗲𝘆𝘀, 𝟲𝟭.𝟰𝟰 𝗿𝗲𝗳 ea.] ❤️ Send a trade offer or use the chat command 💬 !buy 1 Strange Professional Killstreak Australium Rocket Launcher 💬 |  Hypno-Beam |  Deadly Daffodil  |",
+            "intent": "sell",
+            "timestamp": 1648843311,
+            "price": 5952.6449999999995,
+            "item": {
+                "id": 11456202557,
+                "original_id": 10717871873,
+                "defindex": 205,
+                "level": 186,
+                "quality": 11,
+                "inventory": 2147483839,
+                "quantity": 1,
+                "origin": 20,
+                "custom_name": "gloomy",
+                "custom_desc": "rolled",
+                "style": 1,
+                "attributes": [
+                    {
+                        "defindex": 214,
+                        "value": 0,
+                        "float_value": 0
+                    },
+                    {
+                        "defindex": 379,
+                        "value": 0,
+                        "float_value": 0
+                    },
+                    {
+                        "defindex": 380,
+                        "value": 1105199104,
+                        "float_value": 28
+                    },
+                    {
+                        "defindex": 381,
+                        "value": 0,
+                        "float_value": 0
+                    },
+                    {
+                        "defindex": 382,
+                        "value": 1118044160,
+                        "float_value": 82
+                    },
+                    {
+                        "defindex": 542,
+                        "value": 1065353216,
+                        "float_value": 1
+                    },
+                    {
+                        "defindex": 2013,
+                        "value": 1157300224,
+                        "float_value": 2008
+                    },
+                    {
+                        "defindex": 2014,
+                        "value": 1073741824,
+                        "float_value": 2
+                    },
+                    {
+                        "defindex": 2022,
+                        "value": 1073741824,
+                        "float_value": 2
+                    },
+                    {
+                        "defindex": 2025,
+                        "value": 1077936128,
+                        "float_value": 3
+                    },
+                    {
+                        "defindex": 2027,
+                        "value": 1065353216,
+                        "float_value": 1
+                    },
+                    {
+                        "defindex": 500,
+                        "value": "gloomy"
+                    },
+                    {
+                        "defindex": 501,
+                        "value": "rolled"
+                    },
+                    {
+                        "defindex": 719,
+                        "value": "models/weapons/c_models/stattrack.mdl"
+                    },
+                    {
+                        "defindex": 731,
+                        "value": 1065353216,
+                        "float_value": 1
+                    },
+                    {
+                        "defindex": 724,
+                        "value": 1065353216,
+                        "float_value": 1
+                    },
+                    {
+                        "defindex": 796,
+                        "value": "10 -3 -10"
+                    }
+                ]
+            },
+            "currencies": {
+                "metal": 61.44,
+                "keys": 87
+            },
+            "bump": 1648915421,
+            "userAgent": {
+                "lastPulse": 1648916627,
+                "client": "TF2Autobot@4.5.2"
+            }
+        },
+        {
+            "steamid": "76561199101508611",
+            "offers": 1,
+            "buyout": 1,
+            "details": "⚡️𝐃𝐢𝐬𝐜𝐨𝐮𝐧𝐭𝐞𝐝 𝐢𝐭𝐞𝐦 🔥87 keys 61.44 ref🔥 [𝐒𝐭𝐨𝐜𝐤:1] | 𝐨𝐫 𝐚𝐝𝐝 𝐦𝐞📲 !buy Strange Professional Killstreak Australium Rocket Launcher ",
+            "intent": "sell",
+            "timestamp": 1648913283,
+            "price": 5952.6449999999995,
+            "item": {
+                "id": 11458697833,
+                "original_id": 4267187977,
+                "defindex": 205,
+                "level": 32,
+                "quality": 11,
+                "inventory": 2147484083,
+                "quantity": 1,
+                "origin": 20,
+                "style": 1,
+                "attributes": [
+                    {
+                        "defindex": 2027,
+                        "value": 1065353216,
+                        "float_value": 1
+                    },
+                    {
+                        "defindex": 214,
+                        "value": 0,
+                        "float_value": 0
+                    },
+                    {
+                        "defindex": 542,
+                        "value": 1065353216,
+                        "float_value": 1
+                    },
+                    {
+                        "defindex": 2013,
+                        "value": 1157259264,
+                        "float_value": 2003
+                    },
+                    {
+                        "defindex": 2014,
+                        "value": 1065353216,
+                        "float_value": 1
+                    },
+                    {
+                        "defindex": 2022,
+                        "value": 1073741824,
+                        "float_value": 2
+                    },
+                    {
+                        "defindex": 2025,
+                        "value": 1077936128,
+                        "float_value": 3
+                    },
+                    {
+                        "defindex": 719,
+                        "value": "models/weapons/c_models/stattrack.mdl"
+                    },
+                    {
+                        "defindex": 731,
+                        "value": 1065353216,
+                        "float_value": 1
+                    },
+                    {
+                        "defindex": 724,
+                        "value": 1065353216,
+                        "float_value": 1
+                    },
+                    {
+                        "defindex": 796,
+                        "value": "10 -3 -10"
+                    }
+                ]
+            },
+            "currencies": {
+                "metal": 61.44,
+                "keys": 87
+            },
+            "bump": 1648915085,
+            "userAgent": {
+                "lastPulse": 1648916636,
+                "client": "Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/67.0.3396.99 Safari/537.36"
+            }
+        },
+        {
+            "steamid": "76561199199418911",
+            "offers": 1,
+            "buyout": 1,
+            "details": "Selling this for 87 keys 61.44 ref! Send a trade offer or add me and use !buy Strange Professional Killstreak Australium Rocket Launcher",
+            "intent": "sell",
+            "timestamp": 1648914996,
+            "price": 5952.6449999999995,
+            "item": {
+                "id": 11353193157,
+                "original_id": 10401385785,
+                "defindex": 205,
+                "level": 1,
+                "quality": 11,
+                "inventory": 2147484389,
+                "quantity": 1,
+                "origin": 20,
+                "custom_name": "The Bunker Buster",
+                "style": 1,
+                "attributes": [
+                    {
+                        "defindex": 214,
+                        "value": 0,
+                        "float_value": 0
+                    },
+                    {
+                        "defindex": 542,
+                        "value": 1065353216,
+                        "float_value": 1
+                    },
+                    {
+                        "defindex": 2013,
+                        "value": 1157275648,
+                        "float_value": 2005
+                    },
+                    {
+                        "defindex": 2014,
+                        "value": 1088421888,
+                        "float_value": 7
+                    },
+                    {
+                        "defindex": 2022,
+                        "value": 1073741824,
+                        "float_value": 2
+                    },
+                    {
+                        "defindex": 2025,
+                        "value": 1077936128,
+                        "float_value": 3
+                    },
+                    {
+                        "defindex": 2027,
+                        "value": 1065353216,
+                        "float_value": 1
+                    },
+                    {
+                        "defindex": 500,
+                        "value": "The Bunker Buster"
+                    },
+                    {
+                        "defindex": 719,
+                        "value": "models/weapons/c_models/stattrack.mdl"
+                    },
+                    {
+                        "defindex": 731,
+                        "value": 1065353216,
+                        "float_value": 1
+                    },
+                    {
+                        "defindex": 724,
+                        "value": 1065353216,
+                        "float_value": 1
+                    },
+                    {
+                        "defindex": 796,
+                        "value": "10 -3 -10"
+                    }
+                ]
+            },
+            "currencies": {
+                "metal": 61.44,
+                "keys": 87
+            },
+            "bump": 1648914996,
+            "userAgent": {
+                "lastPulse": 1648916164,
+                "client": "Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/67.0.3396.99 Safari/537.36"
+            }
+        },
+        {
+            "steamid": "76561199128560410",
+            "offers": 1,
+            "buyout": 1,
+            "details": "Selling Strange Professional Killstreak Australium Rocket Launcher for pure or overpay, I have 1/2, the bot will manually accept/decline for overpay offers!",
+            "intent": "sell",
+            "timestamp": 1648914899,
+            "price": 5952.6449999999995,
+            "item": {
+                "id": 11313910146,
+                "original_id": 9818228518,
+                "defindex": 205,
+                "level": 3,
+                "quality": 11,
+                "inventory": 2147483861,
+                "quantity": 1,
+                "origin": 20,
+                "custom_name": "Pinkie pie's golden dildo!!!1",
+                "style": 1,
+                "attributes": [
+                    {
+                        "defindex": 214,
+                        "value": 0,
+                        "float_value": 0
+                    },
+                    {
+                        "defindex": 542,
+                        "value": 1065353216,
+                        "float_value": 1
+                    },
+                    {
+                        "defindex": 2013,
+                        "value": 1157300224,
+                        "float_value": 2008
+                    },
+                    {
+                        "defindex": 2014,
+                        "value": 1073741824,
+                        "float_value": 2
+                    },
+                    {
+                        "defindex": 2022,
+                        "value": 1073741824,
+                        "float_value": 2
+                    },
+                    {
+                        "defindex": 2025,
+                        "value": 1077936128,
+                        "float_value": 3
+                    },
+                    {
+                        "defindex": 2027,
+                        "value": 1065353216,
+                        "float_value": 1
+                    },
+                    {
+                        "defindex": 500,
+                        "value": "Pinkie pie's golden dildo!!!1"
+                    },
+                    {
+                        "defindex": 719,
+                        "value": "models/weapons/c_models/stattrack.mdl"
+                    },
+                    {
+                        "defindex": 731,
+                        "value": 1065353216,
+                        "float_value": 1
+                    },
+                    {
+                        "defindex": 724,
+                        "value": 1065353216,
+                        "float_value": 1
+                    },
+                    {
+                        "defindex": 796,
+                        "value": "10 -3 -10"
+                    }
+                ]
+            },
+            "currencies": {
+                "metal": 61.44,
+                "keys": 87
+            },
+            "bump": 1648914899,
+            "userAgent": {
+                "lastPulse": 1648916559,
+                "client": "Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/67.0.3396.99 Safari/537.36"
+            }
+        },
+        {
+            "steamid": "76561199101711836",
+            "offers": 1,
+            "buyout": 1,
+            "details": "⚡️87 keys 61.55 ref = instant accept⚡️ ✔️Items offer are manually reviewed✔️ 📦Stock: 1📦 🛒Send a trade offer, or add me and type !buy Strange Professional Killstreak Australium Rocket Launcher 🛒",
+            "intent": "sell",
+            "timestamp": 1648912895,
+            "price": 5952.755,
+            "item": {
+                "id": 11434148016,
+                "original_id": 4421342408,
+                "defindex": 205,
+                "level": 49,
+                "quality": 11,
+                "inventory": 2147484400,
+                "quantity": 1,
+                "origin": 20,
+                "custom_name": "HEY HEY WHERE THE PROBLEM AT?!",
+                "custom_desc": "IM SPINNING OFF THESE PERCS LIKE IM A LAUNDROMAT!",
+                "style": 1,
+                "attributes": [
+                    {
+                        "defindex": 214,
+                        "value": 0,
+                        "float_value": 0
+                    },
+                    {
+                        "defindex": 379,
+                        "value": 0,
+                        "float_value": 0
+                    },
+                    {
+                        "defindex": 380,
+                        "value": 1094713344,
+                        "float_value": 12
+                    },
+                    {
+                        "defindex": 381,
+                        "value": 0,
+                        "float_value": 0
+                    },
+                    {
+                        "defindex": 382,
+                        "value": 1102577664,
+                        "float_value": 23
+                    },
+                    {
+                        "defindex": 542,
+                        "value": 1065353216,
+                        "float_value": 1
+                    },
+                    {
+                        "defindex": 2013,
+                        "value": 1157300224,
+                        "float_value": 2008
+                    },
+                    {
+                        "defindex": 2014,
+                        "value": 1065353216,
+                        "float_value": 1
+                    },
+                    {
+                        "defindex": 2022,
+                        "value": 1073741824,
+                        "float_value": 2
+                    },
+                    {
+                        "defindex": 2025,
+                        "value": 1077936128,
+                        "float_value": 3
+                    },
+                    {
+                        "defindex": 2027,
+                        "value": 1065353216,
+                        "float_value": 1
+                    },
+                    {
+                        "defindex": 500,
+                        "value": "HEY HEY WHERE THE PROBLEM AT?!"
+                    },
+                    {
+                        "defindex": 501,
+                        "value": "IM SPINNING OFF THESE PERCS LIKE IM A LAUNDROMAT!"
+                    },
+                    {
+                        "defindex": 719,
+                        "value": "models/weapons/c_models/stattrack.mdl"
+                    },
+                    {
+                        "defindex": 731,
+                        "value": 1065353216,
+                        "float_value": 1
+                    },
+                    {
+                        "defindex": 724,
+                        "value": 1065353216,
+                        "float_value": 1
+                    },
+                    {
+                        "defindex": 796,
+                        "value": "10 -3 -10"
+                    }
+                ]
+            },
+            "currencies": {
+                "metal": 61.55,
+                "keys": 87
+            },
+            "bump": 1648916262,
+            "userAgent": {
+                "lastPulse": 1648916596,
+                "client": "Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/67.0.3396.99 Safari/537.36"
+            }
+        },
+        {
+            "steamid": "76561199103818277",
+            "offers": 1,
+            "buyout": 1,
+            "details": "[⇄] 24/7 Auto-accept // Quickselling Australiums/Unusuals Taunts 87 keys 61.55 ref Send me a trade offer or add me and type !buy Strange Professional Killstreak Australium Rocket Launcher. Item offers",
+            "intent": "sell",
+            "timestamp": 1648913121,
+            "price": 5952.755,
+            "item": {
+                "id": 11365443855,
+                "original_id": 6092458414,
+                "defindex": 205,
+                "level": 16,
+                "quality": 11,
+                "inventory": 2147484024,
+                "quantity": 1,
+                "origin": 20,
+                "custom_name": "boobs lol",
+                "custom_desc": "your mom's boobs in my mouth :D",
+                "style": 1,
+                "attributes": [
+                    {
+                        "defindex": 185,
+                        "value": 1626892324,
+                        "float_value": 143196770411221090000
+                    },
+                    {
+                        "defindex": 186,
+                        "value": 84092642,
+                        "float_value": 6.166732043064698e-36,
+                        "account_info": {
+                            "steamid": 76561198044358370,
+                            "personaname": "Jules"
+                        }
+                    },
+                    {
+                        "defindex": 214,
+                        "value": 0,
+                        "float_value": 0
+                    },
+                    {
+                        "defindex": 542,
+                        "value": 1065353216,
+                        "float_value": 1
+                    },
+                    {
+                        "defindex": 2013,
+                        "value": 1157292032,
+                        "float_value": 2007
+                    },
+                    {
+                        "defindex": 2014,
+                        "value": 1077936128,
+                        "float_value": 3
+                    },
+                    {
+                        "defindex": 2022,
+                        "value": 1073741824,
+                        "float_value": 2
+                    },
+                    {
+                        "defindex": 2025,
+                        "value": 1077936128,
+                        "float_value": 3
+                    },
+                    {
+                        "defindex": 2027,
+                        "value": 1065353216,
+                        "float_value": 1
+                    },
+                    {
+                        "defindex": 500,
+                        "value": "boobs lol"
+                    },
+                    {
+                        "defindex": 501,
+                        "value": "your mom's boobs in my mouth :D"
+                    },
+                    {
+                        "defindex": 719,
+                        "value": "models/weapons/c_models/stattrack.mdl"
+                    },
+                    {
+                        "defindex": 731,
+                        "value": 1065353216,
+                        "float_value": 1
+                    },
+                    {
+                        "defindex": 724,
+                        "value": 1065353216,
+                        "float_value": 1
+                    },
+                    {
+                        "defindex": 796,
+                        "value": "10 -3 -10"
+                    }
+                ]
+            },
+            "currencies": {
+                "metal": 61.55,
+                "keys": 87
+            },
+            "bump": 1648916006,
+            "userAgent": {
+                "lastPulse": 1648916561,
+                "client": "Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/67.0.3396.99 Safari/537.36"
+            }
+        },
+        {
+            "steamid": "76561199135952616",
+            "offers": 1,
+            "buyout": 1,
+            "details": "🟢Selling this cool Strange Professional Killstreak Australium Rocket Launcher for 87 keys 61.55 ref. I have 1/1. Send me a Trade Offer⚡ or add me and use💬 !buy Strange Professional Killstreak Australi",
+            "intent": "sell",
+            "timestamp": 1648910069,
+            "price": 5952.755,
+            "item": {
+                "id": 11350514977,
+                "original_id": 2974197377,
+                "defindex": 205,
+                "level": 60,
+                "quality": 11,
+                "inventory": 2147483684,
+                "quantity": 1,
+                "origin": 20,
+                "custom_name": "RIP BOZO",
+                "style": 1,
+                "attributes": [
+                    {
+                        "defindex": 214,
+                        "value": 0,
+                        "float_value": 0
+                    },
+                    {
+                        "defindex": 542,
+                        "value": 1065353216,
+                        "float_value": 1
+                    },
+                    {
+                        "defindex": 2013,
+                        "value": 1157292032,
+                        "float_value": 2007
+                    },
+                    {
+                        "defindex": 2014,
+                        "value": 1073741824,
+                        "float_value": 2
+                    },
+                    {
+                        "defindex": 2022,
+                        "value": 1073741824,
+                        "float_value": 2
+                    },
+                    {
+                        "defindex": 2025,
+                        "value": 1077936128,
+                        "float_value": 3
+                    },
+                    {
+                        "defindex": 2027,
+                        "value": 1065353216,
+                        "float_value": 1
+                    },
+                    {
+                        "defindex": 500,
+                        "value": "RIP BOZO"
+                    },
+                    {
+                        "defindex": 719,
+                        "value": "models/weapons/c_models/stattrack.mdl"
+                    },
+                    {
+                        "defindex": 731,
+                        "value": 1065353216,
+                        "float_value": 1
+                    },
+                    {
+                        "defindex": 724,
+                        "value": 1065353216,
+                        "float_value": 1
+                    },
+                    {
+                        "defindex": 796,
+                        "value": "10 -3 -10"
+                    }
+                ]
+            },
+            "currencies": {
+                "metal": 61.55,
+                "keys": 87
+            },
+            "bump": 1648915498,
+            "userAgent": {
+                "lastPulse": 1648916664,
+                "client": "Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/67.0.3396.99 Safari/537.36"
+            }
+        },
+        {
+            "steamid": "76561198076560476",
+            "offers": 1,
+            "buyout": 1,
+            "details": "Only Pure\nFH + Good Parts",
+            "intent": "sell",
+            "timestamp": 1648816759,
+            "price": 5958.92,
+            "item": {
+                "id": 11253763721,
+                "original_id": 2393966463,
+                "defindex": 205,
+                "level": 25,
+                "quality": 11,
+                "inventory": 2147483838,
+                "quantity": 1,
+                "origin": 20,
+                "custom_desc": "Gatteka",
+                "equipped": [
+                    {
+                        "class": 3,
+                        "slot": 0
+                    }
+                ],
+                "style": 1,
+                "attributes": [
+                    {
+                        "defindex": 214,
+                        "value": 723,
+                        "float_value": 1.0131387897068427e-42
+                    },
+                    {
+                        "defindex": 379,
+                        "value": 226418,
+                        "float_value": 3.1727919569549643e-40
+                    },
+                    {
+                        "defindex": 380,
+                        "value": 1118044160,
+                        "float_value": 82
+                    },
+                    {
+                        "defindex": 381,
+                        "value": 91,
+                        "float_value": 1.2751816025355835e-43
+                    },
+                    {
+                        "defindex": 382,
+                        "value": 1107558400,
+                        "float_value": 33
+                    },
+                    {
+                        "defindex": 383,
+                        "value": 3197,
+                        "float_value": 4.47995119044644e-42
+                    },
+                    {
+                        "defindex": 384,
+                        "value": 1119617024,
+                        "float_value": 94
+                    },
+                    {
+                        "defindex": 542,
+                        "value": 1065353216,
+                        "float_value": 1
+                    },
+                    {
+                        "defindex": 2013,
+                        "value": 1157251072,
+                        "float_value": 2002
+                    },
+                    {
+                        "defindex": 2014,
+                        "value": 1073741824,
+                        "float_value": 2
+                    },
+                    {
+                        "defindex": 2022,
+                        "value": 1073741824,
+                        "float_value": 2
+                    },
+                    {
+                        "defindex": 2025,
+                        "value": 1077936128,
+                        "float_value": 3
+                    },
+                    {
+                        "defindex": 2027,
+                        "value": 1065353216,
+                        "float_value": 1
+                    },
+                    {
+                        "defindex": 501,
+                        "value": "Gatteka"
+                    },
+                    {
+                        "defindex": 719,
+                        "value": "models/weapons/c_models/stattrack.mdl"
+                    },
+                    {
+                        "defindex": 731,
+                        "value": 1065353216,
+                        "float_value": 1
+                    },
+                    {
+                        "defindex": 724,
+                        "value": 1065353216,
+                        "float_value": 1
+                    },
+                    {
+                        "defindex": 796,
+                        "value": "10 -3 -10"
+                    }
+                ]
+            },
+            "currencies": {
+                "keys": 88
+            },
+            "bump": 1648816759
+        },
+        {
+            "steamid": "76561198152373135",
+            "offers": 1,
+            "buyout": 0,
+            "details": "",
+            "intent": "sell",
+            "timestamp": 1648455615,
+            "price": 6026.635,
+            "item": {
+                "id": 11223397730,
+                "original_id": 10730788865,
+                "defindex": 205,
+                "level": 1,
+                "quality": 11,
+                "inventory": 2147483738,
+                "quantity": 1,
+                "origin": 20,
+                "style": 1,
+                "attributes": [
+                    {
+                        "defindex": 214,
+                        "value": 183,
+                        "float_value": 2.5643761897144152e-43
+                    },
+                    {
+                        "defindex": 542,
+                        "value": 1065353216,
+                        "float_value": 1
+                    },
+                    {
+                        "defindex": 2013,
+                        "value": 1157275648,
+                        "float_value": 2005
+                    },
+                    {
+                        "defindex": 2014,
+                        "value": 1086324736,
+                        "float_value": 6
+                    },
+                    {
+                        "defindex": 2022,
+                        "value": 1073741824,
+                        "float_value": 2
+                    },
+                    {
+                        "defindex": 2025,
+                        "value": 1077936128,
+                        "float_value": 3
+                    },
+                    {
+                        "defindex": 2027,
+                        "value": 1065353216,
+                        "float_value": 1
+                    },
+                    {
+                        "defindex": 719,
+                        "value": "models/weapons/c_models/stattrack.mdl"
+                    },
+                    {
+                        "defindex": 731,
+                        "value": 1065353216,
+                        "float_value": 1
+                    },
+                    {
+                        "defindex": 724,
+                        "value": 1065353216,
+                        "float_value": 1
+                    },
+                    {
+                        "defindex": 796,
+                        "value": "10 -3 -10"
+                    }
+                ]
+            },
+            "currencies": {
+                "keys": 89
+            },
+            "bump": 1648914369
+        },
+        {
+            "steamid": "76561198141054773",
+            "offers": 1,
+            "buyout": 1,
+            "details": "❤️𝟵𝟬 𝗸𝗲𝘆𝘀❤️⠀⠀⠀⠀⠀⠀⚡️Instant accept ⚡️ ⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀Open to offers. 3 𝙋𝙖𝙧𝙩𝙨!",
+            "intent": "sell",
+            "timestamp": 1647444886,
+            "price": 6094.35,
+            "item": {
+                "id": 11223933232,
+                "original_id": 2372682821,
+                "defindex": 205,
+                "level": 50,
+                "quality": 11,
+                "inventory": 2147483715,
+                "quantity": 1,
+                "origin": 20,
+                "style": 1,
+                "attributes": [
+                    {
+                        "defindex": 214,
+                        "value": 0,
+                        "float_value": 0
+                    },
+                    {
+                        "defindex": 379,
+                        "value": 0,
+                        "float_value": 0
+                    },
+                    {
+                        "defindex": 380,
+                        "value": 1102053376,
+                        "float_value": 22
+                    },
+                    {
+                        "defindex": 381,
+                        "value": 0,
+                        "float_value": 0
+                    },
+                    {
+                        "defindex": 382,
+                        "value": 1118044160,
+                        "float_value": 82
+                    },
+                    {
+                        "defindex": 383,
+                        "value": 0,
+                        "float_value": 0
+                    },
+                    {
+                        "defindex": 384,
+                        "value": 1107820544,
+                        "float_value": 34
+                    },
+                    {
+                        "defindex": 542,
+                        "value": 1065353216,
+                        "float_value": 1
+                    },
+                    {
+                        "defindex": 2013,
+                        "value": 1157259264,
+                        "float_value": 2003
+                    },
+                    {
+                        "defindex": 2014,
+                        "value": 1082130432,
+                        "float_value": 4
+                    },
+                    {
+                        "defindex": 2022,
+                        "value": 1073741824,
+                        "float_value": 2
+                    },
+                    {
+                        "defindex": 2025,
+                        "value": 1077936128,
+                        "float_value": 3
+                    },
+                    {
+                        "defindex": 2027,
+                        "value": 1065353216,
+                        "float_value": 1
+                    },
+                    {
+                        "defindex": 719,
+                        "value": "models/weapons/c_models/stattrack.mdl"
+                    },
+                    {
+                        "defindex": 731,
+                        "value": 1065353216,
+                        "float_value": 1
+                    },
+                    {
+                        "defindex": 724,
+                        "value": 1065353216,
+                        "float_value": 1
+                    },
+                    {
+                        "defindex": 796,
+                        "value": "10 -3 -10"
+                    }
+                ]
+            },
+            "currencies": {
+                "keys": 90
+            },
+            "bump": 1648915393,
+            "userAgent": {
+                "lastPulse": 1648916627,
+                "client": "axios/0.15.3"
+            }
+        },
+        {
+            "steamid": "76561199189458038",
+            "offers": 1,
+            "buyout": 1,
+            "details": "Selling for 90 keys 🔑 Send a Trade Offer ⚡ or Add me and type !Buy Strange Professional Killstreak Australium Rocket Launcher 💪 Add my Owner to discuss the Overpay ✌ Thank you very much 🎃",
+            "intent": "sell",
+            "timestamp": 1648914941,
+            "price": 6094.35,
+            "item": {
+                "id": 11125440635,
+                "original_id": 3437556580,
+                "defindex": 205,
+                "level": 38,
+                "quality": 11,
+                "inventory": 2147483672,
+                "quantity": 1,
+                "origin": 20,
+                "style": 1,
+                "attributes": [
+                    {
+                        "defindex": 185,
+                        "value": 1506654383,
+                        "float_value": 7238178998059008
+                    },
+                    {
+                        "defindex": 214,
+                        "value": 0,
+                        "float_value": 0
+                    },
+                    {
+                        "defindex": 379,
+                        "value": 0,
+                        "float_value": 0
+                    },
+                    {
+                        "defindex": 380,
+                        "value": 1109131264,
+                        "float_value": 39
+                    },
+                    {
+                        "defindex": 381,
+                        "value": 0,
+                        "float_value": 0
+                    },
+                    {
+                        "defindex": 382,
+                        "value": 1118044160,
+                        "float_value": 82
+                    },
+                    {
+                        "defindex": 383,
+                        "value": 0,
+                        "float_value": 0
+                    },
+                    {
+                        "defindex": 384,
+                        "value": 1109393408,
+                        "float_value": 40
+                    },
+                    {
+                        "defindex": 542,
+                        "value": 1065353216,
+                        "float_value": 1
+                    },
+                    {
+                        "defindex": 2013,
+                        "value": 1157300224,
+                        "float_value": 2008
+                    },
+                    {
+                        "defindex": 2014,
+                        "value": 1082130432,
+                        "float_value": 4
+                    },
+                    {
+                        "defindex": 2022,
+                        "value": 1073741824,
+                        "float_value": 2
+                    },
+                    {
+                        "defindex": 2025,
+                        "value": 1077936128,
+                        "float_value": 3
+                    },
+                    {
+                        "defindex": 2027,
+                        "value": 1065353216,
+                        "float_value": 1
+                    },
+                    {
+                        "defindex": 719,
+                        "value": "models/weapons/c_models/stattrack.mdl"
+                    },
+                    {
+                        "defindex": 731,
+                        "value": 1065353216,
+                        "float_value": 1
+                    },
+                    {
+                        "defindex": 724,
+                        "value": 1065353216,
+                        "float_value": 1
+                    },
+                    {
+                        "defindex": 796,
+                        "value": "10 -3 -10"
+                    }
+                ]
+            },
+            "currencies": {
+                "keys": 90
+            },
+            "bump": 1648914941,
+            "userAgent": {
+                "lastPulse": 1648916619,
+                "client": "Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/67.0.3396.99 Safari/537.36"
+            }
+        },
+        {
+            "steamid": "76561198093783783",
+            "offers": 1,
+            "buyout": 0,
+            "details": "90 keys! Flames and hot rod with nice parts!",
+            "intent": "sell",
+            "timestamp": 1645548653,
+            "price": 6094.35,
+            "item": {
+                "id": 11253026423,
+                "original_id": 3953460417,
+                "defindex": 205,
+                "level": 1,
+                "quality": 11,
+                "inventory": 2147483660,
+                "quantity": 1,
+                "origin": 20,
+                "equipped": [
+                    {
+                        "class": 3,
+                        "slot": 0
+                    }
+                ],
+                "style": 1,
+                "attributes": [
+                    {
+                        "defindex": 214,
+                        "value": 53,
+                        "float_value": 7.42688186092153e-44
+                    },
+                    {
+                        "defindex": 379,
+                        "value": 391,
+                        "float_value": 5.479076995510035e-43
+                    },
+                    {
+                        "defindex": 380,
+                        "value": 1119617024,
+                        "float_value": 94
+                    },
+                    {
+                        "defindex": 381,
+                        "value": 21419,
+                        "float_value": 3.0014411807373257e-41
+                    },
+                    {
+                        "defindex": 382,
+                        "value": 1118044160,
+                        "float_value": 82
+                    },
+                    {
+                        "defindex": 383,
+                        "value": 42,
+                        "float_value": 5.885453550164232e-44
+                    },
+                    {
+                        "defindex": 384,
+                        "value": 1102577664,
+                        "float_value": 23
+                    },
+                    {
+                        "defindex": 542,
+                        "value": 1065353216,
+                        "float_value": 1
+                    },
+                    {
+                        "defindex": 2013,
+                        "value": 1157275648,
+                        "float_value": 2005
+                    },
+                    {
+                        "defindex": 2014,
+                        "value": 1088421888,
+                        "float_value": 7
+                    },
+                    {
+                        "defindex": 2022,
+                        "value": 1073741824,
+                        "float_value": 2
+                    },
+                    {
+                        "defindex": 2025,
+                        "value": 1077936128,
+                        "float_value": 3
+                    },
+                    {
+                        "defindex": 2027,
+                        "value": 1065353216,
+                        "float_value": 1
+                    },
+                    {
+                        "defindex": 719,
+                        "value": "models/weapons/c_models/stattrack.mdl"
+                    },
+                    {
+                        "defindex": 731,
+                        "value": 1065353216,
+                        "float_value": 1
+                    },
+                    {
+                        "defindex": 724,
+                        "value": 1065353216,
+                        "float_value": 1
+                    },
+                    {
+                        "defindex": 796,
+                        "value": "10 -3 -10"
+                    }
+                ]
+            },
+            "currencies": {
+                "keys": 90
+            },
+            "bump": 1648749420
+        },
+        {
+            "steamid": "76561198088878793",
+            "offers": 1,
+            "buyout": 0,
+            "details": "Mainly looking for Keys 🔑 Although Item Overpay is a lot appreciated 💪 Add me to negotiate or send a Trade Offer ✌ Don't forget to check my Backpack for more Items 👍 Thank you very much 🎃",
+            "intent": "sell",
+            "timestamp": 1640460272,
+            "price": 6432.925,
+            "item": {
+                "id": 10375895492,
+                "original_id": 2536434912,
+                "defindex": 205,
+                "level": 14,
+                "quality": 11,
+                "inventory": 2147483733,
+                "quantity": 1,
+                "origin": 20,
+                "equipped": [
+                    {
+                        "class": 3,
+                        "slot": 0
+                    }
+                ],
+                "style": 1,
+                "attributes": [
+                    {
+                        "defindex": 214,
+                        "value": 0,
+                        "float_value": 0
+                    },
+                    {
+                        "defindex": 379,
+                        "value": 0,
+                        "float_value": 0
+                    },
+                    {
+                        "defindex": 380,
+                        "value": 1118044160,
+                        "float_value": 82
+                    },
+                    {
+                        "defindex": 542,
+                        "value": 1065353216,
+                        "float_value": 1
+                    },
+                    {
+                        "defindex": 1009,
+                        "value": 1065353216,
+                        "float_value": 1
+                    },
+                    {
+                        "defindex": 2013,
+                        "value": 1157300224,
+                        "float_value": 2008
+                    },
+                    {
+                        "defindex": 2014,
+                        "value": 1088421888,
+                        "float_value": 7
+                    },
+                    {
+                        "defindex": 2022,
+                        "value": 1073741824,
+                        "float_value": 2
+                    },
+                    {
+                        "defindex": 2025,
+                        "value": 1077936128,
+                        "float_value": 3
+                    },
+                    {
+                        "defindex": 2027,
+                        "value": 1065353216,
+                        "float_value": 1
+                    },
+                    {
+                        "defindex": 719,
+                        "value": "models/weapons/c_models/stattrack.mdl"
+                    },
+                    {
+                        "defindex": 731,
+                        "value": 1065353216,
+                        "float_value": 1
+                    },
+                    {
+                        "defindex": 724,
+                        "value": 1065353216,
+                        "float_value": 1
+                    },
+                    {
+                        "defindex": 796,
+                        "value": "10 -3 -10"
+                    }
+                ]
+            },
+            "currencies": {
+                "keys": 95
+            },
+            "bump": 1648910131,
+            "userAgent": {
+                "lastPulse": 1516798462,
+                "client": ""
+            }
+        },
+        {
+            "steamid": "76561199129395366",
+            "offers": 1,
+            "buyout": 1,
+            "details": "[⇄] Selling Strange Professional Killstreak Australium Rocket Launcher for 100 keys. I have 2. Use offer⚡ or Message💬 !Buy Strange Professional Killstreak Australium Rocket Launcher",
+            "intent": "sell",
+            "timestamp": 1648908418,
+            "price": 6771.5,
+            "item": {
+                "id": 10389059837,
+                "original_id": 2383141175,
+                "defindex": 205,
+                "level": 2,
+                "quality": 11,
+                "inventory": 2147483710,
+                "quantity": 1,
+                "origin": 20,
+                "custom_name": "Menna",
+                "style": 1,
+                "attributes": [
+                    {
+                        "defindex": 185,
+                        "value": 1622828375,
+                        "float_value": 107449896969711910000
+                    },
+                    {
+                        "defindex": 186,
+                        "value": 900709854,
+                        "float_value": 0.0000013093774668959668,
+                        "account_info": {
+                            "steamid": 76561198860975580,
+                            "personaname": "okinimisumama"
+                        }
+                    },
+                    {
+                        "defindex": 214,
+                        "value": 0,
+                        "float_value": 0
+                    },
+                    {
+                        "defindex": 379,
+                        "value": 0,
+                        "float_value": 0
+                    },
+                    {
+                        "defindex": 380,
+                        "value": 1119617024,
+                        "float_value": 94
+                    },
+                    {
+                        "defindex": 381,
+                        "value": 0,
+                        "float_value": 0
+                    },
+                    {
+                        "defindex": 382,
+                        "value": 1105199104,
+                        "float_value": 28
+                    },
+                    {
+                        "defindex": 383,
+                        "value": 0,
+                        "float_value": 0
+                    },
+                    {
+                        "defindex": 384,
+                        "value": 1118044160,
+                        "float_value": 82
+                    },
+                    {
+                        "defindex": 542,
+                        "value": 1065353216,
+                        "float_value": 1
+                    },
+                    {
+                        "defindex": 2013,
+                        "value": 1157267456,
+                        "float_value": 2004
+                    },
+                    {
+                        "defindex": 2014,
+                        "value": 1088421888,
+                        "float_value": 7
+                    },
+                    {
+                        "defindex": 2022,
+                        "value": 1073741824,
+                        "float_value": 2
+                    },
+                    {
+                        "defindex": 2025,
+                        "value": 1077936128,
+                        "float_value": 3
+                    },
+                    {
+                        "defindex": 2027,
+                        "value": 1065353216,
+                        "float_value": 1
+                    },
+                    {
+                        "defindex": 500,
+                        "value": "Menna"
+                    },
+                    {
+                        "defindex": 719,
+                        "value": "models/weapons/c_models/stattrack.mdl"
+                    },
+                    {
+                        "defindex": 731,
+                        "value": 1065353216,
+                        "float_value": 1
+                    },
+                    {
+                        "defindex": 724,
+                        "value": 1065353216,
+                        "float_value": 1
+                    },
+                    {
+                        "defindex": 796,
+                        "value": "10 -3 -10"
+                    }
+                ]
+            },
+            "currencies": {
+                "keys": 100
+            },
+            "bump": 1648915666,
+            "userAgent": {
+                "lastPulse": 1648916502,
+                "client": "TF2Autobot@4.6.0"
+            }
+        },
+        {
+            "steamid": "76561199198828064",
+            "offers": 1,
+            "buyout": 1,
+            "details": "Tornado + Hot Rod.  ❤️Bot[24/7] Selling for 100 keys. Send me a trade offer or add me and type !buy 1 Strange Professional Killstreak Australium Rocket Launcher",
+            "intent": "sell",
+            "timestamp": 1648915209,
+            "price": 6771.5,
+            "item": {
+                "id": 11323523592,
+                "original_id": 8528037469,
+                "defindex": 205,
+                "level": 3,
+                "quality": 11,
+                "inventory": 2147483718,
+                "quantity": 1,
+                "origin": 20,
+                "style": 1,
+                "attributes": [
+                    {
+                        "defindex": 214,
+                        "value": 0,
+                        "float_value": 0
+                    },
+                    {
+                        "defindex": 379,
+                        "value": 0,
+                        "float_value": 0
+                    },
+                    {
+                        "defindex": 380,
+                        "value": 1111228416,
+                        "float_value": 47
+                    },
+                    {
+                        "defindex": 381,
+                        "value": 0,
+                        "float_value": 0
+                    },
+                    {
+                        "defindex": 382,
+                        "value": 1111752704,
+                        "float_value": 49
+                    },
+                    {
+                        "defindex": 542,
+                        "value": 1065353216,
+                        "float_value": 1
+                    },
+                    {
+                        "defindex": 2013,
+                        "value": 1157267456,
+                        "float_value": 2004
+                    },
+                    {
+                        "defindex": 2014,
+                        "value": 1088421888,
+                        "float_value": 7
+                    },
+                    {
+                        "defindex": 2022,
+                        "value": 1073741824,
+                        "float_value": 2
+                    },
+                    {
+                        "defindex": 2025,
+                        "value": 1077936128,
+                        "float_value": 3
+                    },
+                    {
+                        "defindex": 2027,
+                        "value": 1065353216,
+                        "float_value": 1
+                    },
+                    {
+                        "defindex": 719,
+                        "value": "models/weapons/c_models/stattrack.mdl"
+                    },
+                    {
+                        "defindex": 731,
+                        "value": 1065353216,
+                        "float_value": 1
+                    },
+                    {
+                        "defindex": 724,
+                        "value": 1065353216,
+                        "float_value": 1
+                    },
+                    {
+                        "defindex": 796,
+                        "value": "10 -3 -10"
+                    }
+                ]
+            },
+            "currencies": {
+                "keys": 100
+            },
+            "bump": 1648915209,
+            "userAgent": {
+                "lastPulse": 1648916641,
+                "client": "Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/67.0.3396.99 Safari/537.36"
+            }
+        },
+        {
+            "steamid": "76561197994697258",
+            "offers": 1,
+            "buyout": 0,
+            "details": "Fire horns - Hot rod ☑️ 3 good parts ☑️ alternatives: marketplace/items/mixed/paypal/revolut/scm; buying quicksells; offering items = overpay; add me to discuss, check my other items",
+            "intent": "sell",
+            "timestamp": 1648207247,
+            "price": 6771.5,
+            "item": {
+                "id": 11432071786,
+                "original_id": 8134316778,
+                "defindex": 205,
+                "level": 17,
+                "quality": 11,
+                "inventory": 2147484026,
+                "quantity": 1,
+                "origin": 20,
+                "style": 1,
+                "attributes": [
+                    {
+                        "defindex": 185,
+                        "value": 1572099567,
+                        "float_value": 1624319385390809000
+                    },
+                    {
+                        "defindex": 214,
+                        "value": 0,
+                        "float_value": 0
+                    },
+                    {
+                        "defindex": 379,
+                        "value": 0,
+                        "float_value": 0
+                    },
+                    {
+                        "defindex": 380,
+                        "value": 1102053376,
+                        "float_value": 22
+                    },
+                    {
+                        "defindex": 381,
+                        "value": 0,
+                        "float_value": 0
+                    },
+                    {
+                        "defindex": 382,
+                        "value": 1107820544,
+                        "float_value": 34
+                    },
+                    {
+                        "defindex": 383,
+                        "value": 0,
+                        "float_value": 0
+                    },
+                    {
+                        "defindex": 384,
+                        "value": 1099956224,
+                        "float_value": 18
+                    },
+                    {
+                        "defindex": 542,
+                        "value": 1065353216,
+                        "float_value": 1
+                    },
+                    {
+                        "defindex": 2013,
+                        "value": 1157251072,
+                        "float_value": 2002
+                    },
+                    {
+                        "defindex": 2014,
+                        "value": 1088421888,
+                        "float_value": 7
+                    },
+                    {
+                        "defindex": 2022,
+                        "value": 1073741824,
+                        "float_value": 2
+                    },
+                    {
+                        "defindex": 2025,
+                        "value": 1077936128,
+                        "float_value": 3
+                    },
+                    {
+                        "defindex": 2027,
+                        "value": 1065353216,
+                        "float_value": 1
+                    },
+                    {
+                        "defindex": 719,
+                        "value": "models/weapons/c_models/stattrack.mdl"
+                    },
+                    {
+                        "defindex": 731,
+                        "value": 1065353216,
+                        "float_value": 1
+                    },
+                    {
+                        "defindex": 724,
+                        "value": 1065353216,
+                        "float_value": 1
+                    },
+                    {
+                        "defindex": 796,
+                        "value": "10 -3 -10"
+                    }
+                ]
+            },
+            "currencies": {
+                "keys": 100
+            },
+            "bump": 1648906481
+        },
+        {
+            "steamid": "76561198248970920",
+            "offers": 1,
+            "buyout": 0,
+            "details": "Now i'm taking offers on this one. Pure/offers. ",
+            "intent": "sell",
+            "timestamp": 1648781863,
+            "price": 6771.5,
+            "item": {
+                "id": 11350345060,
+                "original_id": 2321821742,
+                "defindex": 205,
+                "level": 3,
+                "quality": 11,
+                "inventory": 2147483690,
+                "quantity": 1,
+                "origin": 20,
+                "custom_name": "Мастер приглашает в гости",
+                "custom_desc": "Вас ждут в эту ночь",
+                "equipped": [
+                    {
+                        "class": 3,
+                        "slot": 0
+                    }
+                ],
+                "style": 1,
+                "attributes": [
+                    {
+                        "defindex": 214,
+                        "value": 703,
+                        "float_value": 9.851128204203464e-43
+                    },
+                    {
+                        "defindex": 379,
+                        "value": 249265,
+                        "float_value": 3.4929466170992553e-40
+                    },
+                    {
+                        "defindex": 380,
+                        "value": 1118044160,
+                        "float_value": 82
+                    },
+                    {
+                        "defindex": 381,
+                        "value": 149,
+                        "float_value": 2.0879347118439774e-43
+                    },
+                    {
+                        "defindex": 382,
+                        "value": 1102053376,
+                        "float_value": 22
+                    },
+                    {
+                        "defindex": 383,
+                        "value": 40,
+                        "float_value": 5.605193857299268e-44
+                    },
+                    {
+                        "defindex": 384,
+                        "value": 1107820544,
+                        "float_value": 34
+                    },
+                    {
+                        "defindex": 542,
+                        "value": 1065353216,
+                        "float_value": 1
+                    },
+                    {
+                        "defindex": 2013,
+                        "value": 1157267456,
+                        "float_value": 2004
+                    },
+                    {
+                        "defindex": 2014,
+                        "value": 1065353216,
+                        "float_value": 1
+                    },
+                    {
+                        "defindex": 2022,
+                        "value": 1073741824,
+                        "float_value": 2
+                    },
+                    {
+                        "defindex": 2025,
+                        "value": 1077936128,
+                        "float_value": 3
+                    },
+                    {
+                        "defindex": 2027,
+                        "value": 1065353216,
+                        "float_value": 1
+                    },
+                    {
+                        "defindex": 500,
+                        "value": "Мастер приглашает в гости"
+                    },
+                    {
+                        "defindex": 501,
+                        "value": "Вас ждут в эту ночь"
+                    },
+                    {
+                        "defindex": 719,
+                        "value": "models/weapons/c_models/stattrack.mdl"
+                    },
+                    {
+                        "defindex": 731,
+                        "value": 1065353216,
+                        "float_value": 1
+                    },
+                    {
+                        "defindex": 724,
+                        "value": 1065353216,
+                        "float_value": 1
+                    },
+                    {
+                        "defindex": 796,
+                        "value": "10 -3 -10"
+                    }
+                ]
+            },
+            "currencies": {
+                "keys": 100
+            },
+            "bump": 1648781863
+        },
+        {
+            "steamid": "76561198108921886",
+            "offers": 1,
+            "buyout": 0,
+            "details": "considering any offer. just offer to me",
+            "intent": "sell",
+            "timestamp": 1648606559,
+            "price": 6771.5,
+            "item": {
+                "id": 11277733286,
+                "original_id": 9349226764,
+                "defindex": 205,
+                "level": 4,
+                "quality": 11,
+                "inventory": 2147484339,
+                "quantity": 1,
+                "origin": 20,
+                "custom_name": "아 씨발 존나 안 맞네",
+                "style": 1,
+                "attributes": [
+                    {
+                        "defindex": 214,
+                        "value": 614,
+                        "float_value": 8.603972570954377e-43
+                    },
+                    {
+                        "defindex": 542,
+                        "value": 1065353216,
+                        "float_value": 1
+                    },
+                    {
+                        "defindex": 2013,
+                        "value": 1157267456,
+                        "float_value": 2004
+                    },
+                    {
+                        "defindex": 2014,
+                        "value": 1086324736,
+                        "float_value": 6
+                    },
+                    {
+                        "defindex": 2022,
+                        "value": 1073741824,
+                        "float_value": 2
+                    },
+                    {
+                        "defindex": 2025,
+                        "value": 1077936128,
+                        "float_value": 3
+                    },
+                    {
+                        "defindex": 2027,
+                        "value": 1065353216,
+                        "float_value": 1
+                    },
+                    {
+                        "defindex": 500,
+                        "value": "아 씨발 존나 안 맞네"
+                    },
+                    {
+                        "defindex": 719,
+                        "value": "models/weapons/c_models/stattrack.mdl"
+                    },
+                    {
+                        "defindex": 731,
+                        "value": 1065353216,
+                        "float_value": 1
+                    },
+                    {
+                        "defindex": 724,
+                        "value": 1065353216,
+                        "float_value": 1
+                    },
+                    {
+                        "defindex": 796,
+                        "value": "10 -3 -10"
+                    }
+                ]
+            },
+            "currencies": {
+                "keys": 100
+            },
+            "bump": 1648606559
+        },
+        {
+            "steamid": "76561198251704884",
+            "offers": 1,
+            "buyout": 0,
+            "details": "Tornado/mean green + exo, also 11 keys in parts :P ",
+            "intent": "sell",
+            "timestamp": 1626252728,
+            "bump": 1648911594,
+            "price": 7448.650000000001,
+            "item": {
+                "id": 10200117161,
+                "original_id": 3062258609,
+                "defindex": 205,
+                "level": 4,
+                "quality": 11,
+                "inventory": 2147485759,
+                "quantity": 1,
+                "origin": 20,
+                "custom_name": "rocket lawnchair",
+                "custom_desc": "beep beep",
+                "style": 1,
+                "attributes": [
+                    {
+                        "defindex": 214,
+                        "value": 0,
+                        "float_value": 0
+                    },
+                    {
+                        "defindex": 379,
+                        "value": 0,
+                        "float_value": 0
+                    },
+                    {
+                        "defindex": 380,
+                        "value": 1100480512,
+                        "float_value": 19
+                    },
+                    {
+                        "defindex": 381,
+                        "value": 0,
+                        "float_value": 0
+                    },
+                    {
+                        "defindex": 382,
+                        "value": 1118044160,
+                        "float_value": 82
+                    },
+                    {
+                        "defindex": 383,
+                        "value": 0,
+                        "float_value": 0
+                    },
+                    {
+                        "defindex": 384,
+                        "value": 1102053376,
+                        "float_value": 22
+                    },
+                    {
+                        "defindex": 542,
+                        "value": 1065353216,
+                        "float_value": 1
+                    },
+                    {
+                        "defindex": 1009,
+                        "value": 1065353216,
+                        "float_value": 1
+                    },
+                    {
+                        "defindex": 2013,
+                        "value": 1157267456,
+                        "float_value": 2004
+                    },
+                    {
+                        "defindex": 2014,
+                        "value": 1082130432,
+                        "float_value": 4
+                    },
+                    {
+                        "defindex": 2022,
+                        "value": 1073741824,
+                        "float_value": 2
+                    },
+                    {
+                        "defindex": 2025,
+                        "value": 1077936128,
+                        "float_value": 3
+                    },
+                    {
+                        "defindex": 2027,
+                        "value": 1065353216,
+                        "float_value": 1
+                    },
+                    {
+                        "defindex": 500,
+                        "value": "rocket lawnchair"
+                    },
+                    {
+                        "defindex": 501,
+                        "value": "beep beep"
+                    },
+                    {
+                        "defindex": 719,
+                        "value": "models/weapons/c_models/stattrack.mdl"
+                    },
+                    {
+                        "defindex": 731,
+                        "value": 1065353216,
+                        "float_value": 1
+                    },
+                    {
+                        "defindex": 724,
+                        "value": 1065353216,
+                        "float_value": 1
+                    },
+                    {
+                        "defindex": 796,
+                        "value": "10 -3 -10"
+                    }
+                ]
+            },
+            "currencies": {
+                "keys": 110
+            }
+        },
+        {
+            "steamid": "76561198171447086",
+            "offers": 1,
+            "buyout": 1,
+            "details": "♋️Tornado violet♋️ 110 keys pure or overpay add me or send an offer thank!",
+            "intent": "sell",
+            "timestamp": 1646445297,
+            "price": 7448.650000000001,
+            "item": {
+                "id": 11314786113,
+                "original_id": 8202968966,
+                "defindex": 205,
+                "level": 23,
+                "quality": 11,
+                "inventory": 2147483688,
+                "quantity": 1,
+                "origin": 20,
+                "style": 1,
+                "attributes": [
+                    {
+                        "defindex": 214,
+                        "value": 0,
+                        "float_value": 0
+                    },
+                    {
+                        "defindex": 542,
+                        "value": 1065353216,
+                        "float_value": 1
+                    },
+                    {
+                        "defindex": 2013,
+                        "value": 1157267456,
+                        "float_value": 2004
+                    },
+                    {
+                        "defindex": 2014,
+                        "value": 1086324736,
+                        "float_value": 6
+                    },
+                    {
+                        "defindex": 2022,
+                        "value": 1073741824,
+                        "float_value": 2
+                    },
+                    {
+                        "defindex": 2025,
+                        "value": 1077936128,
+                        "float_value": 3
+                    },
+                    {
+                        "defindex": 2027,
+                        "value": 1065353216,
+                        "float_value": 1
+                    },
+                    {
+                        "defindex": 719,
+                        "value": "models/weapons/c_models/stattrack.mdl"
+                    },
+                    {
+                        "defindex": 731,
+                        "value": 1065353216,
+                        "float_value": 1
+                    },
+                    {
+                        "defindex": 724,
+                        "value": 1065353216,
+                        "float_value": 1
+                    },
+                    {
+                        "defindex": 796,
+                        "value": "10 -3 -10"
+                    }
+                ]
+            },
+            "currencies": {
+                "keys": 110
+            },
+            "bump": 1648724836
+        },
+        {
+            "steamid": "76561198086948995",
+            "offers": 1,
+            "buyout": 0,
+            "details": " Taking any and all offers. Taking Mixed, Pure, All Unusual offers and CASH(paypal). ADD ME to discuss, i don't bite :D! [BUYING KEYS/BPS FOR CASH]",
+            "intent": "sell",
+            "timestamp": 1644943815,
+            "price": 8125.8,
+            "item": {
+                "id": 11299673957,
+                "original_id": 8412624864,
+                "defindex": 205,
+                "level": 1,
+                "quality": 11,
+                "inventory": 3221225475,
+                "quantity": 1,
+                "origin": 20,
+                "style": 1,
+                "attributes": [
+                    {
+                        "defindex": 2027,
+                        "value": 1065353216,
+                        "float_value": 1
+                    },
+                    {
+                        "defindex": 214,
+                        "value": 0,
+                        "float_value": 0
+                    },
+                    {
+                        "defindex": 379,
+                        "value": 0,
+                        "float_value": 0
+                    },
+                    {
+                        "defindex": 380,
+                        "value": 1118044160,
+                        "float_value": 82
+                    },
+                    {
+                        "defindex": 381,
+                        "value": 0,
+                        "float_value": 0
+                    },
+                    {
+                        "defindex": 382,
+                        "value": 1102577664,
+                        "float_value": 23
+                    },
+                    {
+                        "defindex": 383,
+                        "value": 0,
+                        "float_value": 0
+                    },
+                    {
+                        "defindex": 384,
+                        "value": 1107820544,
+                        "float_value": 34
+                    },
+                    {
+                        "defindex": 542,
+                        "value": 1065353216,
+                        "float_value": 1
+                    },
+                    {
+                        "defindex": 2013,
+                        "value": 1157251072,
+                        "float_value": 2002
+                    },
+                    {
+                        "defindex": 2014,
+                        "value": 1073741824,
+                        "float_value": 2
+                    },
+                    {
+                        "defindex": 2022,
+                        "value": 1073741824,
+                        "float_value": 2
+                    },
+                    {
+                        "defindex": 2025,
+                        "value": 1077936128,
+                        "float_value": 3
+                    },
+                    {
+                        "defindex": 719,
+                        "value": "models/weapons/c_models/stattrack.mdl"
+                    },
+                    {
+                        "defindex": 731,
+                        "value": 1065353216,
+                        "float_value": 1
+                    },
+                    {
+                        "defindex": 724,
+                        "value": 1065353216,
+                        "float_value": 1
+                    },
+                    {
+                        "defindex": 796,
+                        "value": "10 -3 -10"
+                    }
+                ]
+            },
+            "currencies": {
+                "keys": 120
+            },
+            "bump": 1648914297
+        },
+        {
+            "steamid": "76561198137566942",
+            "offers": 1,
+            "buyout": 0,
+            "details": "🔥 Fire Horns DD 🟡 | Good Strange Parts | Pure only 🔑 | Comment before adding",
+            "intent": "sell",
+            "timestamp": 1645096263,
+            "price": 8802.95,
+            "item": {
+                "id": 9476139079,
+                "original_id": 4537380770,
+                "defindex": 205,
+                "level": 64,
+                "quality": 11,
+                "inventory": 2147483651,
+                "quantity": 1,
+                "origin": 20,
+                "custom_name": "seVen's Radiant Rocket Launcher",
+                "style": 1,
+                "attributes": [
+                    {
+                        "defindex": 214,
+                        "value": 1026,
+                        "float_value": 1.4377322243972623e-42
+                    },
+                    {
+                        "defindex": 379,
+                        "value": 250,
+                        "float_value": 3.5032461608120427e-43
+                    },
+                    {
+                        "defindex": 380,
+                        "value": 1102053376,
+                        "float_value": 22
+                    },
+                    {
+                        "defindex": 381,
+                        "value": 75,
+                        "float_value": 1.0509738482436128e-43
+                    },
+                    {
+                        "defindex": 382,
+                        "value": 1107820544,
+                        "float_value": 34
+                    },
+                    {
+                        "defindex": 383,
+                        "value": 892,
+                        "float_value": 1.2499582301777368e-42
+                    },
+                    {
+                        "defindex": 384,
+                        "value": 1102577664,
+                        "float_value": 23
+                    },
+                    {
+                        "defindex": 542,
+                        "value": 1065353216,
+                        "float_value": 1
+                    },
+                    {
+                        "defindex": 2013,
+                        "value": 1157251072,
+                        "float_value": 2002
+                    },
+                    {
+                        "defindex": 2014,
+                        "value": 1073741824,
+                        "float_value": 2
+                    },
+                    {
+                        "defindex": 2022,
+                        "value": 1073741824,
+                        "float_value": 2
+                    },
+                    {
+                        "defindex": 2025,
+                        "value": 1077936128,
+                        "float_value": 3
+                    },
+                    {
+                        "defindex": 2027,
+                        "value": 1065353216,
+                        "float_value": 1
+                    },
+                    {
+                        "defindex": 500,
+                        "value": "seVen's Radiant Rocket Launcher"
+                    },
+                    {
+                        "defindex": 719,
+                        "value": "models/weapons/c_models/stattrack.mdl"
+                    },
+                    {
+                        "defindex": 731,
+                        "value": 1065353216,
+                        "float_value": 1
+                    },
+                    {
+                        "defindex": 724,
+                        "value": 1065353216,
+                        "float_value": 1
+                    },
+                    {
+                        "defindex": 796,
+                        "value": "10 -3 -10"
+                    }
+                ]
+            },
+            "currencies": {
+                "keys": 130
+            },
+            "bump": 1648751280
+        },
+        {
+            "steamid": "76561198306288794",
+            "offers": 1,
+            "buyout": 1,
+            "details": "Fire Horns + Violet + Pumpkin Bombs and strange parts.  Feel free to add me/send a trader offer, discord: unstopaBULL#5316",
+            "intent": "sell",
+            "timestamp": 1646617087,
+            "price": 12527.275000000001,
+            "item": {
+                "id": 7644467443,
+                "original_id": 3003532304,
+                "defindex": 205,
+                "level": 7,
+                "quality": 11,
+                "inventory": 2147483817,
+                "quantity": 1,
+                "origin": 20,
+                "equipped": [
+                    {
+                        "class": 3,
+                        "slot": 0
+                    }
+                ],
+                "style": 1,
+                "attributes": [
+                    {
+                        "defindex": 214,
+                        "value": 264,
+                        "float_value": 3.699427945817517e-43
+                    },
+                    {
+                        "defindex": 379,
+                        "value": 904,
+                        "float_value": 1.2667738117496346e-42
+                    },
+                    {
+                        "defindex": 380,
+                        "value": 1119617024,
+                        "float_value": 94
+                    },
+                    {
+                        "defindex": 381,
+                        "value": 67111,
+                        "float_value": 9.40425412393028e-41
+                    },
+                    {
+                        "defindex": 382,
+                        "value": 1118044160,
+                        "float_value": 82
+                    },
+                    {
+                        "defindex": 383,
+                        "value": 13,
+                        "float_value": 1.8216880036222622e-44
+                    },
+                    {
+                        "defindex": 384,
+                        "value": 1107820544,
+                        "float_value": 34
+                    },
+                    {
+                        "defindex": 542,
+                        "value": 1065353216,
+                        "float_value": 1
+                    },
+                    {
+                        "defindex": 1007,
+                        "value": 1065353216,
+                        "float_value": 1
+                    },
+                    {
+                        "defindex": 2013,
+                        "value": 1157251072,
+                        "float_value": 2002
+                    },
+                    {
+                        "defindex": 2014,
+                        "value": 1086324736,
+                        "float_value": 6
+                    },
+                    {
+                        "defindex": 2022,
+                        "value": 1073741824,
+                        "float_value": 2
+                    },
+                    {
+                        "defindex": 2025,
+                        "value": 1077936128,
+                        "float_value": 3
+                    },
+                    {
+                        "defindex": 2027,
+                        "value": 1065353216,
+                        "float_value": 1
+                    },
+                    {
+                        "defindex": 719,
+                        "value": "models/weapons/c_models/stattrack.mdl"
+                    },
+                    {
+                        "defindex": 731,
+                        "value": 1065353216,
+                        "float_value": 1
+                    },
+                    {
+                        "defindex": 724,
+                        "value": 1065353216,
+                        "float_value": 1
+                    },
+                    {
+                        "defindex": 796,
+                        "value": "10 -3 -10"
+                    }
+                ]
+            },
+            "currencies": {
+                "keys": 185
+            },
+            "bump": 1648862998
+        },
+        {
+            "steamid": "76561198177872379",
+            "offers": 1,
+            "buyout": 0,
+            "details": "Selling all my items for the listed price in pure or item overpay :) Willing to take cash if you are reputable and if you wanna talk about any prices or bulk just add me! HMU with an offer!",
+            "intent": "sell",
+            "timestamp": 1648156358,
+            "price": 13543,
+            "item": {
+                "id": 11432610691,
+                "original_id": 2260752083,
+                "defindex": 205,
+                "level": 7,
+                "quality": 11,
+                "inventory": 2147484080,
+                "quantity": 1,
+                "origin": 20,
+                "custom_name": "BOMBOCLAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAT",
+                "style": 1,
+                "attributes": [
+                    {
+                        "defindex": 214,
+                        "value": 0,
+                        "float_value": 0
+                    },
+                    {
+                        "defindex": 379,
+                        "value": 0,
+                        "float_value": 0
+                    },
+                    {
+                        "defindex": 380,
+                        "value": 1118044160,
+                        "float_value": 82
+                    },
+                    {
+                        "defindex": 381,
+                        "value": 0,
+                        "float_value": 0
+                    },
+                    {
+                        "defindex": 382,
+                        "value": 1102053376,
+                        "float_value": 22
+                    },
+                    {
+                        "defindex": 383,
+                        "value": 0,
+                        "float_value": 0
+                    },
+                    {
+                        "defindex": 384,
+                        "value": 1100480512,
+                        "float_value": 19
+                    },
+                    {
+                        "defindex": 542,
+                        "value": 1065353216,
+                        "float_value": 1
+                    },
+                    {
+                        "defindex": 1007,
+                        "value": 1065353216,
+                        "float_value": 1
+                    },
+                    {
+                        "defindex": 2013,
+                        "value": 1157275648,
+                        "float_value": 2005
+                    },
+                    {
+                        "defindex": 2014,
+                        "value": 1065353216,
+                        "float_value": 1
+                    },
+                    {
+                        "defindex": 2022,
+                        "value": 1073741824,
+                        "float_value": 2
+                    },
+                    {
+                        "defindex": 2025,
+                        "value": 1077936128,
+                        "float_value": 3
+                    },
+                    {
+                        "defindex": 2027,
+                        "value": 1065353216,
+                        "float_value": 1
+                    },
+                    {
+                        "defindex": 500,
+                        "value": "BOMBOCLAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAT"
+                    },
+                    {
+                        "defindex": 719,
+                        "value": "models/weapons/c_models/stattrack.mdl"
+                    },
+                    {
+                        "defindex": 731,
+                        "value": 1065353216,
+                        "float_value": 1
+                    },
+                    {
+                        "defindex": 724,
+                        "value": 1065353216,
+                        "float_value": 1
+                    },
+                    {
+                        "defindex": 796,
+                        "value": "10 -3 -10"
+                    }
+                ]
+            },
+            "currencies": {
+                "keys": 200
+            },
+            "bump": 1648915678
+        },
+        {
+            "steamid": "76561198850803116",
+            "offers": 1,
+            "buyout": 1,
+            "details": "🔥 𝐅𝐢𝐫𝐞 𝐇𝐨𝐫𝐧𝐬 + 𝐓𝐞𝐚𝐦 𝐒𝐡𝐢𝐧𝐞 🔥",
+            "intent": "buy",
+            "timestamp": 1648763589,
+            "price": 6568.3550000000005,
+            "item": {
+                "defindex": 18,
+                "quality": 11,
+                "attributes": [
+                    {
+                        "defindex": "2027"
+                    },
+                    {
+                        "float_value": "3",
+                        "defindex": "2025"
+                    },
+                    {
+                        "float_value": "2002",
+                        "defindex": "2013"
+                    },
+                    {
+                        "float_value": "1",
+                        "defindex": "2014"
+                    },
+                    {
+                        "value": null,
+                        "defindex": 229
+                    }
+                ],
+                "quantity": "1"
+            },
+            "currencies": {
+                "keys": 97
+            },
+            "bump": 1648912118
+        },
+        {
+            "steamid": "76561198117597416",
+            "offers": 1,
+            "buyout": 1,
+            "details": "Paying 96 keys for a FH/TS Aussie RL :)",
+            "intent": "buy",
+            "timestamp": 1648635002,
+            "price": 6500.64,
+            "item": {
+                "defindex": 18,
+                "quality": 11,
+                "attributes": [
+                    {
+                        "defindex": "2027"
+                    },
+                    {
+                        "float_value": "3",
+                        "defindex": "2025"
+                    },
+                    {
+                        "float_value": "2002",
+                        "defindex": "2013"
+                    },
+                    {
+                        "float_value": "1",
+                        "defindex": "2014"
+                    },
+                    {
+                        "value": null,
+                        "defindex": 229
+                    }
+                ],
+                "quantity": "1"
+            },
+            "currencies": {
+                "keys": 96
+            },
+            "bump": 1648905610
+        },
+        {
+            "steamid": "76561198135471163",
+            "offers": 1,
+            "buyout": 0,
+            "details": "Buying FH/TS clean one with parts. Any double spelled aussie RL for 230keys+@ depends on sheen and effect. Add me to negotiate or send me trade offer",
+            "intent": "buy",
+            "timestamp": 1647760237,
+            "price": 6432.925,
+            "item": {
+                "defindex": 18,
+                "quality": 11,
+                "attributes": [
+                    {
+                        "float_value": "3",
+                        "defindex": "2025"
+                    },
+                    {
+                        "defindex": "2027"
+                    },
+                    {
+                        "value": null,
+                        "defindex": 229
+                    }
+                ],
+                "quantity": "1"
+            },
+            "currencies": {
+                "keys": 95
+            },
+            "bump": 1648909826
+        },
+        {
+            "steamid": "76561198142678358",
+            "offers": 1,
+            "buyout": 0,
+            "details": "Fire Horns + Team Shine: 90 keys | Any KS/Sheen: Double Spelled - 216 keys | Pumpkin Bombs - 135 keys | Can beat other buyers! All prices are for clean items!",
+            "intent": "buy",
+            "timestamp": 1648699670,
+            "price": 6094.35,
+            "item": {
+                "defindex": 18,
+                "quality": 11,
+                "attributes": [
+                    {
+                        "defindex": "2027"
+                    },
+                    {
+                        "float_value": "3",
+                        "defindex": "2025"
+                    },
+                    {
+                        "float_value": "2002",
+                        "defindex": "2013"
+                    },
+                    {
+                        "float_value": "1",
+                        "defindex": "2014"
+                    },
+                    {
+                        "value": null,
+                        "defindex": 229
+                    }
+                ],
+                "quantity": "1"
+            },
+            "currencies": {
+                "keys": 90
+            },
+            "bump": 1648915057
+        },
+        {
+            "steamid": "76561198805428379",
+            "offers": 1,
+            "buyout": 1,
+            "details": "　𝐅𝐢𝐫𝐞 𝐇𝐨𝐫𝐧𝐬/𝐓𝐨𝐫𝐧𝐚𝐝𝐨 + 𝐓𝐞𝐚𝐦 𝐒𝐡𝐢𝐧𝐞 - 88 𝐤𝐞𝐲𝐬 00 𝐫𝐞𝐟 　　　　 𝐓𝐨𝐫𝐧𝐚𝐝𝐨/𝐅𝐢𝐫𝐞 𝐇𝐨𝐫𝐧𝐬 + 𝗩𝗩/𝗛𝗥 - 80 𝐤𝐞𝐲𝐬 00 𝐫𝐞𝐟 　　　　 　　 　 　FEEL FREE TO ADD ME.\n\n",
+            "intent": "buy",
+            "timestamp": 1648373194,
+            "price": 5958.92,
+            "item": {
+                "defindex": 18,
+                "quality": 11,
+                "attributes": [
+                    {
+                        "defindex": "2027"
+                    },
+                    {
+                        "float_value": "3",
+                        "defindex": "2025"
+                    },
+                    {
+                        "float_value": "2002",
+                        "defindex": "2013"
+                    },
+                    {
+                        "float_value": "1",
+                        "defindex": "2014"
+                    },
+                    {
+                        "value": null,
+                        "defindex": 229
+                    }
+                ],
+                "quantity": "1"
+            },
+            "currencies": {
+                "keys": 88
+            },
+            "bump": 1648910868
+        },
+        {
+            "steamid": "76561198048176208",
+            "offers": 1,
+            "buyout": 1,
+            "details": "　　　　 𝐅𝐢𝐫𝐞 𝐇𝐨𝐫𝐧𝐬 + 𝐓𝐞𝐚𝐦 𝐒𝐡𝐢𝐧𝐞 - 88 𝐤𝐞𝐲𝐬 00 𝐫𝐞𝐟 　　　　 𝐓𝐨𝐫𝐧𝐚𝐝𝐨/𝐅𝐢𝐫𝐞 𝐇𝐨𝐫𝐧𝐬 + 𝗩𝗩/𝗛𝗥 - 80 𝐤𝐞𝐲𝐬 00 𝐫𝐞𝐟 　　　　 　　 　 　FEEL FREE TO ADD ME.",
+            "intent": "buy",
+            "timestamp": 1648796769,
+            "price": 5958.92,
+            "item": {
+                "defindex": 18,
+                "quality": 11,
+                "attributes": [
+                    {
+                        "defindex": "2027"
+                    },
+                    {
+                        "float_value": "3",
+                        "defindex": "2025"
+                    },
+                    {
+                        "float_value": "2002",
+                        "defindex": "2013"
+                    },
+                    {
+                        "float_value": "1",
+                        "defindex": "2014"
+                    },
+                    {
+                        "value": null,
+                        "defindex": 229
+                    }
+                ],
+                "quantity": "1"
+            },
+            "currencies": {
+                "keys": 88
+            },
+            "bump": 1648909537
+        },
+        {
+            "steamid": "76561198030343929",
+            "offers": 1,
+            "buyout": 0,
+            "details": "88 for TS-FH. 120 for P. Bombs. 140 for double spelled (doesnt matter sheen-ks).🎃🎃 Happy to overcut anyone. 💲 I can offer cash. Also I'm buying backpacks and keys with cash, feel free to add me 💲",
+            "intent": "buy",
+            "timestamp": 1648493603,
+            "price": 5958.92,
+            "item": {
+                "defindex": 18,
+                "quality": 11,
+                "attributes": [
+                    {
+                        "defindex": "2027"
+                    },
+                    {
+                        "float_value": "3",
+                        "defindex": "2025"
+                    },
+                    {
+                        "float_value": "2002",
+                        "defindex": "2013"
+                    },
+                    {
+                        "float_value": "1",
+                        "defindex": "2014"
+                    },
+                    {
+                        "value": null,
+                        "defindex": 229
+                    }
+                ],
+                "quantity": "1"
+            },
+            "currencies": {
+                "keys": 88
+            },
+            "bump": 1648845548
+        },
+        {
+            "steamid": "76561199199136084",
+            "offers": 1,
+            "buyout": 1,
+            "details": "Buying for 79 keys 27.88 ref! Add me and type !sell Strange Professional Killstreak Australium Rocket Launcher for me to send you a trade offer instead!",
+            "intent": "buy",
+            "timestamp": 1648914316,
+            "price": 5377.365000000001,
+            "item": {
+                "defindex": 18,
+                "quality": 11,
+                "attributes": [
+                    {
+                        "float_value": 3,
+                        "defindex": 2025
+                    },
+                    {
+                        "defindex": 2027
+                    }
+                ]
+            },
+            "currencies": {
+                "metal": 27.88,
+                "keys": 79
+            },
+            "bump": 1648916117,
+            "userAgent": {
+                "lastPulse": 1648916653,
+                "client": "Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/67.0.3396.99 Safari/537.36"
+            }
+        },
+        {
+            "steamid": "76561198336605191",
+            "offers": 1,
+            "buyout": 1,
+            "details": "❤️BUYING❤️⠀⠀⠀⠀⠀⠀⚡️Instant accept ⚡️ ⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀𝟳𝟵 𝙠𝙚𝙮𝙨, 𝟮𝟳.𝟳𝟳 𝙧𝙚𝙛",
+            "intent": "buy",
+            "timestamp": 1648914308,
+            "price": 5377.255000000001,
+            "item": {
+                "defindex": 18,
+                "quality": 11,
+                "attributes": [
+                    {
+                        "float_value": 3,
+                        "defindex": 2025
+                    },
+                    {
+                        "defindex": 2027
+                    }
+                ]
+            },
+            "currencies": {
+                "metal": 27.77,
+                "keys": 79
+            },
+            "bump": 1648916109,
+            "userAgent": {
+                "lastPulse": 1648916646,
+                "client": "axios/0.15.3"
+            }
+        },
+        {
+            "steamid": "76561199117243585",
+            "offers": 1,
+            "buyout": 1,
+            "details": "Buying for 79 keys 27.77 ref! Send an offer or add me and type !sell Strange Professional Killstreak Australium Rocket Launcher  ",
+            "intent": "buy",
+            "timestamp": 1648912506,
+            "price": 5377.255000000001,
+            "item": {
+                "defindex": 18,
+                "quality": 11,
+                "attributes": [
+                    {
+                        "float_value": 3,
+                        "defindex": 2025
+                    },
+                    {
+                        "defindex": 2027
+                    }
+                ]
+            },
+            "currencies": {
+                "metal": 27.77,
+                "keys": 79
+            },
+            "bump": 1648916106,
+            "userAgent": {
+                "lastPulse": 1648916587,
+                "client": "Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/67.0.3396.99 Safari/537.36"
+            }
+        },
+        {
+            "steamid": "76561199101711836",
+            "offers": 1,
+            "buyout": 1,
+            "details": "⚡️𝟮𝟰/𝟳 𝗕𝗢𝗧⚡️ Buying for 79 keys 27.77 ref. Stock: 1/3. Send a trade offer, or add me and type !sell Strange Professional Killstreak Australium Rocket Launcher.",
+            "intent": "buy",
+            "timestamp": 1648914034,
+            "price": 5377.255000000001,
+            "item": {
+                "defindex": 18,
+                "quality": 11,
+                "attributes": [
+                    {
+                        "float_value": 3,
+                        "defindex": 2025
+                    },
+                    {
+                        "defindex": 2027
+                    }
+                ]
+            },
+            "currencies": {
+                "metal": 27.77,
+                "keys": 79
+            },
+            "bump": 1648916094,
+            "userAgent": {
+                "lastPulse": 1648916596,
+                "client": "Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/67.0.3396.99 Safari/537.36"
+            }
+        },
+        {
+            "steamid": "76561199098694108",
+            "offers": 1,
+            "buyout": 1,
+            "details": "!sell Strange Professional Killstreak Australium Rocket Launcher💎Stock: 0/1💎Price too low? I'll pay more! Add my owner for Negotiation or Cash Offer (PayPal) 💎Discord: Triple#9000 Steam: tinyurl.com/x",
+            "intent": "buy",
+            "timestamp": 1648906507,
+            "price": 5377.255000000001,
+            "item": {
+                "defindex": 18,
+                "quality": 11,
+                "attributes": [
+                    {
+                        "float_value": 3,
+                        "defindex": 2025
+                    },
+                    {
+                        "defindex": 2027
+                    }
+                ]
+            },
+            "currencies": {
+                "metal": 27.77,
+                "keys": 79
+            },
+            "bump": 1648915520,
+            "userAgent": {
+                "lastPulse": 1648916563,
+                "client": "Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/67.0.3396.99 Safari/537.36"
+            }
+        },
+        {
+            "steamid": "76561199117276571",
+            "offers": 1,
+            "buyout": 1,
+            "details": "24/7 Instant Accept! Buying for 79 keys 27.77 ref. Max Stock: 5! Send me an offer or add me and type !sell Strange Professional Killstreak Australium Rocket Launcher ",
+            "intent": "buy",
+            "timestamp": 1648915276,
+            "price": 5377.255000000001,
+            "item": {
+                "defindex": 18,
+                "quality": 11,
+                "attributes": [
+                    {
+                        "float_value": 3,
+                        "defindex": 2025
+                    },
+                    {
+                        "defindex": 2027
+                    }
+                ]
+            },
+            "currencies": {
+                "metal": 27.77,
+                "keys": 79
+            },
+            "bump": 1648915276,
+            "userAgent": {
+                "lastPulse": 1648916584,
+                "client": "Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/67.0.3396.99 Safari/537.36"
+            }
+        },
+        {
+            "steamid": "76561198082497772",
+            "offers": 1,
+            "buyout": 1,
+            "details": "⚡ Buying for 𝟕𝟗 𝐤𝐞𝐲s 𝟐𝟕.𝟓𝟓 𝐫𝐞𝐟 🛒 Maximum Stock: 1 ♦️ Send offer or add and type 💬 !𝘀𝗲𝗹𝗹 Strange Professional Killstreak Australium Rocket Launcher 💬",
+            "intent": "buy",
+            "timestamp": 1648910771,
+            "price": 5377.035000000001,
+            "item": {
+                "defindex": 18,
+                "quality": 11,
+                "attributes": [
+                    {
+                        "float_value": 3,
+                        "defindex": 2025
+                    },
+                    {
+                        "defindex": 2027
+                    }
+                ]
+            },
+            "currencies": {
+                "metal": 27.55,
+                "keys": 79
+            },
+            "bump": 1648915506,
+            "userAgent": {
+                "lastPulse": 1648916521,
+                "client": "RainBot-Custom-Bot"
+            }
+        },
+        {
+            "steamid": "76561199101286685",
+            "offers": 1,
+            "buyout": 1,
+            "details": "Buying for 78 keys 10 ref 🔑 Send a Trade Offer ⚡ or Add me and type !Sell Strange Professional Killstreak Australium Rocket Launcher ✌ Thank you very much 🎃",
+            "intent": "buy",
+            "timestamp": 1648916043,
+            "price": 5291.77,
+            "item": {
+                "defindex": 18,
+                "quality": 11,
+                "attributes": [
+                    {
+                        "float_value": 3,
+                        "defindex": 2025
+                    },
+                    {
+                        "defindex": 2027
+                    }
+                ]
+            },
+            "currencies": {
+                "metal": 10,
+                "keys": 78
+            },
+            "bump": 1648916043,
+            "userAgent": {
+                "lastPulse": 1648916593,
+                "client": "Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/67.0.3396.99 Safari/537.36"
+            }
+        },
+        {
+            "steamid": "76561199189458038",
+            "offers": 1,
+            "buyout": 1,
+            "details": "Buying for 78 keys 10 ref 🔑 Send a Trade Offer ⚡ or Add me and type !Sell Strange Professional Killstreak Australium Rocket Launcher ✌ Thank you very much 🎃",
+            "intent": "buy",
+            "timestamp": 1648914951,
+            "price": 5291.77,
+            "item": {
+                "defindex": 18,
+                "quality": 11,
+                "attributes": [
+                    {
+                        "float_value": 3,
+                        "defindex": 2025
+                    },
+                    {
+                        "defindex": 2027
+                    }
+                ]
+            },
+            "currencies": {
+                "metal": 10,
+                "keys": 78
+            },
+            "bump": 1648914951,
+            "userAgent": {
+                "lastPulse": 1648916619,
+                "client": "Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/67.0.3396.99 Safari/537.36"
+            }
+        },
+        {
+            "steamid": "76561197967713796",
+            "offers": 1,
+            "buyout": 0,
+            "details": "Good Day Pal! 𝐁𝐮𝐲𝐢𝐧𝐠 𝐀𝐧𝐲 𝐒𝐡𝐞𝐞𝐧 𝐨𝐟 𝐓𝐨𝐫𝐧𝐚𝐝𝐨 or 𝑭𝒊𝒓𝒆𝒉𝒐𝒓𝒏! :D feel free add to discuss! ",
+            "intent": "buy",
+            "timestamp": 1647563890,
+            "price": 5146.34,
+            "item": {
+                "defindex": 18,
+                "quality": 11,
+                "attributes": [
+                    {
+                        "defindex": "2027"
+                    },
+                    {
+                        "float_value": "3",
+                        "defindex": "2025"
+                    },
+                    {
+                        "float_value": "2004",
+                        "defindex": "2013"
+                    },
+                    {
+                        "value": null,
+                        "defindex": 229
+                    }
+                ],
+                "quantity": "1"
+            },
+            "currencies": {
+                "keys": 76
+            },
+            "bump": 1648894682
+        },
+        {
+            "steamid": "76561199101442624",
+            "offers": 1,
+            "buyout": 1,
+            "details": "24/7, so fast you'll almost spill your fanta. ✨ 68 keys for any clean Strange Professional Killstreak Australium Rocket Launcher",
+            "intent": "buy",
+            "timestamp": 1648909861,
+            "price": 4604.62,
+            "item": {
+                "defindex": 18,
+                "quality": 11,
+                "attributes": [
+                    {
+                        "float_value": 3,
+                        "defindex": 2025
+                    },
+                    {
+                        "defindex": 2027
+                    }
+                ]
+            },
+            "currencies": {
+                "keys": 68
+            },
+            "bump": 1648915267,
+            "userAgent": {
+                "lastPulse": 1648916591,
+                "client": "Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/67.0.3396.99 Safari/537.36"
+            }
+        },
+        {
+            "steamid": "76561199195396305",
+            "offers": 1,
+            "buyout": 1,
+            "details": "[⇄] 24/7 TRADING BOT! // Send me a trade offer! Current stock: 0/1 | Price: 50 keys | OR add me and use: !sell Strange Professional Killstreak Australium Rocket Launcher",
+            "intent": "buy",
+            "timestamp": 1648915327,
+            "price": 3385.75,
+            "item": {
+                "defindex": 18,
+                "quality": 11,
+                "attributes": [
+                    {
+                        "float_value": 3,
+                        "defindex": 2025
+                    },
+                    {
+                        "defindex": 2027
+                    }
+                ]
+            },
+            "currencies": {
+                "keys": 50
+            },
+            "bump": 1648915328,
+            "userAgent": {
+                "lastPulse": 1648916560,
+                "client": "Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/67.0.3396.99 Safari/537.36"
+            }
+        },
+        {
+            "steamid": "76561198275478002",
+            "offers": 1,
+            "buyout": 1,
+            "details": "Fast accept. Add me to disucss price!",
+            "intent": "buy",
+            "timestamp": 1623399303,
+            "bump": 1648908315,
+            "price": 1,
+            "item": {
+                "defindex": 18,
+                "quality": 11,
+                "attributes": [
+                    {
+                        "float_value": "3",
+                        "defindex": "2025"
+                    },
+                    {
+                        "defindex": "2027"
+                    },
+                    {
+                        "value": null,
+                        "defindex": 229
+                    }
+                ],
+                "quantity": "1"
+            },
+            "currencies": {
+                "metal": 1
+            }
+        }
+    ],
+    "appid": 440,
+    "sku": "Strange Professional Killstreak Australium Rocket Launcher",
+    "createdAt": 1648916665
+}

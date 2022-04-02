@@ -4,12 +4,17 @@ use crate::response::deserializers::{
     deserialize_attributes,
     from_optional_number_or_string
 };
-use tf2_enum::{Wear, Quality, KillstreakTier};
+use tf2_enum::{
+    Wear, Quality, KillstreakTier, Paint, StrangePart, Killstreaker, Sheen,
+    Spell, FootprintsSpell, PaintSpell, Attribute, Attributes as EnumAttributes
+};
 
 #[derive(Serialize, Deserialize, PartialEq, Clone, Debug)]
 pub struct Item {
     pub defindex: u32,
     pub quality: Quality,
+    #[serde(default)]
+    pub flag_cannot_craft: bool,
     #[serde(default)]
     #[serde(deserialize_with = "from_optional_number_or_string")]
     pub id: Option<u64>,
@@ -33,6 +38,9 @@ impl Item {
         self.quality.clone()
     }
     
+    // todo - I may change these to return explicit errors later on
+    // (attribute does not exist, failed to parse attribute)
+    // in addition, most of these methods can be written in a more generic way
     pub fn get_particle_value(&self) -> Option<u32> {
         if let Some(attribute) = self.attributes.get(&134) {
             if let Some(float_value) = &attribute.float_value {
@@ -54,7 +62,7 @@ impl Item {
     }
     
     pub fn get_killstreak_tier(&self) -> Option<KillstreakTier> {
-        if let Some(attribute) = self.attributes.get(&2025) {
+        if let Some(attribute) = self.attributes.get(&KillstreakTier::DEFINDEX) {
             if let Some(float_value) = &attribute.float_value {
                 if let Ok(killstreak_tier) = KillstreakTier::try_from(*float_value as u8) {
                     return Some(killstreak_tier);
@@ -66,11 +74,9 @@ impl Item {
     }
     
     pub fn get_wear(&self) -> Option<Wear> {
-        if let Some(attribute) = self.attributes.get(&725) {
-            if let Some(float_value) = &attribute.float_value {
-                let wear_value = (float_value * 5.0).round() as u8;
-                
-                if let Ok(wear) = Wear::try_from(wear_value) {
+        if let Some(attribute) = self.attributes.get(&Wear::DEFINDEX) {
+            if let Some(float_value) = attribute.float_value {
+                if let Ok(wear) = Wear::try_from(float_value) {
                     return Some(wear);
                 }
             }
@@ -79,11 +85,131 @@ impl Item {
         None
     }
     
+    pub fn get_spells(&self) -> Option<Vec<Spell>> {
+        let spells = Spell::DEFINDEX
+            .iter()
+            .map(|defindex| {
+                if let Some(attribute) = self.attributes.get(defindex) {
+                    match *defindex {
+                        Spell::DEFINDEX_FOOTPRINTS => {
+                            let value = attribute.float_value.unwrap_or_default() as u32;
+                            
+                            if let Ok(spell) = FootprintsSpell::try_from(value) {
+                                Some(Spell::Footprints(spell))
+                            } else {
+                                None
+                            }
+                        },
+                        Spell::DEFINDEX_PAINT => {
+                            let value = attribute.float_value.unwrap_or_default() as u32;
+                            
+                            if let Ok(spell) = PaintSpell::try_from(value) {
+                                Some(Spell::Paint(spell))
+                            } else {
+                                None
+                            }
+                        },
+                        Spell::DEFINDEX_VOICES_FROM_BELOW => Some(Spell::VoicesFromBelow),
+                        Spell::DEFINDEX_PUMPKIN_BOMBS => Some(Spell::PumpkinBombs),
+                        Spell::DEFINDEX_HALLOWEEN_FIRE => Some(Spell::HalloweenFire),
+                        Spell::DEFINDEX_EXORCISM => Some(Spell::Exorcism),
+                        _ => None,
+                    }
+                } else {
+                    None
+                }
+            })
+            .flatten()
+            .collect::<Vec<Spell>>();
+        
+        if !spells.is_empty() {
+            Some(spells)
+        } else {
+            None
+        }
+    }
+    
+    pub fn get_strange_parts(&self) -> Option<Vec<StrangePart>> {
+        let strange_parts = StrangePart::DEFINDEX 
+            .into_iter()
+            .map(|defindex| {
+                let result = self.attributes.get(&defindex)
+                    .map(|attribute| attribute.float_value)
+                    .flatten()
+                    .map(|float_value| StrangePart::try_from(float_value as u8));
+                
+                if let Some(Ok(strange_part)) = result {
+                    Some(strange_part)
+                } else {
+                    None
+                }
+            })
+            .flatten()
+            .collect::<Vec<StrangePart>>();
+        
+        if !strange_parts.is_empty() {
+            Some(strange_parts)
+        } else {
+            None
+        }
+    }
+    
+    pub fn get_paint(&self) -> Option<Paint> {
+        if self.defindex < 5027 || self.defindex > 5077 {
+            if let Some(attribute) = self.attributes.get(&Paint::DEFINDEX) {
+                if let Some(float_value) = attribute.float_value {
+                    if let Ok(paint) = Paint::try_from(float_value as u32) {
+                        return Some(paint);
+                    }
+                }
+            }
+        }
+        
+        None
+    }
+    
+    pub fn get_killstreaker(&self) -> Option<Killstreaker> {
+        if let Some(attribute) = self.attributes.get(&Killstreaker::DEFINDEX) {
+            if let Some(float_value) = attribute.float_value {
+                if let Ok(killstreaker) = Killstreaker::try_from(float_value as u32) {
+                    return Some(killstreaker);
+                }
+            }
+        }
+        
+        None
+    }
+    
+    pub fn get_sheen(&self) -> Option<Sheen> {
+        if let Some(attribute) = self.attributes.get(&Sheen::DEFINDEX) {
+            if let Some(float_value) = attribute.float_value {
+                if let Ok(sheen) = Sheen::try_from(float_value as u8) {
+                    return Some(sheen);
+                }
+            }
+        }
+        
+        None
+    }
+    
+    pub fn is_craftable(&self) -> bool {
+        !self.flag_cannot_craft
+    }
+    
     pub fn is_australium(&self) -> bool {
         self.attributes.contains_key(&2027)
     }
     
-    pub fn is_festive(&self) -> bool {
+    pub fn is_festivized(&self) -> bool {
         self.attributes.contains_key(&2053)
+    }
+    
+    pub fn is_strange(&self) -> bool {
+        // strange quality items are not "strangified" items
+        if self.quality == Quality::Strange {
+            false
+        } else {
+            self.attributes.contains_key(&214)
+        }
     }
 }
