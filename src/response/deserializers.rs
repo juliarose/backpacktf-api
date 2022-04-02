@@ -52,6 +52,11 @@ struct EnumMap {
     id: u8,
 }
 
+#[derive(Deserialize, Serialize)]
+struct EnumNameMap {
+    name: String,
+}
+
 pub fn map_to_enum<'de, D, T>(deserializer: D) -> Result<T, D::Error>
 where
     D: Deserializer<'de>,
@@ -74,6 +79,20 @@ where
     let value = T::try_from(map.id).map_err(de::Error::custom)?;
     
     Ok(Some(value))
+}
+
+pub fn map_to_enum_option_from_name<'de, D, T>(deserializer: D) -> Result<Option<T>, D::Error>
+where
+    D: Deserializer<'de>,
+    T: TryFromPrimitive + FromStr,
+{
+    let map = EnumNameMap::deserialize(deserializer)?;
+    
+    if let Ok(value) = T::from_str(&map.name) {
+        Ok(Some(value))
+    } else {
+        Err(de::Error::custom("Unknown paint"))
+    }
 }
 
 // this is somewhat implicit

@@ -48,6 +48,7 @@ mod tests {
     use super::*;
     use super::response;
     use steamid_ng::SteamID;
+    use tf2_enum::Paint;
 
     #[test]
     fn parses_delete_listings() {
@@ -86,8 +87,9 @@ mod tests {
     #[test]
     fn parses_get_listings() {
         let response: GetListingsResponse = serde_json::from_str(include_str!("fixtures/get_listings.json")).unwrap();
-        let listing = response.listings.first().unwrap();
+        let listing = response.listings.iter().find(|listing| listing.id == "440_7764221391").unwrap();
         
-        assert_eq!("Lucky Cat Hat".to_string(), listing.item.name); 
+        assert_eq!("Lucky Cat Hat", &listing.item.name); 
+        assert_eq!(Paint::PinkAsHell, *listing.item.paint.as_ref().unwrap()); 
     }
 }
