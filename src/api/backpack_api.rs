@@ -1,4 +1,7 @@
-use std::sync::Arc;
+use std::{
+    time::Duration,
+    sync::Arc
+};
 use crate::{
     ListingIntent,
     currency_type::CurrencyType,
@@ -19,6 +22,7 @@ use super::{
     api_response,
     helpers::parses_response,
 };
+use async_std::task::sleep;
 use serde::{Serialize, Deserialize};
 use url::Url;
 use reqwest::cookie::Jar;
@@ -157,6 +161,35 @@ impl BackpackAPI {
         } else {
             Err(APIError::Response("No players in response".into()))
         }
+    }
+    
+    pub async fn get_all_alerts(
+        &self,
+        skip: u32,
+    ) -> Result<Vec<response::alert::Alert>, APIError> {
+        let mut all = Vec::new();
+        let mut limit = 100;
+        let mut skip = skip;
+        
+        loop {
+            let (mut alerts, this_cursor) = self.get_alerts(skip, limit).await?;
+            
+            cursor = this_cursor;
+            all.append(&mut alerts);
+            
+            limit = cursor.limit;
+            skip = cursor.skip + limit;
+            
+            if limit + skip >= cursor.total {
+                // we done
+                break;
+            }
+            
+            // take a break
+            sleep(Duration::from_secs(1)).await;
+        }
+        
+        Ok(all)
     }
     
     pub async fn get_alerts(

@@ -12,6 +12,8 @@ use super::Item;
 use chrono::serde::ts_seconds;
 use steamid_ng::SteamID;
 
+pub use crate::response::listing::UserAgent;
+
 #[derive(Serialize, Deserialize, PartialEq, Clone, Debug)]
 pub struct Listing {
     pub steamid: SteamID,
@@ -29,6 +31,7 @@ pub struct Listing {
     pub price: f32,
     pub item: Item,
     pub currencies: Currencies,
+    pub user_agent: Option<UserAgent>,
 }
 
 impl Listing {
@@ -39,5 +42,9 @@ impl Listing {
     
     pub fn is_sell_order(&self) -> bool {
         self.intent == ListingIntent::Sell
+    }
+    
+    pub fn is_automatic(&self) -> bool {
+        self.user_agent.is_some()
     }
 }
