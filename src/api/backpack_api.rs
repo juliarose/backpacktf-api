@@ -172,11 +172,9 @@ impl BackpackAPI {
         let mut skip = skip;
         
         loop {
-            let (mut alerts, this_cursor) = self.get_alerts(skip, limit).await?;
+            let (mut alerts, cursor) = self.get_alerts(skip, limit).await?;
             
-            cursor = this_cursor;
             all.append(&mut alerts);
-            
             limit = cursor.limit;
             skip = cursor.skip + limit;
             
