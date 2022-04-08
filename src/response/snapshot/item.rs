@@ -43,8 +43,10 @@ impl Item {
     // in addition, most of these methods can be written in a more generic way
     pub fn get_particle_value(&self) -> Option<u32> {
         if let Some(attribute) = self.attributes.get(&134) {
-            if let Some(float_value) = &attribute.float_value {
-                return Some(*float_value as u32);
+            if let Some(float_value) = attribute.float_value {
+                if let Ok(float_value) = u32::try_from(float_value as u64) {
+                    return Some(float_value);
+                }
             }
         }
         
@@ -53,8 +55,10 @@ impl Item {
     
     pub fn get_skin_value(&self) -> Option<u32> {
         if let Some(attribute) = self.attributes.get(&834) {
-            if let Some(AttributeValue::Number(value)) = &attribute.value {
-                return Some(*value as u32);
+            if let Some(AttributeValue::Number(value)) = attribute.value {
+                if let Ok(value) = u32::try_from(value) {
+                    return Some(value as u32);
+                }
             }
         }
         
@@ -63,9 +67,11 @@ impl Item {
     
     pub fn get_killstreak_tier(&self) -> Option<KillstreakTier> {
         if let Some(attribute) = self.attributes.get(&KillstreakTier::DEFINDEX) {
-            if let Some(float_value) = &attribute.float_value {
-                if let Ok(killstreak_tier) = KillstreakTier::try_from(*float_value as u8) {
-                    return Some(killstreak_tier);
+            if let Some(float_value) = attribute.float_value {
+                if let Ok(float_value) = u8::try_from(float_value as u64) {
+                    if let Ok(killstreak_tier) = KillstreakTier::try_from(float_value) {
+                        return Some(killstreak_tier);
+                    }
                 }
             }
         }
@@ -92,22 +98,26 @@ impl Item {
                 if let Some(attribute) = self.attributes.get(defindex) {
                     match *defindex {
                         Spell::DEFINDEX_FOOTPRINTS => {
-                            let value = attribute.float_value.unwrap_or_default() as u32;
-                            
-                            if let Ok(spell) = FootprintsSpell::try_from(value) {
-                                Some(Spell::Footprints(spell))
-                            } else {
-                                None
+                            if let Some(float_value) = attribute.float_value {
+                                if let Ok(float_value) = u32::try_from(float_value as u64) {
+                                    if let Ok(spell) = FootprintsSpell::try_from(float_value) {
+                                        return Some(Spell::Footprints(spell));
+                                    }
+                                }
                             }
+                            
+                            None
                         },
                         Spell::DEFINDEX_PAINT => {
-                            let value = attribute.float_value.unwrap_or_default() as u32;
-                            
-                            if let Ok(spell) = PaintSpell::try_from(value) {
-                                Some(Spell::Paint(spell))
-                            } else {
-                                None
+                            if let Some(float_value) = attribute.float_value {
+                                if let Ok(float_value) = u32::try_from(float_value as u64) {
+                                    if let Ok(spell) = PaintSpell::try_from(float_value) {
+                                        return Some(Spell::Paint(spell));
+                                    }
+                                }
                             }
+                            
+                            None
                         },
                         Spell::DEFINDEX_VOICES_FROM_BELOW => Some(Spell::VoicesFromBelow),
                         Spell::DEFINDEX_PUMPKIN_BOMBS => Some(Spell::PumpkinBombs),
@@ -136,9 +146,18 @@ impl Item {
                 let result = self.attributes.get(&defindex)
                     .map(|attribute| attribute.float_value)
                     .flatten()
-                    .map(|float_value| StrangePart::try_from(float_value as u8));
+                    .map(|float_value| {
+                        if let Ok(float_value) = u8::try_from(float_value as u64) {
+                            if let Ok(strange_part) = StrangePart::try_from(float_value) {
+                                return Some(strange_part);
+                            }
+                        }
+                        
+                        None
+                    })
+                    .flatten();
                 
-                if let Some(Ok(strange_part)) = result {
+                if let Some(strange_part) = result {
                     Some(strange_part)
                 } else {
                     None
@@ -158,8 +177,10 @@ impl Item {
         if self.defindex < 5027 || self.defindex > 5077 {
             if let Some(attribute) = self.attributes.get(&Paint::DEFINDEX) {
                 if let Some(float_value) = attribute.float_value {
-                    if let Ok(paint) = Paint::try_from(float_value as u32) {
-                        return Some(paint);
+                    if let Ok(float_value) = u32::try_from(float_value as u64) {
+                        if let Ok(paint) = Paint::try_from(float_value) {
+                            return Some(paint);
+                        }
                     }
                 }
             }
@@ -171,8 +192,10 @@ impl Item {
     pub fn get_killstreaker(&self) -> Option<Killstreaker> {
         if let Some(attribute) = self.attributes.get(&Killstreaker::DEFINDEX) {
             if let Some(float_value) = attribute.float_value {
-                if let Ok(killstreaker) = Killstreaker::try_from(float_value as u32) {
-                    return Some(killstreaker);
+                if let Ok(float_value) = u32::try_from(float_value as u64) {
+                    if let Ok(killstreaker) = Killstreaker::try_from(float_value) {
+                        return Some(killstreaker);
+                    }
                 }
             }
         }
@@ -183,8 +206,10 @@ impl Item {
     pub fn get_sheen(&self) -> Option<Sheen> {
         if let Some(attribute) = self.attributes.get(&Sheen::DEFINDEX) {
             if let Some(float_value) = attribute.float_value {
-                if let Ok(sheen) = Sheen::try_from(float_value as u8) {
-                    return Some(sheen);
+                if let Ok(float_value) = u8::try_from(float_value as u64) {
+                    if let Ok(sheen) = Sheen::try_from(float_value) {
+                        return Some(sheen);
+                    }
                 }
             }
         }

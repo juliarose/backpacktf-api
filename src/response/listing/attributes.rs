@@ -1,4 +1,3 @@
-use num_enum::TryFromPrimitiveError;
 use serde::{Serialize, Deserialize};
 use tf2_enum::{StrangePart, Rarity};
 
@@ -36,6 +35,21 @@ pub struct KillEaterTypeAttribute {
     pub name: String,
 }
 
+impl KillEaterTypeAttribute {
+    
+    pub fn get_strange_part(&self) -> Option<StrangePart> {
+        let id = self.id.unwrap_or_default();
+        
+        if let Ok(id) = u8::try_from(id) {
+            if let Ok(strange_part) = StrangePart::try_from(id) {
+                return Some(strange_part);
+            }
+        }
+        
+        None
+    }
+}
+
 #[derive(Serialize, Deserialize, PartialEq, Clone, Debug)]
 #[serde(rename_all = "camelCase")]
 pub struct KillEaterAttribute {
@@ -45,8 +59,8 @@ pub struct KillEaterAttribute {
 
 impl KillEaterAttribute {
     
-    pub fn try_into_strange_part(&self) -> Result<StrangePart, TryFromPrimitiveError<StrangePart>> {
-        StrangePart::try_from(self.kill_eater.id.unwrap_or_default() as u8)
+    pub fn get_strange_part(&self) -> Option<StrangePart> {
+        self.kill_eater.get_strange_part()
     }
 }
 
@@ -65,3 +79,17 @@ impl KillEaterAttribute {
 //     pub name: String,
 //     pub short: String,
 // }
+#[cfg(test)]
+mod tests {
+    use super::*;
+    
+    #[test]
+    fn kill_eater_into_strange_part() {
+        let attribute = KillEaterTypeAttribute {
+            id: Some(17),
+            name: "Engineers Killed".into()
+        };
+        
+        assert_eq!(attribute.get_strange_part(), Some(StrangePart::EngineersKilled));
+    }
+}

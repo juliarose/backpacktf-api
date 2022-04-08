@@ -32,8 +32,8 @@ mod tests {
     use super::*;
     use crate::tf2_price::{Currencies, refined, scrap};
     use tf2_enum::{Quality, KillstreakTier};
-    use assert_json_diff::assert_json_include;
     use serde_json::{self, json, Value};
+    use assert_json_diff::assert_json_include;
     
     #[test]
     fn serializes_correctly() {
