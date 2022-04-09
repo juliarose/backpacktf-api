@@ -65,6 +65,14 @@ impl Listing {
             false
         }
     }
+    
+    pub fn access_token(&self) -> Option<String> {
+        if let Some(user) = &self.user {
+            user.access_token()
+        } else {
+            None
+        }
+    }
 }
 
 #[cfg(test)]
@@ -82,3 +90,4 @@ mod tests {
         assert_eq!(strange, false);
     }
 }
+
