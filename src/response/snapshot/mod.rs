@@ -55,6 +55,9 @@ mod tests {
     #[test]
     fn parses_listings() {
         let listing: Listing = serde_json::from_str(include_str!("fixtures/snapshot_listing_string_attributes.json")).unwrap();
+        
+        assert!(listing.is_automatic());
+        
         let intent = listing.intent;
         let attribute_380 = listing.item.attributes.get(&380).unwrap().to_owned();
         let attribute_383 = listing.item.attributes.get(&383).unwrap().to_owned();

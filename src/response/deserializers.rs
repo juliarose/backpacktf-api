@@ -2,7 +2,6 @@ use std::{
     str::FromStr,
     fmt::Display,
     marker::PhantomData,
-    collections::HashMap,
 };
 use crate::response::attributes::{Attributes, Attribute, Value as AttributeValue};
 use crate::{ListingIntent, CurrencyType};
@@ -200,7 +199,7 @@ where
     struct ItemsVisitor;
     
     impl<'de> Visitor<'de> for ItemsVisitor {
-        type Value = HashMap<u32, Attribute>;
+        type Value = Attributes;
         
         fn expecting(&self, formatter: &mut std::fmt::Formatter) -> std::fmt::Result {
             formatter.write_str("a sequence of items")
@@ -210,7 +209,7 @@ where
         where
             V: SeqAccess<'de>,
         {
-            let mut map = HashMap::with_capacity(seq.size_hint().unwrap_or(0));
+            let mut map = Attributes::with_capacity(seq.size_hint().unwrap_or(0));
             
             while let Some(item) = seq.next_element::<Attribute>()? {
                 map.insert(item.defindex, item);
@@ -260,7 +259,7 @@ where
 pub fn string_or_number<'de, D, T>(deserializer: D) -> Result<T, D::Error>
 where
     D: Deserializer<'de>,
-    T: FromStr + TryFrom<u64> + Deserialize<'de>,
+    T: FromStr + TryFrom<i64> + TryFrom<u64> + Deserialize<'de>,
     T::Err: Display,
 {
     struct NumericVisitor<T> {
@@ -277,13 +276,27 @@ where
     
     impl<'de, T> de::Visitor<'de> for NumericVisitor<T>
     where 
-        T: FromStr + TryFrom<u64> + Deserialize<'de>,
+        T: FromStr + TryFrom<i64> + TryFrom<u64> + Deserialize<'de>,
         T::Err: Display,
     {
         type Value = T;
     
         fn expecting(&self, formatter: &mut std::fmt::Formatter) -> std::fmt::Result {
             formatter.write_str("an integer or a string")
+        }
+    
+        fn visit_i64<E>(self, v: i64) -> Result<Self::Value, E>
+        where
+            E: de::Error,
+        {
+            match T::try_from(v) {
+                Ok(c) => {
+                    Ok(c)
+                },
+                Err(_e) => {
+                    Err(de::Error::custom("Number too large to fit in target type"))
+                }
+            }
         }
     
         fn visit_u64<E>(self, v: u64) -> Result<Self::Value, E>

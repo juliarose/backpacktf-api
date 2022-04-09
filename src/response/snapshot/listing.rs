@@ -15,6 +15,7 @@ use steamid_ng::SteamID;
 pub use crate::response::listing::UserAgent;
 
 #[derive(Serialize, Deserialize, PartialEq, Clone, Debug)]
+#[serde(rename_all = "camelCase")]
 pub struct Listing {
     pub steamid: SteamID,
     #[serde(deserialize_with = "bool_from_int")]
@@ -31,6 +32,7 @@ pub struct Listing {
     pub price: f32,
     pub item: Item,
     pub currencies: Currencies,
+    #[serde(default)]
     pub user_agent: Option<UserAgent>,
 }
 

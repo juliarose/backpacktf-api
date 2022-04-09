@@ -10,7 +10,7 @@ use crate::{
     }
 };
 
-pub type Attributes = HashMap<u32, Attribute>;
+pub type Attributes = HashMap<i32, Attribute>;
 
 #[derive(Serialize, Deserialize, PartialEq, Clone, Debug)]
 #[serde(untagged)]
@@ -24,7 +24,7 @@ pub type FloatValue = f64;
 #[derive(Serialize, Deserialize, PartialEq, Clone, Debug)]
 pub struct Attribute {
     #[serde(deserialize_with = "string_or_number")]
-    pub defindex: u32,
+    pub defindex: i32,
     #[serde(default)]
     #[serde(deserialize_with = "attribute_value")]
     pub value: Option<Value>,

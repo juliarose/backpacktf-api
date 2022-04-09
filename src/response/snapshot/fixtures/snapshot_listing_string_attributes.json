@@ -44,5 +44,9 @@
     "currencies": {
         "keys": 44
     },
-    "bump": 1644994040
+    "bump": 1644994040,
+    "userAgent": {
+        "lastPulse": 1637714449,
+        "client": "python-requests/2.22.0"
+    }
 }

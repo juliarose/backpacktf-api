@@ -84,7 +84,7 @@ impl Item {
     }
     
     pub fn get_killstreak_tier(&self) -> Option<KillstreakTier> {
-        if let Some(attribute) = self.attributes.get(&KillstreakTier::DEFINDEX) {
+        if let Some(attribute) = self.attributes.get(&(KillstreakTier::DEFINDEX as i32)) {
             if let Some(float_value) = attribute.float_value {
                 if let Some(float_value) = convert_float_u8(float_value) {
                     if let Ok(killstreak_tier) = KillstreakTier::try_from(float_value) {
@@ -98,7 +98,7 @@ impl Item {
     }
     
     pub fn get_wear(&self) -> Option<Wear> {
-        if let Some(attribute) = self.attributes.get(&Wear::DEFINDEX) {
+        if let Some(attribute) = self.attributes.get(&(Wear::DEFINDEX as i32)) {
             if let Some(float_value) = attribute.float_value {
                 if let Ok(wear) = Wear::try_from(float_value) {
                     return Some(wear);
@@ -113,7 +113,7 @@ impl Item {
         let spells = Spell::DEFINDEX
             .iter()
             .map(|defindex| {
-                if let Some(attribute) = self.attributes.get(defindex) {
+                if let Some(attribute) = self.attributes.get(&(*defindex as i32)) {
                     match *defindex {
                         Spell::DEFINDEX_FOOTPRINTS => {
                             if let Some(float_value) = attribute.float_value {
@@ -161,7 +161,7 @@ impl Item {
         let strange_parts = StrangePart::DEFINDEX 
             .into_iter()
             .map(|defindex| {
-                let result = self.attributes.get(&defindex)
+                let result = self.attributes.get(&(*defindex as i32))
                     .map(|attribute| attribute.float_value)
                     .flatten()
                     .map(|float_value| {
@@ -193,7 +193,7 @@ impl Item {
     
     pub fn get_paint(&self) -> Option<Paint> {
         if self.defindex < 5027 || self.defindex > 5077 {
-            if let Some(attribute) = self.attributes.get(&Paint::DEFINDEX) {
+            if let Some(attribute) = self.attributes.get(&(Paint::DEFINDEX as i32)) {
                 if let Some(float_value) = attribute.float_value {
                     if let Some(float_value) = convert_float_u32(float_value) {
                         if let Ok(paint) = Paint::try_from(float_value) {
@@ -208,7 +208,7 @@ impl Item {
     }
     
     pub fn get_killstreaker(&self) -> Option<Killstreaker> {
-        if let Some(attribute) = self.attributes.get(&Killstreaker::DEFINDEX) {
+        if let Some(attribute) = self.attributes.get(&(Killstreaker::DEFINDEX as i32)) {
             if let Some(float_value) = attribute.float_value {
                 if let Some(float_value) = convert_float_u32(float_value) {
                     if let Ok(killstreaker) = Killstreaker::try_from(float_value) {
@@ -222,7 +222,7 @@ impl Item {
     }
     
     pub fn get_sheen(&self) -> Option<Sheen> {
-        if let Some(attribute) = self.attributes.get(&Sheen::DEFINDEX) {
+        if let Some(attribute) = self.attributes.get(&(Sheen::DEFINDEX as i32)) {
             if let Some(float_value) = attribute.float_value {
                 if let Some(float_value) = convert_float_u8(float_value) {
                     if let Ok(sheen) = Sheen::try_from(float_value) {

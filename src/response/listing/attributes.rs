@@ -64,21 +64,6 @@ impl KillEaterAttribute {
     }
 }
 
-// #[derive(Serialize, Deserialize, PartialEq, Clone, Debug)]
-// #[serde(rename_all = "camelCase")]
-// pub struct QualityAttribute {
-//     pub id: u32,
-//     pub name: String,
-//     pub color: String,
-// }
-
-// #[derive(Serialize, Deserialize, PartialEq, Clone, Debug)]
-// #[serde(rename_all = "camelCase")]
-// pub struct WearTierAttribute {
-//     pub id: u32,
-//     pub name: String,
-//     pub short: String,
-// }
 #[cfg(test)]
 mod tests {
     use super::*;
