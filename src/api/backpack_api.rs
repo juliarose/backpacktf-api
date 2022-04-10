@@ -913,4 +913,25 @@ impl BackpackAPI {
         
         Ok(())
     }
+
+    // pub async fn classifieds_limits(
+    //     &self,
+    // ) -> Result<response::agent::AgentStatus, APIError> {
+    //     #[derive(Serialize, Debug)]
+    //     struct Params<'a> {
+    //         token: &'a str,
+    //     }
+        
+    //     let token = self.get_token()?;
+    //     let uri = self.get_api_uri("/agent/status");
+    //     let response = self.client.post(uri)
+    //         .query(&Params {
+    //             token,
+    //         })
+    //         .send()
+    //         .await?;
+    //     let body: response::agent::AgentStatus = parses_response(response).await?;
+        
+    //     Ok(body)
+    // }
 }
