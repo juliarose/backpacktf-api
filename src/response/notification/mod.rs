@@ -6,8 +6,7 @@ pub use contents::Contents;
 
 use serde::{Serialize, Deserialize};
 use chrono::serde::ts_seconds;
-use crate::time::ServerTime;
-use steamid_ng::SteamID;
+use crate::{SteamID, time::ServerTime};
 
 #[derive(Serialize, Deserialize, PartialEq, Clone, Debug)]
 #[serde(rename_all = "camelCase")]

@@ -5,12 +5,14 @@ pub use min_max::MinMax;
 pub use price::Price;
 
 use serde::{Deserialize, Serialize};
-use crate::response::deserializers::{
-    listing_intent_enum_from_str
+use crate::{
+    SteamID,
+    ListingIntent,
+    response::{
+        deserializers::bool_from_int,
+        deserializers::listing_intent_enum_from_str
+    },
 };
-use crate::response::deserializers::bool_from_int;
-use crate::ListingIntent;
-use steamid_ng::SteamID;
 
 #[derive(Serialize, Deserialize, PartialEq, Clone, Debug)]
 pub struct Alert {

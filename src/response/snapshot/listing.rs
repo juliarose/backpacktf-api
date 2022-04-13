@@ -1,18 +1,19 @@
 use serde::{Serialize, Deserialize};
 use crate::{
+    SteamID,
     ListingIntent,
     time::ServerTime,
-    response::currencies::Currencies,
-    response::deserializers::{
-        bool_from_int,
-        listing_intent_enum_from_str
+    response::{
+        listing::UserAgent,
+        currencies::Currencies,
+        deserializers::{
+            bool_from_int,
+            listing_intent_enum_from_str,
+        },
     },
 };
 use super::Item;
 use chrono::serde::ts_seconds;
-use steamid_ng::SteamID;
-
-pub use crate::response::listing::UserAgent;
 
 #[derive(Serialize, Deserialize, PartialEq, Clone, Debug)]
 #[serde(rename_all = "camelCase")]

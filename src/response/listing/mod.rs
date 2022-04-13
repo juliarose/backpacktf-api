@@ -16,8 +16,8 @@ pub use value::Value;
 pub use user_agent::UserAgent;
 
 use serde::{Serialize, Deserialize};
-use steamid_ng::SteamID;
 use crate::{
+    SteamID,
     ListingIntent,
     time::ServerTime,
     request::Currencies,

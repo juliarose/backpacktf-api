@@ -1,17 +1,17 @@
 pub mod buy_listing;
 
 use serde::{Deserialize, Serialize};
-use crate::request::{currencies::Currencies, serializers::as_string};
+use crate::request::serializers::as_string;
 use buy_listing::serializers::buy_listing_item_into_params;
 
 #[derive(Deserialize, Serialize, PartialEq, Debug, Clone)]
 #[serde(tag = "intent")]
-pub enum CreateListing {
+pub enum CreateListing<T> {
     #[serde(rename = "sell")]
     Sell {
         #[serde(serialize_with = "as_string")]
         id: u64,
-        currencies: Currencies,
+        currencies: T,
         #[serde(skip_serializing_if = "Option::is_none")]
         details: Option<String>,
         buyout: bool,
@@ -21,7 +21,7 @@ pub enum CreateListing {
     Buy {
         #[serde(serialize_with = "buy_listing_item_into_params")]
         item: buy_listing::Item,
-        currencies: Currencies,
+        currencies: T,
         #[serde(skip_serializing_if = "Option::is_none")]
         details: Option<String>,
         buyout: bool,
@@ -45,7 +45,7 @@ mod tests {
             currencies: Currencies {
                 keys: 5,
                 metal: refined!(5),
-            }.into(),
+            },
             buyout: false,
             offers: false,
         }).unwrap();
@@ -91,7 +91,7 @@ mod tests {
             currencies: Currencies {
                 keys: 5,
                 metal: refined!(5) + scrap!(3),
-            }.into(),
+            },
             buyout: false,
             offers: false,
         }).unwrap();

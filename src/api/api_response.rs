@@ -47,7 +47,7 @@ pub struct GetAlertsResponse {
 mod tests {
     use super::*;
     use super::response;
-    use steamid_ng::SteamID;
+    use crate::SteamID;
     use tf2_enum::Paint;
 
     #[test]

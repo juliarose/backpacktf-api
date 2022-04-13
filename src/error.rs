@@ -1,7 +1,5 @@
-use thiserror::Error;
-
-#[derive(Error, Debug)]
-pub enum APIError {
+#[derive(thiserror::Error, Debug)]
+pub enum Error {
     #[error("Missing token")]
     MissingToken,
     #[error("Missing key")]
@@ -20,14 +18,15 @@ pub enum APIError {
     Http(reqwest::StatusCode),
 }
 
-impl From<reqwest_middleware::Error> for APIError {
-    fn from(error: reqwest_middleware::Error) -> APIError {
+impl From<reqwest_middleware::Error> for Error {
+    
+    fn from(error: reqwest_middleware::Error) -> Self {
         match error {
             reqwest_middleware::Error::Reqwest(e) => {
-                APIError::Reqwest(e)
+                Self::Reqwest(e)
             },
             reqwest_middleware::Error::Middleware(e) => {
-                APIError::ReqwestMiddleware(e)
+                Self::ReqwestMiddleware(e)
             },
         }
     }

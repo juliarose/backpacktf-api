@@ -1,8 +1,8 @@
-use std::{
-    time::Duration,
-    sync::Arc
-};
+use std::{time::Duration,sync::Arc };
 use crate::{
+    SteamID,
+    BackpackAPIBuilder, 
+    error::Error,
     ListingIntent,
     currency_type::CurrencyType,
     request::{
@@ -17,18 +17,13 @@ use crate::{
     },
     response,
 };
-use super::{
-    APIError,
-    api_response,
-    helpers::parses_response,
-};
+use crate::tf2_price::traits::SerializeCurrencies;
+use super::{api_response, helpers};
 use async_std::task::sleep;
 use serde::{Serialize, Deserialize};
 use url::Url;
 use reqwest::cookie::Jar;
 use reqwest_middleware::ClientWithMiddleware;
-use steamid_ng::SteamID;
-use crate::BackpackAPIBuilder;
 
 const RESPONSE_UNSUCCESSFUL_MESSAGE: &str = "Empty response";
 
@@ -84,19 +79,19 @@ impl BackpackAPI {
         format!("{}{}", self.get_uri("/api"), endpoint)
     }
     
-    fn get_token(&self) -> Result<&str, APIError> {
+    fn get_token(&self) -> Result<&str, Error> {
         if let Some(token) = &self.token {
             Ok(token)
         } else {
-            Err(APIError::MissingToken)
+            Err(Error::MissingToken)
         }
     }
     
-    fn get_key(&self) -> Result<&str, APIError> {
+    fn get_key(&self) -> Result<&str, Error> {
         if let Some(key) = &self.key {
             Ok(key)
         } else {
-            Err(APIError::MissingKey)
+            Err(Error::MissingKey)
         }
     }
     
@@ -114,21 +109,21 @@ impl BackpackAPI {
     pub async fn get_user(
         &self,
         steamid: &SteamID,
-    ) -> Result<response::player::Player, APIError> {
+    ) -> Result<response::player::Player, Error> {
         let steamids: Vec<SteamID> = vec![*steamid];
         let players = self.get_users(&steamids).await?;
         
         if let Some(player) = players.get(steamid) {
             Ok(player.to_owned())
         } else {
-            Err(APIError::Response("No player with SteamID in response".into()))
+            Err(Error::Response("No player with SteamID in response".into()))
         }
     }
     
     pub async fn get_users<'b>(
         &self,
         steamids: &'b [SteamID],
-    ) -> Result<response::player::Players, APIError> {
+    ) -> Result<response::player::Players, Error> {
         #[derive(Serialize, Debug)]
         struct Params<'a, 'b> {
             key: &'a str,
@@ -137,7 +132,7 @@ impl BackpackAPI {
         }
         
         if steamids.is_empty() {
-            return Err(APIError::Parameter("No steamids given"));
+            return Err(Error::Parameter("No steamids given"));
         }
         
         let key = self.get_key()?;
@@ -149,24 +144,24 @@ impl BackpackAPI {
             })
             .send()
             .await?;
-        let body: api_response::GetUsersResponseWrapper = parses_response(response).await?;
+        let body: api_response::GetUsersResponseWrapper = helpers::parses_response(response).await?;
         
         if !body.response.success {
-            Err(APIError::Response(
+            Err(Error::Response(
                 body.response.message
                     .unwrap_or_else(|| RESPONSE_UNSUCCESSFUL_MESSAGE.to_string())
             ))
         } else if let Some(players) = body.response.players {
             Ok(players)
         } else {
-            Err(APIError::Response("No players in response".into()))
+            Err(Error::Response("No players in response".into()))
         }
     }
     
     pub async fn get_all_alerts(
         &self,
         skip: u32,
-    ) -> Result<Vec<response::alert::Alert>, APIError> {
+    ) -> Result<Vec<response::alert::Alert>, Error> {
         let mut all = Vec::new();
         let mut limit = 100;
         let mut skip = skip;
@@ -194,7 +189,7 @@ impl BackpackAPI {
         &self,
         skip: u32,
         limit: u32,
-    ) -> Result<(Vec<response::alert::Alert>, response::cursor::Cursor), APIError> {
+    ) -> Result<(Vec<response::alert::Alert>, response::cursor::Cursor), Error> {
         #[derive(Serialize, Debug)]
         struct Params<'a> {
             token: &'a str,
@@ -212,7 +207,7 @@ impl BackpackAPI {
             })
             .send()
             .await?;
-        let body: api_response::GetAlertsResponse = parses_response(response).await?;
+        let body: api_response::GetAlertsResponse = helpers::parses_response(response).await?;
         
         Ok((body.alerts, body.cursor))
     }
@@ -223,7 +218,7 @@ impl BackpackAPI {
         item_name: &str,
         intent: &ListingIntent,
         price: Option<request::MinMax>,
-    ) -> Result<response::alert::Alert, APIError> {
+    ) -> Result<response::alert::Alert, Error> {
         #[derive(Serialize, Debug)]
         struct Params<'a, 'b> {
             token: &'a str,
@@ -264,7 +259,7 @@ impl BackpackAPI {
             })
             .send()
             .await?;
-        let body: response::alert::Alert = parses_response(response).await?;
+        let body: response::alert::Alert = helpers::parses_response(response).await?;
         
         Ok(body)
     }
@@ -273,7 +268,7 @@ impl BackpackAPI {
         &self,
         item_name: &str,
         intent: &ListingIntent,
-    ) -> Result<(), APIError> {
+    ) -> Result<(), Error> {
         #[derive(Serialize, Debug)]
         struct Params<'a, 'b> {
             token: &'a str,
@@ -299,7 +294,7 @@ impl BackpackAPI {
     pub async fn delete_alert(
         &self,
         id: &str,
-    ) -> Result<(), APIError> {
+    ) -> Result<(), Error> {
         #[derive(Serialize, Debug)]
         struct Params<'a> {
             token: &'a str,
@@ -320,7 +315,7 @@ impl BackpackAPI {
     pub async fn get_alert(
         &self,
         id: &str,
-    ) -> Result<response::alert::Alert, APIError> {
+    ) -> Result<response::alert::Alert, Error> {
         #[derive(Serialize, Debug)]
         struct Params<'a> {
             token: &'a str,
@@ -334,7 +329,7 @@ impl BackpackAPI {
             })
             .send()
             .await?;
-        let body: response::alert::Alert = parses_response(response).await?;
+        let body: response::alert::Alert = helpers::parses_response(response).await?;
             
         Ok(body)
     }
@@ -342,7 +337,7 @@ impl BackpackAPI {
     pub async fn get_notification(
         &self,
         id: &str,
-    ) -> Result<response::notification::Notification, APIError> {
+    ) -> Result<response::notification::Notification, Error> {
         #[derive(Serialize, Debug)]
         struct Params<'a> {
             token: &'a str,
@@ -355,7 +350,7 @@ impl BackpackAPI {
             })
             .send()
             .await?;
-        let body: response::notification::Notification = parses_response(response).await?;
+        let body: response::notification::Notification = helpers::parses_response(response).await?;
         
         Ok(body)
     }
@@ -363,7 +358,7 @@ impl BackpackAPI {
     pub async fn delete_notification(
         &self,
         id: &str,
-    ) -> Result<(), APIError> {
+    ) -> Result<(), Error> {
         #[derive(Serialize, Debug)]
         struct Params<'a> {
             token: &'a str,
@@ -386,7 +381,7 @@ impl BackpackAPI {
         skip: u32,
         limit: u32,
         unread: bool,
-    ) -> Result<(Vec<response::notification::Notification>, response::cursor::Cursor), APIError> {
+    ) -> Result<(Vec<response::notification::Notification>, response::cursor::Cursor), Error> {
         #[derive(Serialize, Debug)]
         struct Params<'a> {
             token: &'a str,
@@ -406,14 +401,14 @@ impl BackpackAPI {
             })
             .send()
             .await?;
-        let body: api_response::GetNotificationsResponse = parses_response(response).await?;
+        let body: api_response::GetNotificationsResponse = helpers::parses_response(response).await?;
         
         Ok((body.notifications, body.cursor))
     }
 
     pub async fn get_unread_notifications(
         &self,
-    ) -> Result<Vec<response::notification::Notification>, APIError> {
+    ) -> Result<Vec<response::notification::Notification>, Error> {
         #[derive(Serialize, Debug)]
         struct Params<'a> {
             token: &'a str,
@@ -427,14 +422,14 @@ impl BackpackAPI {
             })
             .send()
             .await?;
-        let notifications: Vec<response::notification::Notification> = parses_response(response).await?;
+        let notifications: Vec<response::notification::Notification> = helpers::parses_response(response).await?;
         
         Ok(notifications)
     }
 
     pub async fn mark_unread_notifications(
         &self,
-    ) -> Result<(), APIError> {
+    ) -> Result<(), Error> {
         #[derive(Serialize, Debug)]
         struct Params<'a> {
             token: &'a str,
@@ -455,7 +450,7 @@ impl BackpackAPI {
     pub async fn get_classifieds_snapshot(
         &self,
         sku: &str,
-    ) -> Result<response::snapshot::Snapshot, APIError> {
+    ) -> Result<response::snapshot::Snapshot, Error> {
         #[derive(Serialize, Debug)]
         struct Params<'a, 'b> {
             token: &'a str,
@@ -473,7 +468,7 @@ impl BackpackAPI {
             })
             .send()
             .await?;
-        let body: response::snapshot::Snapshot = parses_response(response).await?;
+        let body: response::snapshot::Snapshot = helpers::parses_response(response).await?;
         
         Ok(body)
     }
@@ -481,7 +476,7 @@ impl BackpackAPI {
     pub async fn get_inventory_values(
         &self,
         steamid: &SteamID,
-    ) -> Result<response::inventory::InventoryValues, APIError> {
+    ) -> Result<response::inventory::InventoryValues, Error> {
         #[derive(Serialize, Debug)]
         struct Params<'a> {
             token: &'a str,
@@ -495,7 +490,7 @@ impl BackpackAPI {
             })
             .send()
             .await?;
-        let body: response::inventory::InventoryValues = parses_response(response).await?;
+        let body: response::inventory::InventoryValues = helpers::parses_response(response).await?;
         
         Ok(body)
     }
@@ -503,7 +498,7 @@ impl BackpackAPI {
     pub async fn get_inventory_status(
         &self,
         steamid: &SteamID,
-    ) -> Result<response::inventory::InventoryStatus, APIError> {
+    ) -> Result<response::inventory::InventoryStatus, Error> {
         #[derive(Serialize, Debug)]
         struct Params<'a> {
             token: &'a str,
@@ -517,7 +512,7 @@ impl BackpackAPI {
             })
             .send()
             .await?;
-        let body: response::inventory::InventoryStatus = parses_response(response).await?;
+        let body: response::inventory::InventoryStatus = helpers::parses_response(response).await?;
         
         Ok(body)
     }
@@ -525,7 +520,7 @@ impl BackpackAPI {
     pub async fn refresh_inventory(
         &self,
         steamid: &SteamID,
-    ) -> Result<response::inventory::InventoryStatus, APIError> {
+    ) -> Result<response::inventory::InventoryStatus, Error> {
         #[derive(Serialize, Debug)]
         struct Params<'a> {
             token: &'a str,
@@ -539,7 +534,7 @@ impl BackpackAPI {
             })
             .send()
             .await?;
-        let body: response::inventory::InventoryStatus = parses_response(response).await?;
+        let body: response::inventory::InventoryStatus = helpers::parses_response(response).await?;
         
         Ok(body)
     }
@@ -548,7 +543,7 @@ impl BackpackAPI {
         &self,
         skip: u32,
         limit: u32,
-    ) -> Result<(Vec<response::listing::Listing>, response::cursor::Cursor), APIError> {
+    ) -> Result<(Vec<response::listing::Listing>, response::cursor::Cursor), Error> {
         #[derive(Serialize, Debug)]
         struct Params<'a> {
             token: &'a str,
@@ -566,15 +561,18 @@ impl BackpackAPI {
             })
             .send()
             .await?;
-        let body: api_response::GetListingsResponse = parses_response(response).await?;
+        let body: api_response::GetListingsResponse = helpers::parses_response(response).await?;
         
         Ok((body.listings, body.cursor))
     }
     
-    pub async fn create_listings(
+    pub async fn create_listings<'de, T>(
         &self,
-        listings: &[request::CreateListing],
-    ) -> Result<response::listing::create_listing::CreateListingsResult, APIError> {
+        listings: Vec<request::CreateListing<T>>,
+    ) -> Result<response::listing::create_listing::CreateListingsResult<T>, Error>
+    where
+        T: SerializeCurrencies<'de>
+    {
         #[derive(Serialize, Debug)]
         struct Params<'a> {
             token: &'a str,
@@ -592,9 +590,9 @@ impl BackpackAPI {
         }
         
         if listings.is_empty() {
-            return Err(APIError::Parameter("No listings given"));
+            return Err(Error::Parameter("No listings given"));
         } else if listings.len() > 100 {
-            return Err(APIError::Parameter("Maximum of 100 listings allowed"));
+            return Err(Error::Parameter("Maximum of 100 listings allowed"));
         }
         
         let token = self.get_token()?;
@@ -603,32 +601,30 @@ impl BackpackAPI {
             .query(&Params {
                 token,
             })
-            .json(listings)
+            .json(&listings)
             .send()
             .await?;
-        let body: Vec<CreateListingResponse> = parses_response(response).await?;
+        let body: Vec<CreateListingResponse> = helpers::parses_response(response).await?;
         let mut result = response::listing::create_listing::CreateListingsResult {
             success: Vec::new(),
             error: Vec::new(),
         };
         
         if body.len() != listings.len() {
-            return Err(APIError::Parameter("Results and query have different number of listings"));
+            return Err(Error::Parameter("Results and query have different number of listings"));
         }
         
-        for (i, response) in body.iter().enumerate() {
+        for (response, query) in body.iter().zip(listings) {
             if let Some(error) = &response.error {
                 // there should be a query at this index...
                 result.error.push(response::listing::create_listing::ErrorListing {
                     message: error.message.to_owned(),
-                    // this is guaranteed based on the length comparison check above
-                    // it will need to be cloned
-                    query: listings[i].clone(),
+                    query,
                 });
             } else if let Some(listing) = &response.result {
                 result.success.push(listing.to_owned());
             } else {
-                return Err(APIError::Response("Object with missing field".into()));
+                return Err(Error::Response("Object with missing field".into()));
             }
         }
         
@@ -638,7 +634,7 @@ impl BackpackAPI {
     pub async fn delete_listing(
         &self,
         id: &str,
-    ) -> Result<(), APIError> {
+    ) -> Result<(), Error> {
         #[derive(Serialize, Debug)]
         struct Params<'a> {
             token: &'a str,
@@ -657,15 +653,18 @@ impl BackpackAPI {
         Ok(())
     }
     
-    pub async fn update_listing(
+    pub async fn update_listing<'de, T>(
         &self,
         id: &str,
         details: Option<String>,
-        currencies: &request::Currencies,
-    ) -> Result<response::listing::Listing, APIError> {
+        currencies: &T,
+    ) -> Result<response::listing::Listing, Error>
+    where
+        T: SerializeCurrencies<'de>
+    {
         #[derive(Serialize, Debug)]
-        struct JSONParams<'b> {
-            currencies: &'b request::Currencies,
+        struct JSONParams<'b, T>  {
+            currencies: &'b T,
             details: Option<String>,
         }
         
@@ -686,7 +685,7 @@ impl BackpackAPI {
             })
             .send()
             .await?;
-        let body: response::listing::Listing = parses_response(response).await?;
+        let body: response::listing::Listing = helpers::parses_response(response).await?;
         
         Ok(body)
     }
@@ -694,7 +693,7 @@ impl BackpackAPI {
     pub async fn promote_listing(
         &self,
         id: &str,
-    ) -> Result<response::listing::Listing, APIError> {
+    ) -> Result<response::listing::Listing, Error> {
         #[derive(Serialize, Debug)]
         struct Params<'a> {
             token: &'a str,
@@ -708,7 +707,7 @@ impl BackpackAPI {
             })
             .send()
             .await?;
-        let body: response::listing::Listing = parses_response(response).await?;
+        let body: response::listing::Listing = helpers::parses_response(response).await?;
         
         println!("{:?}", body);
         Ok(body)
@@ -717,7 +716,7 @@ impl BackpackAPI {
     pub async fn demote_listing(
         &self,
         id: &str,
-    ) -> Result<(), APIError> {
+    ) -> Result<(), Error> {
         #[derive(Serialize, Debug)]
         struct Params<'a> {
             token: &'a str,
@@ -737,7 +736,7 @@ impl BackpackAPI {
 
     pub async fn get_listing_batch_limit(
         &self,
-    ) -> Result<response::listing::BatchLimit, APIError> {
+    ) -> Result<response::listing::BatchLimit, Error> {
         #[derive(Serialize, Debug)]
         struct Params<'a> {
             token: &'a str,
@@ -751,7 +750,7 @@ impl BackpackAPI {
             })
             .send()
             .await?;
-        let body: response::listing::BatchLimit = parses_response(response).await?;
+        let body: response::listing::BatchLimit = helpers::parses_response(response).await?;
         
         Ok(body)
     }
@@ -759,7 +758,7 @@ impl BackpackAPI {
     pub async fn delete_listings(
         &self,
         listing_ids: &[String],
-    ) -> Result<response::listing::delete_listing::DeleteListingsResult, APIError> {
+    ) -> Result<response::listing::delete_listing::DeleteListingsResult, Error> {
         #[derive(Serialize, Debug)]
         struct Params<'a, 'b> {
             token: &'a str,
@@ -775,17 +774,20 @@ impl BackpackAPI {
             })
             .send()
             .await?;
-        let response: response::listing::delete_listing::DeleteListingsResult = parses_response(response).await?;
+        let response: response::listing::delete_listing::DeleteListingsResult = helpers::parses_response(response).await?;
         
         Ok(response)
     }
     
-    pub async fn create_listing(
+    pub async fn create_listing<'de, T>(
         &self,
-        listing: &request::CreateListing,
-    ) -> Result<response::listing::Listing, APIError> {
+        listing: &request::CreateListing<T>,
+    ) -> Result<response::listing::Listing, Error>
+    where
+        T: SerializeCurrencies<'de>
+    {
         #[derive(Serialize, Debug)]
-        struct Params<'a, 'b> {
+        struct Params<'a, 'b, T> {
             token: &'a str,
             #[serde(serialize_with = "option_number_to_str", skip_serializing_if = "Option::is_none")]
             id: Option<u64>,
@@ -797,11 +799,11 @@ impl BackpackAPI {
             details: &'b Option<String>,
             buyout: &'b bool,
             offers: &'b bool,
-            currencies: &'b request::Currencies,
+            currencies: &'b T,
         }
         
         let token = self.get_token()?;
-        let params: Params = match listing {
+        let params: Params<T> = match listing {
             request::CreateListing::Buy {
                 item,
                 currencies,
@@ -844,7 +846,7 @@ impl BackpackAPI {
             .json(&params)
             .send()
             .await?;
-        let body: response::listing::Listing = parses_response(response).await?;
+        let body: response::listing::Listing = helpers::parses_response(response).await?;
         
         Ok(body)
     }
@@ -852,7 +854,7 @@ impl BackpackAPI {
     pub async fn agent_pulse(
         &self,
         user_agent: &str,
-    ) -> Result<response::agent::AgentStatus, APIError> {
+    ) -> Result<response::agent::AgentStatus, Error> {
         #[derive(Serialize, Debug)]
         struct Params<'a, 'b> {
             token: &'a str,
@@ -868,14 +870,14 @@ impl BackpackAPI {
             })
             .send()
             .await?;
-        let body: response::agent::AgentStatus = parses_response(response).await?;
+        let body: response::agent::AgentStatus = helpers::parses_response(response).await?;
         
         Ok(body)
     }
 
     pub async fn agent_status(
         &self,
-    ) -> Result<response::agent::AgentStatus, APIError> {
+    ) -> Result<response::agent::AgentStatus, Error> {
         #[derive(Serialize, Debug)]
         struct Params<'a> {
             token: &'a str,
@@ -889,14 +891,14 @@ impl BackpackAPI {
             })
             .send()
             .await?;
-        let body: response::agent::AgentStatus = parses_response(response).await?;
+        let body: response::agent::AgentStatus = helpers::parses_response(response).await?;
         
         Ok(body)
     }
 
     pub async fn stop_agent(
         &self,
-    ) -> Result<(), APIError> {
+    ) -> Result<(), Error> {
         #[derive(Serialize, Debug)]
         struct Params<'a> {
             token: &'a str,
@@ -916,7 +918,7 @@ impl BackpackAPI {
 
     // pub async fn classifieds_limits(
     //     &self,
-    // ) -> Result<response::agent::AgentStatus, APIError> {
+    // ) -> Result<response::agent::AgentStatus, Error> {
     //     #[derive(Serialize, Debug)]
     //     struct Params<'a> {
     //         token: &'a str,
@@ -930,7 +932,7 @@ impl BackpackAPI {
     //         })
     //         .send()
     //         .await?;
-    //     let body: response::agent::AgentStatus = parses_response(response).await?;
+    //     let body: response::agent::AgentStatus = helpers::parses_response(response).await?;
         
     //     Ok(body)
     // }

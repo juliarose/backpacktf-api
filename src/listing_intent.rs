@@ -1,6 +1,7 @@
-use serde::{Serialize, Deserialize};
+use num_enum::{TryFromPrimitive, IntoPrimitive};
+use serde_repr::{Serialize_repr, Deserialize_repr};
 
-#[derive(Serialize, Deserialize, Eq, PartialEq, Clone, Debug)]
+#[derive(Serialize_repr, Deserialize_repr, Eq, PartialEq, Clone, Debug, TryFromPrimitive, IntoPrimitive)]
 #[repr(u8)]
 pub enum ListingIntent {
     Buy = 0,
