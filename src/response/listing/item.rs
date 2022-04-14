@@ -6,7 +6,7 @@ use crate::response::deserializers::{
     map_to_enum_option_from_name,
     presence,
 };
-use super::{Summary, attributes};
+use super::attributes;
 use tf2_enum::{Wear, KillstreakTier, Quality, Paint};
 
 #[derive(Serialize, Deserialize, PartialEq, Clone, Debug)]
@@ -34,7 +34,7 @@ pub struct Item {
     pub image_url: String,
     pub priceindex: String,
     pub slot: String,
-    pub summary: Summary,
+    // pub summary: Summary,
     #[serde(deserialize_with = "map_to_enum")]
     pub quality: Quality,
     #[serde(default)]
