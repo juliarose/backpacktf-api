@@ -8,5 +8,6 @@ pub mod inventory;
 pub mod agent;
 pub mod alert;
 pub mod currencies;
+pub mod classifieds_limits;
 
 pub mod deserializers;

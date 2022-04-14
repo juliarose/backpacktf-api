@@ -916,24 +916,24 @@ impl BackpackAPI {
         Ok(())
     }
 
-    // pub async fn classifieds_limits(
-    //     &self,
-    // ) -> Result<response::agent::AgentStatus, Error> {
-    //     #[derive(Serialize, Debug)]
-    //     struct Params<'a> {
-    //         token: &'a str,
-    //     }
+    pub async fn classifieds_limits(
+        &self,
+    ) -> Result<response::classifieds_limits::ClassifiedsLimits, Error> {
+        #[derive(Serialize, Debug)]
+        struct Params<'a> {
+            token: &'a str,
+        }
         
-    //     let token = self.get_token()?;
-    //     let uri = self.get_api_uri("/agent/status");
-    //     let response = self.client.post(uri)
-    //         .query(&Params {
-    //             token,
-    //         })
-    //         .send()
-    //         .await?;
-    //     let body: response::agent::AgentStatus = helpers::parses_response(response).await?;
+        let token = self.get_token()?;
+        let uri = self.get_api_uri("/classifieds/limits");
+        let response = self.client.post(uri)
+            .query(&Params {
+                token,
+            })
+            .send()
+            .await?;
+        let body: api_response::ClassifiedsLimitResponse = helpers::parses_response(response).await?;
         
-    //     Ok(body)
-    // }
+        Ok(body.listings)
+    }
 }

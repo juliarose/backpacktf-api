@@ -6,7 +6,7 @@ use crate::{
 };
 use chrono::serde::ts_seconds_option;
 
-#[derive(Serialize, Deserialize, Clone, Debug)]
+#[derive(Serialize, Deserialize, Debug)]
 pub struct GetUsersResponse {
     #[serde(deserialize_with = "bool_from_int")]
     pub success: bool,
@@ -17,26 +17,31 @@ pub struct GetUsersResponse {
     pub players: Option<response::player::Players>
 }
 
-#[derive(Serialize, Deserialize, Clone, Debug)]
+#[derive(Serialize, Deserialize, Debug)]
+pub struct ClassifiedsLimitResponse {
+    pub listings: response::classifieds_limits::ClassifiedsLimits,
+}
+
+#[derive(Serialize, Deserialize, Debug)]
 pub struct GetUsersResponseWrapper {
     pub response: GetUsersResponse,
 }
 
-#[derive(Serialize, Deserialize, Clone, Debug)]
+#[derive(Serialize, Deserialize, Debug)]
 pub struct GetNotificationsResponse {
     #[serde(rename(deserialize = "results"))]
     pub notifications: Vec<response::notification::Notification>,
     pub cursor: response::cursor::Cursor,
 }
 
-#[derive(Serialize, Deserialize, Clone, Debug)]
+#[derive(Serialize, Deserialize, Debug)]
 pub struct GetListingsResponse {
     #[serde(rename(deserialize = "results"))]
     pub listings: Vec<response::listing::Listing>,
     pub cursor: response::cursor::Cursor,
 }
 
-#[derive(Serialize, Deserialize, Clone, Debug)]
+#[derive(Serialize, Deserialize, Debug)]
 pub struct GetAlertsResponse {
     #[serde(rename(deserialize = "results"))]
     pub alerts: Vec<response::alert::Alert>,
