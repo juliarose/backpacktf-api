@@ -926,7 +926,7 @@ impl BackpackAPI {
         
         let token = self.get_token()?;
         let uri = self.get_api_uri("/classifieds/limits");
-        let response = self.client.post(uri)
+        let response = self.client.get(uri)
             .query(&Params {
                 token,
             })
