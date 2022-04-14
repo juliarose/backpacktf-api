@@ -1,6 +1,7 @@
 use serde::{Serialize, Deserialize};
 
 #[derive(Serialize, Deserialize, PartialEq, Clone, Debug)]
+#[serde(rename_all = "camelCase")]
 pub struct ClassifiedsLimits {
     pub promotion_slots_available: u32,
     pub used: u32,
