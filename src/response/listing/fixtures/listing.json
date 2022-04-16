@@ -76,9 +76,7 @@
         "quantity": "1",
         "slot": "misc",
         "tradable": true,
-        "summary": {
-            "value": "Level 1-100 Hat"
-        },
+        "summary": "Level 1-100 Hat",
         "_source": {
             "defindex": 30998,
             "quality": 6,

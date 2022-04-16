@@ -78,9 +78,7 @@
                 "quantity": "1",
                 "slot": "misc",
                 "tradable": true,
-                "summary": {
-                    "value": "Level 1-100 Hat"
-                },
+                "summary": "Level 1-100 Hat",
                 "_source": {
                     "defindex": 30998,
                     "quality": 6,
@@ -185,9 +183,7 @@
                 "quantity": 1,
                 "slot": "misc",
                 "tradable": true,
-                "summary": {
-                    "value": "Level 60 Hat"
-                },
+                "summary": "Level 60 Hat",
                 "_source": {
                     "id": 7764221391,
                     "original_id": 7268030924,
@@ -336,9 +332,7 @@
                 "quantity": 1,
                 "slot": "misc",
                 "tradable": true,
-                "summary": {
-                    "value": "Level 97 Hat"
-                },
+                "summary": "Level 97 Hat",
                 "_source": {
                     "id": 7188274384,
                     "original_id": 6658678594,

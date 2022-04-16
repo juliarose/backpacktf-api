@@ -118,9 +118,7 @@
                         },
                         "slot": "misc",
                         "tradable": true,
-                        "summary": {
-                            "value": "Level 1-100 Apparel"
-                        },
+                        "summary": "Level 1-100 Apparel",
                         "_source": {
                             "defindex": 30420,
                             "quality": 5,
@@ -275,9 +273,7 @@
                         },
                         "slot": "misc",
                         "tradable": true,
-                        "summary": {
-                            "value": "Level 1-100 Hat"
-                        },
+                        "summary": "Level 1-100 Hat",
                         "_source": {
                             "defindex": 30976,
                             "quality": 5,
@@ -432,9 +428,7 @@
                         },
                         "slot": "misc",
                         "tradable": true,
-                        "summary": {
-                            "value": "Level 1-100 Hat"
-                        },
+                        "summary": "Level 1-100 Hat",
                         "_source": {
                             "defindex": 30976,
                             "quality": 5,
