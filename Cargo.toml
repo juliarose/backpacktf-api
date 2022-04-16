@@ -31,3 +31,5 @@ tf2-price = { version = "^0.6.0", path = "../tf2-price" }
 
 [dev-dependencies]
 assert-json-diff = "^2.0.1"
+tokio = { version = "1", features = ["full"] }
+dotenv = "0.15.0"

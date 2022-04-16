@@ -8,6 +8,7 @@ pub mod attributes;
 
 pub mod create_listing;
 pub mod delete_listing;
+pub mod update_listing;
 pub use batch_limit::BatchLimit;
 pub use user::{User, UserBan};
 pub use summary::Summary;
@@ -20,10 +21,11 @@ use crate::{
     SteamID,
     ListingIntent,
     time::ServerTime,
-    request::Currencies,
-    response::deserializers::listing_intent_enum_from_str,
+    response::{currencies::Currencies, deserializers::listing_intent_enum_from_str},
 };
 use chrono::serde::ts_seconds;
+use std::time::Duration;
+use chrono::{Utc, Duration as ChronoDuration};
 
 #[derive(Serialize, Deserialize, PartialEq, Clone, Debug)]
 #[serde(rename_all = "camelCase")]
@@ -51,9 +53,6 @@ pub struct Listing {
     pub user: Option<User>,
 }
 
-use std::time::Duration;
-use chrono::{Utc, Duration as ChronoDuration};
-
 impl Listing {
     
     pub fn relistable(&self, interval: Duration) -> bool {
@@ -79,7 +78,7 @@ impl Listing {
 mod tests {
     use super::*;
     use tf2_enum::Quality;
-
+    
     #[test]
     fn parses_listing() {
         let response: Listing = serde_json::from_str(include_str!("fixtures/listing.json")).unwrap();

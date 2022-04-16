@@ -16,8 +16,8 @@ use crate::{
         }
     },
     response,
+    tf2_price::traits::SerializeCurrencies,
 };
-use crate::tf2_price::traits::SerializeCurrencies;
 use super::{api_response, helpers};
 use async_std::task::sleep;
 use serde::{Serialize, Deserialize};
@@ -521,12 +521,12 @@ impl BackpackAPI {
         Ok((body.listings, body.cursor))
     }
     
-    pub async fn create_listings<'de, T>(
+    pub async fn create_listings<T>(
         &self,
-        listings: Vec<request::CreateListing<T>>,
-    ) -> Result<response::listing::create_listing::CreateListingsResult<T>, Error>
+        listings: &Vec<request::CreateListing<T>>,
+    ) -> Result<Vec<response::listing::create_listing::Result<T>>, Error>
     where
-        T: SerializeCurrencies<'de>
+        T: SerializeCurrencies + Clone
     {
         #[derive(Deserialize, Debug)]
         struct CreateListingResponse {
@@ -555,30 +555,31 @@ impl BackpackAPI {
             .send()
             .await?;
         let body: Vec<CreateListingResponse> = helpers::parses_response(response).await?;
-        let mut result = response::listing::create_listing::CreateListingsResult {
-            success: Vec::new(),
-            error: Vec::new(),
-        };
         
         if body.len() != listings.len() {
-            return Err(Error::Parameter("Results and query have different number of listings"));
+            return Err(Error::Response("Results and query have different number of listings".into()));
         }
         
-        for (response, query) in body.iter().zip(listings) {
-            if let Some(error) = &response.error {
+        let mut results = Vec::with_capacity(body.len());
+        
+        for (response, query) in body.into_iter().zip(listings) {
+            let result = response.result.to_owned();
+            let error = response.error;
+            
+            if let Some(error) = error {
                 // there should be a query at this index...
-                result.error.push(response::listing::create_listing::ErrorListing {
+                results.push(Err(response::listing::create_listing::ErrorListing {
                     message: error.message.to_owned(),
-                    query,
-                });
-            } else if let Some(listing) = &response.result {
-                result.success.push(listing.to_owned());
+                    query: query.clone(),
+                }));
+            } else if let Some(listing) = response.result {
+                results.push(Ok(listing));
             } else {
                 return Err(Error::Response("Object with missing field".into()));
             }
         }
         
-        Ok(result)
+        Ok(results)
     }
 
     pub async fn delete_listing(
@@ -598,14 +599,14 @@ impl BackpackAPI {
         Ok(())
     }
     
-    pub async fn update_listing<'de, T>(
+    pub async fn update_listing<T>(
         &self,
         id: &str,
         details: Option<String>,
         currencies: &T,
     ) -> Result<response::listing::Listing, Error>
     where
-        T: SerializeCurrencies<'de>
+        T: SerializeCurrencies
     {
         #[derive(Serialize, Debug)]
         struct JSONParams<'b, T>  {
@@ -630,33 +631,88 @@ impl BackpackAPI {
         Ok(body)
     }
     
-    pub async fn update_listings<'de, T>(
+    pub async fn update_listings<T>(
         &self,
         listings: &Vec<request::UpdateListing<T>>,
-    ) -> Result<(), Error>
+    ) -> Result<Vec<response::listing::update_listing::Result<T>>, Error>
     where
-        T: SerializeCurrencies<'de>
+        T: SerializeCurrencies + Clone
     {
+        #[derive(Deserialize, Debug)]
+        struct ErrorResult {
+            index: usize,
+            message: String,
+        }
+        
+        #[derive(Deserialize, Debug)]
+        struct UpdateListingsResponse {
+            updated: Vec<response::listing::update_listing::SuccessListing>,
+            errors: Vec<ErrorResult>,
+        }
+        
+        #[derive(Serialize, Debug)]
+        pub struct Body<'a, T> {
+            currencies: &'a T,
+            details: &'a Option<String>,
+        }
+        
+        #[derive(Serialize, Debug)]
+        pub struct Listing<'a, T> {
+            id: &'a str,
+            body: Body<'a, T>,
+        }
+        
         if listings.is_empty() {
             return Err(Error::Parameter("No listings given"));
         } else if listings.len() > 100 {
             return Err(Error::Parameter("Maximum of 100 listings allowed"));
         }
         
+        let mapped = listings
+            .iter()
+            .map(|update| {
+                Listing {
+                    id: &update.id,
+                    body: Body {
+                        currencies: &update.currencies,
+                        details: &update.details,
+                    },
+                }
+            })
+            .collect::<Vec<_>>();
         let token = self.get_token()?;
-        let uri = self.get_api_uri("/v2/classifieds/listings");
+        let uri = self.get_api_uri("/v2/classifieds/listings/batch");
         let response = self.client.patch(uri)
-            .json(listings)
+            .json(&mapped)
             .query(&Token {
                 token,
             })
             .send()
             .await?;
-        let body = response.text().await?;
+        let body: UpdateListingsResponse = helpers::parses_response(response).await?;
         
-        println!("{}", body);
+        if body.updated.len() + body.errors.len() != listings.len() {
+            return Err(Error::Response("Results and query have different number of listings".into()));
+        }
         
-        Ok(())
+        let mut results = body.updated
+            .into_iter()
+            .map(|listing| Ok(listing))
+            .collect::<Vec<_>>();
+        
+        for error in body.errors {
+            if let Some(query) = listings.get(error.index) {
+                results.push(Err(response::listing::update_listing::ErrorListing {
+                    message: error.message,
+                    query: query.clone(),
+                }))
+            } else {
+                // probably shouldn't ever happen but who knows
+                return Err(Error::Response(format!("Missing index `{}`: {}", error.index, error.message)));
+            }
+        }
+        
+        Ok(results)
     }
     
     pub async fn promote_listing(
@@ -732,12 +788,12 @@ impl BackpackAPI {
         Ok(response)
     }
     
-    pub async fn create_listing<'de, T>(
+    pub async fn create_listing<T>(
         &self,
         listing: &request::CreateListing<T>,
     ) -> Result<response::listing::Listing, Error>
     where
-        T: SerializeCurrencies<'de>
+        T: SerializeCurrencies
     {
         #[derive(Serialize, Debug)]
         struct Params<'a, 'b, T> {
