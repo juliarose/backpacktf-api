@@ -572,7 +572,7 @@ impl BackpackAPI {
                     message: error.message.to_owned(),
                     query: query.clone(),
                 }));
-            } else if let Some(listing) = response.result {
+            } else if let Some(listing) = result {
                 results.push(Ok(listing));
             } else {
                 return Err(Error::Response("Object with missing field".into()));
@@ -633,7 +633,7 @@ impl BackpackAPI {
     
     pub async fn update_listings<T>(
         &self,
-        listings: &Vec<request::UpdateListing<T>>,
+        listings: &[request::UpdateListing<T>],
     ) -> Result<Vec<response::listing::update_listing::Result<T>>, Error>
     where
         T: SerializeCurrencies + Clone
@@ -697,7 +697,7 @@ impl BackpackAPI {
         
         let mut results = body.updated
             .into_iter()
-            .map(|listing| Ok(listing))
+            .map(Ok)
             .collect::<Vec<_>>();
         
         for error in body.errors {

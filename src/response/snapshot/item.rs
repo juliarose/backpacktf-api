@@ -112,7 +112,7 @@ impl Item {
     pub fn get_spells(&self) -> Option<Vec<Spell>> {
         let spells = Spell::DEFINDEX
             .iter()
-            .map(|defindex| {
+            .filter_map(|defindex| {
                 if let Some(attribute) = self.attributes.get(&(*defindex as i32)) {
                     match *defindex {
                         Spell::DEFINDEX_FOOTPRINTS => {
@@ -147,7 +147,6 @@ impl Item {
                     None
                 }
             })
-            .flatten()
             .collect::<Vec<Spell>>();
         
         if !spells.is_empty() {
@@ -159,12 +158,11 @@ impl Item {
     
     pub fn get_strange_parts(&self) -> Option<Vec<StrangePart>> {
         let strange_parts = StrangePart::DEFINDEX 
-            .into_iter()
-            .map(|defindex| {
-                let result = self.attributes.get(&(*defindex as i32))
-                    .map(|attribute| attribute.float_value)
-                    .flatten()
-                    .map(|float_value| {
+            .iter()
+            .filter_map(|defindex| {
+                self.attributes.get(&(*defindex as i32))
+                    .and_then(|attribute| attribute.float_value)
+                    .and_then(|float_value| {
                         if let Some(float_value) = convert_float_u8(float_value) {
                             if let Ok(strange_part) = StrangePart::try_from(float_value) {
                                 return Some(strange_part);
@@ -173,15 +171,7 @@ impl Item {
                         
                         None
                     })
-                    .flatten();
-                
-                if let Some(strange_part) = result {
-                    Some(strange_part)
-                } else {
-                    None
-                }
             })
-            .flatten()
             .collect::<Vec<StrangePart>>();
         
         if !strange_parts.is_empty() {
