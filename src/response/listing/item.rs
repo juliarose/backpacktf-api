@@ -24,17 +24,18 @@ pub struct Item {
     #[serde(deserialize_with = "from_optional_number_or_string")]
     pub original_id: Option<u64>,
     pub defindex: u32,
+    #[serde(default)]
     pub craftable: bool,
-    pub tradable: bool,
+    #[serde(default)]
     pub australium: bool,
+    #[serde(default)]
     pub festivized: bool,
     #[serde(default)]
     #[serde(deserialize_with = "presence", rename = "elevated_quality")]
     pub strange: bool,
     pub image_url: String,
-    pub priceindex: String,
     pub slot: String,
-    // pub summary: Summary,
+    pub summary: String,
     #[serde(deserialize_with = "map_to_enum")]
     pub quality: Quality,
     #[serde(default)]

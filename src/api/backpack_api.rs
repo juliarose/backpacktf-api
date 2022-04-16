@@ -1,4 +1,4 @@
-use std::{time::Duration,sync::Arc };
+use std::{time::Duration, sync::Arc};
 use crate::{
     SteamID,
     BackpackAPIBuilder, 
@@ -54,7 +54,7 @@ impl BackpackAPI {
         key: Option<String>,
         token: Option<String>,
         cookies: Arc<Jar>,
-        client: ClientWithMiddleware
+        client: ClientWithMiddleware,
     ) -> Self {
         Self {
             key,
@@ -295,15 +295,10 @@ impl BackpackAPI {
         &self,
         id: &str,
     ) -> Result<(), Error> {
-        #[derive(Serialize, Debug)]
-        struct Params<'a> {
-            token: &'a str,
-        }
-        
         let token = self.get_token()?;
         let uri = format!("{}/{}", self.get_api_uri("/classifieds/alerts"), id);
         let _ = self.client.delete(uri)
-            .query(&Params {
+            .query(&Token {
                 token,
             })
             .send()
@@ -316,15 +311,10 @@ impl BackpackAPI {
         &self,
         id: &str,
     ) -> Result<response::alert::Alert, Error> {
-        #[derive(Serialize, Debug)]
-        struct Params<'a> {
-            token: &'a str,
-        }
-        
         let token = self.get_token()?;
         let uri = format!("{}/{}", self.get_api_uri("/classifieds/alerts"), id);
         let response = self.client.get(uri)
-            .query(&Params {
+            .query(&Token {
                 token,
             })
             .send()
@@ -338,14 +328,9 @@ impl BackpackAPI {
         &self,
         id: &str,
     ) -> Result<response::notification::Notification, Error> {
-        #[derive(Serialize, Debug)]
-        struct Params<'a> {
-            token: &'a str,
-        }
-        
         let token = self.get_token()?;
         let response = self.client.get(format!("{}/{}", self.get_api_uri("/notifications"), id))
-            .query(&Params {
+            .query(&Token {
                 token,
             })
             .send()
@@ -359,15 +344,10 @@ impl BackpackAPI {
         &self,
         id: &str,
     ) -> Result<(), Error> {
-        #[derive(Serialize, Debug)]
-        struct Params<'a> {
-            token: &'a str,
-        }
-
         let token = self.get_token()?;
         let uri = format!("{}/{}", self.get_api_uri("/notifications"), id);
         self.client.delete(uri)
-            .query(&Params {
+            .query(&Token {
                 token,
             })
             .send()
@@ -409,15 +389,10 @@ impl BackpackAPI {
     pub async fn get_unread_notifications(
         &self,
     ) -> Result<Vec<response::notification::Notification>, Error> {
-        #[derive(Serialize, Debug)]
-        struct Params<'a> {
-            token: &'a str,
-        }
-        
         let token = self.get_token()?;
         let uri = self.get_api_uri("/notifications/unread");
         let response = self.client.post(uri)
-            .query(&Params {
+            .query(&Token {
                 token,
             })
             .send()
@@ -430,15 +405,10 @@ impl BackpackAPI {
     pub async fn mark_unread_notifications(
         &self,
     ) -> Result<(), Error> {
-        #[derive(Serialize, Debug)]
-        struct Params<'a> {
-            token: &'a str,
-        }
-        
         let token = self.get_token()?;
         let uri = self.get_api_uri("/notifications/unread");
         self.client.post(uri)
-            .query(&Params {
+            .query(&Token {
                 token,
             })
             .send()
@@ -477,15 +447,10 @@ impl BackpackAPI {
         &self,
         steamid: &SteamID,
     ) -> Result<response::inventory::InventoryValues, Error> {
-        #[derive(Serialize, Debug)]
-        struct Params<'a> {
-            token: &'a str,
-        }
-        
         let token = self.get_token()?;
         let uri = format!("{}/{}/values", self.get_api_uri("/inventory"), u64::from(*steamid));
         let response = self.client.get(uri)
-            .query(&Params {
+            .query(&Token {
                 token,
             })
             .send()
@@ -499,15 +464,10 @@ impl BackpackAPI {
         &self,
         steamid: &SteamID,
     ) -> Result<response::inventory::InventoryStatus, Error> {
-        #[derive(Serialize, Debug)]
-        struct Params<'a> {
-            token: &'a str,
-        }
-        
         let token = self.get_token()?;
         let uri = format!("{}/{}/status", self.get_api_uri("/inventory"), u64::from(*steamid));
         let response = self.client.get(uri)
-            .query(&Params {
+            .query(&Token {
                 token,
             })
             .send()
@@ -521,15 +481,10 @@ impl BackpackAPI {
         &self,
         steamid: &SteamID,
     ) -> Result<response::inventory::InventoryStatus, Error> {
-        #[derive(Serialize, Debug)]
-        struct Params<'a> {
-            token: &'a str,
-        }
-        
         let token = self.get_token()?;
         let uri = format!("{}/{}/refresh", self.get_api_uri("/inventory"), u64::from(*steamid));
         let response = self.client.post(uri)
-            .query(&Params {
+            .query(&Token {
                 token,
             })
             .send()
@@ -573,11 +528,6 @@ impl BackpackAPI {
     where
         T: SerializeCurrencies<'de>
     {
-        #[derive(Serialize, Debug)]
-        struct Params<'a> {
-            token: &'a str,
-        }
-        
         #[derive(Deserialize, Debug)]
         struct CreateListingResponse {
             error: Option<ErrorMessage>,
@@ -598,7 +548,7 @@ impl BackpackAPI {
         let token = self.get_token()?;
         let uri = self.get_api_uri("/v2/classifieds/listings/batch");
         let response = self.client.post(uri)
-            .query(&Params {
+            .query(&Token {
                 token,
             })
             .json(&listings)
@@ -635,16 +585,11 @@ impl BackpackAPI {
         &self,
         id: &str,
     ) -> Result<(), Error> {
-        #[derive(Serialize, Debug)]
-        struct Params<'a> {
-            token: &'a str,
-        }
-        
         let token = self.get_token()?;
         let uri = format!("{}/{}", self.get_api_uri("/v2/classifieds/listings"), id);
         // This does not produce an output
         self.client.delete(uri)
-            .query(&Params {
+            .query(&Token {
                 token,
             })
             .send()
@@ -668,11 +613,6 @@ impl BackpackAPI {
             details: Option<String>,
         }
         
-        #[derive(Serialize, Debug)]
-        struct Params<'a> {
-            token: &'a str,
-        }
-        
         let token = self.get_token()?;
         let uri = format!("{}/{}", self.get_api_uri("/v2/classifieds/listings"), id);
         let response = self.client.patch(uri)
@@ -680,7 +620,7 @@ impl BackpackAPI {
                 currencies,
                 details,
             })
-            .query(&Params {
+            .query(&Token {
                 token,
             })
             .send()
@@ -690,26 +630,49 @@ impl BackpackAPI {
         Ok(body)
     }
     
+    pub async fn update_listings<'de, T>(
+        &self,
+        listings: &Vec<request::UpdateListing<T>>,
+    ) -> Result<(), Error>
+    where
+        T: SerializeCurrencies<'de>
+    {
+        if listings.is_empty() {
+            return Err(Error::Parameter("No listings given"));
+        } else if listings.len() > 100 {
+            return Err(Error::Parameter("Maximum of 100 listings allowed"));
+        }
+        
+        let token = self.get_token()?;
+        let uri = self.get_api_uri("/v2/classifieds/listings");
+        let response = self.client.patch(uri)
+            .json(listings)
+            .query(&Token {
+                token,
+            })
+            .send()
+            .await?;
+        let body = response.text().await?;
+        
+        println!("{}", body);
+        
+        Ok(())
+    }
+    
     pub async fn promote_listing(
         &self,
         id: &str,
     ) -> Result<response::listing::Listing, Error> {
-        #[derive(Serialize, Debug)]
-        struct Params<'a> {
-            token: &'a str,
-        }
-        
         let token = self.get_token()?;
         let uri = format!("{}/{}/promote", self.get_api_uri("/v2/classifieds/listings"), id);
         let response = self.client.post(uri)
-            .json(&Params {
+            .json(&Token {
                 token,
             })
             .send()
             .await?;
         let body: response::listing::Listing = helpers::parses_response(response).await?;
         
-        println!("{:?}", body);
         Ok(body)
     }
     
@@ -717,15 +680,10 @@ impl BackpackAPI {
         &self,
         id: &str,
     ) -> Result<(), Error> {
-        #[derive(Serialize, Debug)]
-        struct Params<'a> {
-            token: &'a str,
-        }
-        
         let token = self.get_token()?;
         let uri = format!("{}/{}/demote", self.get_api_uri("/v2/classifieds/listings"), id);
         let _ = self.client.post(uri)
-            .json(&Params {
+            .json(&Token {
                 token,
             })
             .send()
@@ -737,15 +695,10 @@ impl BackpackAPI {
     pub async fn get_listing_batch_limit(
         &self,
     ) -> Result<response::listing::BatchLimit, Error> {
-        #[derive(Serialize, Debug)]
-        struct Params<'a> {
-            token: &'a str,
-        }
-        
         let token = self.get_token()?;
         let uri = self.get_api_uri("/v2/classifieds/listings/batch");
         let response = self.client.get(uri)
-            .query(&Params {
+            .query(&Token {
                 token,
             })
             .send()
@@ -878,15 +831,10 @@ impl BackpackAPI {
     pub async fn agent_status(
         &self,
     ) -> Result<response::agent::AgentStatus, Error> {
-        #[derive(Serialize, Debug)]
-        struct Params<'a> {
-            token: &'a str,
-        }
-        
         let token = self.get_token()?;
         let uri = self.get_api_uri("/agent/status");
         let response = self.client.post(uri)
-            .query(&Params {
+            .query(&Token {
                 token,
             })
             .send()
@@ -899,15 +847,10 @@ impl BackpackAPI {
     pub async fn stop_agent(
         &self,
     ) -> Result<(), Error> {
-        #[derive(Serialize, Debug)]
-        struct Params<'a> {
-            token: &'a str,
-        }
-        
         let token = self.get_token()?;
         let uri = self.get_api_uri("/agent/stop");
         let _ = self.client.post(uri)
-            .query(&Params {
+            .query(&Token {
                 token,
             })
             .send()
@@ -919,15 +862,10 @@ impl BackpackAPI {
     pub async fn classifieds_limits(
         &self,
     ) -> Result<response::classifieds_limits::ClassifiedsLimits, Error> {
-        #[derive(Serialize, Debug)]
-        struct Params<'a> {
-            token: &'a str,
-        }
-        
         let token = self.get_token()?;
         let uri = self.get_api_uri("/classifieds/limits");
         let response = self.client.get(uri)
-            .query(&Params {
+            .query(&Token {
                 token,
             })
             .send()
@@ -936,4 +874,9 @@ impl BackpackAPI {
         
         Ok(body.listings)
     }
+}
+
+#[derive(Serialize, Deserialize, Debug)]
+struct Token<'a> {
+    token: &'a str,
 }
