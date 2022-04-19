@@ -1,10 +1,6 @@
 use std::collections::HashMap;
 use serde::{Serialize, Deserialize};
-use crate::{
-    SteamID,
-    time::ServerTime,
-    response::deserializers::bool_from_int
-};
+use crate::{SteamID, time::ServerTime};
 use chrono::serde::ts_seconds_option;
 
 #[derive(Serialize, Deserialize, PartialEq, Clone, Debug)]
@@ -26,6 +22,7 @@ pub struct Ban {
 }
 
 impl Ban {
+    
     pub fn permabanned(&self) -> bool {
         self.start > self.end
     }
@@ -36,8 +33,6 @@ pub type Players = HashMap<SteamID, Player>;
 #[derive(Serialize, Deserialize, PartialEq, Clone, Debug)]
 pub struct Player {
     pub steamid: SteamID,
-    #[serde(deserialize_with = "bool_from_int")]
-    pub success: bool,
     pub name: String,
     pub backpack_value: HashMap<u32, f32>,
     pub backpack_tf_banned: Option<Ban>,

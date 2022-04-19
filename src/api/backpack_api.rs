@@ -32,7 +32,6 @@ struct Token<'a> {
     token: &'a str,
 }
 
-
 /// Interface for backpack.tf API endpoints.
 pub struct BackpackAPI {
     key: Option<String>,
@@ -113,6 +112,7 @@ impl BackpackAPI {
         }
     }
     
+    /// Gets details about a user including name, bans, trust scores, and inventory values.
     pub async fn get_user(
         &self,
         steamid: &SteamID,
@@ -127,6 +127,7 @@ impl BackpackAPI {
         }
     }
     
+    /// Gets details about users including name, bans, trust scores, and inventory values.
     pub async fn get_users<'b>(
         &self,
         steamids: &'b [SteamID],
@@ -165,6 +166,7 @@ impl BackpackAPI {
         }
     }
     
+    /// Gets a page of alerts along with a cursor for scrolling.
     pub async fn get_alerts(
         &self,
         skip: u32,
@@ -244,6 +246,7 @@ impl BackpackAPI {
         Ok(body)
     }
 
+    /// Deletes an alert by its name.
     pub async fn delete_alert_by_name(
         &self,
         item_name: &str,
@@ -271,6 +274,7 @@ impl BackpackAPI {
         Ok(())
     }
 
+    /// Deletes an alert using its ID.
     pub async fn delete_alert(
         &self,
         id: &str,
@@ -287,6 +291,7 @@ impl BackpackAPI {
         Ok(())
     }
 
+    /// Gets an alert.
     pub async fn get_alert(
         &self,
         id: &str,
@@ -304,6 +309,7 @@ impl BackpackAPI {
         Ok(body)
     }
 
+    /// Gets a notification.
     pub async fn get_notification(
         &self,
         id: &str,
@@ -320,6 +326,7 @@ impl BackpackAPI {
         Ok(body)
     }
 
+    /// Deletes a notification.
     pub async fn delete_notification(
         &self,
         id: &str,
@@ -336,6 +343,7 @@ impl BackpackAPI {
         Ok(())
     }
 
+    /// Gets notifications along with a cursor for scrolling results.
     pub async fn get_notifications(
         &self,
         skip: u32,
@@ -366,6 +374,7 @@ impl BackpackAPI {
         Ok((body.notifications, body.cursor))
     }
 
+    /// Gets unread notifications.
     pub async fn get_unread_notifications(
         &self,
     ) -> Result<Vec<response::notification::Notification>, Error> {
@@ -382,6 +391,7 @@ impl BackpackAPI {
         Ok(notifications)
     }
 
+    /// Marks notifications as read.
     pub async fn mark_unread_notifications(
         &self,
     ) -> Result<(), Error> {
@@ -397,6 +407,7 @@ impl BackpackAPI {
         Ok(())
     }
 
+    /// Gets a classifieds snapshot. SKU is the name of an item e.g. "Strange Pain Train".
     pub async fn get_snapshot(
         &self,
         sku: &str,
@@ -423,6 +434,7 @@ impl BackpackAPI {
         Ok(body)
     }
 
+    /// Gets the values of an inventory.
     pub async fn get_inventory_values(
         &self,
         steamid: &SteamID,
@@ -440,6 +452,7 @@ impl BackpackAPI {
         Ok(body)
     }
     
+    /// Gets the current state of an inventory.
     pub async fn get_inventory_status(
         &self,
         steamid: &SteamID,
@@ -457,6 +470,7 @@ impl BackpackAPI {
         Ok(body)
     }
 
+    /// Refreshes the state of your inventory.
     pub async fn refresh_inventory(
         &self,
         steamid: &SteamID,
@@ -474,6 +488,7 @@ impl BackpackAPI {
         Ok(body)
     }
 
+    /// Gets a page of listings along with the cursor for scrolling.
     pub async fn get_listings(
         &self,
         skip: u32,
@@ -501,6 +516,7 @@ impl BackpackAPI {
         Ok((body.listings, body.cursor))
     }
     
+    /// Creates a listing.
     pub async fn create_listing<T>(
         &self,
         listing: &request::CreateListing<T>,
@@ -573,6 +589,7 @@ impl BackpackAPI {
         Ok(body)
     }
     
+    /// Creates listings. A limit of 100 listings is imposed.
     pub async fn create_listings<T>(
         &self,
         listings: &[request::CreateListing<T>],
@@ -634,6 +651,7 @@ impl BackpackAPI {
         Ok(results)
     }
 
+    /// Deletes a listing.
     pub async fn delete_listing(
         &self,
         id: &str,
@@ -651,6 +669,7 @@ impl BackpackAPI {
         Ok(())
     }
     
+    /// Deletes listings. A limit of 100 listings is imposed.
     pub async fn delete_listings(
         &self,
         listing_ids: &[String],
@@ -681,6 +700,7 @@ impl BackpackAPI {
         Ok(response.deleted)
     }
     
+    /// Updates a listing.
     pub async fn update_listing<T>(
         &self,
         id: &str,
@@ -713,6 +733,7 @@ impl BackpackAPI {
         Ok(body)
     }
     
+    /// Updates listings. A limit of 100 listings is imposed.
     pub async fn update_listings<T>(
         &self,
         listings: &[request::UpdateListing<T>],
@@ -797,6 +818,7 @@ impl BackpackAPI {
         Ok(results)
     }
     
+    /// Sets a listing to promoted.
     pub async fn promote_listing(
         &self,
         id: &str,
@@ -814,6 +836,7 @@ impl BackpackAPI {
         Ok(body)
     }
     
+    /// Demotes a listing to promoted listing.
     pub async fn demote_listing(
         &self,
         id: &str,
@@ -830,6 +853,7 @@ impl BackpackAPI {
         Ok(())
     }
 
+    /// Gets limits for batch requests.
     pub async fn get_listing_batch_limit(
         &self,
     ) -> Result<response::listing::BatchLimit, Error> {
@@ -846,6 +870,7 @@ impl BackpackAPI {
         Ok(body)
     }
 
+    /// Sends a heartbeat.
     pub async fn agent_pulse(
         &self,
         user_agent: &str,
@@ -870,6 +895,7 @@ impl BackpackAPI {
         Ok(body)
     }
 
+    /// Gets current status of user agent.
     pub async fn agent_status(
         &self,
     ) -> Result<response::agent::AgentStatus, Error> {
@@ -886,6 +912,7 @@ impl BackpackAPI {
         Ok(body)
     }
 
+    /// Stops user agent.
     pub async fn stop_agent(
         &self,
     ) -> Result<(), Error> {
@@ -901,6 +928,7 @@ impl BackpackAPI {
         Ok(())
     }
 
+    /// Gets your classifieds limits.
     pub async fn classifieds_limits(
         &self,
     ) -> Result<response::classifieds_limits::ClassifiedsLimits, Error> {
