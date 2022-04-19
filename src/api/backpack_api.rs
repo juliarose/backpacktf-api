@@ -523,7 +523,7 @@ impl BackpackAPI {
     
     pub async fn create_listings<T>(
         &self,
-        listings: &Vec<request::CreateListing<T>>,
+        listings: &[request::CreateListing<T>],
     ) -> Result<Vec<response::listing::create_listing::Result<T>>, Error>
     where
         T: SerializeCurrencies + Clone
@@ -715,6 +715,66 @@ impl BackpackAPI {
         Ok(results)
     }
     
+    pub async fn create_listings_chunked<T>(
+        &self,
+        listings: &[request::CreateListing<T>],
+    ) -> Result<Vec<response::listing::create_listing::Result<T>>, Error>
+    where
+        T: SerializeCurrencies + Clone
+    {
+        let mut chunked = helpers::Cooldown::new(listings);
+        let mut created = Vec::new();
+
+        while let Some((listings, duration)) = chunked.next() {
+            created.append(&mut self.create_listings(listings).await?);
+            
+            if let Some(duration) = duration {
+                sleep(duration).await;
+            }
+        }
+        
+        Ok(created)
+    }
+    
+    pub async fn update_listings_chunked<T>(
+        &self,
+        listings: &[request::UpdateListing<T>],
+    ) -> Result<Vec<response::listing::update_listing::Result<T>>, Error>
+    where
+        T: SerializeCurrencies + Clone
+    {
+        let mut chunked = helpers::Cooldown::new(listings);
+        let mut updated = Vec::new();
+
+        while let Some((listings, duration)) = chunked.next() {
+            updated.append(&mut self.update_listings(listings).await?);
+            
+            if let Some(duration) = duration {
+                sleep(duration).await;
+            }
+        }
+        
+        Ok(updated)
+    }
+    
+    pub async fn delete_listings_chunked(
+        &self,
+        listing_ids: &[String],
+    ) -> Result<u32, Error> {
+        let mut chunked = helpers::Cooldown::new(listing_ids);
+        let mut deleted = 0;
+
+        while let Some((listing_ids, duration)) = chunked.next() {
+            deleted += self.delete_listings(listing_ids).await?;
+            
+            if let Some(duration) = duration {
+                sleep(duration).await;
+            }
+        }
+        
+        Ok(deleted)
+    }
+    
     pub async fn promote_listing(
         &self,
         id: &str,
@@ -767,11 +827,17 @@ impl BackpackAPI {
     pub async fn delete_listings(
         &self,
         listing_ids: &[String],
-    ) -> Result<response::listing::delete_listing::DeleteListingsResult, Error> {
+    ) -> Result<u32, Error> {
         #[derive(Serialize, Debug)]
         struct Params<'a, 'b> {
             token: &'a str,
             listing_ids: &'b [String],
+        }
+        
+        if listing_ids.is_empty() {
+            return Err(Error::Parameter("No listings given"));
+        } else if listing_ids.len() > 100 {
+            return Err(Error::Parameter("Maximum of 100 listings allowed"));
         }
         
         let token = self.get_token()?;
@@ -785,7 +851,7 @@ impl BackpackAPI {
             .await?;
         let response: response::listing::delete_listing::DeleteListingsResult = helpers::parses_response(response).await?;
         
-        Ok(response)
+        Ok(response.deleted)
     }
     
     pub async fn create_listing<T>(

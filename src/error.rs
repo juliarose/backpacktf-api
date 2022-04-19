@@ -14,8 +14,10 @@ pub enum Error {
     ReqwestMiddleware(anyhow::Error),
     #[error("Error parsing response: {}", .0)]
     Parse(#[from] serde_json::Error),
-    #[error("{}", .0)]
-    Http(reqwest::StatusCode),
+    #[error("{}", .0.status())]
+    Http(reqwest::Response),
+    #[error("Too many requests. Retry after {}s", .0)]
+    TooManyRequests(u64),
 }
 
 impl From<reqwest_middleware::Error> for Error {
