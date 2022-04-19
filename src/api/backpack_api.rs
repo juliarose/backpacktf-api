@@ -27,6 +27,12 @@ use reqwest_middleware::ClientWithMiddleware;
 
 const RESPONSE_UNSUCCESSFUL_MESSAGE: &str = "Empty response";
 
+#[derive(Serialize, Deserialize, Debug)]
+struct Token<'a> {
+    token: &'a str,
+}
+
+
 /// Interface for backpack.tf API endpoints.
 pub struct BackpackAPI {
     key: Option<String>,
@@ -95,6 +101,7 @@ impl BackpackAPI {
         }
     }
     
+    /// Sets cookies to send with requests.
     pub fn set_cookies(
         &self,
         cookies: &[String],
@@ -156,33 +163,6 @@ impl BackpackAPI {
         } else {
             Err(Error::Response("No players in response".into()))
         }
-    }
-    
-    pub async fn get_all_alerts(
-        &self,
-        skip: u32,
-    ) -> Result<Vec<response::alert::Alert>, Error> {
-        let mut all = Vec::new();
-        let mut limit = 100;
-        let mut skip = skip;
-        
-        loop {
-            let (mut alerts, cursor) = self.get_alerts(skip, limit).await?;
-            
-            all.append(&mut alerts);
-            limit = cursor.limit;
-            skip = cursor.skip + limit;
-            
-            if limit + skip >= cursor.total {
-                // we done
-                break;
-            }
-            
-            // take a break
-            sleep(Duration::from_secs(1)).await;
-        }
-        
-        Ok(all)
     }
     
     pub async fn get_alerts(
@@ -417,7 +397,7 @@ impl BackpackAPI {
         Ok(())
     }
 
-    pub async fn get_classifieds_snapshot(
+    pub async fn get_snapshot(
         &self,
         sku: &str,
     ) -> Result<response::snapshot::Snapshot, Error> {
@@ -521,6 +501,78 @@ impl BackpackAPI {
         Ok((body.listings, body.cursor))
     }
     
+    pub async fn create_listing<T>(
+        &self,
+        listing: &request::CreateListing<T>,
+    ) -> Result<response::listing::Listing, Error>
+    where
+        T: SerializeCurrencies
+    {
+        #[derive(Serialize, Debug)]
+        struct Params<'a, 'b, T> {
+            token: &'a str,
+            #[serde(serialize_with = "option_number_to_str", skip_serializing_if = "Option::is_none")]
+            id: Option<u64>,
+            #[serde(serialize_with = "option_buy_listing_item_into_params", skip_serializing_if = "Option::is_none")]
+            item: Option<&'b request::BuyListingItem>,
+            #[serde(serialize_with = "listing_intent_enum_to_str")]
+            intent: ListingIntent,
+            #[serde(skip_serializing_if = "Option::is_none")]
+            details: &'b Option<String>,
+            buyout: &'b bool,
+            offers: &'b bool,
+            currencies: &'b T,
+        }
+        
+        let token = self.get_token()?;
+        let params: Params<T> = match listing {
+            request::CreateListing::Buy {
+                item,
+                currencies,
+                details,
+                buyout,
+                offers,
+            } => {
+                Params {
+                    token,
+                    id: None,
+                    item: Some(item),
+                    intent: ListingIntent::Buy,
+                    buyout,
+                    offers,
+                    details,
+                    currencies,
+                }
+            },
+            request::CreateListing::Sell {
+                id,
+                currencies,
+                details,
+                buyout,
+                offers,
+            } => {
+                Params {
+                    token,
+                    id: Some(*id),
+                    item: None,
+                    intent: ListingIntent::Sell,
+                    buyout,
+                    offers,
+                    details,
+                    currencies,
+                }
+            },
+        };
+        let uri = self.get_api_uri("/v2/classifieds/listings");
+        let response = self.client.post(uri)
+            .json(&params)
+            .send()
+            .await?;
+        let body: response::listing::Listing = helpers::parses_response(response).await?;
+        
+        Ok(body)
+    }
+    
     pub async fn create_listings<T>(
         &self,
         listings: &[request::CreateListing<T>],
@@ -597,6 +649,36 @@ impl BackpackAPI {
             .await?;
         
         Ok(())
+    }
+    
+    pub async fn delete_listings(
+        &self,
+        listing_ids: &[String],
+    ) -> Result<u32, Error> {
+        #[derive(Serialize, Debug)]
+        struct Params<'a, 'b> {
+            token: &'a str,
+            listing_ids: &'b [String],
+        }
+        
+        if listing_ids.is_empty() {
+            return Err(Error::Parameter("No listings given"));
+        } else if listing_ids.len() > 100 {
+            return Err(Error::Parameter("Maximum of 100 listings allowed"));
+        }
+        
+        let token = self.get_token()?;
+        let uri = self.get_api_uri("/classifieds/delete/v1");
+        let response = self.client.delete(uri)
+            .json(&Params {
+                token,
+                listing_ids,
+            })
+            .send()
+            .await?;
+        let response: response::listing::delete_listing::DeleteListingsResult = helpers::parses_response(response).await?;
+        
+        Ok(response.deleted)
     }
     
     pub async fn update_listing<T>(
@@ -715,101 +797,6 @@ impl BackpackAPI {
         Ok(results)
     }
     
-    pub async fn create_listings_chunked<T>(
-        &self,
-        listings: &[request::CreateListing<T>],
-    ) -> Result<Vec<response::listing::create_listing::Result<T>>, Error>
-    where
-        T: SerializeCurrencies + Clone
-    {
-        let mut chunked = helpers::Cooldown::new(listings);
-        let mut created = Vec::new();
-
-        while let Some((listings, duration)) = chunked.next() {
-            match self.create_listings(listings).await {
-                Ok(mut more_created) => {
-                    created.append(&mut more_created);
-                    
-                    if let Some(duration) = duration {
-                        sleep(duration).await;
-                    }
-                },
-                Err(Error::TooManyRequests(retry_after)) => {
-                    sleep(Duration::from_secs(retry_after)).await;
-                    chunked.reset();
-                    created.append(&mut self.create_listings(listings).await?);
-                },
-                Err(error) => {
-                    return Err(error);
-                },
-            }
-        }
-        
-        Ok(created)
-    }
-    
-    pub async fn update_listings_chunked<T>(
-        &self,
-        listings: &[request::UpdateListing<T>],
-    ) -> Result<Vec<response::listing::update_listing::Result<T>>, Error>
-    where
-        T: SerializeCurrencies + Clone
-    {
-        let mut chunked = helpers::Cooldown::new(listings);
-        let mut updated = Vec::new();
-
-        while let Some((listings, duration)) = chunked.next() {
-            match self.update_listings(listings).await {
-                Ok(mut more_updated) => {
-                    updated.append(&mut more_updated);
-                    
-                    if let Some(duration) = duration {
-                        sleep(duration).await;
-                    }
-                },
-                Err(Error::TooManyRequests(retry_after)) => {
-                    sleep(Duration::from_secs(retry_after)).await;
-                    chunked.reset();
-                    updated.append(&mut self.update_listings(listings).await?);
-                },
-                Err(error) => {
-                    return Err(error);
-                },
-            }
-        }
-        
-        Ok(updated)
-    }
-    
-    pub async fn delete_listings_chunked(
-        &self,
-        listing_ids: &[String],
-    ) -> Result<u32, Error> {
-        let mut chunked = helpers::Cooldown::new(listing_ids);
-        let mut deleted = 0;
-
-        while let Some((listing_ids, duration)) = chunked.next() {
-            match self.delete_listings(listing_ids).await {
-                Ok(more_deleted) => {
-                    deleted += more_deleted;
-                    
-                    if let Some(duration) = duration {
-                        sleep(duration).await;
-                    }
-                },
-                Err(Error::TooManyRequests(retry_after)) => {
-                    sleep(Duration::from_secs(retry_after)).await;
-                    deleted += self.delete_listings(listing_ids).await?;
-                },
-                Err(error) => {
-                    return Err(error);
-                },
-            }
-        }
-        
-        Ok(deleted)
-    }
-    
     pub async fn promote_listing(
         &self,
         id: &str,
@@ -855,108 +842,6 @@ impl BackpackAPI {
             .send()
             .await?;
         let body: response::listing::BatchLimit = helpers::parses_response(response).await?;
-        
-        Ok(body)
-    }
-    
-    pub async fn delete_listings(
-        &self,
-        listing_ids: &[String],
-    ) -> Result<u32, Error> {
-        #[derive(Serialize, Debug)]
-        struct Params<'a, 'b> {
-            token: &'a str,
-            listing_ids: &'b [String],
-        }
-        
-        if listing_ids.is_empty() {
-            return Err(Error::Parameter("No listings given"));
-        } else if listing_ids.len() > 100 {
-            return Err(Error::Parameter("Maximum of 100 listings allowed"));
-        }
-        
-        let token = self.get_token()?;
-        let uri = self.get_api_uri("/classifieds/delete/v1");
-        let response = self.client.delete(uri)
-            .json(&Params {
-                token,
-                listing_ids,
-            })
-            .send()
-            .await?;
-        let response: response::listing::delete_listing::DeleteListingsResult = helpers::parses_response(response).await?;
-        
-        Ok(response.deleted)
-    }
-    
-    pub async fn create_listing<T>(
-        &self,
-        listing: &request::CreateListing<T>,
-    ) -> Result<response::listing::Listing, Error>
-    where
-        T: SerializeCurrencies
-    {
-        #[derive(Serialize, Debug)]
-        struct Params<'a, 'b, T> {
-            token: &'a str,
-            #[serde(serialize_with = "option_number_to_str", skip_serializing_if = "Option::is_none")]
-            id: Option<u64>,
-            #[serde(serialize_with = "option_buy_listing_item_into_params", skip_serializing_if = "Option::is_none")]
-            item: Option<&'b request::BuyListingItem>,
-            #[serde(serialize_with = "listing_intent_enum_to_str")]
-            intent: ListingIntent,
-            #[serde(skip_serializing_if = "Option::is_none")]
-            details: &'b Option<String>,
-            buyout: &'b bool,
-            offers: &'b bool,
-            currencies: &'b T,
-        }
-        
-        let token = self.get_token()?;
-        let params: Params<T> = match listing {
-            request::CreateListing::Buy {
-                item,
-                currencies,
-                details,
-                buyout,
-                offers,
-            } => {
-                Params {
-                    token,
-                    id: None,
-                    item: Some(item),
-                    intent: ListingIntent::Buy,
-                    buyout,
-                    offers,
-                    details,
-                    currencies,
-                }
-            },
-            request::CreateListing::Sell {
-                id,
-                currencies,
-                details,
-                buyout,
-                offers,
-            } => {
-                Params {
-                    token,
-                    id: Some(*id),
-                    item: None,
-                    intent: ListingIntent::Sell,
-                    buyout,
-                    offers,
-                    details,
-                    currencies,
-                }
-            },
-        };
-        let uri = self.get_api_uri("/v2/classifieds/listings");
-        let response = self.client.post(uri)
-            .json(&params)
-            .send()
-            .await?;
-        let body: response::listing::Listing = helpers::parses_response(response).await?;
         
         Ok(body)
     }
@@ -1031,9 +916,137 @@ impl BackpackAPI {
         
         Ok(body.listings)
     }
-}
+    
+    /// Bulk creates any number of listings. This is a convenience method which handles
+    /// mass creation of listings that need to be split into chunks and are rate limited
+    /// to a certain number of requests per minute.
+    pub async fn create_listings_chunked<T>(
+        &self,
+        listings: &[request::CreateListing<T>],
+    ) -> Result<Vec<response::listing::create_listing::Result<T>>, Error>
+    where
+        T: SerializeCurrencies + Clone
+    {
+        let mut chunked = helpers::Cooldown::new(listings);
+        let mut created = Vec::new();
 
-#[derive(Serialize, Deserialize, Debug)]
-struct Token<'a> {
-    token: &'a str,
+        while let Some((listings, duration)) = chunked.next() {
+            match self.create_listings(listings).await {
+                Ok(mut more_created) => {
+                    created.append(&mut more_created);
+                    
+                    if let Some(duration) = duration {
+                        sleep(duration).await;
+                    }
+                },
+                Err(Error::TooManyRequests(retry_after)) => {
+                    sleep(Duration::from_secs(retry_after)).await;
+                    chunked.reset();
+                    created.append(&mut self.create_listings(listings).await?);
+                },
+                Err(error) => {
+                    return Err(error);
+                },
+            }
+        }
+        
+        Ok(created)
+    }
+    
+    /// Gets all alerts. This is a convenience method which scrolls against the responses
+    /// in [get_alerts](BackpackAPI::get_alerts) until all alerts are obtained.
+    pub async fn get_all_alerts(
+        &self,
+        skip: u32,
+    ) -> Result<Vec<response::alert::Alert>, Error> {
+        let mut all = Vec::new();
+        let mut limit = 100;
+        let mut skip = skip;
+        
+        loop {
+            let (mut alerts, cursor) = self.get_alerts(skip, limit).await?;
+            
+            all.append(&mut alerts);
+            limit = cursor.limit;
+            skip = cursor.skip + limit;
+            
+            if limit + skip >= cursor.total {
+                // we done
+                break;
+            }
+            
+            // take a break
+            sleep(Duration::from_secs(1)).await;
+        }
+        
+        Ok(all)
+    }
+    
+    /// Bulk updates any number of listings. This is a convenience method which handles
+    /// mass updating of listings that need to be split into chunks and are rate limited
+    /// to a certain number of requests per minute.
+    pub async fn update_listings_chunked<T>(
+        &self,
+        listings: &[request::UpdateListing<T>],
+    ) -> Result<Vec<response::listing::update_listing::Result<T>>, Error>
+    where
+        T: SerializeCurrencies + Clone
+    {
+        let mut chunked = helpers::Cooldown::new(listings);
+        let mut updated = Vec::new();
+
+        while let Some((listings, duration)) = chunked.next() {
+            match self.update_listings(listings).await {
+                Ok(mut more_updated) => {
+                    updated.append(&mut more_updated);
+                    
+                    if let Some(duration) = duration {
+                        sleep(duration).await;
+                    }
+                },
+                Err(Error::TooManyRequests(retry_after)) => {
+                    sleep(Duration::from_secs(retry_after)).await;
+                    chunked.reset();
+                    updated.append(&mut self.update_listings(listings).await?);
+                },
+                Err(error) => {
+                    return Err(error);
+                },
+            }
+        }
+        
+        Ok(updated)
+    }
+    
+    /// Bulk deletes any number of listings. This is a convenience method which handles
+    /// mass deletion of listings that need to be split into chunks and are rate limited
+    /// to a certain number of requests per minute.
+    pub async fn delete_listings_chunked(
+        &self,
+        listing_ids: &[String],
+    ) -> Result<u32, Error> {
+        let mut chunked = helpers::Cooldown::new(listing_ids);
+        let mut deleted = 0;
+
+        while let Some((listing_ids, duration)) = chunked.next() {
+            match self.delete_listings(listing_ids).await {
+                Ok(more_deleted) => {
+                    deleted += more_deleted;
+                    
+                    if let Some(duration) = duration {
+                        sleep(duration).await;
+                    }
+                },
+                Err(Error::TooManyRequests(retry_after)) => {
+                    sleep(Duration::from_secs(retry_after)).await;
+                    deleted += self.delete_listings(listing_ids).await?;
+                },
+                Err(error) => {
+                    return Err(error);
+                },
+            }
+        }
+        
+        Ok(deleted)
+    }
 }
