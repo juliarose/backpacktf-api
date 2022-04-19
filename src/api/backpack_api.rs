@@ -470,7 +470,7 @@ impl BackpackAPI {
         Ok(body)
     }
 
-    /// Refreshes the state of your inventory.
+    /// Refreshes the state of an inventory.
     pub async fn refresh_inventory(
         &self,
         steamid: &SteamID,
