@@ -726,10 +726,22 @@ impl BackpackAPI {
         let mut created = Vec::new();
 
         while let Some((listings, duration)) = chunked.next() {
-            created.append(&mut self.create_listings(listings).await?);
-            
-            if let Some(duration) = duration {
-                sleep(duration).await;
+            match self.create_listings(listings).await {
+                Ok(mut more_created) => {
+                    created.append(&mut more_created);
+                    
+                    if let Some(duration) = duration {
+                        sleep(duration).await;
+                    }
+                },
+                Err(Error::TooManyRequests(retry_after)) => {
+                    sleep(Duration::from_secs(retry_after)).await;
+                    chunked.reset();
+                    created.append(&mut self.create_listings(listings).await?);
+                },
+                Err(error) => {
+                    return Err(error);
+                },
             }
         }
         
@@ -747,10 +759,22 @@ impl BackpackAPI {
         let mut updated = Vec::new();
 
         while let Some((listings, duration)) = chunked.next() {
-            updated.append(&mut self.update_listings(listings).await?);
-            
-            if let Some(duration) = duration {
-                sleep(duration).await;
+            match self.update_listings(listings).await {
+                Ok(mut more_updated) => {
+                    updated.append(&mut more_updated);
+                    
+                    if let Some(duration) = duration {
+                        sleep(duration).await;
+                    }
+                },
+                Err(Error::TooManyRequests(retry_after)) => {
+                    sleep(Duration::from_secs(retry_after)).await;
+                    chunked.reset();
+                    updated.append(&mut self.update_listings(listings).await?);
+                },
+                Err(error) => {
+                    return Err(error);
+                },
             }
         }
         
@@ -765,10 +789,21 @@ impl BackpackAPI {
         let mut deleted = 0;
 
         while let Some((listing_ids, duration)) = chunked.next() {
-            deleted += self.delete_listings(listing_ids).await?;
-            
-            if let Some(duration) = duration {
-                sleep(duration).await;
+            match self.delete_listings(listing_ids).await {
+                Ok(more_deleted) => {
+                    deleted += more_deleted;
+                    
+                    if let Some(duration) = duration {
+                        sleep(duration).await;
+                    }
+                },
+                Err(Error::TooManyRequests(retry_after)) => {
+                    sleep(Duration::from_secs(retry_after)).await;
+                    deleted += self.delete_listings(listing_ids).await?;
+                },
+                Err(error) => {
+                    return Err(error);
+                },
             }
         }
         

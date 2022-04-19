@@ -31,6 +31,10 @@ where
         }
     }
     
+    pub fn reset(&mut self) {
+        self.i = 0;
+    }
+    
     pub fn next(&mut self) -> Option<(&'a [T], Option<Duration>)> {
         self.i += 1;
         
