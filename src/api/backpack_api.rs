@@ -917,6 +917,35 @@ impl BackpackAPI {
         Ok(body.listings)
     }
     
+    /// Gets all alerts. This is a convenience method which scrolls against the responses
+    /// in [get_alerts](BackpackAPI::get_alerts) until all alerts are obtained.
+    pub async fn get_all_alerts(
+        &self,
+        skip: u32,
+    ) -> Result<Vec<response::alert::Alert>, Error> {
+        let mut all = Vec::new();
+        let mut limit = 100;
+        let mut skip = skip;
+        
+        loop {
+            let (mut alerts, cursor) = self.get_alerts(skip, limit).await?;
+            
+            all.append(&mut alerts);
+            limit = cursor.limit;
+            skip = cursor.skip + limit;
+            
+            if limit + skip >= cursor.total {
+                // we done
+                break;
+            }
+            
+            // take a break
+            sleep(Duration::from_secs(1)).await;
+        }
+        
+        Ok(all)
+    }
+    
     /// Bulk creates any number of listings. This is a convenience method which handles
     /// mass creation of listings that need to be split into chunks and are rate limited
     /// to a certain number of requests per minute.
@@ -951,35 +980,6 @@ impl BackpackAPI {
         }
         
         Ok(created)
-    }
-    
-    /// Gets all alerts. This is a convenience method which scrolls against the responses
-    /// in [get_alerts](BackpackAPI::get_alerts) until all alerts are obtained.
-    pub async fn get_all_alerts(
-        &self,
-        skip: u32,
-    ) -> Result<Vec<response::alert::Alert>, Error> {
-        let mut all = Vec::new();
-        let mut limit = 100;
-        let mut skip = skip;
-        
-        loop {
-            let (mut alerts, cursor) = self.get_alerts(skip, limit).await?;
-            
-            all.append(&mut alerts);
-            limit = cursor.limit;
-            skip = cursor.skip + limit;
-            
-            if limit + skip >= cursor.total {
-                // we done
-                break;
-            }
-            
-            // take a break
-            sleep(Duration::from_secs(1)).await;
-        }
-        
-        Ok(all)
     }
     
     /// Bulk updates any number of listings. This is a convenience method which handles
