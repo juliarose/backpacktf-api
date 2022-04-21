@@ -21,11 +21,17 @@ pub struct Item {
     #[serde(default)]
     #[serde(deserialize_with = "from_optional_number_or_string")]
     pub original_id: Option<u64>,
+    #[serde(default)]
+    #[serde(deserialize_with = "from_optional_number_or_string")]
     pub level: Option<u8>,
+    #[serde(default)]
+    #[serde(deserialize_with = "from_optional_number_or_string")]
     pub inventory: Option<u32>,
     #[serde(default)]
     #[serde(deserialize_with = "from_optional_number_or_string")]
     pub quantity: Option<u32>,
+    #[serde(default)]
+    #[serde(deserialize_with = "from_optional_number_or_string")]
     pub origin: Option<u32>,
     #[serde(default)]
     #[serde(deserialize_with = "deserialize_attributes")]
