@@ -20,7 +20,7 @@ use crate::{
 };
 use super::{api_response, helpers};
 use async_std::task::sleep;
-use serde::{Serialize, Deserialize};
+use serde::{Serialize, Deserialize, de::DeserializeOwned};
 use url::Url;
 use reqwest::cookie::Jar;
 use reqwest_middleware::ClientWithMiddleware;
@@ -69,19 +69,11 @@ impl BackpackAPI {
         }
     }
     
-    fn get_uri(
-        &self,
-        pathname: &str,
-    ) -> String {
-        // https://backpack.tf/api/index.html#/webapi-users/800c12bc395d28d411e61a7aa5da1d9c
-        format!("https://{}{}", Self::HOSTNAME, pathname)
-    }
-
     fn get_api_uri(
         &self,
         endpoint: &str,
     ) -> String {
-        format!("{}{}", self.get_uri("/api"), endpoint)
+        format!("https://api.{}/api{}", Self::HOSTNAME, endpoint)
     }
     
     fn get_token(&self) -> Result<&str, Error> {
@@ -127,6 +119,81 @@ impl BackpackAPI {
         }
     }
     
+    async fn get<T, D>(
+        &self,
+        uri: &str,
+        query: &T,
+    ) -> Result<D, Error>
+    where
+        T: Serialize,
+        D: DeserializeOwned,
+    {
+        let uri = self.get_api_uri(uri);
+        let request = self.client.get(uri)
+            .query(query);
+        let response = request
+            .send()
+            .await?;
+        
+        helpers::parses_response::<D>(response).await
+    }
+    
+    async fn delete<T>(
+        &self,
+        uri: &str,
+        query: &T,
+    ) -> Result<(), Error>
+    where
+        T: Serialize,
+    {
+        let uri = self.get_api_uri(uri);
+        let request = self.client.delete(uri)
+            .query(query);
+        let _ = request
+            .send()
+            .await?;
+        
+        Ok(())
+    }
+    
+    async fn post<T, D>(
+        &self,
+        uri: &str,
+        query: &T,
+    ) -> Result<D, Error>
+    where
+        T: Serialize,
+        D: DeserializeOwned,
+    {
+        let uri = self.get_api_uri(uri);
+        let request = self.client.post(uri)
+            .query(query);
+        let response = request
+            .send()
+            .await?;
+        
+        helpers::parses_response::<D>(response).await
+    }
+    
+    async fn post_json<T, D>(
+        &self,
+        uri: &str,
+        json: &T,
+    ) -> Result<D, Error>
+    where
+        T: Serialize,
+        D: DeserializeOwned,
+    {
+        let uri = self.get_api_uri(uri);
+        let request = self.client.post(uri)
+            .json(json);
+        let response = request
+            .send()
+            .await?;
+        
+        helpers::parses_response::<D>(response).await
+    }
+    
     /// Gets details about users including name, bans, trust scores, and inventory values.
     pub async fn get_users<'b>(
         &self,
@@ -144,15 +211,13 @@ impl BackpackAPI {
         }
         
         let key = self.get_key()?;
-        let uri = self.get_api_uri("/IGetUsers/v3");
-        let response = self.client.get(uri)
-            .query(&Params {
+        let body: api_response::GetUsersResponseWrapper = self.get(
+            "/IGetUsers/v3",
+            &Params {
                 key,
                 steamids,
-            })
-            .send()
-            .await?;
-        let body: api_response::GetUsersResponseWrapper = helpers::parses_response(response).await?;
+            }
+        ).await?;
         
         if !body.response.success {
             Err(Error::Response(
@@ -180,16 +245,14 @@ impl BackpackAPI {
         }
         
         let token = self.get_token()?;
-        let uri = self.get_api_uri("/classifieds/alerts");
-        let response = self.client.get(uri)
-            .query(&Params {
+        let body: api_response::GetAlertsResponse = self.get(
+            "/classifieds/alerts",
+            &Params {
                 token,
                 limit,
                 skip,
-            })
-            .send()
-            .await?;
-        let body: api_response::GetAlertsResponse = helpers::parses_response(response).await?;
+            },
+        ).await?;
         
         Ok((body.alerts, body.cursor))
     }
@@ -228,9 +291,9 @@ impl BackpackAPI {
             blanket = None;
         }
         
-        let uri = self.get_api_uri("/classifieds/alerts");
-        let response = self.client.post(uri)
-            .json(&Params {
+        let alert: response::alert::Alert = self.post_json(
+            "/classifieds/alerts",
+            &Params {
                 token,
                 item_name,
                 intent,
@@ -238,12 +301,10 @@ impl BackpackAPI {
                 min,
                 max,
                 blanket,
-            })
-            .send()
-            .await?;
-        let body: response::alert::Alert = helpers::parses_response(response).await?;
+            },
+        ).await?;
         
-        Ok(body)
+        Ok(alert)
     }
 
     /// Deletes an alert by its name.
@@ -261,17 +322,15 @@ impl BackpackAPI {
         }
         
         let token = self.get_token()?;
-        let uri = self.get_api_uri("/classifieds/alerts");
-        let _ = self.client.delete(uri)
-            .query(&Params {
+        
+        self.delete(
+            "/classifieds/alerts",
+            &Params {
                 token,
                 item_name,
                 intent,
-            })
-            .send()
-            .await?;
-        
-        Ok(())
+            },
+        ).await
     }
 
     /// Deletes an alert using its ID.
@@ -280,15 +339,13 @@ impl BackpackAPI {
         id: &str,
     ) -> Result<(), Error> {
         let token = self.get_token()?;
-        let uri = format!("{}/{}", self.get_api_uri("/classifieds/alerts"), id);
-        let _ = self.client.delete(uri)
-            .query(&Token {
-                token,
-            })
-            .send()
-            .await?;
         
-        Ok(())
+        self.delete(
+            &format!("/classifieds/alerts/{}", id),
+            &Token {
+                token,
+            },
+        ).await
     }
 
     /// Gets an alert.
@@ -297,16 +354,14 @@ impl BackpackAPI {
         id: &str,
     ) -> Result<response::alert::Alert, Error> {
         let token = self.get_token()?;
-        let uri = format!("{}/{}", self.get_api_uri("/classifieds/alerts"), id);
-        let response = self.client.get(uri)
-            .query(&Token {
+        let alert: response::alert::Alert = self.get(
+            &format!("/classifieds/alerts/{}", id),
+            &Token {
                 token,
-            })
-            .send()
-            .await?;
-        let body: response::alert::Alert = helpers::parses_response(response).await?;
+            }
+        ).await?;
             
-        Ok(body)
+        Ok(alert)
     }
 
     /// Gets a notification.
@@ -315,15 +370,14 @@ impl BackpackAPI {
         id: &str,
     ) -> Result<response::notification::Notification, Error> {
         let token = self.get_token()?;
-        let response = self.client.get(format!("{}/{}", self.get_api_uri("/notifications"), id))
-            .query(&Token {
+        let notification: response::notification::Notification = self.get(
+            &format!("/notifications/{}", id),
+            &Token {
                 token,
-            })
-            .send()
-            .await?;
-        let body: response::notification::Notification = helpers::parses_response(response).await?;
+            }
+        ).await?;
         
-        Ok(body)
+        Ok(notification)
     }
 
     /// Deletes a notification.
@@ -332,15 +386,13 @@ impl BackpackAPI {
         id: &str,
     ) -> Result<(), Error> {
         let token = self.get_token()?;
-        let uri = format!("{}/{}", self.get_api_uri("/notifications"), id);
-        self.client.delete(uri)
-            .query(&Token {
-                token,
-            })
-            .send()
-            .await?;
         
-        Ok(())
+        self.delete(
+            &format!("/notifications/{}", id),
+            &Token {
+                token,
+            }
+        ).await
     }
 
     /// Gets notifications along with a cursor for scrolling results.
@@ -359,17 +411,15 @@ impl BackpackAPI {
         }
         
         let token = self.get_token()?;
-        let uri = self.get_api_uri("/notifications");
-        let response = self.client.get(uri)
-            .query(&Params {
+        let body: api_response::GetNotificationsResponse = self.get(
+            "/notifications",
+            &Params {
                 token,
                 skip,
                 limit,
                 unread,
-            })
-            .send()
-            .await?;
-        let body: api_response::GetNotificationsResponse = helpers::parses_response(response).await?;
+            },
+        ).await?;
         
         Ok((body.notifications, body.cursor))
     }
@@ -379,14 +429,12 @@ impl BackpackAPI {
         &self,
     ) -> Result<Vec<response::notification::Notification>, Error> {
         let token = self.get_token()?;
-        let uri = self.get_api_uri("/notifications/unread");
-        let response = self.client.post(uri)
-            .query(&Token {
+        let notifications: Vec<response::notification::Notification> = self.post(
+            "/notifications/unread",
+            &Token {
                 token,
-            })
-            .send()
-            .await?;
-        let notifications: Vec<response::notification::Notification> = helpers::parses_response(response).await?;
+            },
+        ).await?;
         
         Ok(notifications)
     }
@@ -396,13 +444,12 @@ impl BackpackAPI {
         &self,
     ) -> Result<(), Error> {
         let token = self.get_token()?;
-        let uri = self.get_api_uri("/notifications/unread");
-        self.client.post(uri)
-            .query(&Token {
+        let _: () = self.post(
+            "/notifications/unread",
+            &Token {
                 token,
-            })
-            .send()
-            .await?;
+            },
+        ).await?;
         
         Ok(())
     }
@@ -420,18 +467,16 @@ impl BackpackAPI {
         }
         
         let token = self.get_token()?;
-        let uri = self.get_api_uri("/classifieds/listings/snapshot");
-        let response = self.client.get(uri)
-            .query(&Params {
+        let snapshot: response::snapshot::Snapshot = self.get(
+            "/classifieds/listings/snapshot",
+            &Params {
                 token,
                 appid: 440,
                 sku,
-            })
-            .send()
-            .await?;
-        let body: response::snapshot::Snapshot = helpers::parses_response(response).await?;
+            },
+        ).await?;
         
-        Ok(body)
+        Ok(snapshot)
     }
 
     /// Gets the values of an inventory.
@@ -440,16 +485,14 @@ impl BackpackAPI {
         steamid: &SteamID,
     ) -> Result<response::inventory::InventoryValues, Error> {
         let token = self.get_token()?;
-        let uri = format!("{}/{}/values", self.get_api_uri("/inventory"), u64::from(*steamid));
-        let response = self.client.get(uri)
-            .query(&Token {
+        let inventory_values: response::inventory::InventoryValues = self.get(
+            &format!("/inventory/{}/values", u64::from(*steamid)),
+            &Token {
                 token,
-            })
-            .send()
-            .await?;
-        let body: response::inventory::InventoryValues = helpers::parses_response(response).await?;
+            },
+        ).await?;
         
-        Ok(body)
+        Ok(inventory_values)
     }
     
     /// Gets the current state of an inventory.
@@ -458,16 +501,14 @@ impl BackpackAPI {
         steamid: &SteamID,
     ) -> Result<response::inventory::InventoryStatus, Error> {
         let token = self.get_token()?;
-        let uri = format!("{}/{}/status", self.get_api_uri("/inventory"), u64::from(*steamid));
-        let response = self.client.get(uri)
-            .query(&Token {
+        let inventory_status: response::inventory::InventoryStatus = self.get(
+            &format!("/inventory/{}/status", u64::from(*steamid)),
+            &Token {
                 token,
-            })
-            .send()
-            .await?;
-        let body: response::inventory::InventoryStatus = helpers::parses_response(response).await?;
+            },
+        ).await?;
         
-        Ok(body)
+        Ok(inventory_status)
     }
 
     /// Refreshes the state of an inventory.
@@ -476,16 +517,14 @@ impl BackpackAPI {
         steamid: &SteamID,
     ) -> Result<response::inventory::InventoryStatus, Error> {
         let token = self.get_token()?;
-        let uri = format!("{}/{}/refresh", self.get_api_uri("/inventory"), u64::from(*steamid));
-        let response = self.client.post(uri)
-            .query(&Token {
+        let inventory_status: response::inventory::InventoryStatus = self.post(
+            &format!("/inventory/{}/refresh", u64::from(*steamid)),
+            &Token {
                 token,
-            })
-            .send()
-            .await?;
-        let body: response::inventory::InventoryStatus = helpers::parses_response(response).await?;
+            },
+        ).await?;
         
-        Ok(body)
+        Ok(inventory_status)
     }
 
     /// Gets a page of listings along with the cursor for scrolling.
@@ -502,16 +541,14 @@ impl BackpackAPI {
         }
         
         let token = self.get_token()?;
-        let uri = self.get_api_uri("/v2/classifieds/listings");
-        let response = self.client.get(uri)
-            .query(&Params {
+        let body: api_response::GetListingsResponse = self.get(
+            "/v2/classifieds/listings",
+            &Params {
                 token,
                 skip,
                 limit,
-            })
-            .send()
-            .await?;
-        let body: api_response::GetListingsResponse = helpers::parses_response(response).await?;
+            },
+        ).await?;
         
         Ok((body.listings, body.cursor))
     }
@@ -579,14 +616,12 @@ impl BackpackAPI {
                 }
             },
         };
-        let uri = self.get_api_uri("/v2/classifieds/listings");
-        let response = self.client.post(uri)
-            .json(&params)
-            .send()
-            .await?;
-        let body: response::listing::Listing = helpers::parses_response(response).await?;
+        let listing: response::listing::Listing = self.post_json(
+            "/v2/classifieds/listings",
+            &params,
+        ).await?;
         
-        Ok(body)
+        Ok(listing)
     }
     
     /// Creates listings. A limit of 100 listings is imposed.
@@ -657,16 +692,13 @@ impl BackpackAPI {
         id: &str,
     ) -> Result<(), Error> {
         let token = self.get_token()?;
-        let uri = format!("{}/{}", self.get_api_uri("/v2/classifieds/listings"), id);
-        // This does not produce an output
-        self.client.delete(uri)
-            .query(&Token {
-                token,
-            })
-            .send()
-            .await?;
         
-        Ok(())
+        self.delete(
+            &format!("/v2/classifieds/listings/{}", id),
+            &Token {
+                token,
+            },
+        ).await
     }
     
     /// Deletes listings. A limit of 100 listings is imposed.
@@ -824,16 +856,14 @@ impl BackpackAPI {
         id: &str,
     ) -> Result<response::listing::Listing, Error> {
         let token = self.get_token()?;
-        let uri = format!("{}/{}/promote", self.get_api_uri("/v2/classifieds/listings"), id);
-        let response = self.client.post(uri)
-            .json(&Token {
+        let listing: response::listing::Listing = self.post_json(
+            &format!("/v2/classifieds/listings/{}/promote",  id),
+            &Token {
                 token,
-            })
-            .send()
-            .await?;
-        let body: response::listing::Listing = helpers::parses_response(response).await?;
+            },
+        ).await?;
         
-        Ok(body)
+        Ok(listing)
     }
     
     /// Demotes a listing to promoted listing.
@@ -842,13 +872,12 @@ impl BackpackAPI {
         id: &str,
     ) -> Result<(), Error> {
         let token = self.get_token()?;
-        let uri = format!("{}/{}/demote", self.get_api_uri("/v2/classifieds/listings"), id);
-        let _ = self.client.post(uri)
-            .json(&Token {
+        let _: () = self.post_json(
+            &format!("/v2/classifieds/listings/{}/demote", id),
+            &Token {
                 token,
-            })
-            .send()
-            .await?;
+            },
+        ).await?;
         
         Ok(())
     }
@@ -858,16 +887,14 @@ impl BackpackAPI {
         &self,
     ) -> Result<response::listing::BatchLimit, Error> {
         let token = self.get_token()?;
-        let uri = self.get_api_uri("/v2/classifieds/listings/batch");
-        let response = self.client.get(uri)
-            .query(&Token {
+        let batch_limit: response::listing::BatchLimit = self.get(
+            "/v2/classifieds/listings/batch",
+            &Token {
                 token,
-            })
-            .send()
-            .await?;
-        let body: response::listing::BatchLimit = helpers::parses_response(response).await?;
+            },
+        ).await?;
         
-        Ok(body)
+        Ok(batch_limit)
     }
 
     /// Sends a heartbeat.
@@ -882,17 +909,15 @@ impl BackpackAPI {
         }
         
         let token = self.get_token()?;
-        let uri = self.get_api_uri("/agent/pulse");
-        let response = self.client.post(uri)
-            .query(&Params {
+        let agent_status: response::agent::AgentStatus = self.post(
+            "/agent/pulse",
+            &Params {
                 token,
                 user_agent,
-            })
-            .send()
-            .await?;
-        let body: response::agent::AgentStatus = helpers::parses_response(response).await?;
+            },
+        ).await?;
         
-        Ok(body)
+        Ok(agent_status)
     }
 
     /// Gets current status of user agent.
@@ -900,16 +925,14 @@ impl BackpackAPI {
         &self,
     ) -> Result<response::agent::AgentStatus, Error> {
         let token = self.get_token()?;
-        let uri = self.get_api_uri("/agent/status");
-        let response = self.client.post(uri)
-            .query(&Token {
+        let agent_status: response::agent::AgentStatus = self.post(
+            "/agent/status",
+            &Token {
                 token,
-            })
-            .send()
-            .await?;
-        let body: response::agent::AgentStatus = helpers::parses_response(response).await?;
+            },
+        ).await?;
         
-        Ok(body)
+        Ok(agent_status)
     }
 
     /// Stops user agent.
@@ -917,13 +940,12 @@ impl BackpackAPI {
         &self,
     ) -> Result<(), Error> {
         let token = self.get_token()?;
-        let uri = self.get_api_uri("/agent/stop");
-        let _ = self.client.post(uri)
-            .query(&Token {
+        let _: () = self.post(
+            "/agent/stop",
+            &Token {
                 token,
-            })
-            .send()
-            .await?;
+            },
+        ).await?;
         
         Ok(())
     }
@@ -933,14 +955,12 @@ impl BackpackAPI {
         &self,
     ) -> Result<response::classifieds_limits::ClassifiedsLimits, Error> {
         let token = self.get_token()?;
-        let uri = self.get_api_uri("/classifieds/limits");
-        let response = self.client.get(uri)
-            .query(&Token {
+        let body: api_response::ClassifiedsLimitResponse = self.get(
+            "/classifieds/limits",
+            &Token {
                 token,
-            })
-            .send()
-            .await?;
-        let body: api_response::ClassifiedsLimitResponse = helpers::parses_response(response).await?;
+            },
+        ).await?;
         
         Ok(body.listings)
     }
