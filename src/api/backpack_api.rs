@@ -104,21 +104,6 @@ impl BackpackAPI {
         }
     }
     
-    /// Gets details about a user including name, bans, trust scores, and inventory values.
-    pub async fn get_user(
-        &self,
-        steamid: &SteamID,
-    ) -> Result<response::player::Player, Error> {
-        let steamids: Vec<SteamID> = vec![*steamid];
-        let players = self.get_users(&steamids).await?;
-        
-        if let Some(player) = players.get(steamid) {
-            Ok(player.to_owned())
-        } else {
-            Err(Error::Response("No player with SteamID in response".into()))
-        }
-    }
-    
     async fn get<T, D>(
         &self,
         uri: &str,
@@ -192,6 +177,21 @@ impl BackpackAPI {
             .await?;
         
         helpers::parses_response::<D>(response).await
+    }
+    
+    /// Gets details about a user including name, bans, trust scores, and inventory values.
+    pub async fn get_user(
+        &self,
+        steamid: &SteamID,
+    ) -> Result<response::player::Player, Error> {
+        let steamids: Vec<SteamID> = vec![*steamid];
+        let players = self.get_users(&steamids).await?;
+        
+        if let Some(player) = players.get(steamid) {
+            Ok(player.to_owned())
+        } else {
+            Err(Error::Response("No player with SteamID in response".into()))
+        }
     }
     
     /// Gets details about users including name, bans, trust scores, and inventory values.
