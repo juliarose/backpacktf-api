@@ -25,9 +25,9 @@ mod tests {
     use crate::{
         ListingIntent,
         tf2_enum::{Quality, Killstreaker, Sheen, StrangePart},
-        response::attributes::Value as AttributeValue
+        response::attributes::Value as AttributeValue,
+        response::currencies::{Currencies, ListingCurrencies},
     };
-    use crate::request::Currencies;
     
     #[test]
     fn parses_get_classifieds_snapshot_quality() {
@@ -37,7 +37,7 @@ mod tests {
         assert_eq!(listing.intent, ListingIntent::Sell);
         assert_eq!(listing.item.id, Some(10080129222));
         assert_eq!(listing.item.quality, Quality::Unusual);
-        assert_eq!(listing.currencies, Currencies { keys: 180.0, metal: 0 });
+        assert_eq!(listing.currencies, Currencies::InGame(ListingCurrencies { keys: 180.0, metal: 0 }));
     }
     
     #[test]
@@ -53,6 +53,17 @@ mod tests {
     }
     
     #[test]
+    fn parses_marketplace_listing() {
+        let listing: Listing = serde_json::from_str(include_str!("fixtures/snapshot_listing_marketplace.json")).unwrap();
+        
+        if let Currencies::Cash(currencies) = listing.currencies {
+            assert_eq!(currencies.usd, 8999);
+        } else {
+            panic!("Currencies are not cash");
+        }
+    }
+    
+    #[test]
     fn parses_listings() {
         let listing: Listing = serde_json::from_str(include_str!("fixtures/snapshot_listing_string_attributes.json")).unwrap();
         
@@ -64,8 +75,14 @@ mod tests {
         
         assert_eq!(intent, ListingIntent::Buy);
         assert_eq!(listing.item.quality, Quality::Strange);
-        assert_eq!(listing.currencies.keys, 44.0);
-        assert_eq!(listing.currencies.metal, 0);
+        
+        if let Currencies::InGame(currencies) = listing.currencies {
+            assert_eq!(currencies.keys, 44.0);
+            assert_eq!(currencies.metal, 0);
+        } else {
+            panic!("Currencies are not in-game");
+        }
+        
         assert_eq!(listing.details, Some("Looking for a spelled exorcism strange frying pan (without parts is ok) ! Feel free to add me :D\ncan also buy a strange pan with these parts for 44 keys".into()));
         assert_eq!(attribute_380.float_value.unwrap(), 82.0);
         assert_eq!(attribute_383.value.unwrap(), AttributeValue::Number(0));

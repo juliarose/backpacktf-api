@@ -1,0 +1,68 @@
+{
+    "steamid": "76561198080179568",
+    "offers": 0,
+    "buyout": 0,
+    "details": ":)",
+    "intent": "sell",
+    "timestamp": 1650593724,
+    "price": 3599.5999999999995,
+    "item": {
+        "id": 10243319324,
+        "original_id": 10218752039,
+        "defindex": 31115,
+        "level": 21,
+        "quality": 5,
+        "inventory": 0,
+        "quantity": 1,
+        "origin": 0,
+        "attributes": [
+            {
+                "defindex": 134,
+                "value": "1125842944",
+                "float_value": 155
+            },
+            {
+                "defindex": 519,
+                "value": "1090519040",
+                "float_value": 8
+            },
+            {
+                "defindex": 520,
+                "value": "1065353216",
+                "float_value": 1
+            },
+            {
+                "defindex": 2028,
+                "value": "1065353216",
+                "float_value": 1
+            },
+            {
+                "defindex": 746,
+                "value": "1065353216",
+                "float_value": 1
+            },
+            {
+                "defindex": 292,
+                "value": "1115684864",
+                "float_value": 64
+            },
+            {
+                "defindex": 388,
+                "value": "1115684864",
+                "float_value": 64
+            }
+        ],
+        "marketplace_price": 89.99,
+        "marketplace_bot_steamid": null,
+        "marketplace_sku": "31115;5;u155",
+        "marketplace_image": "https://steamcdn-a.akamaihd.net/apps/440/icons/sum20_hazard_headgear_large.2917d01e6562222d95c0970fc40c56df889a06b3.png"
+    },
+    "currencies": {
+        "usd": 89.99
+    },
+    "bump": 1650602737,
+    "userAgent": {
+        "lastPulse": 1650603097,
+        "client": "julia-trading"
+    }
+}

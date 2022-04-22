@@ -1,4 +1,5 @@
 use serde::{Serialize, Deserialize};
+use crate::SteamID;
 use crate::response::attributes::{Attributes, Value as AttributeValue};
 use crate::response::deserializers::{
     deserialize_attributes,
@@ -36,6 +37,10 @@ pub struct Item {
     #[serde(default)]
     #[serde(deserialize_with = "deserialize_attributes")]
     pub attributes: Attributes,
+    pub marketplace_price: Option<f32>,
+    pub marketplace_bot_steamid: Option<SteamID>,
+    pub marketplace_sku: Option<String>,
+    pub marketplace_image: Option<String>,
 }
 
 fn convert_float_u32(float: f64) -> Option<u32> {
