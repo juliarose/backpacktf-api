@@ -17,22 +17,3 @@ impl Currencies {
         }
     }
 }
-
-// impl<'de> Deserialize<'de> for Currencies {
-//     fn deserialize<D>(deserializer: D) -> Result<Currencies, D::Error>
-//         where D: Deserializer<'de>
-//     {
-//         match ListingCurrencies::deserialize(deserializer) {
-//             Ok(currencies) => {
-//                 Ok(Currencies::InGame(currencies))
-//             },
-//             Err(error) => {
-//                 if let Ok(currencies) = USDCurrencies::deserialize(deserializer) {
-//                     Ok(Currencies::Cash(currencies))
-//                 } else {
-//                     Err(error)
-//                 }
-//             }
-//         }
-//     }
-// }
