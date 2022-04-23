@@ -1,8 +1,9 @@
 use serde::{Deserialize, Serialize};
 pub use tf2_price::{ListingCurrencies, USDCurrencies};
 use std::fmt;
+use std::cmp::{Ord, Ordering};
 
-#[derive(Deserialize, Serialize, PartialEq, Clone, Debug)]
+#[derive(Deserialize, Serialize, PartialEq, Eq, Clone, Debug)]
 #[serde(untagged)]
 pub enum Currencies {
     InGame(ListingCurrencies),
@@ -15,6 +16,36 @@ impl fmt::Display for Currencies {
         match self {
             Currencies::InGame(currencies) => write!(f, "{}", currencies),
             Currencies::Cash(currencies) => write!(f, "{}", currencies),
+        }
+    }
+}
+
+impl PartialOrd for Currencies {
+    
+    fn partial_cmp(&self, other: &Currencies) -> Option<Ordering> {
+       Some(self.cmp(other))
+    }
+}
+
+impl Ord for Currencies {
+    
+    fn cmp(&self, other: &Self) -> Ordering {
+        match self {
+            Currencies::InGame(currencies) => {
+                if let Currencies::InGame(other) = other {
+                    currencies.cmp(other)
+                } else {
+                    Ordering::Less
+                }
+            },
+            Currencies::Cash(currencies) => {
+                if let Currencies::Cash(other) = other {
+                    currencies.cmp(other)
+                } else {
+                    // prefer in-game currencies
+                    Ordering::Greater
+                }
+            },
         }
     }
 }

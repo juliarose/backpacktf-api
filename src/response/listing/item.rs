@@ -4,10 +4,11 @@ use crate::response::deserializers::{
     map_to_enum,
     map_to_enum_option,
     map_to_enum_option_from_name,
+    optional_enum_deserialize,
     presence,
 };
 use super::attributes;
-use tf2_enum::{Wear, KillstreakTier, Quality, Paint};
+use tf2_enum::{Wear, KillstreakTier, Quality, Paint, ItemSlot};
 
 #[derive(Serialize, Deserialize, PartialEq, Clone, Debug)]
 #[serde(rename_all = "camelCase")]
@@ -35,7 +36,8 @@ pub struct Item {
     #[serde(deserialize_with = "presence", rename = "elevated_quality")]
     pub strange: bool,
     pub image_url: String,
-    pub slot: Option<String>,
+    #[serde(deserialize_with = "optional_enum_deserialize")]
+    pub slot: Option<ItemSlot>,
     pub summary: String,
     #[serde(deserialize_with = "map_to_enum")]
     pub quality: Quality,

@@ -77,13 +77,14 @@ impl Listing {
 #[cfg(test)]
 mod tests {
     use super::*;
-    use tf2_enum::Quality;
+    use tf2_enum::{ItemSlot, Quality};
     
     #[test]
     fn parses_listing() {
         let response: Listing = serde_json::from_str(include_str!("fixtures/listing.json")).unwrap();
         let strange = response.item.strange;
         
+        assert_eq!(response.item.slot, Some(ItemSlot::Misc));
         assert_eq!(response.item.quality, Quality::Unique);
         assert_eq!(response.item.base_name, "Lucky Cat Hat");
         assert_eq!(strange, false);
