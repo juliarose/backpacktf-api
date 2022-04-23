@@ -41,13 +41,12 @@ impl Attributable for Item {
         let mut attributes: Vec<ItemAttribute> = Vec::new();
         
         if let Some(killstreak_tier) = &self.killstreak_tier {
-            let number: u8 = killstreak_tier.clone().into();
             
             attributes.push(ItemAttribute {
                 // killstreak_tier
                 defindex: 2025,
                 value: None,
-                float_value: Some(number as f64),
+                float_value: Some(*killstreak_tier as u32 as f64),
             });
         }
         

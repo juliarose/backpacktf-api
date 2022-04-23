@@ -1,5 +1,6 @@
 use serde::{Serialize, Deserialize};
 use crate::response::deserializers::default_on_null;
+use crate::SteamID;
 
 #[derive(Serialize, Deserialize, PartialEq, Clone, Debug)]
 #[serde(rename_all = "camelCase")]
@@ -11,18 +12,26 @@ pub struct UserBan {
 #[derive(Serialize, Deserialize, PartialEq, Clone, Debug)]
 #[serde(rename_all = "camelCase")]
 pub struct User {
-    pub id: String,
+    pub id: SteamID,
     pub name: String,
     pub avatar: String,
     pub avatar_full: String,
+    #[serde(default)]
+    #[serde(deserialize_with = "default_on_null")]
     pub premium: bool,
+    #[serde(default)]
+    #[serde(deserialize_with = "default_on_null")]
     pub online: bool,
+    #[serde(default)]
+    #[serde(deserialize_with = "default_on_null")]
     pub banned: bool,
     pub custom_name_style: String,
     pub accepted_suggestions: u32,
     pub class: String,
     pub style: String,
     pub trade_offer_url: Option<String>,
+    #[serde(default)]
+    #[serde(deserialize_with = "default_on_null")]
     pub is_marketplace_seller: bool,
     #[serde(default)]
     #[serde(deserialize_with = "default_on_null")]

@@ -53,16 +53,6 @@ fn convert_float_u32(float: f64) -> Option<u32> {
     }
 }
 
-fn convert_float_u8(float: f64) -> Option<u8> {
-    let int = float as u8;
-    
-    if int as f64 == float {
-        Some(int)
-    } else {
-        None
-    }
-}
-
 impl Item {
 
     pub fn get_quality(&self) -> Quality {
@@ -97,7 +87,7 @@ impl Item {
     pub fn get_killstreak_tier(&self) -> Option<KillstreakTier> {
         if let Some(attribute) = self.attributes.get(&(KillstreakTier::DEFINDEX as i32)) {
             if let Some(float_value) = attribute.float_value {
-                if let Some(float_value) = convert_float_u8(float_value) {
+                if let Some(float_value) = convert_float_u32(float_value) {
                     if let Ok(killstreak_tier) = KillstreakTier::try_from(float_value) {
                         return Some(killstreak_tier);
                     }
@@ -174,7 +164,7 @@ impl Item {
                 self.attributes.get(&(*defindex as i32))
                     .and_then(|attribute| attribute.float_value)
                     .and_then(|float_value| {
-                        if let Some(float_value) = convert_float_u8(float_value) {
+                        if let Some(float_value) = convert_float_u32(float_value) {
                             if let Ok(strange_part) = StrangePart::try_from(float_value) {
                                 return Some(strange_part);
                             }
@@ -225,7 +215,7 @@ impl Item {
     pub fn get_sheen(&self) -> Option<Sheen> {
         if let Some(attribute) = self.attributes.get(&(Sheen::DEFINDEX as i32)) {
             if let Some(float_value) = attribute.float_value {
-                if let Some(float_value) = convert_float_u8(float_value) {
+                if let Some(float_value) = convert_float_u32(float_value) {
                     if let Ok(sheen) = Sheen::try_from(float_value) {
                         return Some(sheen);
                     }

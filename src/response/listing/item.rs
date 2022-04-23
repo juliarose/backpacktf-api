@@ -16,6 +16,7 @@ pub struct Item {
     pub base_name: String,
     pub market_name: String,
     pub name: String,
+    #[serde(default)]
     pub class: Option<Vec<String>>,
     #[serde(default)]
     #[serde(deserialize_with = "from_optional_number_or_string")]
@@ -34,7 +35,7 @@ pub struct Item {
     #[serde(deserialize_with = "presence", rename = "elevated_quality")]
     pub strange: bool,
     pub image_url: String,
-    pub slot: String,
+    pub slot: Option<String>,
     pub summary: String,
     #[serde(deserialize_with = "map_to_enum")]
     pub quality: Quality,

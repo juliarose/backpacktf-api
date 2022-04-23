@@ -56,43 +56,170 @@ struct EnumNameMap {
     name: String,
 }
 
+pub fn number_to_u32(value: &serde_json::Number) -> Result<u32, String> {
+    let number = value.as_u64()
+        .ok_or("not an integer".to_string())?;
+    let number = u32::try_from(number)
+        .map_err(|_e| "number does not fit into u32".to_string())?;
+    
+    Ok(number)
+}
+
 pub fn map_to_enum<'de, D, T>(deserializer: D) -> Result<T, D::Error>
 where
     D: Deserializer<'de>,
-    T: TryFromPrimitive + TryFrom<u8>,
-    <T as TryFrom<u8>>::Error: std::fmt::Display
+    T: TryFromPrimitive + TryFrom<u32> + FromStr + Deserialize<'de>,
+    <T as FromStr>::Err: std::fmt::Display,
+    <T as TryFrom<u32>>::Error: std::fmt::Display
 {
-    let map = EnumMap::deserialize(deserializer)?;
-    let value = T::try_from(map.id).map_err(de::Error::custom)?;
-    
-    Ok(value)
+    match Value::deserialize(deserializer)? {
+        Value::Object(map) => {
+            if let Some(value) = map.get("id") {
+                match value {
+                    Value::Number(number) => {
+                        let id = number_to_u32(number).map_err(de::Error::custom)?;
+                        
+                        T::try_from(id).map_err(de::Error::custom)
+                    },
+                    value => {
+                        Err(de::Error::custom(format!("expected a number, got `{}`", value)))
+                    },
+                }
+            } else if let Some(name) = map.get("name") {
+                match name {
+                    Value::String(string) => {
+                        T::from_str(string).map_err(de::Error::custom)
+                    },
+                    value => {
+                        Err(de::Error::custom(format!("expected a number, got `{}`", value)))
+                    },
+                }
+            } else {
+                Err(de::Error::custom(format!("expected a number, got `{}`", 1)))
+            }
+        },
+        Value::Number(number) => {
+            let id = number_to_u32(&number).map_err(de::Error::custom)?;
+            
+            T::try_from(id).map_err(de::Error::custom)
+        },
+        value => {
+            Err(de::Error::custom(format!("expected a number, got `{}`", value)))
+        },
+    }
 }
 
 pub fn map_to_enum_option<'de, D, T>(deserializer: D) -> Result<Option<T>, D::Error>
 where
     D: Deserializer<'de>,
-    T: TryFromPrimitive + TryFrom<u8>,
-    <T as TryFrom<u8>>::Error: std::fmt::Display
+    T: TryFromPrimitive + TryFrom<u32> + FromStr + Deserialize<'de>,
+    <T as FromStr>::Err: std::fmt::Display,
+    <T as TryFrom<u32>>::Error: std::fmt::Display
 {
-    let map = EnumMap::deserialize(deserializer)?;
-    let value = T::try_from(map.id).map_err(de::Error::custom)?;
-    
-    Ok(Some(value))
+    match Value::deserialize(deserializer)? {
+        Value::Object(map) => {
+            if let Some(value) = map.get("id") {
+                match value {
+                    Value::Number(number) => {
+                        let id = number_to_u32(number).map_err(de::Error::custom)?;
+                        
+                        Ok(Some(T::try_from(id).map_err(de::Error::custom)?))
+                    },
+                    value => {
+                        Err(de::Error::custom(format!("expected a number, got `{}`", value)))
+                    },
+                }
+            } else if let Some(name) = map.get("name") {
+                match name {
+                    Value::String(string) => {
+                        Ok(Some(T::from_str(string).map_err(de::Error::custom)?))
+                    },
+                    value => {
+                        Err(de::Error::custom(format!("expected a number, got `{}`", value)))
+                    },
+                }
+            } else {
+                Err(de::Error::custom(format!("expected a number, got `{}`", 1)))
+            }
+        },
+        Value::Number(number) => {
+            let id = number_to_u32(&number).map_err(de::Error::custom)?;
+            
+            Ok(Some(T::try_from(id).map_err(de::Error::custom)?))
+        },
+        value => {
+            Err(de::Error::custom(format!("expected a number, got `{}`", value)))
+        },
+    }
 }
+
+// pub fn map_to_enum<'de, D, T>(deserializer: D) -> Result<T, D::Error>
+// where
+//     D: Deserializer<'de>,
+//     T: TryFromPrimitive + TryFrom<u32>,
+//     <T as TryFrom<u32>>::Error: std::fmt::Display
+// {
+//     let map = EnumMap::deserialize(deserializer)?;
+//     let value = T::try_from(map.id).map_err(de::Error::custom)?;
+    
+//     Ok(value)
+// }
+
+// pub fn map_to_enum_option<'de, D, T>(deserializer: D) -> Result<Option<T>, D::Error>
+// where
+//     D: Deserializer<'de>,
+//     T: TryFromPrimitive + TryFrom<u32>,
+//     <T as TryFrom<u32>>::Error: std::fmt::Display
+// {
+//     let map = EnumMap::deserialize(deserializer)?;
+//     let value = T::try_from(map.id).map_err(de::Error::custom)?;
+    
+//     Ok(Some(value))
+// }
 
 pub fn map_to_enum_option_from_name<'de, D, T>(deserializer: D) -> Result<Option<T>, D::Error>
 where
     D: Deserializer<'de>,
-    T: TryFromPrimitive + FromStr,
+    T: TryFromPrimitive + FromStr + Deserialize<'de>,
+    <T as FromStr>::Err: std::fmt::Display,
 {
-    let map = EnumNameMap::deserialize(deserializer)?;
-    
-    if let Ok(value) = T::from_str(&map.name) {
-        Ok(Some(value))
-    } else {
-        Err(de::Error::custom("Unknown paint"))
+    match Value::deserialize(deserializer)? {
+        Value::Object(map) => {
+            if let Some(name) = map.get("name") {
+                match name {
+                    Value::String(string) => {
+                        Ok(Some(T::from_str(string).map_err(de::Error::custom)?))
+                    },
+                    value => {
+                        Err(de::Error::custom(format!("expected a string, got `{}`", value)))
+                    },
+                }
+            } else {
+                Err(de::Error::custom(format!("expected a string, got `{}`", 1)))
+            }
+        },
+        Value::String(string) => {
+            Ok(Some(T::from_str(&string).map_err(de::Error::custom)?))
+        },
+        value => {
+            Err(de::Error::custom(format!("expected a string, got `{}`", value)))
+        },
     }
 }
+
+// pub fn map_to_enum_option_from_name<'de, D, T>(deserializer: D) -> Result<Option<T>, D::Error>
+// where
+//     D: Deserializer<'de>,
+//     T: TryFromPrimitive + FromStr,
+// {
+//     let map = EnumNameMap::deserialize(deserializer)?;
+    
+//     if let Ok(value) = T::from_str(&map.name) {
+//         Ok(Some(value))
+//     } else {
+//         Err(de::Error::custom("Unknown paint"))
+//     }
+// }
 
 // this is somewhat implicit
 pub fn attribute_value<'de, D>(deserializer: D) -> Result<Option<AttributeValue>, D::Error>
