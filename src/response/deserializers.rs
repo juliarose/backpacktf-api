@@ -38,7 +38,7 @@ where
             if let Ok(e) = T::from_str(s) {
                 Ok(Some(e))
             } else {
-                Err(serde::de::Error::custom("Conversion failed"))
+                Err(serde::de::Error::custom("conversion failed"))
             }
         },
     }
@@ -173,30 +173,6 @@ where
     }
 }
 
-// pub fn map_to_enum<'de, D, T>(deserializer: D) -> Result<T, D::Error>
-// where
-//     D: Deserializer<'de>,
-//     T: TryFromPrimitive + TryFrom<u32>,
-//     <T as TryFrom<u32>>::Error: std::fmt::Display
-// {
-//     let map = EnumMap::deserialize(deserializer)?;
-//     let value = T::try_from(map.id).map_err(de::Error::custom)?;
-    
-//     Ok(value)
-// }
-
-// pub fn map_to_enum_option<'de, D, T>(deserializer: D) -> Result<Option<T>, D::Error>
-// where
-//     D: Deserializer<'de>,
-//     T: TryFromPrimitive + TryFrom<u32>,
-//     <T as TryFrom<u32>>::Error: std::fmt::Display
-// {
-//     let map = EnumMap::deserialize(deserializer)?;
-//     let value = T::try_from(map.id).map_err(de::Error::custom)?;
-    
-//     Ok(Some(value))
-// }
-
 pub fn map_to_enum_option_from_name<'de, D, T>(deserializer: D) -> Result<Option<T>, D::Error>
 where
     D: Deserializer<'de>,
@@ -227,20 +203,6 @@ where
     }
 }
 
-// pub fn map_to_enum_option_from_name<'de, D, T>(deserializer: D) -> Result<Option<T>, D::Error>
-// where
-//     D: Deserializer<'de>,
-//     T: TryFromPrimitive + FromStr,
-// {
-//     let map = EnumNameMap::deserialize(deserializer)?;
-    
-//     if let Ok(value) = T::from_str(&map.name) {
-//         Ok(Some(value))
-//     } else {
-//         Err(de::Error::custom("Unknown paint"))
-//     }
-// }
-
 // this is somewhat implicit
 pub fn attribute_value<'de, D>(deserializer: D) -> Result<Option<AttributeValue>, D::Error>
 where
@@ -258,12 +220,12 @@ where
             }
         },
         Value::Number(num) => {
-            let n: u64 = num.as_u64().ok_or_else(|| de::Error::custom("Invalid number"))?;
+            let n: u64 = num.as_u64().ok_or_else(|| de::Error::custom("invalid number"))?;
             
             Ok(Some(AttributeValue::Number(n)))
         },
         Value::Null => Ok(None),
-        _ => Err(de::Error::custom("Invalid attribute")),
+        _ => Err(de::Error::custom("invalid attribute")),
     }
 }
 
@@ -285,19 +247,19 @@ where
             Ok(Some(n))
         },
         Value::Number(num) => {
-            let n: u64 = num.as_u64().ok_or_else(|| de::Error::custom("Invalid number"))?;
+            let n: u64 = num.as_u64().ok_or_else(|| de::Error::custom("invalid number"))?;
             
             match T::try_from(n) {
                 Ok(c) => {
                     Ok(Some(c))
                 },
                 Err(_e) => {
-                    Err(de::Error::custom("Number too large to fit in target type"))
+                    Err(de::Error::custom("number too large to fit in target type"))
                 }
             }
         },
         Value::Null => Ok(None),
-        _ => Err(de::Error::custom("Not a number")),
+        _ => Err(de::Error::custom("not a number")),
     }
 }
 
@@ -316,12 +278,12 @@ where
             Ok(Some(n))
         },
         Value::Number(num) => {
-            let n: f64 = num.as_f64().ok_or_else(|| de::Error::custom("Invalid number"))?;
+            let n: f64 = num.as_f64().ok_or_else(|| de::Error::custom("invalid number"))?;
             
             Ok(Some(n))
         },
         Value::Null => Ok(None),
-        _ => Err(de::Error::custom("Not a number")),
+        _ => Err(de::Error::custom("not a number")),
     }
 }
 
@@ -378,7 +340,7 @@ where
     match s.as_str() {
         "buy" => Ok(ListingIntent::Buy),
         "sell" => Ok(ListingIntent::Sell),
-        _ => Err(de::Error::custom("Invalid intent")),
+        _ => Err(de::Error::custom("invalid intent")),
     }
 }
 
@@ -391,7 +353,7 @@ where
     match s.as_str() {
         "keys" => Ok(CurrencyType::Keys),
         "metal" => Ok(CurrencyType::Metal),
-        _ => Err(de::Error::custom("Invalid currency type")),
+        _ => Err(de::Error::custom("invalid currency type")),
     }
 }
 
@@ -441,7 +403,7 @@ where
                     Ok(c)
                 },
                 Err(_e) => {
-                    Err(de::Error::custom("Number too large to fit in target type"))
+                    Err(de::Error::custom("number too large to fit in target type"))
                 }
             }
         }
@@ -455,7 +417,7 @@ where
                     Ok(c)
                 },
                 Err(_e) => {
-                    Err(de::Error::custom("Number too large to fit in target type"))
+                    Err(de::Error::custom("number too large to fit in target type"))
                 }
             }
         }
