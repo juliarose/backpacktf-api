@@ -17,6 +17,7 @@ where
     let client = reqwest::ClientBuilder::new()
         .cookie_provider(cookie_store)
         .default_headers(headers)
+        .connection_verbose(false)
         .build()
         .unwrap();
     

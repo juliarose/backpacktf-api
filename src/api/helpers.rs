@@ -2,6 +2,7 @@ use serde::{Deserialize, de::DeserializeOwned};
 use crate::error::Error;
 use std::time::{Instant, Duration};
 use reqwest::header::RETRY_AFTER;
+use log::error;
 
 /// Handles rate limits for requests that are split into chunks.
 pub struct Cooldown<'a, T> {
@@ -71,6 +72,9 @@ where
     let status = &response.status();
     
     match status.as_u16() {
+        100..=199 => {
+            Err(Error::Http(response))
+        },
         300..=399 => {
             Err(Error::Http(response))
         },
@@ -103,7 +107,7 @@ where
                     if let Ok(error_body) = serde_json::from_slice::<ErrorResponse>(body) { 
                         Err(Error::Response(error_body.message))
                     } else {
-                        println!("{}", String::from_utf8_lossy(body));
+                        error!("Error parsing body `{}`: {}", parse_error, String::from_utf8_lossy(body));
                         
                         Err(parse_error.into())
                     }

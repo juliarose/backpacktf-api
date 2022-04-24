@@ -36,6 +36,7 @@ pub struct Item {
     #[serde(deserialize_with = "presence", rename = "elevated_quality")]
     pub strange: bool,
     pub image_url: String,
+    #[serde(default)]
     #[serde(deserialize_with = "optional_enum_deserialize")]
     pub slot: Option<ItemSlot>,
     pub summary: String,
@@ -54,3 +55,4 @@ pub struct Item {
     pub texture: Option<attributes::TextureAttribute>,
     pub kill_eaters: Option<Vec<attributes::KillEaterAttribute>>,
 }
+
