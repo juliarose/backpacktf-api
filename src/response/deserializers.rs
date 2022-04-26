@@ -46,16 +46,6 @@ where
     }
 }
 
-#[derive(Deserialize, Serialize)]
-struct EnumMap {
-    id: u8,
-}
-
-#[derive(Deserialize, Serialize)]
-struct EnumNameMap {
-    name: String,
-}
-
 pub fn number_to_u32(value: &serde_json::Number) -> Result<u32, String> {
     let number = value.as_u64()
         .ok_or("not an integer".to_string())?;
