@@ -4,11 +4,10 @@ use crate::response::deserializers::{
     map_to_enum,
     map_to_enum_option,
     map_to_enum_option_from_name,
-    optional_enum_deserialize,
     presence,
 };
 use super::attributes;
-use tf2_enum::{Wear, KillstreakTier, Quality, Paint, ItemSlot};
+use tf2_enum::{Wear, KillstreakTier, Quality, Paint, ItemSlot, Class};
 
 #[derive(Serialize, Deserialize, PartialEq, Clone, Debug)]
 #[serde(rename_all = "camelCase")]
@@ -18,7 +17,7 @@ pub struct Item {
     pub market_name: String,
     pub name: String,
     #[serde(default)]
-    pub class: Option<Vec<String>>,
+    pub class: Option<Vec<Class>>,
     #[serde(default)]
     #[serde(deserialize_with = "from_optional_number_or_string")]
     pub id: Option<u64>,
@@ -37,7 +36,6 @@ pub struct Item {
     pub strange: bool,
     pub image_url: String,
     #[serde(default)]
-    #[serde(deserialize_with = "optional_enum_deserialize")]
     pub slot: Option<ItemSlot>,
     pub summary: String,
     #[serde(deserialize_with = "map_to_enum")]

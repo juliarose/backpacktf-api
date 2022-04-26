@@ -24,26 +24,6 @@ where
     }
 }
 
-pub fn optional_enum_deserialize<'de, D, T>(de: D) -> Result<Option<T>, D::Error>
-where
-    D: serde::Deserializer<'de>,
-    T: FromStr,
-{
-    let opt = Option::<String>::deserialize(de)?;
-    let opt = opt.as_ref().map(String::as_str);
-    
-    match opt {
-        None | Some("") => Ok(None),
-        Some(s) => {
-            if let Ok(e) = T::from_str(s) {
-                Ok(Some(e))
-            } else {
-                Err(serde::de::Error::custom("conversion failed"))
-            }
-        },
-    }
-}
-
 pub fn from_str<'de, T, D>(deserializer: D) -> Result<T, D::Error>
 where
     T: FromStr,
