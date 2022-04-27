@@ -4,7 +4,7 @@ use crate::SteamID;
 
 #[derive(Serialize, Deserialize, PartialEq, Clone, Debug)]
 #[serde(rename_all = "camelCase")]
-pub struct UserBan {
+pub struct Ban {
     // todo fill this out
     // but you probably won't see this appear often in responses for listings
 }
@@ -36,7 +36,7 @@ pub struct User {
     #[serde(default)]
     #[serde(deserialize_with = "default_on_null")]
     pub flag_impersonated: bool,
-    pub bans: Vec<UserBan>,
+    pub bans: Vec<Ban>,
 }
 
 impl User {

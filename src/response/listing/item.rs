@@ -17,7 +17,7 @@ pub struct Item {
     pub market_name: String,
     pub name: String,
     #[serde(default)]
-    pub class: Option<Vec<Class>>,
+    pub class: Vec<Class>,
     #[serde(default)]
     #[serde(deserialize_with = "from_optional_number_or_string")]
     pub id: Option<u64>,

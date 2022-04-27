@@ -1,6 +1,7 @@
 use serde::{Serialize, Deserialize};
 use tf2_enum::{StrangePart, Rarity};
 
+/// Represents a particle effect.
 #[derive(Serialize, Deserialize, PartialEq, Clone, Debug)]
 #[serde(rename_all = "camelCase")]
 pub struct ParticleAttribute {
@@ -11,14 +12,7 @@ pub struct ParticleAttribute {
     pub r#type: String,
 }
 
-// #[derive(Serialize, Deserialize, PartialEq, Clone, Debug)]
-// #[serde(rename_all = "camelCase")]
-// pub struct PaintAttribute {
-//     pub id: u32,
-//     pub name: String,
-//     pub color: String,
-// }
-
+/// Represents a texture.
 #[derive(Serialize, Deserialize, PartialEq, Clone, Debug)]
 #[serde(rename_all = "camelCase")]
 pub struct TextureAttribute {
@@ -50,6 +44,8 @@ impl KillEaterTypeAttribute {
     }
 }
 
+/// Represents a kill eater attribute which includes a score and score type. This can be used
+/// to determine strange parts.
 #[derive(Serialize, Deserialize, PartialEq, Clone, Debug)]
 #[serde(rename_all = "camelCase")]
 pub struct KillEaterAttribute {
@@ -59,6 +55,8 @@ pub struct KillEaterAttribute {
 
 impl KillEaterAttribute {
     
+    /// If the score type correlates to a strange part, gets the strange part for this kill eater 
+    /// attribute.
     pub fn get_strange_part(&self) -> Option<StrangePart> {
         self.kill_eater.get_strange_part()
     }
