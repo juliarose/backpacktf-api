@@ -1,12 +1,8 @@
-use std::{
-    str::FromStr,
-    fmt::Display,
-    marker::PhantomData,
-};
+use std::{str::FromStr, fmt::Display, marker::PhantomData};
 use crate::response::attributes::{Attributes, Attribute, Value as AttributeValue};
 use crate::{ListingIntent, CurrencyType};
 use num_enum::TryFromPrimitive;
-use serde::{Deserialize, Serialize};
+use serde::Deserialize;
 use serde::de::{self, Deserializer, Visitor, SeqAccess, Unexpected, IntoDeserializer};
 use serde_json::Value;
 
