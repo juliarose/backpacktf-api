@@ -24,7 +24,7 @@ mod tests {
     use super::*;
     use crate::{
         ListingIntent,
-        tf2_enum::{Quality, Killstreaker, Sheen, StrangePart},
+        tf2_enum::{Quality, Killstreaker, Sheen, StrangePart, Origin},
         response::attributes::Value as AttributeValue,
         response::currencies::{Currencies, ListingCurrencies},
     };
@@ -37,6 +37,7 @@ mod tests {
         assert_eq!(listing.intent, ListingIntent::Sell);
         assert_eq!(listing.item.id, Some(10080129222));
         assert_eq!(listing.item.quality, Quality::Unusual);
+        assert_eq!(listing.item.origin, Some(Origin::FoundInCrate));
         assert_eq!(listing.currencies, Currencies::InGame(ListingCurrencies { keys: 180.0, metal: 0 }));
     }
     

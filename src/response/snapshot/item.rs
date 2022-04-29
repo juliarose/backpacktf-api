@@ -6,7 +6,7 @@ use crate::response::deserializers::{
     from_optional_number_or_string
 };
 use tf2_enum::{
-    Wear, Quality, KillstreakTier, Paint, StrangePart, Killstreaker, Sheen,
+    Wear, Quality, KillstreakTier, Paint, StrangePart, Killstreaker, Sheen, Origin,
     Spell, FootprintsSpell, PaintSpell, Attribute, Attributes as EnumAttributes
 };
 
@@ -32,8 +32,7 @@ pub struct Item {
     #[serde(deserialize_with = "from_optional_number_or_string")]
     pub quantity: Option<u32>,
     #[serde(default)]
-    #[serde(deserialize_with = "from_optional_number_or_string")]
-    pub origin: Option<u32>,
+    pub origin: Option<Origin>,
     #[serde(default)]
     #[serde(deserialize_with = "deserialize_attributes")]
     pub attributes: Attributes,
