@@ -1,0 +1,34 @@
+{
+    "steamid": "0",
+    "success": 1,
+    "backpack_value": {
+        "440": 2725.9569290540767,
+        "730": 524.6399999999999
+    },
+    "backpack_update": {
+        "440": 1651746220,
+        "730": 1647768232
+    },
+    "name": "Scammer",
+    "steamrep_scammer": true,
+    "backpack_tf_banned": {
+        "start": 1462384707,
+        "end": -1,
+        "reason": "Running with brokered items",
+        "type": "1"
+    },
+    "backpack_tf_bans": {
+        "all": {
+            "start": 1462384707,
+            "end": -1,
+            "reason": "Running with brokered items",
+            "type": "1",
+            "typeString": "All Features"
+        }
+    },
+    "backpack_tf_reputation": 8047,
+    "backpack_tf_trust": {
+        "for": 0,
+        "against": 0
+    }
+}
