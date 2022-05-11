@@ -79,13 +79,21 @@ mod tests {
     
     #[test]
     fn parses_listing() {
-        let response: Listing = serde_json::from_str(include_str!("fixtures/listing.json")).unwrap();
-        let strange = response.item.strange;
+        let listing: Listing = serde_json::from_str(include_str!("fixtures/listing.json")).unwrap();
+        let strange = listing.item.strange;
         
-        assert_eq!(response.item.slot, Some(ItemSlot::Misc));
-        assert_eq!(response.item.quality, Quality::Unique);
-        assert_eq!(response.item.base_name, "Lucky Cat Hat");
+        assert_eq!(listing.item.slot, Some(ItemSlot::Misc));
+        assert_eq!(listing.item.quality, Quality::Unique);
+        assert_eq!(listing.item.base_name, "Lucky Cat Hat");
         assert_eq!(strange, false);
+    }
+    
+    #[test]
+    fn parses_strange_item() {
+        let listing: Listing = serde_json::from_str(include_str!("fixtures/Strange Massed Flies Crone's Dome.json")).unwrap();
+        let item = listing.item;
+        
+        assert_eq!(item.strange, true);
     }
 }
 

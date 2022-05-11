@@ -32,7 +32,7 @@ pub struct Item {
     #[serde(default)]
     pub festivized: bool,
     #[serde(default)]
-    #[serde(deserialize_with = "presence", rename = "elevated_quality")]
+    #[serde(deserialize_with = "presence", rename = "elevatedQuality")]
     pub strange: bool,
     pub image_url: String,
     #[serde(default)]

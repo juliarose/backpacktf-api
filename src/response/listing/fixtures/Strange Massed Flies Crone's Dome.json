@@ -1,0 +1,90 @@
+{
+    "id": "440_76561198301637708_86755d7981f2b4ffb983b9d054ec0c27",
+    "steamid": "76561198301637708",
+    "appid": 440,
+    "currencies": {
+        "keys": 1
+    },
+    "value": {
+        "raw": 70.275,
+        "short": "1 key",
+        "long": "1 key"
+    },
+    "tradeOffersPreferred": true,
+    "buyoutOnly": true,
+    "details": "sell_Massed_Flies_Crone's_Dome (0/5 in stock)",
+    "listedAt": 1652161372,
+    "bumpedAt": 1652228016,
+    "intent": "buy",
+    "count": 1,
+    "status": "active",
+    "source": "steam",
+    "item": {
+        "appid": 440,
+        "baseName": "Crone's Dome",
+        "defindex": 920,
+        "id": "",
+        "imageUrl": "https://steamcdn-a.akamaihd.net/apps/440/icons/witchhat.ded89bf1dc2ab883234ea920cdfde73628c28e59.png",
+        "marketName": "Strange Unusual Crone's Dome",
+        "name": "Strange Massed Flies Crone's Dome",
+        "origin": null,
+        "originalId": "",
+        "price": {
+            "steam": {
+                "currency": "usd",
+                "short": "$168.11",
+                "long": "6,724.40 ref, 95.69 keys",
+                "raw": 5546.446126760565,
+                "value": 16811
+            },
+            "community": {
+                "value": 69,
+                "valueHigh": 69,
+                "currency": "keys",
+                "raw": 4848.975,
+                "short": "69 keys",
+                "long": "4,848.98 ref, $121.22",
+                "usd": 121.22437500000001,
+                "updatedAt": 1501820461,
+                "difference": 2073.795
+            },
+            "suggested": {
+                "raw": 4848.975,
+                "short": "69 keys",
+                "long": "4,848.98 ref, $121.22",
+                "usd": 121.22437500000001
+            }
+        },
+        "quality": {
+            "id": 5,
+            "name": "Unusual",
+            "color": "#8650AC"
+        },
+        "summary": "Level 1-100 Hat",
+        "elevatedQuality": {
+            "id": 11,
+            "name": "Strange",
+            "color": "#CF6A32"
+        },
+        "slot": "misc",
+        "killEaters": [
+            {
+                "score": 0,
+                "killEater": {
+                    "id": 64,
+                    "name": "Points Scored"
+                }
+            }
+        ],
+        "particle": {
+            "id": 12,
+            "name": "Massed Flies",
+            "shortName": "flies",
+            "imageUrl": "/images/440/particles/12_94x94.png",
+            "type": "standard"
+        },
+        "tradable": true,
+        "craftable": true,
+        "priceindex": "12"
+    }
+}
