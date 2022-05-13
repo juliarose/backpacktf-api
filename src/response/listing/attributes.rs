@@ -1,5 +1,8 @@
 use serde::{Serialize, Deserialize};
 use tf2_enum::{StrangePart, Rarity};
+use crate::response::deserializers::{
+    map_to_enum,
+};
 
 /// Represents a particle effect.
 #[derive(Serialize, Deserialize, PartialEq, Clone, Debug)]
@@ -18,6 +21,7 @@ pub struct ParticleAttribute {
 pub struct TextureAttribute {
     pub id: u32,
     pub item_defindex: Option<u32>,
+    #[serde(deserialize_with = "map_to_enum")]
     pub rarity: Rarity,
     pub name: String,
 }
