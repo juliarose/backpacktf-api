@@ -52,7 +52,6 @@ pub struct Listing {
 }
 
 impl Listing {
-    
     pub fn relistable(&self, interval: Duration) -> bool {
         if let Ok(interval) = ChronoDuration::from_std(interval) {
             let cutoff = Utc::now() - interval;
@@ -69,6 +68,10 @@ impl Listing {
         } else {
             None
         }
+    }
+
+    pub fn is_automatic(&self) -> bool {
+        self.user_agent.is_some()
     }
 }
 
