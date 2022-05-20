@@ -1,9 +1,8 @@
 use serde::{Deserialize, Serialize};
 pub use tf2_price::{ListingCurrencies, USDCurrencies};
-use std::fmt;
-use std::cmp::{Ord, Ordering};
+use std::{fmt, cmp::{Ord, Ordering}};
 
-#[derive(Deserialize, Serialize, PartialEq, Eq, Clone, Debug)]
+#[derive(Deserialize, Serialize, PartialEq, Eq, Clone, Copy, Debug)]
 #[serde(untagged)]
 pub enum Currencies {
     InGame(ListingCurrencies),
@@ -11,7 +10,6 @@ pub enum Currencies {
 }
 
 impl fmt::Display for Currencies {
-    
     fn fmt(&self, f: &mut fmt::Formatter<'_>) -> fmt::Result {
         match self {
             Currencies::InGame(currencies) => write!(f, "{}", currencies),
@@ -21,14 +19,12 @@ impl fmt::Display for Currencies {
 }
 
 impl PartialOrd for Currencies {
-    
     fn partial_cmp(&self, other: &Currencies) -> Option<Ordering> {
        Some(self.cmp(other))
     }
 }
 
 impl Ord for Currencies {
-    
     fn cmp(&self, other: &Self) -> Ordering {
         match self {
             Currencies::InGame(currencies) => {
@@ -51,7 +47,6 @@ impl Ord for Currencies {
 }
 
 impl Currencies {
-    
     pub fn is_in_game(&self) -> bool {
         match self {
             Currencies::InGame(_) => true,
@@ -61,7 +56,6 @@ impl Currencies {
 }
 
 impl PartialEq<ListingCurrencies> for Currencies {
-    
     fn eq(&self, other: &ListingCurrencies) -> bool {
         match self {
             Currencies::InGame(currencies) => currencies == other,
@@ -71,7 +65,6 @@ impl PartialEq<ListingCurrencies> for Currencies {
 }
 
 impl PartialEq<tf2_price::Currencies> for Currencies {
-    
     fn eq(&self, other: &tf2_price::Currencies) -> bool {
         match self {
             Currencies::InGame(currencies) => currencies == other,

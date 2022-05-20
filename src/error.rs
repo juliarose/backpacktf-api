@@ -21,7 +21,6 @@ pub enum Error {
 }
 
 impl From<reqwest_middleware::Error> for Error {
-    
     fn from(error: reqwest_middleware::Error) -> Self {
         match error {
             reqwest_middleware::Error::Reqwest(e) => {

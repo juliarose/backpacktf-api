@@ -12,7 +12,6 @@ pub struct ItemParams {
 }
 
 impl From<&Item> for ItemParams {
-    
     fn from(query: &Item) -> ItemParams {
         ItemParams {
             defindex: query.defindex,
@@ -24,7 +23,6 @@ impl From<&Item> for ItemParams {
 }
 
 impl From<Item> for ItemParams {
-    
     fn from(query: Item) -> ItemParams {
         ItemParams {
             defindex: query.defindex,

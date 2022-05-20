@@ -40,7 +40,6 @@ pub struct User {
 }
 
 impl User {
-    
     pub fn access_token(&self) -> Option<String> {
         if let Some(trade_offer_url) = &self.trade_offer_url {
             if let Some(index) = trade_offer_url.find("token=") {

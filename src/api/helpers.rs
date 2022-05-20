@@ -17,7 +17,6 @@ impl<'a, T> Cooldown<'a, T>
 where
     T: Sized
 {
-    
     pub fn new(
         data: &'a [T],
     ) -> Self {

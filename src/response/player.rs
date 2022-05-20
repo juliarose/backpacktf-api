@@ -26,7 +26,6 @@ pub struct Ban {
 }
 
 impl Ban {
-    
     pub fn permabanned(&self) -> bool {
         self.start > self.end
     }

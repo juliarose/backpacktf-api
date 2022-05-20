@@ -41,7 +41,6 @@ pub struct BackpackAPI {
 }
 
 impl Default for BackpackAPI {
-    
     fn default() -> Self {
         Self::builder().build()
     }
@@ -900,20 +899,12 @@ impl BackpackAPI {
     /// Sends a heartbeat.
     pub async fn agent_pulse(
         &self,
-        user_agent: &str,
     ) -> Result<response::agent::AgentStatus, Error> {
-        #[derive(Serialize, Debug)]
-        struct Params<'a, 'b> {
-            token: &'a str,
-            user_agent: &'b str,
-        }
-        
         let token = self.get_token()?;
         let agent_status: response::agent::AgentStatus = self.post(
             "/agent/pulse",
-            &Params {
+            &Token {
                 token,
-                user_agent,
             },
         ).await?;
         

@@ -38,7 +38,6 @@ pub struct Listing {
 }
 
 impl Listing {
-    
     pub fn is_buy_order(&self) -> bool {
         self.intent == ListingIntent::Buy
     }

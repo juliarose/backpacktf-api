@@ -18,7 +18,6 @@ pub struct Item {
 }
 
 impl Item {
-    
     pub fn new(defindex: u32, quality: Quality) -> Self {
         Self {
             defindex,
@@ -36,7 +35,6 @@ impl Item {
 }
 
 impl Attributable for Item {
-    
     fn as_attributes(&self) -> Vec<ItemAttribute> {
         let mut attributes: Vec<ItemAttribute> = Vec::new();
         
