@@ -41,7 +41,7 @@ pub struct Item {
     #[serde(deserialize_with = "map_to_enum")]
     pub quality: Quality,
     #[serde(default)]
-    #[serde(deserialize_with = "map_to_enum_option", rename = "wear_tier")]
+    #[serde(deserialize_with = "map_to_enum_option", rename = "wearTier")]
     pub wear: Option<Wear>,
     #[serde(default)]
     #[serde(deserialize_with = "map_to_enum_option_from_name")]
