@@ -34,6 +34,9 @@ pub struct Item {
     #[serde(default)]
     #[serde(deserialize_with = "presence", rename = "elevatedQuality")]
     pub strange: bool,
+    #[serde(default)]
+    #[serde(deserialize_with = "presence")]
+    pub dupe: bool,
     pub image_url: String,
     #[serde(default)]
     pub slot: Option<ItemSlot>,
