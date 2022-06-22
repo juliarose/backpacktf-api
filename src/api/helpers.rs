@@ -43,7 +43,7 @@ where
                 Some((chunk, None))
             } else {
                 let elapsed = self.start_time.elapsed().as_secs() + 1;
-                let wait = if elapsed >= self.cooldown {
+                let wait = if elapsed < self.cooldown {
                     0
                 } else {
                     elapsed - self.cooldown
