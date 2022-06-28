@@ -61,5 +61,7 @@ pub struct Item {
     pub particle: Option<attributes::ParticleAttribute>,
     pub texture: Option<attributes::TextureAttribute>,
     pub kill_eaters: Option<Vec<attributes::KillEaterAttribute>>,
+    #[serde(default)]
+    pub quantity: Option<u16>,
 }
 
