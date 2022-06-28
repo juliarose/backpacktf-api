@@ -50,6 +50,8 @@ pub struct Item {
     #[serde(deserialize_with = "map_to_enum_option_from_name")]
     pub paint: Option<Paint>,
     #[serde(default)]
+    pub crate_series: Option<u8>,
+    #[serde(default)]
     #[serde(deserialize_with = "map_to_enum_option")]
     pub killstreak_tier: Option<KillstreakTier>,
     #[serde(default)]
