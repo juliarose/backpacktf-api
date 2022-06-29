@@ -64,6 +64,8 @@ pub struct Item {
     pub texture: Option<attributes::TextureAttribute>,
     pub kill_eaters: Option<Vec<attributes::KillEaterAttribute>>,
     #[serde(default)]
+    pub recipe: Option<attributes::RecipeAttribute>,
+    #[serde(default)]
     pub quantity: Option<u16>,
 }
 
