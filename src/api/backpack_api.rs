@@ -525,7 +525,143 @@ impl BackpackAPI {
         
         Ok(inventory_status)
     }
+    
+    /// Gets a page of listings from the archive along with the cursor for scrolling.
+    pub async fn get_archived_listings(
+        &self,
+        skip: u32,
+        limit: u32,
+    ) -> Result<(Vec<response::listing::Listing>, response::cursor::Cursor), Error> {
+        #[derive(Serialize, Debug)]
+        struct Params<'a> {
+            token: &'a str,
+            skip: u32,
+            limit: u32,
+        }
+        
+        let token = self.get_token()?;
+        let body: api_response::GetListingsResponse = self.get(
+            "/v2/classifieds/archive",
+            &Params {
+                token,
+                skip,
+                limit,
+            },
+        ).await?;
+        
+        Ok((body.listings, body.cursor))
+    }
+    
+    /// Deletes a listing from the archive.
+    pub async fn delete_archived_listing(
+        &self,
+        id: &str,
+    ) -> Result<(), Error> {
+        let token = self.get_token()?;
+        
+        self.delete(
+            &format!("/v2/classifieds/archive/{}", id),
+            &Token {
+                token,
+            },
+        ).await
+    }
+    
+    /// Deletes all listings from the archive.
+    pub async fn delete_all_archived_listings(
+        &self,
+    ) -> Result<(), Error> {
+        let token = self.get_token()?;
+        let uri = self.get_api_uri("/classifieds/archive");
+        let _response = self.client.delete(uri)
+            .json(&Token {
+                token,
+            })
+            .send()
+            .await?;
+            
+        // todo check the response
+        
+        Ok(())
+    }
+    
+    /// Deletes listings from the archive. A limit of 100 listings is imposed.
+    pub async fn delete_archived_listings(
+        &self,
+        listing_ids: &[String],
+    ) -> Result<u32, Error> {
+        if listing_ids.is_empty() {
+            return Err(Error::Parameter("No listings given"));
+        } else if listing_ids.len() > 100 {
+            return Err(Error::Parameter("Maximum of 100 listings allowed"));
+        }
+        
+        let token = self.get_token()?;
+        let uri = self.get_api_uri("/classifieds/archive/batch");
+        let response = self.client.delete(uri)
+            .json(&Token {
+                token,
+            })
+            .json(&listing_ids)
+            .send()
+            .await?;
+        let response: response::listing::delete_listing::DeleteListingsResult = helpers::parses_response(response).await?;
+        
+        Ok(response.deleted)
+    }
+    
+    /// Updates a listing from the archive.
+    pub async fn update_archived_listing<T>(
+        &self,
+        id: &str,
+        details: Option<String>,
+        currencies: &T,
+    ) -> Result<response::listing::Listing, Error>
+    where
+        T: SerializeCurrencies
+    {
+        #[derive(Serialize, Debug)]
+        struct JSONParams<'b, T>  {
+            currencies: &'b T,
+            details: Option<String>,
+        }
+        
+        let token = self.get_token()?;
+        let uri = self.get_api_uri(&format!("/v2/classifieds/archive/{}", id));
+        let response = self.client.patch(uri)
+            .json(&JSONParams {
+                currencies,
+                details,
+            })
+            .query(&Token {
+                token,
+            })
+            .send()
+            .await?;
+        let body: response::listing::Listing = helpers::parses_response(response).await?;
+        
+        Ok(body)
+    }
 
+    /// Publishes a listing from the archive to the active pool.
+    pub async fn publish_archived_listing(
+        &self,
+        id: &str,
+    ) -> Result<(), Error> {
+        let token = self.get_token()?;
+        let uri = self.get_api_uri(&format!("/v2/classifieds/archive/{}/publish", id));
+        let _response = self.client.post(uri)
+            .query(&Token {
+                token,
+            })
+            .send()
+            .await?;
+        
+        // todo check the response
+            
+        Ok(())
+    }
+    
     /// Gets a page of listings along with the cursor for scrolling.
     pub async fn get_listings(
         &self,
@@ -748,7 +884,7 @@ impl BackpackAPI {
         }
         
         let token = self.get_token()?;
-        let uri = format!("{}/{}", self.get_api_uri("/v2/classifieds/listings"), id);
+        let uri = self.get_api_uri(&format!("/v2/classifieds/listings/{}", id));
         let response = self.client.patch(uri)
             .json(&JSONParams {
                 currencies,
