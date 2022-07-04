@@ -1093,11 +1093,12 @@ impl BackpackAPI {
     }
     
     /// Gets all alerts. This is a convenience method which scrolls against the responses
-    /// in [get_alerts](BackpackAPI::get_alerts) until all alerts are obtained.
+    /// in [get_alerts](BackpackAPI::get_alerts) until all alerts are obtained. If an error 
+    /// occurs, execution will cease and an error will be added to the return value.
     pub async fn get_all_alerts(
         &self,
         skip: u32,
-    ) -> Result<Vec<response::alert::Alert>, Error> {
+    ) -> (Vec<response::alert::Alert>, Option<Error>) {
         let mut all = Vec::new();
         let mut limit = 100;
         let mut skip = skip;
@@ -1121,20 +1122,21 @@ impl BackpackAPI {
                     continue;
                 },
                 Err(error) => {
-                    return Err(error);
+                    return (all, Some(error));
                 },
             }
         }
         
-        Ok(all)
+        (all, None)
     }
     
     /// Gets all listings. This is a convenience method which scrolls against the responses
-    /// in [get_listings](BackpackAPI::get_listings) until all listings are obtained.
+    /// in [get_listings](BackpackAPI::get_listings) until all listings are obtained. If an 
+    /// error occurs, execution will cease and an error will be added to the return value.
     pub async fn get_all_listings(
         &self,
         skip: u32,
-    ) -> Result<Vec<response::listing::Listing>, Error> {
+    ) -> (Vec<response::listing::Listing>, Option<Error>) {
         let mut all = Vec::new();
         let mut limit = 100;
         let mut skip = skip;
@@ -1158,21 +1160,22 @@ impl BackpackAPI {
                     continue;
                 },
                 Err(error) => {
-                    return Err(error);
+                    return (all, Some(error));
                 },
             }
         }
         
-        Ok(all)
+        (all, None)
     }
     
     /// Bulk creates any number of listings. This is a convenience method which handles
     /// mass creation of listings that need to be split into chunks and are rate limited
-    /// to a certain number of requests per minute.
+    /// to a certain number of requests per minute. If an error occurs, execution will 
+    /// cease and an error will be added to the return value.
     pub async fn create_listings_chunked<T>(
         &self,
         listings: &[request::CreateListing<T>],
-    ) -> Result<Vec<response::listing::create_listing::Result<T>>, Error>
+    ) -> (Vec<response::listing::create_listing::Result<T>>, Option<Error>)
     where
         T: SerializeCurrencies + Clone
     {
@@ -1194,21 +1197,22 @@ impl BackpackAPI {
                     continue;
                 },
                 Err(error) => {
-                    return Err(error);
+                    return (created, Some(error))
                 },
             }
         }
         
-        Ok(created)
+        (created, None)
     }
     
     /// Bulk updates any number of listings. This is a convenience method which handles
     /// mass updating of listings that need to be split into chunks and are rate limited
-    /// to a certain number of requests per minute.
+    /// to a certain number of requests per minute. If an error occurs, execution will 
+    /// cease and an error will be added to the return value.
     pub async fn update_listings_chunked<T>(
         &self,
         listings: &[request::UpdateListing<T>],
-    ) -> Result<Vec<response::listing::update_listing::Result<T>>, Error>
+    ) -> (Vec<response::listing::update_listing::Result<T>>, Option<Error>)
     where
         T: SerializeCurrencies + Clone
     {
@@ -1230,21 +1234,22 @@ impl BackpackAPI {
                     continue;
                 },
                 Err(error) => {
-                    return Err(error);
+                    return (updated, Some(error))
                 },
             }
         }
         
-        Ok(updated)
+        (updated, None)
     }
     
     /// Bulk deletes any number of listings. This is a convenience method which handles
     /// mass deletion of listings that need to be split into chunks and are rate limited
-    /// to a certain number of requests per minute.
+    /// to a certain number of requests per minute. If an error occurs, execution will 
+    /// cease and an error will be added to the return value.
     pub async fn delete_listings_chunked(
         &self,
         listing_ids: &[String],
-    ) -> Result<u32, Error> {
+    ) -> (u32, Option<Error>) {
         let mut chunked = helpers::Cooldown::new(listing_ids);
         let mut deleted = 0;
 
@@ -1263,11 +1268,11 @@ impl BackpackAPI {
                     continue;
                 },
                 Err(error) => {
-                    return Err(error);
+                    return (deleted, Some(error))
                 },
             }
         }
         
-        Ok(deleted)
+        (deleted, None)
     }
 }
