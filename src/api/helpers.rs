@@ -33,7 +33,7 @@ where
         }
     }
     
-    fn reset(&mut self) {
+    pub fn reset(&mut self) {
         self.start_time = Instant::now();
     }
     
@@ -49,8 +49,8 @@ where
     pub fn next(&mut self) -> Option<(&'a [T], Option<Duration>)> {
         self.i += 1;
         
-        if let Some(chunk) = self.chunks.iter().nth(self.i) {
-            if (self.i + 1) >= self.chunks.len() || self.chunk_i >= self.limit {
+        if let Some(chunk) = self.chunks.iter().nth(self.i - 1) {
+            if self.i >= self.chunks.len() || self.chunk_i >= self.limit {
                 self.chunk_i = 0;
                 
                 Some((chunk, None))
