@@ -8,9 +8,10 @@ use log::error;
 pub struct Cooldown<'a, T> {
     start_time: Instant,
     i: usize,
+    chunk_i: usize,
     limit: usize,
     cooldown: u64,
-    chunks: std::iter::Peekable<core::slice::Chunks<'a, T>>,
+    chunks: Vec<&'a [T]>,
 }
 
 impl<'a, T> Cooldown<'a, T> 
@@ -20,11 +21,12 @@ where
     pub fn new(
         data: &'a [T],
     ) -> Self {
-        let chunks = data.chunks(100).peekable();
+        let chunks: Vec<_> = data.chunks(100).collect();
         
         Self {
             start_time: Instant::now(),
             i: 0,
+            chunk_i: 0,
             limit: 10,
             cooldown: 60,
             chunks,
@@ -32,14 +34,25 @@ where
     }
     
     pub fn reset(&mut self) {
-        self.i = 0;
+        self.start_time = Instant::now();
+    }
+    
+    pub fn go_back(&mut self) {
+        self.reset();
+        
+        if self.i > 0 {
+            self.chunk_i = 0;
+            self.i -= 1;
+        }
     }
     
     pub fn next(&mut self) -> Option<(&'a [T], Option<Duration>)> {
         self.i += 1;
         
-        if let Some(chunk) = self.chunks.next() {
-            if self.chunks.peek().is_none() || self.i % self.limit != 0  {
+        if let Some(chunk) = self.chunks.iter().nth(self.i - 1) {
+            if self.i >= self.chunks.len() || self.chunk_i >= self.limit {
+                self.chunk_i = 0;
+                
                 Some((chunk, None))
             } else {
                 let elapsed = self.start_time.elapsed().as_secs() + 1;
@@ -48,8 +61,6 @@ where
                 } else {
                     elapsed - self.cooldown
                 };
-                
-                self.start_time = Instant::now();
                 
                 Some((chunk, Some(Duration::from_secs(wait))))
             }

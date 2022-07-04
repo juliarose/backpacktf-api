@@ -37,9 +37,13 @@ pub type Players = HashMap<SteamID, Player>;
 pub struct Player {
     pub steamid: SteamID,
     pub name: String,
+    #[serde(default)]
     pub backpack_value: HashMap<u32, f32>,
+    #[serde(default)]
     pub backpack_tf_banned: Option<Ban>,
+    #[serde(default)]
     pub backpack_tf_bans: Option<HashMap<String, Ban>>,
+    #[serde(default)]
     pub backpack_tf_reputation: i32,
     #[serde(default)]
     pub backpack_tf_group: bool,

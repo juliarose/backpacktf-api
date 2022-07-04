@@ -1054,8 +1054,8 @@ impl BackpackAPI {
                 },
                 Err(Error::TooManyRequests(retry_after)) => {
                     sleep(Duration::from_secs(retry_after)).await;
-                    chunked.reset();
-                    created.append(&mut self.create_listings(listings).await?);
+                    chunked.go_back();
+                    continue;
                 },
                 Err(error) => {
                     return Err(error);
@@ -1090,8 +1090,8 @@ impl BackpackAPI {
                 },
                 Err(Error::TooManyRequests(retry_after)) => {
                     sleep(Duration::from_secs(retry_after)).await;
-                    chunked.reset();
-                    updated.append(&mut self.update_listings(listings).await?);
+                    chunked.go_back();
+                    continue;
                 },
                 Err(error) => {
                     return Err(error);
@@ -1123,7 +1123,8 @@ impl BackpackAPI {
                 },
                 Err(Error::TooManyRequests(retry_after)) => {
                     sleep(Duration::from_secs(retry_after)).await;
-                    deleted += self.delete_listings(listing_ids).await?;
+                    chunked.go_back();
+                    continue;
                 },
                 Err(error) => {
                     return Err(error);
