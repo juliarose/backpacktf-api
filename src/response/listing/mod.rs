@@ -98,5 +98,12 @@ mod tests {
         
         assert_eq!(item.strange, true);
     }
+    
+    #[test]
+    fn parses_websocket_listing() {
+        let listing: Listing = serde_json::from_str(include_str!("fixtures/websocket_listing.json")).unwrap();
+        
+        assert_eq!(listing.item.particle.unwrap().name, "Disco Beat Down");
+    }
 }
 

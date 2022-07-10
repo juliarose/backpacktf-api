@@ -1,0 +1,104 @@
+{
+    "id": "440_11835100605",
+    "steamid": "76561198244962432",
+    "appid": 440,
+    "currencies": {
+        "keys": 19
+    },
+    "value": {
+        "raw": 1315.18,
+        "short": "19 keys",
+        "long": "19 keys"
+    },
+    "tradeOffersPreferred": true,
+    "buyoutOnly": true,
+    "details": "cheap cheap, fast accept",
+    "listedAt": 1657368295,
+    "bumpedAt": 1657401553,
+    "intent": "sell",
+    "count": 1,
+    "status": "active",
+    "source": "user",
+    "item": {
+        "appid": 440,
+        "baseName": "Lord Cockswain's Pith Helmet",
+        "defindex": 439,
+        "id": "11835100605",
+        "imageUrl": "https://steamcdn-a.akamaihd.net/apps/440/icons/drg_pith_hat.fffb077eb0215d41960d07b7142c04d3d4e843a3.png",
+        "marketName": "Unusual Lord Cockswain's Pith Helmet",
+        "name": "Disco Beat Down Lord Cockswain's Pith Helmet",
+        "origin": {
+            "id": 8,
+            "name": "Found in Crate"
+        },
+        "originalId": "8245644812",
+        "price": {
+            "steam": {
+                "currency": "usd",
+                "short": "$81.80",
+                "long": "3,635.56 ref, 52.52 keys",
+                "raw": 2633.5795348837214,
+                "value": 8180
+            },
+            "community": {
+                "value": 14,
+                "valueHigh": 18,
+                "currency": "keys",
+                "raw": 1107.52,
+                "short": "14–18 keys",
+                "long": "1,107.52 ref, $24.92",
+                "usd": 26.47665,
+                "updatedAt": 1578254922,
+                "difference": -226.20000000000005
+            },
+            "suggested": {
+                "raw": 1107.52,
+                "short": "16 keys",
+                "long": "1,107.52 ref, $24.92",
+                "usd": 24.9192
+            }
+        },
+        "quality": {
+            "id": 5,
+            "name": "Unusual",
+            "color": "#8650AC"
+        },
+        "summary": "Level 9 Headgear",
+        "level": 9,
+        "class": [
+            "Soldier"
+        ],
+        "slot": "misc",
+        "particle": {
+            "id": 62,
+            "name": "Disco Beat Down",
+            "shortName": "dbd",
+            "imageUrl": "/images/440/particles/62_94x94.png",
+            "type": "standard"
+        },
+        "tradable": true,
+        "craftable": true,
+        "priceindex": "62",
+        "tag": null
+    },
+    "user": {
+        "id": "76561198244962432",
+        "name": "Kolt™ B>QS/BP w/ 600+ keys",
+        "avatar": "https://avatars.akamai.steamstatic.com/2a087be825f67b36552d20b708f028a402a1bc3c_medium.jpg",
+        "avatarFull": "https://avatars.akamai.steamstatic.com/2a087be825f67b36552d20b708f028a402a1bc3c_full.jpg",
+        "premium": true,
+        "online": true,
+        "banned": false,
+        "customNameStyle": "awesome1",
+        "acceptedSuggestions": 14,
+        "class": "awesome1",
+        "style": "",
+        "role": null,
+        "tradeOfferUrl": "https://steamcommunity.com/tradeoffer/new/?partner=284696704&token=DHvohBUy",
+        "isMarketplaceSeller": false,
+        "flagImpersonated": null,
+        "bans": {
+            "4": 0
+        }
+    }
+}

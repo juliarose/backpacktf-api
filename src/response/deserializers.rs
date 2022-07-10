@@ -1,9 +1,15 @@
 use std::{str::FromStr, fmt::Display, marker::PhantomData};
-use crate::response::attributes::{Attributes, Attribute, Value as AttributeValue};
-use crate::{ListingIntent, CurrencyType};
+use crate::{
+    ListingIntent,
+    CurrencyType,
+    response::{
+        listing::Ban,
+        attributes::{Attributes, Attribute, Value as AttributeValue},
+    },
+};
 use num_enum::TryFromPrimitive;
 use serde::Deserialize;
-use serde::de::{self, Deserializer, Visitor, SeqAccess, Unexpected, IntoDeserializer};
+use serde::de::{self, Deserializer, Visitor, MapAccess, SeqAccess, Unexpected, IntoDeserializer};
 use serde_json::Value;
 
 pub fn bool_from_int<'de, D>(deserializer: D) -> Result<bool, D::Error>
@@ -295,6 +301,50 @@ where
     }
     
     deserializer.deserialize_seq(ItemsVisitor)
+}
+
+pub fn deserialize_listing_bans<'de, D>(deserializer: D) -> Result<Vec<Ban>, D::Error>
+where
+    D: Deserializer<'de>,
+{
+    struct BansVisitor;
+    
+    impl<'de> Visitor<'de> for BansVisitor {
+        type Value = Vec<Ban>;
+        
+        fn expecting(&self, formatter: &mut std::fmt::Formatter) -> std::fmt::Result {
+            formatter.write_str("a sequence or map")
+        }
+        
+        fn visit_seq<V>(self, mut seq: V) -> Result<Self::Value, V::Error>
+        where
+            V: SeqAccess<'de>,
+        {
+            let mut bans = Vec::with_capacity(seq.size_hint().unwrap_or(0));
+            
+            while let Some(ban) = seq.next_element::<Ban>()? {
+                bans.push(ban);
+            }
+            
+            Ok(bans)
+        }
+        
+        fn visit_map<M>(self, mut access: M) -> Result<Self::Value, M::Error>
+        where
+            M: MapAccess<'de>,
+        {
+            let mut bans = Vec::new();
+            
+            // key is an eum for the ban type, value is ban duration as a unix timestamp
+            while let Some((_ban_type, _timestamp)) = access.next_entry::<u32, u32>()? {
+                bans.push(Ban {});
+            }
+            
+            Ok(bans)
+        }
+    }
+    
+    deserializer.deserialize_any(BansVisitor)
 }
 
 pub fn listing_intent_enum_from_str<'de, D>(deserializer: D) -> Result<ListingIntent, D::Error>

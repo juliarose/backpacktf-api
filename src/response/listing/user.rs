@@ -1,5 +1,5 @@
 use serde::{Serialize, Deserialize};
-use crate::response::deserializers::default_on_null;
+use crate::response::deserializers::{deserialize_listing_bans, default_on_null};
 use crate::SteamID;
 
 #[derive(Serialize, Deserialize, PartialEq, Clone, Debug)]
@@ -36,6 +36,8 @@ pub struct User {
     #[serde(default)]
     #[serde(deserialize_with = "default_on_null")]
     pub flag_impersonated: bool,
+    #[serde(default)]
+    #[serde(deserialize_with = "deserialize_listing_bans")]
     pub bans: Vec<Ban>,
 }
 
