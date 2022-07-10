@@ -52,8 +52,9 @@ pub struct Player {
     pub steamrep_scammer: bool,
 }
 
+// todo fill in remaining reasons
 #[derive(Serialize_repr, Deserialize_repr, Hash, Eq, PartialEq, Clone, Debug, TryFromPrimitive, IntoPrimitive)]
-#[repr(u8)]
+#[repr(u32)]
 pub enum BanType {
     AllFeatures = 1,
 }
