@@ -1110,7 +1110,7 @@ impl BackpackAPI {
                     limit = cursor.limit;
                     skip = cursor.skip + limit;
                     
-                    if limit + skip >= cursor.total {
+                    if skip >= cursor.total {
                         // we done
                         break;
                     } else {
@@ -1148,7 +1148,7 @@ impl BackpackAPI {
                     limit = cursor.limit;
                     skip = cursor.skip + limit;
                     
-                    if limit + skip >= cursor.total {
+                    if skip >= cursor.total {
                         // we done
                         break;
                     } else {
