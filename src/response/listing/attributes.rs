@@ -1,6 +1,7 @@
 use serde::{Serialize, Deserialize};
 use tf2_enum::{StrangePart, Rarity};
 use crate::response::deserializers::{
+    from_str,
     map_to_enum,
 };
 
@@ -67,7 +68,8 @@ impl KillEaterAttribute {
 
 #[derive(Serialize, Deserialize, PartialEq, Clone, Debug)]
 pub struct RecipeInputItem {
-    pub quantity: u16,
+    #[serde(deserialize_with="from_str")]
+    pub quantity: u32,
     pub name: String,
 }
 

@@ -37,6 +37,18 @@ where
     T::from_str(&s).map_err(de::Error::custom)
 }
 
+pub fn from_str_option<'de, T, D>(deserializer: D) -> Result<Option<T>, D::Error>
+where
+    T: FromStr,
+    T::Err: std::fmt::Display,
+    D: Deserializer<'de>
+{
+    let s = String::deserialize(deserializer)?;
+    let value = T::from_str(&s).map_err(de::Error::custom)?;
+    
+    Ok(Some(value))
+}
+
 // todo optimize this
 pub fn presence<'de, D>(deserializer: D) -> Result<bool, D::Error>
 where

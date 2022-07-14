@@ -66,6 +66,7 @@ pub struct Item {
     #[serde(default)]
     pub recipe: Option<attributes::RecipeAttribute>,
     #[serde(default)]
-    pub quantity: Option<u16>,
+    #[serde(deserialize_with = "from_optional_number_or_string")]
+    pub quantity: Option<u32>,
 }
 
