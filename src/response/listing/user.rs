@@ -46,9 +46,9 @@ impl User {
     pub fn access_token(&self) -> Option<String> {
         if let Some(trade_offer_url) = &self.trade_offer_url {
             if let Ok(url) = Url::parse(trade_offer_url) {
-                let mut pairs = url.query_pairs();
+                let pairs = url.query_pairs();
                 
-                while let Some((key, value)) = pairs.next() {
+                for (key, value) in pairs {
                     if key == Cow::Borrowed("token") {
                         if value.len() == 8 {
                             return Some(value.to_string());

@@ -55,7 +55,7 @@ fn convert_float_u32(float: f64) -> Option<u32> {
 impl Item {
 
     pub fn get_quality(&self) -> Quality {
-        self.quality.clone()
+        self.quality
     }
     
     // todo - I may change these to return explicit errors later on

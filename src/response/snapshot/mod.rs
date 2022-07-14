@@ -32,7 +32,7 @@ mod tests {
     #[test]
     fn parses_get_classifieds_snapshot_quality() {
         let snapshot: Snapshot = serde_json::from_str(include_str!("fixtures/snapshot.json")).unwrap();
-        let listing = snapshot.listings.iter().next().unwrap();
+        let listing = snapshot.listings.get(0).unwrap();
         
         assert_eq!(listing.intent, ListingIntent::Sell);
         assert_eq!(listing.item.id, Some(10080129222));
@@ -50,7 +50,7 @@ mod tests {
         assert_eq!(listing.item.get_killstreaker().unwrap(), Killstreaker::CerebralDischarge);
         assert_eq!(listing.item.get_sheen().unwrap(), Sheen::Manndarin);
         assert_eq!(listing.item.get_strange_parts().unwrap().len(), 2);
-        assert!(listing.item.get_strange_parts().unwrap().into_iter().find(|strange_part| *strange_part == StrangePart::GibKills).is_some());
+        assert!(listing.item.get_strange_parts().unwrap().into_iter().any(|strange_part| strange_part == StrangePart::GibKills));
     }
     
     #[test]

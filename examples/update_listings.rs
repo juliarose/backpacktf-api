@@ -15,16 +15,14 @@ async fn main() -> Result<(), Error> {
         .key(&env::var("KEY").unwrap())
         .token(&env::var("TOKEN").unwrap())
         .build();
-    let listing = backpacktf.update_listings(&vec![
-        request::UpdateListing {
+    let listing = backpacktf.update_listings(&[request::UpdateListing {
             id: "440_76561198080179568_86755d7981f2b4ffb983b9d054ec0c27".into(),
             currencies: Currencies {
                 keys: 0,
                 metal: scrap!(3),
             },
             details: Some("yup".into()),
-        }
-    ]).await?;
+        }]).await?;
     
     println!("Listings updated: {:?}", listing);
     

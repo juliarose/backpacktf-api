@@ -284,7 +284,7 @@ impl BackpackAPI {
         let mut blanket: Option<bool> = Some(true);
 
         if let Some(values) = &price {
-            currency = Some(values.currency.clone());
+            currency = Some(values.currency);
             min = Some(values.min);
             max = Some(values.max);
             blanket = None;
@@ -443,7 +443,7 @@ impl BackpackAPI {
         &self,
     ) -> Result<(), Error> {
         let token = self.get_token()?;
-        let _: () = self.post(
+        self.post(
             "/notifications/unread",
             &Token {
                 token,
@@ -1007,7 +1007,7 @@ impl BackpackAPI {
         id: &str,
     ) -> Result<(), Error> {
         let token = self.get_token()?;
-        let _: () = self.post_json(
+        self.post_json(
             &format!("/v2/classifieds/listings/{}/demote", id),
             &Token {
                 token,
@@ -1067,7 +1067,7 @@ impl BackpackAPI {
         &self,
     ) -> Result<(), Error> {
         let token = self.get_token()?;
-        let _: () = self.post(
+        self.post(
             "/agent/stop",
             &Token {
                 token,

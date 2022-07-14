@@ -15,7 +15,7 @@ impl From<&Item> for ItemParams {
     fn from(query: &Item) -> ItemParams {
         ItemParams {
             defindex: query.defindex,
-            quality: query.quality.clone(),
+            quality: query.quality,
             craftable: query.craftable,
             attributes: query.as_attributes(),
         }
@@ -26,7 +26,7 @@ impl From<Item> for ItemParams {
     fn from(query: Item) -> ItemParams {
         ItemParams {
             defindex: query.defindex,
-            quality: query.quality.clone(),
+            quality: query.quality,
             craftable: query.craftable,
             attributes: query.as_attributes(),
         }
