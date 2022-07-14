@@ -37,18 +37,6 @@ where
     T::from_str(&s).map_err(de::Error::custom)
 }
 
-pub fn from_str_option<'de, T, D>(deserializer: D) -> Result<Option<T>, D::Error>
-where
-    T: FromStr,
-    T::Err: std::fmt::Display,
-    D: Deserializer<'de>
-{
-    let s = String::deserialize(deserializer)?;
-    let value = T::from_str(&s).map_err(de::Error::custom)?;
-    
-    Ok(Some(value))
-}
-
 // todo optimize this
 pub fn presence<'de, D>(deserializer: D) -> Result<bool, D::Error>
 where
@@ -210,6 +198,40 @@ where
         },
         Value::Null => Ok(None),
         _ => Err(de::Error::custom("invalid attribute")),
+    }
+}
+
+pub fn from_number_or_string<'de, D, T>(deserializer: D) -> Result<T, D::Error>
+where
+    T: FromStr + Default,
+    T: TryFrom<u64>,
+    T::Err: std::fmt::Display,
+    D: Deserializer<'de>
+{
+    match Value::deserialize(deserializer)? {
+        Value::String(s) => {
+            if s.is_empty() {
+                return Ok(T::default());
+            }
+            
+            let n = s.parse::<T>().map_err(de::Error::custom)?;
+                
+            Ok(n)
+        },
+        Value::Number(num) => {
+            let n: u64 = num.as_u64().ok_or_else(|| de::Error::custom("invalid number"))?;
+            
+            match T::try_from(n) {
+                Ok(c) => {
+                    Ok(c)
+                },
+                Err(_e) => {
+                    Err(de::Error::custom("number too large to fit in target type"))
+                }
+            }
+        },
+        Value::Null => Ok(T::default()),
+        _ => Err(de::Error::custom("not a number")),
     }
 }
 
