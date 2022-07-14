@@ -65,6 +65,30 @@ impl KillEaterAttribute {
     }
 }
 
+#[derive(Serialize, Deserialize, PartialEq, Clone, Debug)]
+pub struct RecipeInputItem {
+    pub quantity: u16,
+    pub name: String,
+}
+
+#[derive(Serialize, Deserialize, PartialEq, Clone, Debug)]
+pub struct ItemDescription {
+    pub defindex: u32,
+}
+
+#[derive(Serialize, Deserialize, PartialEq, Clone, Debug)]
+pub struct MiniItem {
+    #[serde(rename = "_source")]
+    pub description: ItemDescription,
+}
+
+#[derive(Serialize, Deserialize, PartialEq, Clone, Debug)]
+#[serde(rename_all = "camelCase")]
+pub struct RecipeAttribute {
+    pub input_items: Vec<RecipeInputItem>,
+    pub target_item: MiniItem,
+}
+
 #[cfg(test)]
 mod tests {
     use super::*;

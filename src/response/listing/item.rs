@@ -7,7 +7,7 @@ use crate::response::deserializers::{
     presence,
 };
 use super::attributes;
-use tf2_enum::{Wear, KillstreakTier, Quality, Paint, ItemSlot, Class};
+use tf2_enum::{Wear, KillstreakTier, Killstreaker, Sheen, Quality, Paint, ItemSlot, Class};
 
 #[derive(Serialize, Deserialize, PartialEq, Clone, Debug)]
 #[serde(rename_all = "camelCase")]
@@ -34,6 +34,9 @@ pub struct Item {
     #[serde(default)]
     #[serde(deserialize_with = "presence", rename = "elevatedQuality")]
     pub strange: bool,
+    #[serde(default)]
+    #[serde(deserialize_with = "presence")]
+    pub dupe: bool,
     pub image_url: String,
     #[serde(default)]
     pub slot: Option<ItemSlot>,
@@ -41,16 +44,28 @@ pub struct Item {
     #[serde(deserialize_with = "map_to_enum")]
     pub quality: Quality,
     #[serde(default)]
-    #[serde(deserialize_with = "map_to_enum_option", rename = "wear_tier")]
+    #[serde(deserialize_with = "map_to_enum_option", rename = "wearTier")]
     pub wear: Option<Wear>,
     #[serde(default)]
     #[serde(deserialize_with = "map_to_enum_option_from_name")]
     pub paint: Option<Paint>,
     #[serde(default)]
+    pub crate_series: Option<u8>,
+    #[serde(default)]
     #[serde(deserialize_with = "map_to_enum_option")]
     pub killstreak_tier: Option<KillstreakTier>,
+    #[serde(default)]
+    #[serde(deserialize_with = "map_to_enum_option")]
+    pub sheen: Option<Sheen>,
+    #[serde(default)]
+    #[serde(deserialize_with = "map_to_enum_option")]
+    pub killstreaker: Option<Killstreaker>,
     pub particle: Option<attributes::ParticleAttribute>,
     pub texture: Option<attributes::TextureAttribute>,
     pub kill_eaters: Option<Vec<attributes::KillEaterAttribute>>,
+    #[serde(default)]
+    pub recipe: Option<attributes::RecipeAttribute>,
+    #[serde(default)]
+    pub quantity: Option<u16>,
 }
 
