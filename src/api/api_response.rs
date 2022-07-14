@@ -17,6 +17,12 @@ pub struct GetUsersResponse {
     pub players: Option<response::player::Players>
 }
 
+#[derive(Serialize, Deserialize, PartialEq, Clone, Debug)]
+#[serde(rename_all = "camelCase")]
+pub struct BatchLimit {
+    pub op_limit: u32,
+}
+
 #[derive(Serialize, Deserialize, Debug)]
 pub struct ClassifiedsLimitResponse {
     pub listings: response::classifieds_limits::ClassifiedsLimits,
@@ -48,16 +54,20 @@ pub struct GetAlertsResponse {
     pub cursor: response::cursor::Cursor,
 }
 
+#[derive(Serialize, Deserialize, Clone, Debug)]
+pub struct DeleteListingsResult {
+    pub deleted: u32,
+}
+
 #[cfg(test)]
 mod tests {
     use super::*;
-    use super::response;
     use crate::SteamID;
     use tf2_enum::Paint;
 
     #[test]
     fn parses_delete_listings() {
-        let response: response::listing::delete_listing::DeleteListingsResult = serde_json::from_str(include_str!("fixtures/delete_listings.json")).unwrap();
+        let response: DeleteListingsResult = serde_json::from_str(include_str!("fixtures/delete_listings.json")).unwrap();
         let deleted = response.deleted;
         
         assert_eq!(deleted, 5);

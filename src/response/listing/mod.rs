@@ -6,9 +6,7 @@ mod item;
 pub mod attributes;
 
 pub mod create_listing;
-pub mod delete_listing;
 pub mod update_listing;
-pub use batch_limit::BatchLimit;
 pub use user::{User, Ban};
 pub use item::Item;
 pub use value::Value;

@@ -605,7 +605,7 @@ impl BackpackAPI {
             .json(&listing_ids)
             .send()
             .await?;
-        let response: response::listing::delete_listing::DeleteListingsResult = helpers::parses_response(response).await?;
+        let response: api_response::DeleteListingsResult = helpers::parses_response(response).await?;
         
         Ok(response.deleted)
     }
@@ -862,7 +862,7 @@ impl BackpackAPI {
             })
             .send()
             .await?;
-        let response: response::listing::delete_listing::DeleteListingsResult = helpers::parses_response(response).await?;
+        let response: api_response::DeleteListingsResult = helpers::parses_response(response).await?;
         
         Ok(response.deleted)
     }
@@ -1020,16 +1020,16 @@ impl BackpackAPI {
     /// Gets limits for batch requests.
     pub async fn get_listing_batch_limit(
         &self,
-    ) -> Result<response::listing::BatchLimit, Error> {
+    ) -> Result<u32, Error> {
         let token = self.get_token()?;
-        let batch_limit: response::listing::BatchLimit = self.get(
+        let batch_limit: api_response::BatchLimit = self.get(
             "/v2/classifieds/listings/batch",
             &Token {
                 token,
             },
         ).await?;
         
-        Ok(batch_limit)
+        Ok(batch_limit.op_limit)
     }
 
     /// Sends a heartbeat.
