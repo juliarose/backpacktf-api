@@ -62,7 +62,7 @@ where
 
 pub fn number_to_u32(value: &serde_json::Number) -> Result<u32, String> {
     let number = value.as_u64()
-        .ok_or("not an integer".to_string())?;
+        .ok_or_else(||"not an integer".to_string())?;
     let number = u32::try_from(number)
         .map_err(|_e| "number does not fit into u32".to_string())?;
     

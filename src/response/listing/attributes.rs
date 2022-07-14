@@ -38,10 +38,8 @@ impl KillEaterTypeAttribute {
     pub fn get_strange_part(&self) -> Option<StrangePart> {
         let id = self.id.unwrap_or_default();
         
-        if let Ok(id) = u32::try_from(id) {
-            if let Ok(strange_part) = StrangePart::try_from(id) {
-                return Some(strange_part);
-            }
+        if let Ok(strange_part) = StrangePart::try_from(id) {
+            return Some(strange_part);
         }
         
         None

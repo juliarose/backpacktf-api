@@ -48,10 +48,7 @@ impl Ord for Currencies {
 
 impl Currencies {
     pub fn is_in_game(&self) -> bool {
-        match self {
-            Currencies::InGame(_) => true,
-            _ => false,
-        }
+        matches!(self, Currencies::InGame(_))
     }
 }
 

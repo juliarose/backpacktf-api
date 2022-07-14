@@ -49,7 +49,7 @@ where
     pub fn next(&mut self) -> Option<(&'a [T], Option<Duration>)> {
         self.i += 1;
         
-        if let Some(chunk) = self.chunks.iter().nth(self.i - 1) {
+        if let Some(chunk) = self.chunks.get(self.i - 1) {
             if self.i >= self.chunks.len() || self.chunk_i >= self.limit {
                 self.chunk_i = 0;
                 
