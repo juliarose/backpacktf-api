@@ -97,6 +97,14 @@ mod tests {
     }
     
     #[test]
+    fn missing_paint_is_none() {
+        let listing: Listing = serde_json::from_str(include_str!("fixtures/missing_paint.json")).unwrap();
+        let item = listing.item;
+        
+        assert!(item.paint.is_none());
+    }
+    
+    #[test]
     fn parses_websocket_listing() {
         let listing: Listing = serde_json::from_str(include_str!("fixtures/websocket_listing.json")).unwrap();
         

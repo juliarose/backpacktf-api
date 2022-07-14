@@ -153,10 +153,17 @@ where
 {
     match Value::deserialize(deserializer)? {
         Value::Object(map) => {
+            println!("MAP {:?}", map);
             if let Some(name) = map.get("name") {
+                println!("name {:?}", name);
                 match name {
                     Value::String(string) => {
-                        Ok(Some(T::from_str(string).map_err(de::Error::custom)?))
+                        // skip paints which are hexadecimal numbers
+                        if string.starts_with("#") {
+                            Ok(None)
+                        } else {
+                            Ok(Some(T::from_str(string).map_err(de::Error::custom)?))
+                        }
                     },
                     value => {
                         Err(de::Error::custom(format!("expected a string, got `{}`", value)))
@@ -169,6 +176,7 @@ where
         Value::String(string) => {
             Ok(Some(T::from_str(&string).map_err(de::Error::custom)?))
         },
+        Value::Null => Ok(None),
         value => {
             Err(de::Error::custom(format!("expected a string, got `{}`", value)))
         },

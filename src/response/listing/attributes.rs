@@ -1,7 +1,6 @@
 use serde::{Serialize, Deserialize};
 use tf2_enum::{StrangePart, Rarity};
 use crate::response::deserializers::{
-    from_str,
     from_number_or_string,
     map_to_enum,
 };
@@ -57,7 +56,6 @@ pub struct KillEaterAttribute {
 }
 
 impl KillEaterAttribute {
-    
     /// If the score type correlates to a strange part, gets the strange part for this kill eater 
     /// attribute.
     pub fn get_strange_part(&self) -> Option<StrangePart> {
