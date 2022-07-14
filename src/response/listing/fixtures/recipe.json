@@ -1,0 +1,297 @@
+{
+    "id": "440_11732545464",
+    "steamid": "76561199303500844",
+    "appid": 440,
+    "currencies": {
+        "metal": 6.66
+    },
+    "value": {
+        "raw": 6.66,
+        "short": "6.66 ref",
+        "long": "6.66 ref"
+    },
+    "tradeOffersPreferred": true,
+    "buyoutOnly": true,
+    "details": "[☂INSTANT TRADE☂️] Selling for 6.66 ref 💸 | Stock: 1 📦  !buy Specialized Killstreak Atomizer Kit Fabricator",
+    "listedAt": 1657742376,
+    "bumpedAt": 1657744339,
+    "intent": "sell",
+    "count": 1,
+    "status": "active",
+    "source": "userAgent",
+    "item": {
+        "appid": 440,
+        "baseName": "Fabricator",
+        "defindex": 20002,
+        "id": "11732545464",
+        "imageUrl": "https://steamcdn-a.akamaihd.net/apps/440/icons/professional_kit.4555e9d5b59365f40df4ee93510a42af597db9e0.png",
+        "marketName": "Specialized Killstreak Atomizer Kit Fabricator",
+        "name": "Specialized Killstreak Atomizer Kit Fabricator",
+        "origin": {
+            "id": 20,
+            "name": "MvM Badge completion reward"
+        },
+        "originalId": "11676886753",
+        "price": {
+            "steam": {
+                "currency": "usd",
+                "short": "$0.03",
+                "long": "1.33 ref",
+                "raw": 0.9439090909090909,
+                "value": 3
+            },
+            "suggested": {
+                "raw": 0.9439090909090909,
+                "short": "0.94 ref",
+                "long": "0.94 ref, $0.0212",
+                "usd": 0.021237954545454546
+            }
+        },
+        "quality": {
+            "id": 6,
+            "name": "Unique",
+            "color": "#FFD700"
+        },
+        "summary": "Level 5 Recipe",
+        "level": 5,
+        "tradable": true,
+        "craftable": true,
+        "recipe": {
+            "estimatedCraftingCost": {
+                "short": "31.87 ref",
+                "long": "31.87 ref, $0.717",
+                "raw": 31.865
+            },
+            "inputItems": [
+                {
+                    "quantity": 1,
+                    "name": "Killstreak Item"
+                },
+                {
+                    "quantity": 12,
+                    "name": "Battle-Worn Robot Money Furnace"
+                },
+                {
+                    "quantity": 8,
+                    "name": "Battle-Worn Robot Taunt Processor"
+                },
+                {
+                    "quantity": 4,
+                    "name": "Battle-Worn Robot KB-808"
+                },
+                {
+                    "quantity": 2,
+                    "name": "Reinforced Robot Emotion Detector"
+                },
+                {
+                    "quantity": 3,
+                    "name": "Reinforced Robot Humor Suppression Pump"
+                }
+            ],
+            "outputItem": {
+                "appid": 440,
+                "baseName": "Kit",
+                "defindex": 6523,
+                "id": "",
+                "imageUrl": "https://steamcdn-a.akamaihd.net/apps/440/icons/professional_grease.5448b2535917f85e44100c8adac3c9bdbd8c80b1.png",
+                "marketName": "Specialized Killstreak Atomizer Kit",
+                "name": "Specialized Killstreak Atomizer Kit",
+                "origin": null,
+                "originalId": "",
+                "price": {
+                    "steam": {
+                        "currency": "usd",
+                        "short": "$1.83",
+                        "long": "81.33 ref, 1.17 keys",
+                        "raw": 57.57845454545455,
+                        "value": 183
+                    },
+                    "suggested": {
+                        "raw": 57.57845454545455,
+                        "short": "57.58 ref",
+                        "long": "57.58 ref, 0.83 keys, $1.30",
+                        "usd": 1.2955152272727273
+                    }
+                },
+                "quality": {
+                    "id": 6,
+                    "name": "Unique",
+                    "color": "#FFD700"
+                },
+                "summary": "Level 5 Specialized Killstreak Kit",
+                "tradable": true,
+                "craftable": true,
+                "recipe": {
+                    "estimatedCraftingCost": [],
+                    "inputItems": [],
+                    "outputItem": null,
+                    "targetItem": {
+                        "itemName": "Atomizer",
+                        "imageUrl": "https://steamcdn-a.akamaihd.net/apps/440/icons/c_bonk_bat.22694d39bda6ac3b46cdc1569b07993be9e2f50f.png",
+                        "_source": {
+                            "_id": "440_450",
+                            "name": "The Atomizer",
+                            "defindex": 450,
+                            "item_class": "tf_weapon_bat",
+                            "item_type_name": "Bat",
+                            "item_name": "Atomizer",
+                            "proper_name": true,
+                            "item_slot": "melee",
+                            "item_quality": 6,
+                            "image_inventory": "backpack/workshop/weapons/c_models/c_bonk_bat/c_bonk_bat",
+                            "min_ilevel": 10,
+                            "max_ilevel": 10,
+                            "image_url": "https://steamcdn-a.akamaihd.net/apps/440/icons/c_bonk_bat.22694d39bda6ac3b46cdc1569b07993be9e2f50f.png",
+                            "image_url_large": "https://steamcdn-a.akamaihd.net/apps/440/icons/c_bonk_bat_large.83d7ed285cee7fc5e263459f574bdf015dffdce1.png",
+                            "item_set": "bonk_fan",
+                            "craft_class": "weapon",
+                            "craft_material_type": "weapon",
+                            "capabilities": {
+                                "nameable": true,
+                                "can_gift_wrap": true,
+                                "can_craft_count": true,
+                                "can_craft_mark": true,
+                                "can_be_restored": true,
+                                "strange_parts": true,
+                                "can_card_upgrade": true,
+                                "can_strangify": true,
+                                "can_killstreakify": true,
+                                "can_consume": true
+                            },
+                            "used_by_classes": [
+                                "Scout"
+                            ],
+                            "attributes": [
+                                {
+                                    "name": "air dash count",
+                                    "class": "air_dash_count",
+                                    "value": 1
+                                },
+                                {
+                                    "name": "single wep deploy time increased",
+                                    "class": "mult_single_wep_deploy_time",
+                                    "value": 1.5
+                                },
+                                {
+                                    "name": "dmg penalty vs players",
+                                    "class": "mult_dmg_vs_players",
+                                    "value": 0.8500000238418579
+                                },
+                                {
+                                    "name": "special taunt",
+                                    "class": "special_taunt",
+                                    "value": 1
+                                }
+                            ],
+                            "first_sale_date": 1304985600,
+                            "release_date": 1309463324,
+                            "appid": 440,
+                            "_keywords": [
+                                "Atomizer"
+                            ]
+                        }
+                    }
+                },
+                "sheen": {
+                    "id": 5,
+                    "name": "Agonizing Emerald"
+                },
+                "priceindex": "2-450"
+            },
+            "targetItem": {
+                "itemName": "Atomizer",
+                "imageUrl": "https://steamcdn-a.akamaihd.net/apps/440/icons/c_bonk_bat.22694d39bda6ac3b46cdc1569b07993be9e2f50f.png",
+                "_source": {
+                    "_id": "440_450",
+                    "name": "The Atomizer",
+                    "defindex": 450,
+                    "item_class": "tf_weapon_bat",
+                    "item_type_name": "Bat",
+                    "item_name": "Atomizer",
+                    "proper_name": true,
+                    "item_slot": "melee",
+                    "item_quality": 6,
+                    "image_inventory": "backpack/workshop/weapons/c_models/c_bonk_bat/c_bonk_bat",
+                    "min_ilevel": 10,
+                    "max_ilevel": 10,
+                    "image_url": "https://steamcdn-a.akamaihd.net/apps/440/icons/c_bonk_bat.22694d39bda6ac3b46cdc1569b07993be9e2f50f.png",
+                    "image_url_large": "https://steamcdn-a.akamaihd.net/apps/440/icons/c_bonk_bat_large.83d7ed285cee7fc5e263459f574bdf015dffdce1.png",
+                    "item_set": "bonk_fan",
+                    "craft_class": "weapon",
+                    "craft_material_type": "weapon",
+                    "capabilities": {
+                        "nameable": true,
+                        "can_gift_wrap": true,
+                        "can_craft_count": true,
+                        "can_craft_mark": true,
+                        "can_be_restored": true,
+                        "strange_parts": true,
+                        "can_card_upgrade": true,
+                        "can_strangify": true,
+                        "can_killstreakify": true,
+                        "can_consume": true
+                    },
+                    "used_by_classes": [
+                        "Scout"
+                    ],
+                    "attributes": [
+                        {
+                            "name": "air dash count",
+                            "class": "air_dash_count",
+                            "value": 1
+                        },
+                        {
+                            "name": "single wep deploy time increased",
+                            "class": "mult_single_wep_deploy_time",
+                            "value": 1.5
+                        },
+                        {
+                            "name": "dmg penalty vs players",
+                            "class": "mult_dmg_vs_players",
+                            "value": 0.8500000238418579
+                        },
+                        {
+                            "name": "special taunt",
+                            "class": "special_taunt",
+                            "value": 1
+                        }
+                    ],
+                    "first_sale_date": 1304985600,
+                    "release_date": 1309463324,
+                    "appid": 440,
+                    "_keywords": [
+                        "Atomizer"
+                    ]
+                }
+            }
+        },
+        "sheen": {
+            "id": 5,
+            "name": "Agonizing Emerald"
+        },
+        "priceindex": "6523-6-450",
+        "tag": null
+    },
+    "userAgent": {
+        "client": "TF2Autobot - Run your own bot for free",
+        "lastPulse": 1657763494
+    },
+    "user": {
+        "id": "76561199303500844",
+        "name": "💰Saul Goodman💰[BOT]",
+        "avatar": "https://avatars.akamai.steamstatic.com/32cbfa1dd93bdf8cc498a2bf8ee5d3bba4ff44dd_medium.jpg",
+        "avatarFull": "https://avatars.akamai.steamstatic.com/32cbfa1dd93bdf8cc498a2bf8ee5d3bba4ff44dd_full.jpg",
+        "premium": false,
+        "online": true,
+        "banned": false,
+        "customNameStyle": "",
+        "acceptedSuggestions": 0,
+        "class": "",
+        "style": "",
+        "role": null,
+        "tradeOfferUrl": "https://steamcommunity.com/tradeoffer/new/?partner=1343235116&token=rT6G-2zr",
+        "isMarketplaceSeller": false,
+        "flagImpersonated": null,
+        "bans": []
+    }
+}

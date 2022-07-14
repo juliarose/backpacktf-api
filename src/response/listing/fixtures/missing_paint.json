@@ -1,0 +1,95 @@
+{
+    "id": "440_76561198096558252_c81e2ad1fab840f150a262022633a4b1",
+    "steamid": "76561198096558252",
+    "appid": 440,
+    "currencies": {
+        "metal": 1
+    },
+    "value": {
+        "raw": 1,
+        "short": "1 ref",
+        "long": "1 ref"
+    },
+    "tradeOffersPreferred": true,
+    "buyoutOnly": true,
+    "details": "I am buying your Wilson Weave (Paint: null) for 1 ref, I have 0 / 1.",
+    "listedAt": 1657713169,
+    "bumpedAt": 1657732566,
+    "intent": "buy",
+    "count": 1,
+    "status": "active",
+    "source": "userAgent",
+    "item": {
+        "appid": 440,
+        "baseName": "Wilson Weave",
+        "defindex": 1012,
+        "id": "",
+        "imageUrl": "https://steamcdn-a.akamaihd.net/apps/440/icons/starve_demo.9fef5e1346668377ca852012e669434a4ff5eb41.png",
+        "marketName": "The Wilson Weave",
+        "name": "The Wilson Weave",
+        "origin": null,
+        "originalId": "",
+        "price": {
+            "community": {
+                "value": 2,
+                "valueHigh": 2.22,
+                "currency": "metal",
+                "raw": 2.1100000000000003,
+                "short": "2–2.22 ref",
+                "long": "$0.0475",
+                "usd": 0.0487125,
+                "updatedAt": 1656698433,
+                "difference": -0.3849999999999998
+            },
+            "suggested": {
+                "raw": 2.1100000000000003,
+                "short": "2.11 ref",
+                "long": "$0.0475",
+                "usd": 0.047475
+            }
+        },
+        "quality": {
+            "id": 6,
+            "name": "Unique",
+            "color": "#FFD700"
+        },
+        "summary": "Level 1-100 Hair",
+        "class": [
+            "Scout",
+            "Demoman",
+            "Medic",
+            "Heavy",
+            "Engineer"
+        ],
+        "slot": "misc",
+        "tradable": true,
+        "craftable": true,
+        "paint": {
+            "id": null,
+            "name": "#67c69a",
+            "color": "#67c69a"
+        }
+    },
+    "userAgent": {
+        "client": "TF2Autobot - Run your own bot for free",
+        "lastPulse": 1657732567
+    },
+    "user": {
+        "id": "76561198096558252",
+        "name": "Cheems✅ [⇄] INSTANT-ACCEPT!",
+        "avatar": "https://avatars.akamai.steamstatic.com/20ef1f62eb9812c110c3cb447c87550899a5165b_medium.jpg",
+        "avatarFull": "https://avatars.akamai.steamstatic.com/20ef1f62eb9812c110c3cb447c87550899a5165b_full.jpg",
+        "premium": true,
+        "online": true,
+        "banned": false,
+        "customNameStyle": "premium",
+        "acceptedSuggestions": 0,
+        "class": "premium",
+        "style": "",
+        "role": null,
+        "tradeOfferUrl": "https://steamcommunity.com/tradeoffer/new/?partner=136292524&token=5gUKQlfA",
+        "isMarketplaceSeller": false,
+        "flagImpersonated": null,
+        "bans": []
+    }
+}
