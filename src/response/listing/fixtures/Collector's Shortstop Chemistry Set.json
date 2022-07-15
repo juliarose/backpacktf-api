@@ -1,0 +1,148 @@
+{
+    "id": "440_76561198829669573_81eaf7ecf5bb03bfc609e4d67197ab45",
+    "steamid": "76561198829669573",
+    "appid": 440,
+    "currencies": {
+        "keys": 6
+    },
+    "value": {
+        "raw": 415.32,
+        "short": "6 keys",
+        "long": "6 keys"
+    },
+    "tradeOffersPreferred": true,
+    "buyoutOnly": true,
+    "details": "sell_collectors_shortstop_chemistry_set",
+    "listedAt": 1657752736,
+    "bumpedAt": 1657918269,
+    "intent": "buy",
+    "count": 1,
+    "status": "active",
+    "source": "userAgent",
+    "item": {
+        "appid": 440,
+        "baseName": "Chemistry Set",
+        "defindex": 20001,
+        "id": "",
+        "imageUrl": "https://steamcdn-a.akamaihd.net/apps/440/icons/construction_kit.fdc5df204409bca571d7315ed7208c132a918570.png",
+        "marketName": "Collector's Shortstop Chemistry Set",
+        "name": "Collector's Shortstop Chemistry Set",
+        "origin": null,
+        "originalId": "",
+        "price": {
+            "steam": {
+                "currency": "usd",
+                "short": "$33.38",
+                "long": "1,483.56 ref, 21.43 keys",
+                "raw": 1050.2561818181819,
+                "value": 3338.0000000000005
+            },
+            "community": {
+                "value": 57,
+                "valueHigh": 57,
+                "currency": "keys",
+                "raw": 3945.54,
+                "short": "57 keys",
+                "long": "3,945.54 ref, $88.77",
+                "usd": 88.77465,
+                "updatedAt": 1630049743,
+                "difference": 3054.8925
+            },
+            "suggested": {
+                "raw": 3945.54,
+                "short": "57 keys",
+                "long": "3,945.54 ref, $88.77",
+                "usd": 88.77465
+            }
+        },
+        "quality": {
+            "id": 6,
+            "name": "Unique",
+            "color": "#FFD700"
+        },
+        "summary": "Level 5 Recipe",
+        "tradable": true,
+        "craftable": true,
+        "recipe": {
+            "estimatedCraftingCost": {
+                "short": "n/a",
+                "long": "0.00 ref, $0.00",
+                "raw": 0
+            },
+            "inputItems": [],
+            "outputItem": {
+                "appid": 440,
+                "baseName": "Shortstop",
+                "defindex": 220,
+                "id": "",
+                "imageUrl": "https://steamcdn-a.akamaihd.net/apps/440/icons/c_shortstop.c6f907b747ead370925ec367a56f369b26e2a103.png",
+                "marketName": "Collector's Shortstop",
+                "name": "Collector's Shortstop",
+                "origin": null,
+                "originalId": "",
+                "price": {
+                    "steam": {
+                        "currency": "usd",
+                        "short": "$31.14",
+                        "long": "1,384.00 ref, 19.99 keys",
+                        "raw": 979.7776363636364,
+                        "value": 3114
+                    },
+                    "community": {
+                        "value": 18,
+                        "valueHigh": 30,
+                        "currency": "keys",
+                        "raw": 1661.28,
+                        "short": "18–30 keys",
+                        "long": "1,661.28 ref, $37.38",
+                        "usd": 42.05115,
+                        "updatedAt": 1643498331,
+                        "difference": 1164.415
+                    },
+                    "suggested": {
+                        "raw": 1661.28,
+                        "short": "24 keys",
+                        "long": "1,661.28 ref, $37.38",
+                        "usd": 37.3788
+                    }
+                },
+                "quality": {
+                    "id": 14,
+                    "name": "Collector's",
+                    "color": "#830000"
+                },
+                "summary": "Level 1 Peppergun",
+                "class": [
+                    "Scout"
+                ],
+                "slot": "primary",
+                "tradable": true,
+                "craftable": true
+            },
+            "targetItem": null
+        },
+        "priceindex": "220-14"
+    },
+    "userAgent": {
+        "client": "axios/0.21.4",
+        "lastPulse": 1657918271
+    },
+    "user": {
+        "id": "76561198829669573",
+        "name": "Baby Bender",
+        "avatar": "https://avatars.akamai.steamstatic.com/03e2db963b50366638563aff851ce5bcc6ffbc4e_medium.jpg",
+        "avatarFull": "https://avatars.akamai.steamstatic.com/03e2db963b50366638563aff851ce5bcc6ffbc4e_full.jpg",
+        "premium": true,
+        "online": true,
+        "banned": false,
+        "customNameStyle": "awesome5",
+        "acceptedSuggestions": 0,
+        "class": "awesome5",
+        "style": "",
+        "role": null,
+        "tradeOfferUrl": "https://steamcommunity.com/tradeoffer/new/?partner=869403845&token=hVMAcI3X",
+        "isMarketplaceSeller": false,
+        "flagImpersonated": null,
+        "bans": []
+    }
+}
