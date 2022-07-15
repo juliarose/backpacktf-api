@@ -110,5 +110,15 @@ mod tests {
         
         assert_eq!(listing.item.particle.unwrap().name, "Disco Beat Down");
     }
+    
+    #[test]
+    fn parses_recipe_listing() {
+        let listing: Listing = serde_json::from_str(include_str!("fixtures/Collector's Shortstop Chemistry Set.json")).unwrap();
+        let recipe = listing.item.recipe.unwrap();
+        let output_item = recipe.output_item.unwrap();
+        
+        assert_eq!(output_item.quality, Quality::Collectors);
+        assert_eq!(output_item.defindex, 220);
+    }
 }
 

@@ -4,6 +4,7 @@ use crate::response::deserializers::{
     from_number_or_string,
     map_to_enum,
 };
+use super::Item;
 
 /// Represents a particle effect.
 #[derive(Serialize, Deserialize, PartialEq, Clone, Debug)]
@@ -71,21 +72,26 @@ pub struct RecipeInputItem {
 }
 
 #[derive(Serialize, Deserialize, PartialEq, Clone, Debug)]
-pub struct ItemDescription {
+pub struct ItemSource {
     pub defindex: u32,
 }
 
 #[derive(Serialize, Deserialize, PartialEq, Clone, Debug)]
-pub struct MiniItem {
+#[serde(rename_all = "camelCase")]
+pub struct TargetItem {
+    pub item_name: String,
     #[serde(rename = "_source")]
-    pub description: ItemDescription,
+    pub source: ItemSource,
 }
 
 #[derive(Serialize, Deserialize, PartialEq, Clone, Debug)]
 #[serde(rename_all = "camelCase")]
 pub struct RecipeAttribute {
     pub input_items: Vec<RecipeInputItem>,
-    pub target_item: MiniItem,
+    #[serde(default)]
+    pub target_item: Option<TargetItem>,
+    #[serde(default)]
+    pub output_item: Option<Box<Item>>,
 }
 
 #[cfg(test)]
