@@ -153,9 +153,7 @@ where
 {
     match Value::deserialize(deserializer)? {
         Value::Object(map) => {
-            println!("MAP {:?}", map);
             if let Some(name) = map.get("name") {
-                println!("name {:?}", name);
                 match name {
                     Value::String(string) => {
                         // skip paints which are hexadecimal numbers
