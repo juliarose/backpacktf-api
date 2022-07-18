@@ -2,8 +2,10 @@ mod listing_intent;
 mod currency_type;
 mod api;
 mod builder;
-pub mod error;
 
+#[cfg(feature = "websocket")]
+pub mod websocket;
+pub mod error;
 pub mod time;
 pub mod response;
 pub mod request;
