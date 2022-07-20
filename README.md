@@ -2,6 +2,20 @@
 
 Interface for backpack.tf API endpoints.
 
+## Installation
+
+### Cargo.toml
+```
+[dependencies]
+backpacktf-api = { git = "https://github.com/juliarose/backpacktf-api" }
+```
+
+### With websocket
+```
+[dependencies]
+backpacktf-api = { git = "https://github.com/juliarose/backpacktf-api", features = ["websocket"] }
+```
+
 ## Usage
 
 ```rs
