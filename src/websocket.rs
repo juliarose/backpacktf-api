@@ -42,48 +42,62 @@ pub async fn connect() -> Result<mpsc::Receiver<Message>, Error> {
     let (_ws_write, mut ws_read) = ws_stream.split();
     
     tokio::spawn(async move {
-        while let Some(Ok(message)) = ws_read.next().await {
-            let data = message.into_data();
-            let bytes = data.as_slice();
-            
-            match serde_json::from_slice::<EventMessage>(bytes) {
+        while let Some(message) = ws_read.next().await {
+            match message {
                 Ok(message) => {
-                    if let Err(error) = on_event(&message, &write).await {
-                        match error {
-                            EventError::Serde(error) => {
+                    let data = message.into_data();
+                    let bytes = data.as_slice();
+                    
+                    match serde_json::from_slice::<EventMessage>(bytes) {
+                        Ok(message) => {
+                            if let Err(error) = on_event(&message, &write).await {
+                                match error {
+                                    EventError::Serde(error) => {
+                                        log::debug!(
+                                            "Error deserializing event payload: {} {}",
+                                            error,
+                                            message.payload,
+                                        );
+                                    },
+                                    // connection likely dropped
+                                    EventError::Send(_) => {
+                                        break;
+                                    },
+                                }
+                            }
+                        },
+                        Err(error) => {
+                            if bytes.is_empty() {
+                                // the message is empty...
+                                continue;
+                            } else if let Ok(message) = std::str::from_utf8(bytes) {
                                 log::debug!(
-                                    "Error deserializing event payload: {} {}",
+                                    "Error deserializing event: {} {}",
                                     error,
-                                    message.payload,
+                                    message,
                                 );
-                            },
-                            // connection likely dropped
-                            EventError::Send(_) => {
-                                break;
-                            },
-                        }
+                            } else {
+                                log::debug!(
+                                    "Error deserializing event: {}; Invalid utf8 string: {:?}",
+                                    error,
+                                    bytes,
+                                );
+                            }
+                        },
                     }
                 },
                 Err(error) => {
-                    if bytes.is_empty() {
-                        // the message is empty...
-                        continue;
-                    } else if let Ok(message) = std::str::from_utf8(bytes) {
-                        log::debug!(
-                            "Error deserializing event: {} {}",
-                            error,
-                            message,
-                        );
-                    } else {
-                        log::debug!(
-                            "Error deserializing event: {}; Invalid utf8 string: {:?}",
-                            error,
-                            bytes,
-                        );
-                    }
+                    // dropped?
+                    log::debug!(
+                        "Connection dropped: {:?}",
+                        error,
+                    );
+                    break;
                 },
             }
         }
+        
+        drop(write);
     });
     
     Ok(read)
