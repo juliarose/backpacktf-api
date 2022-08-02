@@ -3,7 +3,7 @@ mod currency_type;
 mod api;
 mod builder;
 
-#[cfg(feature = "websocket")]
+// #[cfg(feature = "websocket")]
 pub mod websocket;
 pub mod error;
 pub mod time;
