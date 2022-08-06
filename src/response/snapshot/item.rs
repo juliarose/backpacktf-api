@@ -24,7 +24,7 @@ pub struct Item {
     pub original_id: Option<u64>,
     #[serde(default)]
     #[serde(deserialize_with = "from_optional_number_or_string")]
-    pub level: Option<u8>,
+    pub level: Option<i32>,
     #[serde(default)]
     #[serde(deserialize_with = "from_optional_number_or_string")]
     pub inventory: Option<u32>,
