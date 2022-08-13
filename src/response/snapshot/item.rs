@@ -3,11 +3,12 @@ use crate::SteamID;
 use crate::response::attributes::{Attributes, Value as AttributeValue};
 use crate::response::deserializers::{
     deserialize_attributes,
-    from_optional_number_or_string
+    from_optional_number_or_string,
+    from_optional_number_or_string_integer,
 };
 use tf2_enum::{
     Wear, Quality, KillstreakTier, Paint, StrangePart, Killstreaker, Sheen, Origin,
-    Spell, FootprintsSpell, PaintSpell, Attribute, Attributes as EnumAttributes
+    Spell, FootprintsSpell, PaintSpell, Attribute, Attributes as EnumAttributes,
 };
 
 #[derive(Serialize, Deserialize, PartialEq, Clone, Debug)]
@@ -23,7 +24,7 @@ pub struct Item {
     #[serde(deserialize_with = "from_optional_number_or_string")]
     pub original_id: Option<u64>,
     #[serde(default)]
-    #[serde(deserialize_with = "from_optional_number_or_string")]
+    #[serde(deserialize_with = "from_optional_number_or_string_integer")]
     pub level: Option<i32>,
     #[serde(default)]
     #[serde(deserialize_with = "from_optional_number_or_string")]

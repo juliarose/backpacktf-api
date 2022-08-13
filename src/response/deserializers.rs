@@ -241,6 +241,40 @@ where
     }
 }
 
+pub fn from_optional_number_or_string_integer<'de, D, T>(deserializer: D) -> Result<Option<T>, D::Error>
+where
+    T: FromStr,
+    T: TryFrom<i64>,
+    T::Err: std::fmt::Display,
+    D: Deserializer<'de>
+{
+    match Value::deserialize(deserializer)? {
+        Value::String(s) => {
+            if s.is_empty() {
+                return Ok(None);
+            }
+            
+            let n = s.parse::<T>().map_err(de::Error::custom)?;
+                
+            Ok(Some(n))
+        },
+        Value::Number(num) => {
+            let n: i64 = num.as_i64().ok_or_else(|| de::Error::custom("invalid number"))?;
+            
+            match T::try_from(n) {
+                Ok(c) => {
+                    Ok(Some(c))
+                },
+                Err(_e) => {
+                    Err(de::Error::custom("number too large to fit in target type"))
+                }
+            }
+        },
+        Value::Null => Ok(None),
+        _ => Err(de::Error::custom("not a number")),
+    }
+}
+
 pub fn from_optional_number_or_string<'de, D, T>(deserializer: D) -> Result<Option<T>, D::Error>
 where
     T: FromStr,
