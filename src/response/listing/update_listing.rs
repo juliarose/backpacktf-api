@@ -23,7 +23,10 @@ pub struct SuccessListing {
     pub currencies: Currencies,
     #[serde(default)]
     pub trade_offers_preferred: bool,
+    #[serde(default)]
     pub buyout_only: bool,
+    #[serde(default)]
+    pub archived: bool,
     #[serde(default)]
     pub details: Option<String>,
     pub count: u32,

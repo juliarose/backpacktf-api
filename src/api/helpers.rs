@@ -113,8 +113,8 @@ where
                 .bytes()
                 .await?;
             // Print the body
-            // let text = std::str::from_utf8(&body).unwrap();
-            // println!("BODY: {}", text);
+            let text = std::str::from_utf8(&body).unwrap();
+            println!("BODY: {}", text);
 
             match serde_json::from_slice::<D>(body) {
                 Ok(body) => Ok(body),

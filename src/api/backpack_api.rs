@@ -616,7 +616,7 @@ impl BackpackAPI {
         id: &str,
         details: Option<String>,
         currencies: &T,
-    ) -> Result<response::listing::Listing, Error>
+    ) -> Result<response::listing::update_listing::SuccessListing, Error>
     where
         T: SerializeCurrencies
     {
@@ -638,7 +638,7 @@ impl BackpackAPI {
             })
             .send()
             .await?;
-        let body: response::listing::Listing = helpers::parses_response(response).await?;
+        let body: response::listing::update_listing::SuccessListing = helpers::parses_response(response).await?;
         
         Ok(body)
     }
@@ -873,7 +873,7 @@ impl BackpackAPI {
         id: &str,
         details: Option<String>,
         currencies: &T,
-    ) -> Result<response::listing::Listing, Error>
+    ) -> Result<response::listing::update_listing::SuccessListing, Error>
     where
         T: SerializeCurrencies
     {
@@ -895,7 +895,7 @@ impl BackpackAPI {
             })
             .send()
             .await?;
-        let body: response::listing::Listing = helpers::parses_response(response).await?;
+        let body: response::listing::update_listing::SuccessListing = helpers::parses_response(response).await?;
         
         Ok(body)
     }
@@ -1016,7 +1016,7 @@ impl BackpackAPI {
         
         Ok(())
     }
-
+    
     /// Gets limits for batch requests.
     pub async fn get_listing_batch_limit(
         &self,
@@ -1031,7 +1031,7 @@ impl BackpackAPI {
         
         Ok(batch_limit.op_limit)
     }
-
+    
     /// Sends a heartbeat.
     pub async fn agent_pulse(
         &self,
@@ -1046,7 +1046,7 @@ impl BackpackAPI {
         
         Ok(agent_status)
     }
-
+    
     /// Gets current status of user agent.
     pub async fn agent_status(
         &self,
@@ -1061,7 +1061,7 @@ impl BackpackAPI {
         
         Ok(agent_status)
     }
-
+    
     /// Stops user agent.
     pub async fn stop_agent(
         &self,
@@ -1076,7 +1076,7 @@ impl BackpackAPI {
         
         Ok(())
     }
-
+    
     /// Gets your classifieds limits.
     pub async fn classifieds_limits(
         &self,
@@ -1129,9 +1129,10 @@ impl BackpackAPI {
         (all, None)
     }
     
-    /// Gets all listings. This is a convenience method which scrolls against the responses
-    /// in [get_listings](BackpackAPI::get_listings) until all listings are obtained. If an 
-    /// error occurs, execution will cease and an error will be added to the return value.
+    /// Gets all archived listings. This is a convenience method which scrolls against the 
+    /// responses in [get_listings](BackpackAPI::get_archived_listings) until all listings are 
+    /// obtained. If an error occurs, execution will cease and an error will be added to the 
+    /// return value.
     pub async fn get_all_archived_listings(
         &self,
     ) -> (Vec<response::listing::Listing>, Option<Error>) {
@@ -1201,6 +1202,30 @@ impl BackpackAPI {
         }
         
         (all, None)
+    }
+    
+    /// Gets all listings and archived listings. This is a convenience method which combines the 
+    /// results from [get_all_listings](BackpackAPI::get_all_listings) and 
+    /// [get_all_archived_listings](BackpackAPI::get_all_archived_listings)
+    pub async fn get_all_listings_and_archived(
+        &self,
+    ) -> (Vec<response::listing::Listing>, Option<Error>) {
+        let (
+            mut listings,
+            listings_error,
+        ) = self.get_all_listings().await;
+        
+        if let Some(error) = listings_error {
+            return (listings, Some(error));
+        }
+        
+        let (
+            mut archived_listings,
+            archived_listings_error,
+        ) = self.get_all_archived_listings().await;
+        
+        listings.append(&mut archived_listings);
+        (listings, archived_listings_error)
     }
     
     /// Bulk creates any number of listings. This is a convenience method which handles
