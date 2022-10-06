@@ -1097,11 +1097,10 @@ impl BackpackAPI {
     /// occurs, execution will cease and an error will be added to the return value.
     pub async fn get_all_alerts(
         &self,
-        skip: u32,
     ) -> (Vec<response::alert::Alert>, Option<Error>) {
         let mut all = Vec::new();
         let mut limit = 100;
-        let mut skip = skip;
+        let mut skip = 0;
         
         loop {
             match self.get_alerts(skip, limit).await {
@@ -1133,13 +1132,49 @@ impl BackpackAPI {
     /// Gets all listings. This is a convenience method which scrolls against the responses
     /// in [get_listings](BackpackAPI::get_listings) until all listings are obtained. If an 
     /// error occurs, execution will cease and an error will be added to the return value.
-    pub async fn get_all_listings(
+    pub async fn get_all_archived_listings(
         &self,
-        skip: u32,
     ) -> (Vec<response::listing::Listing>, Option<Error>) {
         let mut all = Vec::new();
         let mut limit = 100;
-        let mut skip = skip;
+        let mut skip = 0;
+        
+        loop {
+            match self.get_archived_listings(skip, limit).await {
+                Ok((mut listings, cursor)) => {
+                    all.append(&mut listings);
+                    limit = cursor.limit;
+                    skip = cursor.skip + limit;
+                    
+                    if skip >= cursor.total {
+                        // we done
+                        break;
+                    } else {
+                        continue;
+                    }
+                },
+                Err(Error::TooManyRequests(retry_after)) => {
+                    sleep(Duration::from_secs(retry_after)).await;
+                    continue;
+                },
+                Err(error) => {
+                    return (all, Some(error));
+                },
+            }
+        }
+        
+        (all, None)
+    }
+    
+    /// Gets all listings. This is a convenience method which scrolls against the responses
+    /// in [get_listings](BackpackAPI::get_listings) until all listings are obtained. If an 
+    /// error occurs, execution will cease and an error will be added to the return value.
+    pub async fn get_all_listings(
+        &self,
+    ) -> (Vec<response::listing::Listing>, Option<Error>) {
+        let mut all = Vec::new();
+        let mut limit = 100;
+        let mut skip = 0;
         
         loop {
             match self.get_listings(skip, limit).await {

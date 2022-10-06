@@ -34,6 +34,8 @@ pub struct Listing {
     pub trade_offers_preferred: bool,
     #[serde(default)]
     pub buyout_only: bool,
+    #[serde(default)]
+    pub archived: bool,
     pub details: Option<String>,
     #[serde(with = "ts_seconds")]
     pub listed_at: ServerTime,

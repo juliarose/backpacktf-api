@@ -13,7 +13,7 @@ async fn main() -> Result<(), Error> {
         .key(&env::var("KEY").unwrap())
         .token(&env::var("TOKEN").unwrap())
         .build();
-    let (listings, error) = backpacktf.get_all_listings(0).await;
+    let (listings, error) = backpacktf.get_all_listings().await;
     
     if let Some(error) = error {
         panic!("{}", error);
