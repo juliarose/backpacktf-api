@@ -1,7 +1,7 @@
 use std::collections::HashMap;
 use serde::{Serialize, Deserialize};
-use crate::{SteamID, time::ServerTime};
-use chrono::serde::ts_seconds_option;
+use crate::{SteamID, time::ServerTime, tf2_price::{get_metal_from_float, Currencies}};
+use chrono::serde::{ts_seconds_option, ts_seconds};
 use super::deserializers::string_or_number;
 use num_enum::{TryFromPrimitive, IntoPrimitive};
 use serde_repr::{Serialize_repr, Deserialize_repr};
@@ -32,6 +32,48 @@ impl Ban {
 }
 
 pub type Players = HashMap<SteamID, Player>;
+pub type PlayersV1 = HashMap<SteamID, PlayerV1>;
+
+#[derive(Serialize, Deserialize, PartialEq, Clone, Debug)]
+pub struct Slots {
+    pub used: i32,
+    pub total: i32,
+}
+
+#[derive(Serialize, Deserialize, PartialEq, Clone, Debug)]
+pub struct Inventory {
+    pub ranking: Option<i32>,
+    pub value: f32,
+    #[serde(with = "ts_seconds")]
+    pub updated: ServerTime,
+    pub metal: f32,
+    pub keys: i32,
+    pub slots: Slots,
+}
+
+#[derive(Serialize, Deserialize, PartialEq, Clone, Debug)]
+pub struct PlayerV1 {
+    pub name: String,
+    pub avatar: String,
+    #[serde(default)]
+    pub inventory: HashMap<u32, Inventory>,
+}
+
+impl PlayerV1 {
+    
+    pub fn currencies(&self) -> Currencies {
+        if let Some(inventory) = &self.inventory.get(&440) {
+            let metal = get_metal_from_float(inventory.metal);
+            
+            Currencies {
+            keys: inventory.keys,
+            metal,
+            }
+        } else {
+            Currencies::new()
+        }
+    }
+}
 
 #[derive(Serialize, Deserialize, PartialEq, Clone, Debug)]
 pub struct Player {

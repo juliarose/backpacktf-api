@@ -17,6 +17,16 @@ pub struct GetUsersResponse {
     pub players: Option<response::player::Players>
 }
 
+#[derive(Serialize, Deserialize, Debug)]
+pub struct GetUsersV1Response {
+    pub users: response::player::PlayersV1,
+}
+
+#[derive(Serialize, Deserialize, Debug)]
+pub struct GetUsersResponseWrapper {
+    pub response: GetUsersResponse,
+}
+
 #[derive(Serialize, Deserialize, PartialEq, Clone, Debug)]
 #[serde(rename_all = "camelCase")]
 pub struct BatchLimit {
@@ -26,11 +36,6 @@ pub struct BatchLimit {
 #[derive(Serialize, Deserialize, Debug)]
 pub struct ClassifiedsLimitResponse {
     pub listings: response::classifieds_limits::ClassifiedsLimits,
-}
-
-#[derive(Serialize, Deserialize, Debug)]
-pub struct GetUsersResponseWrapper {
-    pub response: GetUsersResponse,
 }
 
 #[derive(Serialize, Deserialize, Debug)]

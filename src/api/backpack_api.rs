@@ -178,6 +178,49 @@ impl BackpackAPI {
         helpers::parses_response::<D>(response).await
     }
     
+    /// Gets details about a user.
+    pub async fn get_user_v1<'b>(
+        &self,
+        steamid: &SteamID,
+    ) -> Result<response::player::PlayerV1, Error> {
+        let steamids: Vec<SteamID> = vec![*steamid];
+        let players = self.get_users_v1(&steamids).await?;
+        
+        if let Some(player) = players.get(steamid) {
+            Ok(player.to_owned())
+        } else {
+            Err(Error::Response("No player with SteamID in response".into()))
+        }
+    }
+    
+    /// Gets details about users.
+    pub async fn get_users_v1<'b>(
+        &self,
+        steamids: &'b [SteamID],
+    ) -> Result<response::player::PlayersV1, Error> {
+        #[derive(Serialize, Debug)]
+        struct Params<'a, 'b> {
+            key: &'a str,
+            #[serde(serialize_with = "comma_delimited_steamids")]
+            steamids: &'b [SteamID],
+        }
+        
+        if steamids.is_empty() {
+            return Err(Error::Parameter("No steamids given"));
+        }
+        
+        let key = self.get_key()?;
+        let body: api_response::GetUsersV1Response = self.get(
+            "/users/info/v1",
+            &Params {
+                key,
+                steamids,
+            }
+        ).await?;
+        
+        Ok(body.users)
+    }
+    
     /// Gets details about a user including name, bans, trust scores, and inventory values.
     pub async fn get_user(
         &self,
@@ -585,11 +628,17 @@ impl BackpackAPI {
         Ok(())
     }
     
-    /// Deletes listings from the archive. A limit of 100 listings is imposed.
+    /// Deletes listings from the archive. A limit of 100 listings is imposed. Currently does not 
+    /// work.
     pub async fn delete_archived_listings(
         &self,
         listing_ids: &[String],
     ) -> Result<u32, Error> {
+        #[derive(Serialize, Debug)]
+        struct Params<'a> {
+            listing_ids: &'a [String],
+        }
+        
         if listing_ids.is_empty() {
             return Err(Error::Parameter("No listings given"));
         } else if listing_ids.len() > 100 {
@@ -597,12 +646,14 @@ impl BackpackAPI {
         }
         
         let token = self.get_token()?;
-        let uri = self.get_api_uri("/classifieds/archive/batch");
+        let uri = self.get_api_uri("/v2/classifieds/archive/batch");
         let response = self.client.delete(uri)
-            .json(&Token {
+            .json(&Params {
+                listing_ids,
+            })
+            .query(&Token {
                 token,
             })
-            .json(&listing_ids)
             .send()
             .await?;
         let response: api_response::DeleteListingsResult = helpers::parses_response(response).await?;
@@ -1241,7 +1292,7 @@ impl BackpackAPI {
     {
         let mut chunked = helpers::Cooldown::new(listings);
         let mut created = Vec::new();
-
+        
         while let Some((listings, duration)) = chunked.next() {
             match self.create_listings(listings).await {
                 Ok(mut more_created) => {
@@ -1278,7 +1329,7 @@ impl BackpackAPI {
     {
         let mut chunked = helpers::Cooldown::new(listings);
         let mut updated = Vec::new();
-
+        
         while let Some((listings, duration)) = chunked.next() {
             match self.update_listings(listings).await {
                 Ok(mut more_updated) => {
@@ -1312,9 +1363,43 @@ impl BackpackAPI {
     ) -> (u32, Option<Error>) {
         let mut chunked = helpers::Cooldown::new(listing_ids);
         let mut deleted = 0;
-
+        
         while let Some((listing_ids, duration)) = chunked.next() {
             match self.delete_listings(listing_ids).await {
+                Ok(more_deleted) => {
+                    deleted += more_deleted;
+                    
+                    if let Some(duration) = duration {
+                        sleep(duration).await;
+                    }
+                },
+                Err(Error::TooManyRequests(retry_after)) => {
+                    sleep(Duration::from_secs(retry_after)).await;
+                    chunked.go_back();
+                    continue;
+                },
+                Err(error) => {
+                    return (deleted, Some(error))
+                },
+            }
+        }
+        
+        (deleted, None)
+    }
+    
+    /// Bulk deletes any number of archived listings. This is a convenience method which handles 
+    /// mass deletion of archived listings that need to be split into chunks and are rate
+    /// limited to a certain number of requests per minute. If an error occurs, execution will 
+    /// cease and an error will be added to the return value.
+    pub async fn delete_archived_listings_chunked(
+        &self,
+        listing_ids: &[String],
+    ) -> (u32, Option<Error>) {
+        let mut chunked = helpers::Cooldown::new(listing_ids);
+        let mut deleted = 0;
+        
+        while let Some((listing_ids, duration)) = chunked.next() {
+            match self.delete_archived_listings(listing_ids).await {
                 Ok(more_deleted) => {
                     deleted += more_deleted;
                     
