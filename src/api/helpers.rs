@@ -103,7 +103,7 @@ where
                 }
             }
             
-            Err(Error::Response("bad".into()))
+            Err(Error::Http(response))
         },
         500..=599 => {
             Err(Error::Http(response))
