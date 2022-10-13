@@ -41,7 +41,6 @@ where
         self.reset();
         
         if self.i > 0 {
-            log::info!("Move chunk back from {} to {}", self.i, self.i - 1);
             self.chunk_i = 0;
             self.i -= 1;
         }
@@ -49,8 +48,6 @@ where
     
     pub fn next(&mut self) -> Option<(&'a [T], Option<Duration>)> {
         self.i += 1;
-
-        log::info!("Getting chunk {}", self.i);
         
         if let Some(chunk) = self.chunks.get(self.i - 1) {
             if self.i >= self.chunks.len() || self.chunk_i >= self.limit {

@@ -1,7 +1,7 @@
 use std::collections::HashMap;
 use serde::{Serialize, Deserialize};
 use crate::{SteamID, time::ServerTime, tf2_price::{get_metal_from_float, Currencies}};
-use chrono::serde::{ts_seconds_option, ts_seconds};
+use chrono::serde::ts_seconds_option;
 use super::deserializers::string_or_number;
 use num_enum::{TryFromPrimitive, IntoPrimitive};
 use serde_repr::{Serialize_repr, Deserialize_repr};
@@ -43,9 +43,11 @@ pub struct Slots {
 #[derive(Serialize, Deserialize, PartialEq, Clone, Debug)]
 pub struct Inventory {
     pub ranking: Option<i32>,
+    #[serde(default)]
     pub value: f32,
-    #[serde(with = "ts_seconds")]
-    pub updated: ServerTime,
+    #[serde(default)]
+    #[serde(with = "ts_seconds_option")]
+    pub updated: Option<ServerTime>,
     pub metal: f32,
     pub keys: i32,
     pub slots: Slots,

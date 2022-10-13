@@ -26,8 +26,8 @@ strum = { version = "^0.23", features = ["derive"] }
 strum_macros = "^0.23"
 thiserror = "^1.0"
 steamid-ng = "1.0.0"
-tf2-enum = { version = "^0.5", path = "../tf2-enum" }
-tf2-price = { version = "^0.7", path = "../tf2-price" }
+tf2-enum = "^0.5"
+tf2-price = "^0.7"
 log = "0.4.17"
 tokio = { version = "1", features = ["sync"], optional = true }
 tokio-tungstenite = { version = "0.17", features = ["native-tls"], optional = true }
