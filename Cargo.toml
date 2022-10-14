@@ -26,7 +26,7 @@ strum = { version = "^0.23", features = ["derive"] }
 strum_macros = "^0.23"
 thiserror = "^1.0"
 steamid-ng = "1.0.0"
-tf2-enum = "^0.5"
+tf2-enum = "^0.6"
 tf2-price = "^0.7"
 log = "0.4.17"
 tokio = { version = "1", features = ["sync"], optional = true }
