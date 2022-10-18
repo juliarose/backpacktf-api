@@ -615,7 +615,7 @@ impl BackpackAPI {
         &self,
     ) -> Result<(), Error> {
         let token = self.get_token()?;
-        let uri = self.get_api_uri("/classifieds/archive");
+        let uri = self.get_api_uri("/v2/classifieds/archive");
         let _response = self.client.delete(uri)
             .json(&Token {
                 token,
