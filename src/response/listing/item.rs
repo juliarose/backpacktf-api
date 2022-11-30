@@ -68,5 +68,7 @@ pub struct Item {
     #[serde(default)]
     #[serde(deserialize_with = "from_optional_number_or_string")]
     pub quantity: Option<u32>,
+    pub strange_parts: Option<Vec<attributes::KillEaterAttribute>>,
+    pub spells: Option<Vec<attributes::SpellAttribute>>,
 }
 

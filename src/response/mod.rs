@@ -10,4 +10,5 @@ pub mod alert;
 pub mod currencies;
 pub mod classifieds_limits;
 
+pub mod serializers;
 pub mod deserializers;

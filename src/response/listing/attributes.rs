@@ -1,6 +1,8 @@
 use serde::{Serialize, Deserialize};
-use tf2_enum::{StrangePart, Rarity};
+use tf2_enum::{StrangePart, Rarity, Spell};
+use crate::response::serializers::to_display;
 use crate::response::deserializers::{
+    from_str,
     from_number_or_string,
     map_to_enum,
 };
@@ -92,6 +94,15 @@ pub struct RecipeAttribute {
     pub target_item: Option<TargetItem>,
     #[serde(default)]
     pub output_item: Option<Box<Item>>,
+}
+
+#[derive(Serialize, Deserialize, PartialEq, Clone, Debug)]
+#[serde(rename_all = "camelCase")]
+pub struct SpellAttribute {
+    #[serde(rename = "name")]
+    #[serde(serialize_with = "to_display")]
+    #[serde(deserialize_with = "from_str")]
+    spell: Spell,
 }
 
 #[cfg(test)]
