@@ -35,7 +35,7 @@ futures-util = { version = "0.3", optional = true }
 serde_bytes = { version = "0.11", optional = true }
 
 [features]
-websocket = ["dep:tokio", "dep:tokio-tungstenite", "dep:futures-util", "dep:serde_bytes"]
+websocket = ["dep:tokio", "dep:tokio-tungstenite", "dep:futures-util", "dep:serde_bytes", "serde_json/raw_value"]
 
 [dev-dependencies]
 assert-json-diff = "^2.0.1"
