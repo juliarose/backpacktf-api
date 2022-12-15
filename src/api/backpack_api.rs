@@ -712,6 +712,27 @@ impl BackpackAPI {
             
         Ok(())
     }
+
+    /// Gets a listing.
+    pub async fn get_listing(
+        &self,
+        id: &str,
+    ) -> Result<response::listing::Listing, Error> {
+        #[derive(Serialize, Debug)]
+        struct Params<'a> {
+            token: &'a str,
+        }
+
+        let token = self.get_token()?;
+        let listing: response::listing::Listing = self.get(
+            &format!("/v2/classifieds/listings/{}", id),
+            &Params {
+                token
+            }
+        ).await?;
+
+        Ok(listing)
+    }
     
     /// Gets a page of listings along with the cursor for scrolling.
     pub async fn get_listings(
