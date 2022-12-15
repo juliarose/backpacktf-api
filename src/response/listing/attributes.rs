@@ -102,7 +102,7 @@ pub struct SpellAttribute {
     #[serde(rename = "name")]
     #[serde(serialize_with = "to_display")]
     #[serde(deserialize_with = "from_str")]
-    spell: Spell,
+    pub spell: Spell,
 }
 
 #[cfg(test)]
