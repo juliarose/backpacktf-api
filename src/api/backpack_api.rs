@@ -1189,16 +1189,12 @@ impl BackpackAPI {
                         continue;
                     }
                 },
+                Err(Error::TooManyRequests(retry_after)) => {
+                    sleep(Duration::from_secs(retry_after)).await;
+                    continue;
+                },
                 Err(error) => {
-                    match error {
-                        Error::TooManyRequests(retry_after) => {
-                            sleep(Duration::from_secs(retry_after)).await;
-                            continue;
-                        },
-                        _ => {
-                            return (all, Some(error));
-                        }
-                    }
+                    return (all, Some(error));
                 },
             }
         }
@@ -1232,16 +1228,12 @@ impl BackpackAPI {
                         continue;
                     }
                 },
+                Err(Error::TooManyRequests(retry_after)) => {
+                    sleep(Duration::from_secs(retry_after)).await;
+                    continue;
+                },
                 Err(error) => {
-                    match error {
-                        Error::TooManyRequests(retry_after) => {
-                            sleep(Duration::from_secs(retry_after)).await;
-                            continue;
-                        },
-                        _ => {
-                            return (all, Some(error));
-                        }
-                    }
+                    return (all, Some(error));
                 },
             }
         }
@@ -1274,16 +1266,12 @@ impl BackpackAPI {
                         continue;
                     }
                 },
+                Err(Error::TooManyRequests(retry_after)) => {
+                    sleep(Duration::from_secs(retry_after)).await;
+                    continue;
+                },
                 Err(error) => {
-                    match error {
-                        Error::TooManyRequests(retry_after) => {
-                            sleep(Duration::from_secs(retry_after)).await;
-                            continue;
-                        },
-                        _ => {
-                            return (all, Some(error));
-                        }
-                    }
+                    return (all, Some(error));
                 },
             }
         }
