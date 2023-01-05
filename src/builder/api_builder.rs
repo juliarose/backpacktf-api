@@ -7,6 +7,7 @@ use super::middleware::get_default_middleware;
 
 const USER_AGENT_STRING: &str = "Mozilla/5.0 (X11; Linux x86_64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/97.0.4692.71 Safari/537.36";
 
+#[derive(Debug, Clone)]
 pub struct BackpackAPIBuilder {
     key: Option<String>,
     token: Option<String>,
@@ -42,7 +43,7 @@ impl BackpackAPIBuilder {
         self
     }
     
-    pub fn middleware(mut self, client: ClientWithMiddleware) -> Self {
+    pub fn client(mut self, client: ClientWithMiddleware) -> Self {
         self.client = Some(client);
         self
     }
