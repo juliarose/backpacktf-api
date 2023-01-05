@@ -1,0 +1,108 @@
+{
+    "id": "440_12531985792",
+    "steamid": "76561198301755987",
+    "appid": 440,
+    "currencies": {
+        "keys": 6
+    },
+    "value": {
+        "raw": 418.29,
+        "short": "6 keys",
+        "long": "6 keys"
+    },
+    "tradeOffersPreferred": true,
+    "buyoutOnly": true,
+    "details": "VOICES FROM BELOW | 6 keys pure or mixed/items overpay. Add me to negotaite. I'll accept as fast as possible.",
+    "listedAt": 1672933286,
+    "bumpedAt": 1672933286,
+    "intent": "sell",
+    "count": 1,
+    "status": "active",
+    "source": "user",
+    "item": {
+        "appid": 440,
+        "baseName": "Anger",
+        "defindex": 518,
+        "id": "12531985792",
+        "imageUrl": "https://steamcdn-a.akamaihd.net/apps/440/icons/c_bet_brinkhood.16b34cf3a5b777028b11347262fecc6c9fc2ca0e.png",
+        "marketName": "Genuine Anger",
+        "name": "Genuine Anger",
+        "origin": {
+            "id": 13,
+            "name": "Steam Purchase"
+        },
+        "originalId": "536328760",
+        "price": {
+            "steam": {
+                "currency": "usd",
+                "short": "$1.25",
+                "long": "51.02 ref",
+                "raw": 39.25394144144144,
+                "value": 125
+            },
+            "community": {
+                "value": 28.44,
+                "valueHigh": 29.22,
+                "currency": "metal",
+                "raw": 28.83,
+                "short": "28.44–29.22 ref",
+                "long": "$0.7063",
+                "usd": 0.7111125,
+                "updatedAt": 1648941592,
+                "difference": 3.8900000000000006
+            },
+            "suggested": {
+                "raw": 48.3502,
+                "short": "48.35 ref",
+                "long": "$1.18",
+                "usd": 1.1845799000000001
+            }
+        },
+        "quality": {
+            "id": 1,
+            "name": "Genuine",
+            "color": "#4D7455"
+        },
+        "summary": "Level 10 Hood",
+        "level": 10,
+        "class": [
+            "Sniper"
+        ],
+        "spells": [
+            {
+                "id": "standard-SPELL: Halloween voice modulation",
+                "spellId": "SPELL: Halloween voice modulation",
+                "name": "Voices from Below",
+                "type": "standard"
+            }
+        ],
+        "slot": "misc",
+        "tradable": true,
+        "craftable": true,
+        "paint": {
+            "id": 5051,
+            "name": "Pink as Hell",
+            "color": "#ff69b4"
+        },
+        "paintSecondaryHex": "#ff69b4",
+        "tag": null
+    },
+    "user": {
+        "id": "76561198301755987",
+        "name": "the creature",
+        "avatar": "https://avatars.akamai.steamstatic.com/183b9c8ec7f2cba58a554ce1501ff7e77139e0b0_medium.jpg",
+        "avatarFull": "https://avatars.akamai.steamstatic.com/183b9c8ec7f2cba58a554ce1501ff7e77139e0b0_full.jpg",
+        "premium": false,
+        "online": true,
+        "banned": false,
+        "customNameStyle": "",
+        "acceptedSuggestions": 0,
+        "class": "",
+        "style": "",
+        "role": null,
+        "tradeOfferUrl": "https://steamcommunity.com/tradeoffer/new/?partner=341490259&token=_RP504M3",
+        "isMarketplaceSeller": false,
+        "flagImpersonated": null,
+        "bans": []
+    }
+}

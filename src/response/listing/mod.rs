@@ -77,7 +77,7 @@ impl Listing {
 #[cfg(test)]
 mod tests {
     use super::*;
-    use tf2_enum::{ItemSlot, Quality};
+    use tf2_enum::{ItemSlot, Spell, Quality};
     
     #[test]
     fn parses_listing() {
@@ -121,6 +121,14 @@ mod tests {
         
         assert_eq!(output_item.quality, Quality::Collectors);
         assert_eq!(output_item.defindex, 220);
+    }
+    
+    #[test]
+    fn parses_spelled_listing() {
+        let listing: Listing = serde_json::from_str(include_str!("fixtures/spelled.json")).unwrap();
+        let attribute = listing.item.spells.unwrap().into_iter().next().unwrap();
+        
+        assert_eq!(attribute.spell, Spell::VoicesFromBelow);
     }
 }
 
