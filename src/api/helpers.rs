@@ -1,7 +1,7 @@
 use serde::{Deserialize, de::DeserializeOwned};
 use crate::error::Error;
 use std::time::{Instant, Duration};
-use reqwest::header::RETRY_AFTER;
+use reqwest::{header::RETRY_AFTER, StatusCode};
 use log::error;
 
 /// Handles rate limits for requests that are split into chunks.
@@ -79,7 +79,7 @@ where
         message: String,
     }
     
-    let status = &response.status();
+    let status = response.status();
     
     match status.as_u16() {
         100..=199 => {
@@ -89,7 +89,7 @@ where
             Err(Error::Http(response))
         },
         400..=499 => {
-            if status.as_u16() == 429 {
+            if status == StatusCode::TOO_MANY_REQUESTS {
                 if let Some(retry_after_header) = &response.headers().get(RETRY_AFTER) {
                     let parsed = retry_after_header.to_str()
                         .map(|retry_after| retry_after.parse::<u64>());
@@ -98,6 +98,9 @@ where
                         return Err(Error::TooManyRequests(retry_after));
                     }
                 }
+                
+                // if all else fails, just use 30 seconds
+                return Err(Error::TooManyRequests(30));
             }
             
             Err(Error::Http(response))

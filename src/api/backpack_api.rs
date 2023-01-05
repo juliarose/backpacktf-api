@@ -1185,15 +1185,20 @@ impl BackpackAPI {
                         // we done
                         break;
                     } else {
+                        sleep(Duration::from_secs(4)).await;
                         continue;
                     }
                 },
-                Err(Error::TooManyRequests(retry_after)) => {
-                    sleep(Duration::from_secs(retry_after)).await;
-                    continue;
-                },
                 Err(error) => {
-                    return (all, Some(error));
+                    match error {
+                        Error::TooManyRequests(retry_after) => {
+                            sleep(Duration::from_secs(retry_after)).await;
+                            continue;
+                        },
+                        _ => {
+                            return (all, Some(error));
+                        }
+                    }
                 },
             }
         }
@@ -1223,16 +1228,20 @@ impl BackpackAPI {
                         // we done
                         break;
                     } else {
-                        sleep(Duration::from_secs(10)).await;
+                        sleep(Duration::from_secs(4)).await;
                         continue;
                     }
                 },
-                Err(Error::TooManyRequests(retry_after)) => {
-                    sleep(Duration::from_secs(retry_after)).await;
-                    continue;
-                },
                 Err(error) => {
-                    return (all, Some(error));
+                    match error {
+                        Error::TooManyRequests(retry_after) => {
+                            sleep(Duration::from_secs(retry_after)).await;
+                            continue;
+                        },
+                        _ => {
+                            return (all, Some(error));
+                        }
+                    }
                 },
             }
         }
@@ -1261,16 +1270,20 @@ impl BackpackAPI {
                         // we done
                         break;
                     } else {
-                        sleep(Duration::from_secs(10)).await;
+                        sleep(Duration::from_secs(4)).await;
                         continue;
                     }
                 },
-                Err(Error::TooManyRequests(retry_after)) => {
-                    sleep(Duration::from_secs(retry_after)).await;
-                    continue;
-                },
                 Err(error) => {
-                    return (all, Some(error));
+                    match error {
+                        Error::TooManyRequests(retry_after) => {
+                            sleep(Duration::from_secs(retry_after)).await;
+                            continue;
+                        },
+                        _ => {
+                            return (all, Some(error));
+                        }
+                    }
                 },
             }
         }
