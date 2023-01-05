@@ -1223,6 +1223,7 @@ impl BackpackAPI {
                         // we done
                         break;
                     } else {
+                        sleep(Duration::from_secs(10)).await;
                         continue;
                     }
                 },
@@ -1260,6 +1261,7 @@ impl BackpackAPI {
                         // we done
                         break;
                     } else {
+                        sleep(Duration::from_secs(10)).await;
                         continue;
                     }
                 },
