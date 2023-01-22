@@ -1012,14 +1012,12 @@ impl BackpackAPI {
         
         let mapped = listings
             .iter()
-            .map(|update| {
-                Listing {
-                    id: &update.id,
-                    body: Body {
-                        currencies: &update.currencies,
-                        details: &update.details,
-                    },
-                }
+            .map(|update| Listing {
+                id: &update.id,
+                body: Body {
+                    currencies: &update.currencies,
+                    details: &update.details,
+                },
             })
             .collect::<Vec<_>>();
         let token = self.get_token()?;

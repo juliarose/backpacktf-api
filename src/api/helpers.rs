@@ -47,20 +47,28 @@ where
     }
     
     pub fn next(&mut self) -> Option<(&'a [T], Option<Duration>)> {
-        self.i += 1;
-        
-        if let Some(chunk) = self.chunks.get(self.i - 1) {
-            if self.i >= self.chunks.len() || self.chunk_i >= self.limit {
-                self.chunk_i = 0;
-                
+        if let Some(chunk) = self.chunks.get(self.i) {
+            self.i += 1;
+            self.chunk_i += 1;
+            
+            // we can skip the wait
+            if 
+                // if we have reached the end
+                self.i == self.chunks.len() ||
+                // or the current chunk index is under the limit
+                self.chunk_i <= self.limit
+            {
                 Some((chunk, None))
             } else {
                 let elapsed = self.start_time.elapsed().as_secs() + 1;
-                let wait = if elapsed < self.cooldown {
+                let wait = if elapsed > self.cooldown {
                     0
                 } else {
-                    elapsed - self.cooldown
+                    self.cooldown - elapsed
                 };
+                
+                self.start_time = Instant::now();
+                self.chunk_i = 0;
                 
                 Some((chunk, Some(Duration::from_secs(wait))))
             }
@@ -130,5 +138,35 @@ where
                 }
             }
         }
+    }
+}
+
+#[cfg(test)]
+mod tests {
+    use super::*;
+
+    #[test]
+    fn next() {
+        let vec = (0..10000).into_iter().map(|i| i).collect::<Vec<_>>();
+        let mut cooldown = Cooldown::new(&vec);
+        
+        for _i in 0..9 {
+            cooldown.next();
+        }
+        
+        let (_, duration) = cooldown.next().unwrap();
+        
+        // on the 9th iteration there should be no duration
+        assert!(duration.is_none());
+        
+        let (_, duration) = cooldown.next().unwrap();
+        
+        // on the 10th iteration there should be a cooldown
+        assert!(duration.is_some());
+        
+        let (_, duration) = cooldown.next().unwrap();
+        
+        // it resets, there should now be no duration
+        assert!(duration.is_none());
     }
 }

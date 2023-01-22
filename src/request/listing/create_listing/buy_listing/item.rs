@@ -3,7 +3,7 @@ use tf2_enum::{KillstreakTier, Wear, Quality};
 use crate::response::attributes::{Value as AttributeValue, FloatValue};
 use super::{Attributable, ItemAttribute};
 
-#[derive(Deserialize, Serialize, PartialEq, Debug, Clone)]
+#[derive(Deserialize, Serialize, PartialEq, Debug, Clone, Copy)]
 pub struct Item {
     pub defindex: u32,
     pub quality: Quality,
