@@ -24,7 +24,7 @@ async fn main() -> Result<(), Error> {
             details: Some("yup".into()),
         }]).await?;
     
-    println!("Listings updated: {:?}", listing);
+    println!("Listings updated: {listing:?}");
     
     Ok(())
 }

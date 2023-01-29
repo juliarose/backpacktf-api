@@ -383,7 +383,7 @@ impl BackpackAPI {
         let token = self.get_token()?;
         
         self.delete(
-            &format!("/classifieds/alerts/{}", id),
+            &format!("/classifieds/alerts/{id}"),
             &Token {
                 token,
             },
@@ -397,7 +397,7 @@ impl BackpackAPI {
     ) -> Result<response::alert::Alert, Error> {
         let token = self.get_token()?;
         let alert: response::alert::Alert = self.get(
-            &format!("/classifieds/alerts/{}", id),
+            &format!("/classifieds/alerts/{id}"),
             &Token {
                 token,
             }
@@ -413,7 +413,7 @@ impl BackpackAPI {
     ) -> Result<response::notification::Notification, Error> {
         let token = self.get_token()?;
         let notification: response::notification::Notification = self.get(
-            &format!("/notifications/{}", id),
+            &format!("/notifications/{id}"),
             &Token {
                 token,
             }
@@ -430,7 +430,7 @@ impl BackpackAPI {
         let token = self.get_token()?;
         
         self.delete(
-            &format!("/notifications/{}", id),
+            &format!("/notifications/{id}"),
             &Token {
                 token,
             }
@@ -603,7 +603,7 @@ impl BackpackAPI {
         let token = self.get_token()?;
         
         self.delete(
-            &format!("/v2/classifieds/archive/{}", id),
+            &format!("/v2/classifieds/archive/{id}"),
             &Token {
                 token,
             },
@@ -678,7 +678,7 @@ impl BackpackAPI {
         }
         
         let token = self.get_token()?;
-        let uri = self.get_api_uri(&format!("/v2/classifieds/archive/{}", id));
+        let uri = self.get_api_uri(&format!("/v2/classifieds/archive/{id}"));
         let response = self.client.patch(uri)
             .json(&JSONParams {
                 currencies,
@@ -700,7 +700,7 @@ impl BackpackAPI {
         id: &str,
     ) -> Result<(), Error> {
         let token = self.get_token()?;
-        let uri = self.get_api_uri(&format!("/v2/classifieds/archive/{}/publish", id));
+        let uri = self.get_api_uri(&format!("/v2/classifieds/archive/{id}/publish"));
         let _response = self.client.post(uri)
             .query(&Token {
                 token,
@@ -725,7 +725,7 @@ impl BackpackAPI {
 
         let token = self.get_token()?;
         let listing: response::listing::Listing = self.get(
-            &format!("/v2/classifieds/listings/{}", id),
+            &format!("/v2/classifieds/listings/{id}"),
             &Params {
                 token
             }
@@ -901,7 +901,7 @@ impl BackpackAPI {
         let token = self.get_token()?;
         
         self.delete(
-            &format!("/v2/classifieds/listings/{}", id),
+            &format!("/v2/classifieds/listings/{id}"),
             &Token {
                 token,
             },
@@ -956,7 +956,7 @@ impl BackpackAPI {
         }
         
         let token = self.get_token()?;
-        let uri = self.get_api_uri(&format!("/v2/classifieds/listings/{}", id));
+        let uri = self.get_api_uri(&format!("/v2/classifieds/listings/{id}"));
         let response = self.client.patch(uri)
             .json(&JSONParams {
                 currencies,
@@ -1062,7 +1062,7 @@ impl BackpackAPI {
     ) -> Result<response::listing::Listing, Error> {
         let token = self.get_token()?;
         let listing: response::listing::Listing = self.post_json(
-            &format!("/v2/classifieds/listings/{}/promote",  id),
+            &format!("/v2/classifieds/listings/{id}/promote"),
             &Token {
                 token,
             },
@@ -1078,7 +1078,7 @@ impl BackpackAPI {
     ) -> Result<(), Error> {
         let token = self.get_token()?;
         self.post_json(
-            &format!("/v2/classifieds/listings/{}/demote", id),
+            &format!("/v2/classifieds/listings/{id}/demote"),
             &Token {
                 token,
             },

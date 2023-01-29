@@ -12,8 +12,8 @@ pub enum Currencies {
 impl fmt::Display for Currencies {
     fn fmt(&self, f: &mut fmt::Formatter<'_>) -> fmt::Result {
         match self {
-            Currencies::InGame(currencies) => write!(f, "{}", currencies),
-            Currencies::Cash(currencies) => write!(f, "{}", currencies),
+            Currencies::InGame(currencies) => write!(f, "{currencies}"),
+            Currencies::Cash(currencies) => write!(f, "{currencies}"),
         }
     }
 }

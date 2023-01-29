@@ -33,7 +33,7 @@ async fn main() -> Result<(), Error> {
         offers: true,
     }).await?;
     
-    println!("Listing created: {:?}", listing);
+    println!("Listing created: {listing:?}");
     
     Ok(())
 }

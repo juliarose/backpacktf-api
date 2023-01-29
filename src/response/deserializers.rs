@@ -74,7 +74,7 @@ where
                         T::try_from(id).map_err(de::Error::custom)
                     },
                     value => {
-                        Err(de::Error::custom(format!("expected a number, got `{}`", value)))
+                        Err(de::Error::custom(format!("expected a number, got `{value}`")))
                     },
                 }
             } else if let Some(name) = map.get("name") {
@@ -83,7 +83,7 @@ where
                         T::from_str(string).map_err(de::Error::custom)
                     },
                     value => {
-                        Err(de::Error::custom(format!("expected a number, got `{}`", value)))
+                        Err(de::Error::custom(format!("expected a number, got `{value}`")))
                     },
                 }
             } else {
@@ -96,7 +96,7 @@ where
             T::try_from(id).map_err(de::Error::custom)
         },
         value => {
-            Err(de::Error::custom(format!("expected a number, got `{}`", value)))
+            Err(de::Error::custom(format!("expected a number, got `{value}`")))
         },
     }
 }
@@ -118,7 +118,7 @@ where
                         Ok(Some(T::try_from(id).map_err(de::Error::custom)?))
                     },
                     value => {
-                        Err(de::Error::custom(format!("expected a number, got `{}`", value)))
+                        Err(de::Error::custom(format!("expected a number, got `{value}`")))
                     },
                 }
             } else if let Some(name) = map.get("name") {
@@ -127,7 +127,7 @@ where
                         Ok(Some(T::from_str(string).map_err(de::Error::custom)?))
                     },
                     value => {
-                        Err(de::Error::custom(format!("expected a number, got `{}`", value)))
+                        Err(de::Error::custom(format!("expected a number, got `{value}`")))
                     },
                 }
             } else {
@@ -140,7 +140,7 @@ where
             Ok(Some(T::try_from(id).map_err(de::Error::custom)?))
         },
         value => {
-            Err(de::Error::custom(format!("expected a number, got `{}`", value)))
+            Err(de::Error::custom(format!("expected a number, got `{value}`")))
         },
     }
 }
@@ -157,14 +157,14 @@ where
                 match name {
                     Value::String(string) => {
                         // skip paints which are hexadecimal numbers
-                        if string.starts_with("#") {
+                        if string.starts_with('#') {
                             Ok(None)
                         } else {
                             Ok(Some(T::from_str(string).map_err(de::Error::custom)?))
                         }
                     },
                     value => {
-                        Err(de::Error::custom(format!("expected a string, got `{}`", value)))
+                        Err(de::Error::custom(format!("expected a string, got `{value}`")))
                     },
                 }
             } else {
@@ -176,7 +176,7 @@ where
         },
         Value::Null => Ok(None),
         value => {
-            Err(de::Error::custom(format!("expected a string, got `{}`", value)))
+            Err(de::Error::custom(format!("expected a string, got `{value}`")))
         },
     }
 }

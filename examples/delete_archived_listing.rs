@@ -15,7 +15,7 @@ async fn main() -> Result<(), Error> {
         cursor,
     ) = backpacktf.get_archived_listings(0, 10).await?;
    
-    println!("Listing {:?}", listings);
+    println!("Listing {listings:?}");
     println!("Total {} archived listings", cursor.total);
     
     if let Some(listing) = listings.into_iter().next() {

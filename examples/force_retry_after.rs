@@ -18,10 +18,10 @@ async fn main() -> Result<(), Error> {
         if let Err(error) = backpacktf.get_snapshot("Strange Kritzkreig").await {
             match error {
                 Error::TooManyRequests(retry_after) => {
-                    println!("RETRY!!!! {}", retry_after);
+                    println!("RETRY!!!! {retry_after}");
                 }
                 error => {
-                    println!("{}", error);
+                    println!("{error}");
                 }
             }
             
