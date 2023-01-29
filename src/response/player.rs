@@ -111,7 +111,7 @@ mod tests {
     fn parses_ban() {
         let player: Player = serde_json::from_str(include_str!("fixtures/player.json")).unwrap();
         
-        assert_eq!(player.backpack_tf_banned.unwrap().permabanned(), true);
-        assert_eq!(player.steamrep_scammer, true);
+        assert!(player.backpack_tf_banned.unwrap().permabanned());
+        assert!(player.steamrep_scammer);
     }
 }

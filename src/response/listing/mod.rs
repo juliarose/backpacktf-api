@@ -87,7 +87,7 @@ mod tests {
         assert_eq!(listing.item.slot, Some(ItemSlot::Misc));
         assert_eq!(listing.item.quality, Quality::Unique);
         assert_eq!(listing.item.base_name, "Lucky Cat Hat");
-        assert_eq!(strange, false);
+        assert!(!strange);
     }
     
     #[test]
@@ -95,7 +95,7 @@ mod tests {
         let listing: Listing = serde_json::from_str(include_str!("fixtures/Strange Massed Flies Crone's Dome.json")).unwrap();
         let item = listing.item;
         
-        assert_eq!(item.strange, true);
+        assert!(item.strange);
     }
     
     #[test]
