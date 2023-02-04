@@ -30,10 +30,7 @@ let backpacktf = BackpackAPI::builder()
     .key("key")
     .token("token")
     .build();
-let currencies = Currencies {
-    keys: 0,
-    metal: scrap!(1),
-};
+let currencies = Currencies { keys: 0, metal: scrap!(1) };
 let details = Some(format!("Buying Golden Frying Pan for {currencies}!"));
 let mut item = BuyListingItem::new(1071, Quality::Strange);
 
