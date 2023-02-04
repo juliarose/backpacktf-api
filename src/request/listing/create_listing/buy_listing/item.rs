@@ -34,6 +34,23 @@ impl Item {
     }
 }
 
+impl Default for Item {
+    fn default() -> Self {
+        Self {
+            defindex: 0,
+            quality: Quality::Unique,
+            craftable: true,
+            killstreak_tier: None,
+            particle: None,
+            wear: None,
+            skin: None,
+            strange: false,
+            festivized: false,
+            australium: false,
+        }
+    }
+}
+
 impl Attributable for Item {
     fn as_attributes(&self) -> Vec<ItemAttribute> {
         let mut attributes: Vec<ItemAttribute> = Vec::new();
