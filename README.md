@@ -21,7 +21,7 @@ backpacktf-api = { git = "https://github.com/juliarose/backpacktf-api", features
 ```rs
 use backpacktf_api::{
     BackpackAPI,
-    request,
+    request::{BuyListingItem, CreateListing},
     tf2_price::{Currencies, scrap},
     tf2_enum::{Quality, KillstreakTier},
 };
@@ -34,20 +34,20 @@ let currencies = Currencies {
     keys: 0,
     metal: scrap!(1),
 };
-let details = Some(format!("Buying Golden Frying Pan for {}!", &currencies));
-let mut item = request::BuyListingItem::new(1071, Quality::Strange);
+let details = Some(format!("Buying Golden Frying Pan for {currencies}!"));
+let mut item = BuyListingItem::new(1071, Quality::Strange);
 
 item.killstreak_tier = Some(KillstreakTier::Professional);
 
-match backpacktf.create_listing(&request::CreateListing::Buy {
+match backpacktf.create_listing(&CreateListing::Buy {
     item,
     currencies,
     details,
     buyout: true,
     offers: true,
 }).await {
-    Ok(response) => println!("Listing created successfully: {:?}", response),
-    Err(error) => println!("Error creating listing: {}", error),
+    Ok(response) => println!("Listing created successfully: {response:?}"),
+    Err(error) => println!("Error creating listing: {error}"),
 }
 ```
 
