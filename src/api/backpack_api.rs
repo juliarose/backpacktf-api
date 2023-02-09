@@ -1,4 +1,4 @@
-use std::{time::Duration, sync::Arc};
+use std::time::Duration;
 use crate::{
     SteamID,
     BackpackAPIBuilder, 
@@ -21,8 +21,6 @@ use crate::{
 use super::{api_response, helpers};
 use async_std::task::sleep;
 use serde::{Serialize, Deserialize, de::DeserializeOwned};
-use url::Url;
-use reqwest::cookie::Jar;
 use reqwest_middleware::ClientWithMiddleware;
 
 const RESPONSE_UNSUCCESSFUL_MESSAGE: &str = "Empty response";
@@ -36,7 +34,6 @@ struct Token<'a> {
 pub struct BackpackAPI {
     key: Option<String>,
     token: Option<String>,
-    cookies: Arc<Jar>,
     client: ClientWithMiddleware,
 }
 
@@ -57,13 +54,11 @@ impl BackpackAPI {
     pub fn new(
         key: Option<String>,
         token: Option<String>,
-        cookies: Arc<Jar>,
         client: ClientWithMiddleware,
     ) -> Self {
         Self {
             key,
             token,
-            cookies,
             client,
         }
     }
@@ -88,18 +83,6 @@ impl BackpackAPI {
             Ok(key)
         } else {
             Err(Error::MissingKey)
-        }
-    }
-    
-    /// Sets cookies to send with requests.
-    pub fn set_cookies(
-        &self,
-        cookies: &[String],
-    ) {
-        let uri = Self::HOSTNAME.parse::<Url>().unwrap();
-        
-        for cookie_str in cookies {
-            self.cookies.add_cookie_str(cookie_str, &uri);
         }
     }
     
