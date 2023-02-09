@@ -9,7 +9,7 @@ pub enum Status {
     HiddenByUser,
     NotEnoughCurrency,
     #[serde(other)]
-    Unknown(String),
+    Other(String),
 }
 
 impl Default for Status {

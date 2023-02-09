@@ -145,7 +145,7 @@ mod tests {
     fn parses_status_unknown() {
         let listing: Listing = serde_json::from_str(include_str!("fixtures/unknown_status.json")).unwrap();
         
-        assert_eq!(listing.status, Status::Unknown("sus".into()));
+        assert_eq!(listing.status, Status::Other("sus".into()));
     }
 }
 
