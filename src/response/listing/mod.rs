@@ -2,6 +2,7 @@ mod user;
 mod user_agent;
 mod value;
 mod item;
+mod status;
 pub mod attributes;
 
 pub mod create_listing;
@@ -10,6 +11,7 @@ pub use user::{User, Ban};
 pub use item::Item;
 pub use value::Value;
 pub use user_agent::UserAgent;
+pub use status::Status;
 
 use serde::{Serialize, Deserialize};
 use crate::{
@@ -45,7 +47,8 @@ pub struct Listing {
     pub intent: ListingIntent,
     pub item: Item,
     pub count: u32,
-    pub status: String,
+    #[serde(default)]
+    pub status: Status,
     pub user_agent: Option<UserAgent>,
     pub user: Option<User>,
 }
@@ -129,6 +132,20 @@ mod tests {
         let attribute = listing.item.spells.unwrap().into_iter().next().unwrap();
         
         assert_eq!(attribute.spell, Spell::VoicesFromBelow);
+    }
+    
+    #[test]
+    fn parses_status_not_enough_currency() {
+        let listing: Listing = serde_json::from_str(include_str!("fixtures/not_enough_currency.json")).unwrap();
+        
+        assert_eq!(listing.status, Status::NotEnoughCurrency);
+    }
+    
+    #[test]
+    fn parses_status_unknown() {
+        let listing: Listing = serde_json::from_str(include_str!("fixtures/unknown_status.json")).unwrap();
+        
+        assert_eq!(listing.status, Status::Unknown("sus".into()));
     }
 }
 

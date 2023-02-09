@@ -1,0 +1,72 @@
+{
+    "id": "440_76561198080179568_5f531dfa64781a70815006de8b02e11b",
+    "steamid": "76561198080179568",
+    "appid": 440,
+    "currencies": {
+        "metal": 1000
+    },
+    "value": {
+        "raw": 1000,
+        "short": "1000 ref",
+        "long": "1000 ref"
+    },
+    "tradeOffersPreferred": true,
+    "buyoutOnly": true,
+    "listedAt": 1675962918,
+    "bumpedAt": 1675962918,
+    "intent": "buy",
+    "count": 1,
+    "archived": true,
+    "status": "notEnoughCurrency",
+    "source": "user",
+    "item": {
+        "appid": 440,
+        "baseName": "Rocket Launcher",
+        "defindex": 18,
+        "id": "",
+        "imageUrl": "/images/440/backpack/weapons/w_models/w_rocketlauncher_gold.png",
+        "marketName": "Strange Australium Rocket Launcher",
+        "name": "Strange Australium Rocket Launcher",
+        "origin": null,
+        "originalId": "",
+        "price": {
+            "steam": {
+                "currency": "usd",
+                "short": "$108.43",
+                "long": "4,252.16 ref, 60.99 keys",
+                "raw": 3405.0438963963966,
+                "value": 10843
+            },
+            "community": {
+                "value": 45,
+                "valueHigh": 47,
+                "currency": "keys",
+                "raw": 3206.8900000000003,
+                "short": "45–47 keys",
+                "long": "3,206.89 ref, $81.78",
+                "usd": 82.66456125,
+                "updatedAt": 1673396562,
+                "difference": 69.71500000000015
+            },
+            "suggested": {
+                "raw": 3206.8900000000003,
+                "short": "46 keys",
+                "long": "3,206.89 ref, $81.78",
+                "usd": 81.77569500000001
+            }
+        },
+        "quality": {
+            "id": 11,
+            "name": "Strange",
+            "color": "#CF6A32"
+        },
+        "summary": "Level 1 Rocket Launcher",
+        "class": [
+            "Soldier"
+        ],
+        "slot": "primary",
+        "tradable": true,
+        "australium": true,
+        "craftable": true
+    }
+}
