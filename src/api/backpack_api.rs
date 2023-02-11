@@ -5,6 +5,8 @@ use crate::{
     error::Error,
     ListingIntent,
     currency_type::CurrencyType,
+    tf2_price::traits::SerializeCurrencies,
+    response,
     request::{
         self,
         listing_serializers::option_buy_listing_item_into_params,
@@ -15,8 +17,6 @@ use crate::{
             currency_type_enum_to_str,
         }
     },
-    response,
-    tf2_price::traits::SerializeCurrencies,
 };
 use super::{api_response, helpers};
 use async_std::task::sleep;
@@ -1170,12 +1170,16 @@ impl BackpackAPI {
                         continue;
                     }
                 },
-                Err(Error::TooManyRequests(retry_after)) => {
-                    sleep(Duration::from_secs(retry_after)).await;
-                    continue;
-                },
-                Err(error) => {
-                    return (all, Some(error));
+                Err(error) => match &error {
+                    Error::Http(response) => if let Some(duration) = helpers::retryable_duration(response) {
+                        sleep(duration).await;
+                        continue;
+                    } else {
+                        return (all, Some(error))
+                    },
+                    _ => {
+                        return (all, Some(error))
+                    },
                 },
             }
         }
@@ -1209,12 +1213,16 @@ impl BackpackAPI {
                         continue;
                     }
                 },
-                Err(Error::TooManyRequests(retry_after)) => {
-                    sleep(Duration::from_secs(retry_after)).await;
-                    continue;
-                },
-                Err(error) => {
-                    return (all, Some(error));
+                Err(error) => match &error {
+                    Error::Http(response) => if let Some(duration) = helpers::retryable_duration(response) {
+                        sleep(duration).await;
+                        continue;
+                    } else {
+                        return (all, Some(error))
+                    },
+                    _ => {
+                        return (all, Some(error))
+                    },
                 },
             }
         }
@@ -1247,12 +1255,16 @@ impl BackpackAPI {
                         continue;
                     }
                 },
-                Err(Error::TooManyRequests(retry_after)) => {
-                    sleep(Duration::from_secs(retry_after)).await;
-                    continue;
-                },
-                Err(error) => {
-                    return (all, Some(error));
+                Err(error) => match &error {
+                    Error::Http(response) => if let Some(duration) = helpers::retryable_duration(response) {
+                        sleep(duration).await;
+                        continue;
+                    } else {
+                        return (all, Some(error))
+                    },
+                    _ => {
+                        return (all, Some(error))
+                    },
                 },
             }
         }
@@ -1307,13 +1319,17 @@ impl BackpackAPI {
                         sleep(duration).await;
                     }
                 },
-                Err(Error::TooManyRequests(retry_after)) => {
-                    sleep(Duration::from_secs(retry_after)).await;
-                    chunked.go_back();
-                    continue;
-                },
-                Err(error) => {
-                    return (created, Some(error))
+                Err(error) => match &error {
+                    Error::Http(response) => if let Some(duration) = helpers::retryable_duration(response) {
+                        sleep(duration).await;
+                        chunked.go_back();
+                        continue;
+                    } else {
+                        return (created, Some(error))
+                    },
+                    _ => {
+                        return (created, Some(error))
+                    },
                 },
             }
         }
@@ -1344,13 +1360,17 @@ impl BackpackAPI {
                         sleep(duration).await;
                     }
                 },
-                Err(Error::TooManyRequests(retry_after)) => {
-                    sleep(Duration::from_secs(retry_after)).await;
-                    chunked.go_back();
-                    continue;
-                },
-                Err(error) => {
-                    return (updated, Some(error))
+                Err(error) => match &error {
+                    Error::Http(response) => if let Some(duration) = helpers::retryable_duration(response) {
+                        sleep(duration).await;
+                        chunked.go_back();
+                        continue;
+                    } else {
+                        return (updated, Some(error))
+                    },
+                    _ => {
+                        return (updated, Some(error))
+                    },
                 },
             }
         }
@@ -1378,13 +1398,17 @@ impl BackpackAPI {
                         sleep(duration).await;
                     }
                 },
-                Err(Error::TooManyRequests(retry_after)) => {
-                    sleep(Duration::from_secs(retry_after)).await;
-                    chunked.go_back();
-                    continue;
-                },
-                Err(error) => {
-                    return (deleted, Some(error))
+                Err(error) => match &error {
+                    Error::Http(response) => if let Some(duration) = helpers::retryable_duration(response) {
+                        sleep(duration).await;
+                        chunked.go_back();
+                        continue;
+                    } else {
+                        return (deleted, Some(error))
+                    },
+                    _ => {
+                        return (deleted, Some(error))
+                    },
                 },
             }
         }
@@ -1412,13 +1436,17 @@ impl BackpackAPI {
                         sleep(duration).await;
                     }
                 },
-                Err(Error::TooManyRequests(retry_after)) => {
-                    sleep(Duration::from_secs(retry_after)).await;
-                    chunked.go_back();
-                    continue;
-                },
-                Err(error) => {
-                    return (deleted, Some(error))
+                Err(error) => match &error {
+                    Error::Http(response) => if let Some(duration) = helpers::retryable_duration(response) {
+                        sleep(duration).await;
+                        chunked.go_back();
+                        continue;
+                    } else {
+                        return (deleted, Some(error))
+                    },
+                    _ => {
+                        return (deleted, Some(error))
+                    },
                 },
             }
         }

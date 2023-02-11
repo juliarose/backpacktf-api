@@ -78,6 +78,31 @@ where
     }
 }
 
+fn get_retry_seconds(response: &reqwest::Response) -> Option<u64> {
+    if let Some(header) = response.headers().get(RETRY_AFTER) {
+        if let Ok(retry_after) = header.to_str() {
+            if let Ok(seconds) = retry_after.parse::<u64>() {
+                return Some(seconds);
+            }
+        }
+    }
+    
+    None
+}
+
+/// Sensible wait durations for retrying requests.
+pub fn retryable_duration(response: &reqwest::Response) -> Option<Duration> {
+    match response.status() {
+        StatusCode::BAD_GATEWAY => return Some(Duration::from_secs(5)),
+        StatusCode::TOO_MANY_REQUESTS => if let Some(seconds) = get_retry_seconds(response) {
+            return Some(Duration::from_secs(seconds));
+        },
+        _ => {},
+    }
+    
+    None
+}
+
 pub async fn parses_response<D>(response: reqwest::Response) -> Result<D, Error>
 where
     D: DeserializeOwned
@@ -90,32 +115,8 @@ where
     let status = response.status();
     
     match status.as_u16() {
-        100..=199 => {
-            Err(Error::Http(response))
-        },
-        300..=399 => {
-            Err(Error::Http(response))
-        },
-        400..=499 => {
-            if status == StatusCode::TOO_MANY_REQUESTS {
-                if let Some(retry_after_header) = &response.headers().get(RETRY_AFTER) {
-                    let parsed = retry_after_header.to_str()
-                        .map(|retry_after| retry_after.parse::<u64>());
-                    
-                    if let Ok(Ok(retry_after)) = parsed {
-                        return Err(Error::TooManyRequests(retry_after));
-                    }
-                }
-                
-                // if all else fails, just use 30 seconds
-                return Err(Error::TooManyRequests(30));
-            }
-            
-            Err(Error::Http(response))
-        },
-        500..=599 => {
-            Err(Error::Http(response))
-        },
+        100..=199 |
+        300..=599 => Err(Error::Http(response)),
         _ => {
             let body = &response
                 .bytes()
@@ -132,7 +133,6 @@ where
                         Err(Error::Response(error_body.message))
                     } else {
                         error!("Error parsing body `{}`: {}", parse_error, String::from_utf8_lossy(body));
-                        
                         Err(parse_error.into())
                     }
                 }
