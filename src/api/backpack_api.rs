@@ -1170,16 +1170,11 @@ impl BackpackAPI {
                         continue;
                     }
                 },
-                Err(error) => match &error {
-                    Error::Http(response) => if let Some(duration) = helpers::retryable_duration(response) {
-                        sleep(duration).await;
-                        continue;
-                    } else {
-                        return (all, Some(error))
-                    },
-                    _ => {
-                        return (all, Some(error))
-                    },
+                Err(error) => if let Some(duration) = helpers::retryable_duration(&error) {
+                    sleep(duration).await;
+                    continue;
+                } else {
+                    return (all, Some(error))
                 },
             }
         }
@@ -1213,16 +1208,11 @@ impl BackpackAPI {
                         continue;
                     }
                 },
-                Err(error) => match &error {
-                    Error::Http(response) => if let Some(duration) = helpers::retryable_duration(response) {
-                        sleep(duration).await;
-                        continue;
-                    } else {
-                        return (all, Some(error))
-                    },
-                    _ => {
-                        return (all, Some(error))
-                    },
+                Err(error) => if let Some(duration) = helpers::retryable_duration(&error) {
+                    sleep(duration).await;
+                    continue;
+                } else {
+                    return (all, Some(error))
                 },
             }
         }
@@ -1255,16 +1245,11 @@ impl BackpackAPI {
                         continue;
                     }
                 },
-                Err(error) => match &error {
-                    Error::Http(response) => if let Some(duration) = helpers::retryable_duration(response) {
-                        sleep(duration).await;
-                        continue;
-                    } else {
-                        return (all, Some(error))
-                    },
-                    _ => {
-                        return (all, Some(error))
-                    },
+                Err(error) => if let Some(duration) = helpers::retryable_duration(&error) {
+                    sleep(duration).await;
+                    continue;
+                } else {
+                    return (all, Some(error))
                 },
             }
         }
@@ -1308,33 +1293,28 @@ impl BackpackAPI {
         T: SerializeCurrencies + Clone
     {
         let mut chunked = helpers::Cooldown::new(listings);
-        let mut created = Vec::new();
+        let mut all = Vec::new();
         
         while let Some((listings, duration)) = chunked.next() {
             match self.create_listings(listings).await {
                 Ok(mut more_created) => {
-                    created.append(&mut more_created);
+                    all.append(&mut more_created);
                     
                     if let Some(duration) = duration {
                         sleep(duration).await;
                     }
                 },
-                Err(error) => match &error {
-                    Error::Http(response) => if let Some(duration) = helpers::retryable_duration(response) {
-                        sleep(duration).await;
-                        chunked.go_back();
-                        continue;
-                    } else {
-                        return (created, Some(error))
-                    },
-                    _ => {
-                        return (created, Some(error))
-                    },
+                Err(error) => if let Some(duration) = helpers::retryable_duration(&error) {
+                    sleep(duration).await;
+                    chunked.go_back();
+                    continue;
+                } else {
+                    return (all, Some(error))
                 },
             }
         }
         
-        (created, None)
+        (all, None)
     }
     
     /// Bulk updates any number of listings. This is a convenience method which handles
@@ -1349,33 +1329,28 @@ impl BackpackAPI {
         T: SerializeCurrencies + Clone
     {
         let mut chunked = helpers::Cooldown::new(listings);
-        let mut updated = Vec::new();
+        let mut all = Vec::new();
         
         while let Some((listings, duration)) = chunked.next() {
             match self.update_listings(listings).await {
                 Ok(mut more_updated) => {
-                    updated.append(&mut more_updated);
+                    all.append(&mut more_updated);
                     
                     if let Some(duration) = duration {
                         sleep(duration).await;
                     }
                 },
-                Err(error) => match &error {
-                    Error::Http(response) => if let Some(duration) = helpers::retryable_duration(response) {
-                        sleep(duration).await;
-                        chunked.go_back();
-                        continue;
-                    } else {
-                        return (updated, Some(error))
-                    },
-                    _ => {
-                        return (updated, Some(error))
-                    },
+                Err(error) => if let Some(duration) = helpers::retryable_duration(&error) {
+                    sleep(duration).await;
+                    chunked.go_back();
+                    continue;
+                } else {
+                    return (all, Some(error))
                 },
             }
         }
         
-        (updated, None)
+        (all, None)
     }
     
     /// Bulk deletes any number of listings. This is a convenience method which handles
@@ -1387,33 +1362,28 @@ impl BackpackAPI {
         listing_ids: &[String],
     ) -> (u32, Option<Error>) {
         let mut chunked = helpers::Cooldown::new(listing_ids);
-        let mut deleted = 0;
+        let mut all = 0;
         
         while let Some((listing_ids, duration)) = chunked.next() {
             match self.delete_listings(listing_ids).await {
                 Ok(more_deleted) => {
-                    deleted += more_deleted;
+                    all += more_deleted;
                     
                     if let Some(duration) = duration {
                         sleep(duration).await;
                     }
                 },
-                Err(error) => match &error {
-                    Error::Http(response) => if let Some(duration) = helpers::retryable_duration(response) {
-                        sleep(duration).await;
-                        chunked.go_back();
-                        continue;
-                    } else {
-                        return (deleted, Some(error))
-                    },
-                    _ => {
-                        return (deleted, Some(error))
-                    },
+                Err(error) => if let Some(duration) = helpers::retryable_duration(&error) {
+                    sleep(duration).await;
+                    chunked.go_back();
+                    continue;
+                } else {
+                    return (all, Some(error))
                 },
             }
         }
         
-        (deleted, None)
+        (all, None)
     }
     
     /// Bulk deletes any number of archived listings. This is a convenience method which handles 
@@ -1425,32 +1395,27 @@ impl BackpackAPI {
         listing_ids: &[String],
     ) -> (u32, Option<Error>) {
         let mut chunked = helpers::Cooldown::new(listing_ids);
-        let mut deleted = 0;
+        let mut all = 0;
         
         while let Some((listing_ids, duration)) = chunked.next() {
             match self.delete_archived_listings(listing_ids).await {
                 Ok(more_deleted) => {
-                    deleted += more_deleted;
+                    all += more_deleted;
                     
                     if let Some(duration) = duration {
                         sleep(duration).await;
                     }
                 },
-                Err(error) => match &error {
-                    Error::Http(response) => if let Some(duration) = helpers::retryable_duration(response) {
-                        sleep(duration).await;
-                        chunked.go_back();
-                        continue;
-                    } else {
-                        return (deleted, Some(error))
-                    },
-                    _ => {
-                        return (deleted, Some(error))
-                    },
+                Err(error) => if let Some(duration) = helpers::retryable_duration(&error) {
+                    sleep(duration).await;
+                    chunked.go_back();
+                    continue;
+                } else {
+                    return (all, Some(error))
                 },
             }
         }
         
-        (deleted, None)
+        (all, None)
     }
 }
