@@ -1,6 +1,6 @@
 use std::collections::HashMap;
 use serde::{Serialize, Deserialize};
-use crate::{SteamID, time::ServerTime, tf2_price::{get_metal_from_float, Currencies}};
+use crate::{SteamID, time::ServerTime, tf2_price::{get_metal_from_float, Currencies, types::Currency}};
 use chrono::serde::ts_seconds_option;
 use super::deserializers::string_or_number;
 use num_enum::{TryFromPrimitive, IntoPrimitive};
@@ -62,14 +62,13 @@ pub struct PlayerV1 {
 }
 
 impl PlayerV1 {
-    
     pub fn currencies(&self) -> Currencies {
         if let Some(inventory) = &self.inventory.get(&440) {
             let metal = get_metal_from_float(inventory.metal);
             
             Currencies {
-            keys: inventory.keys,
-            metal,
+                keys: Currency::from(inventory.keys),
+                metal,
             }
         } else {
             Currencies::new()
