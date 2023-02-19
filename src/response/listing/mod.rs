@@ -18,7 +18,7 @@ use crate::{
     SteamID,
     ListingIntent,
     time::ServerTime,
-    response::{currencies::Currencies, deserializers::listing_intent_enum_from_str},
+    response::{currencies::ResponseCurrencies, deserializers::listing_intent_enum_from_str},
 };
 use chrono::serde::ts_seconds;
 use std::time::Duration;
@@ -30,7 +30,7 @@ pub struct Listing {
     pub id: String,
     pub steamid: SteamID,
     pub appid: u32,
-    pub currencies: Currencies,
+    pub currencies: ResponseCurrencies,
     pub value: Option<Value>,
     #[serde(default)]
     pub trade_offers_preferred: bool,

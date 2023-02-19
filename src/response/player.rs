@@ -6,12 +6,14 @@ use super::deserializers::string_or_number;
 use num_enum::{TryFromPrimitive, IntoPrimitive};
 use serde_repr::{Serialize_repr, Deserialize_repr};
 
+/// The user's trust ratings.
 #[derive(Serialize, Deserialize, PartialEq, Clone, Debug)]
 pub struct Trust {
     pub r#for: u32,
     pub against: u32,
 }
 
+/// A ban.
 #[derive(Serialize, Deserialize, PartialEq, Clone, Debug)]
 pub struct Ban {
     #[serde(deserialize_with = "string_or_number")]
@@ -26,6 +28,7 @@ pub struct Ban {
 }
 
 impl Ban {
+    /// The user is permanently banned.
     pub fn permabanned(&self) -> bool {
         self.start > self.end
     }
@@ -64,11 +67,9 @@ pub struct PlayerV1 {
 impl PlayerV1 {
     pub fn currencies(&self) -> Currencies {
         if let Some(inventory) = &self.inventory.get(&440) {
-            let metal = get_metal_from_float(inventory.metal);
-            
             Currencies {
                 keys: Currency::from(inventory.keys),
-                metal,
+                metal: get_metal_from_float(inventory.metal),
             }
         } else {
             Currencies::new()
@@ -76,6 +77,7 @@ impl PlayerV1 {
     }
 }
 
+/// A user.
 #[derive(Serialize, Deserialize, PartialEq, Clone, Debug)]
 pub struct Player {
     pub steamid: SteamID,
@@ -99,6 +101,7 @@ pub struct Player {
 #[derive(Serialize_repr, Deserialize_repr, Hash, Eq, PartialEq, Clone, Debug, TryFromPrimitive, IntoPrimitive)]
 #[repr(u32)]
 pub enum BanType {
+    /// Banned from all features
     AllFeatures = 1,
 }
 

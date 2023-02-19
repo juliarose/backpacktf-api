@@ -4,38 +4,38 @@ use std::{fmt, cmp::{Ord, Ordering}};
 
 #[derive(Deserialize, Serialize, PartialEq, Eq, Clone, Copy, Debug)]
 #[serde(untagged)]
-pub enum Currencies {
+pub enum ResponseCurrencies {
     InGame(ListingCurrencies),
     Cash(USDCurrencies)
 }
 
-impl fmt::Display for Currencies {
+impl fmt::Display for ResponseCurrencies {
     fn fmt(&self, f: &mut fmt::Formatter<'_>) -> fmt::Result {
         match self {
-            Currencies::InGame(currencies) => write!(f, "{currencies}"),
-            Currencies::Cash(currencies) => write!(f, "{currencies}"),
+            ResponseCurrencies::InGame(currencies) => write!(f, "{currencies}"),
+            ResponseCurrencies::Cash(currencies) => write!(f, "{currencies}"),
         }
     }
 }
 
-impl PartialOrd for Currencies {
-    fn partial_cmp(&self, other: &Currencies) -> Option<Ordering> {
+impl PartialOrd for ResponseCurrencies {
+    fn partial_cmp(&self, other: &ResponseCurrencies) -> Option<Ordering> {
        Some(self.cmp(other))
     }
 }
 
-impl Ord for Currencies {
+impl Ord for ResponseCurrencies {
     fn cmp(&self, other: &Self) -> Ordering {
         match self {
-            Currencies::InGame(currencies) => {
-                if let Currencies::InGame(other) = other {
+            ResponseCurrencies::InGame(currencies) => {
+                if let ResponseCurrencies::InGame(other) = other {
                     currencies.cmp(other)
                 } else {
                     Ordering::Less
                 }
             },
-            Currencies::Cash(currencies) => {
-                if let Currencies::Cash(other) = other {
+            ResponseCurrencies::Cash(currencies) => {
+                if let ResponseCurrencies::Cash(other) = other {
                     currencies.cmp(other)
                 } else {
                     // prefer in-game currencies
@@ -46,25 +46,25 @@ impl Ord for Currencies {
     }
 }
 
-impl Currencies {
+impl ResponseCurrencies {
     pub fn is_in_game(&self) -> bool {
-        matches!(self, Currencies::InGame(_))
+        matches!(self, ResponseCurrencies::InGame(_))
     }
 }
 
-impl PartialEq<ListingCurrencies> for Currencies {
+impl PartialEq<ListingCurrencies> for ResponseCurrencies {
     fn eq(&self, other: &ListingCurrencies) -> bool {
         match self {
-            Currencies::InGame(currencies) => currencies == other,
+            ResponseCurrencies::InGame(currencies) => currencies == other,
             _ => false,
         }
     }
 }
 
-impl PartialEq<tf2_price::Currencies> for Currencies {
+impl PartialEq<tf2_price::Currencies> for ResponseCurrencies {
     fn eq(&self, other: &tf2_price::Currencies) -> bool {
         match self {
-            Currencies::InGame(currencies) => currencies == other,
+            ResponseCurrencies::InGame(currencies) => currencies == other,
             _ => false,
         }
     }

@@ -26,7 +26,7 @@ mod tests {
         ListingIntent,
         tf2_enum::{Quality, Killstreaker, Sheen, StrangePart, Origin},
         response::attributes::Value as AttributeValue,
-        response::currencies::{Currencies, ListingCurrencies},
+        response::currencies::{ResponseCurrencies, ListingCurrencies},
     };
     
     #[test]
@@ -38,7 +38,7 @@ mod tests {
         assert_eq!(listing.item.id, Some(10080129222));
         assert_eq!(listing.item.quality, Quality::Unusual);
         assert_eq!(listing.item.origin, Some(Origin::FoundInCrate));
-        assert_eq!(listing.currencies, Currencies::InGame(ListingCurrencies { keys: 180.0, metal: 0 }));
+        assert_eq!(listing.currencies, ResponseCurrencies::InGame(ListingCurrencies { keys: 180.0, metal: 0 }));
     }
     
     #[test]
@@ -57,7 +57,7 @@ mod tests {
     fn parses_marketplace_listing() {
         let listing: Listing = serde_json::from_str(include_str!("fixtures/snapshot_listing_marketplace.json")).unwrap();
         
-        if let Currencies::Cash(currencies) = listing.currencies {
+        if let ResponseCurrencies::Cash(currencies) = listing.currencies {
             assert_eq!(currencies.usd, 8999);
         } else {
             panic!("Currencies are not cash");
@@ -77,7 +77,7 @@ mod tests {
         assert_eq!(intent, ListingIntent::Buy);
         assert_eq!(listing.item.quality, Quality::Strange);
         
-        if let Currencies::InGame(currencies) = listing.currencies {
+        if let ResponseCurrencies::InGame(currencies) = listing.currencies {
             assert_eq!(currencies.keys, 44.0);
             assert_eq!(currencies.metal, 0);
         } else {

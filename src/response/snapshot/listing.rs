@@ -5,7 +5,7 @@ use crate::{
     time::ServerTime,
     response::{
         listing::UserAgent,
-        currencies::Currencies,
+        currencies::ResponseCurrencies,
         deserializers::{
             bool_from_int,
             listing_intent_enum_from_str,
@@ -32,7 +32,7 @@ pub struct Listing {
     pub bump: ServerTime,
     pub price: f32,
     pub item: Item,
-    pub currencies: Currencies,
+    pub currencies: ResponseCurrencies,
     #[serde(default)]
     pub user_agent: Option<UserAgent>,
 }

@@ -1,1 +1,1 @@
-pub use crate::response::currencies::Currencies;
+pub use crate::response::currencies::ResponseCurrencies;

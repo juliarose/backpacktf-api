@@ -4,7 +4,7 @@ use crate::{
     SteamID,
     ListingIntent,
     request,
-    response::{currencies::Currencies, deserializers::listing_intent_enum_from_str},
+    response::{currencies::ResponseCurrencies, deserializers::listing_intent_enum_from_str},
     time::ServerTime,
 };
 
@@ -20,7 +20,7 @@ pub struct SuccessListing {
     pub id: String,
     pub appid: u32,
     pub steamid: SteamID,
-    pub currencies: Currencies,
+    pub currencies: ResponseCurrencies,
     #[serde(default)]
     pub trade_offers_preferred: bool,
     #[serde(default)]
