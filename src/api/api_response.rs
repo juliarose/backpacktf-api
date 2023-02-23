@@ -1,14 +1,12 @@
+use crate::time::ServerTime;
+use crate::response;
+use crate::response::deserializers;
 use serde::{Serialize, Deserialize};
-use crate::{
-    time::ServerTime,
-    response,
-    response::deserializers::bool_from_int,
-};
 use chrono::serde::ts_seconds_option;
 
 #[derive(Serialize, Deserialize, Debug)]
 pub struct GetUsersResponse {
-    #[serde(deserialize_with = "bool_from_int")]
+    #[serde(deserialize_with = "deserializers::bool_from_int")]
     pub success: bool,
     pub message: Option<String>,
     #[serde(default)]

@@ -1,12 +1,8 @@
+use super::Item;
+use crate::response::serializers::to_display;
+use crate::response::deserializers;
 use serde::{Serialize, Deserialize};
 use tf2_enum::{StrangePart, Rarity, Spell};
-use crate::response::serializers::to_display;
-use crate::response::deserializers::{
-    from_str,
-    from_number_or_string,
-    map_to_enum,
-};
-use super::Item;
 
 /// Represents a particle effect.
 #[derive(Serialize, Deserialize, PartialEq, Clone, Debug)]
@@ -25,7 +21,7 @@ pub struct ParticleAttribute {
 pub struct TextureAttribute {
     pub id: u32,
     pub item_defindex: Option<u32>,
-    #[serde(deserialize_with = "map_to_enum")]
+    #[serde(deserialize_with = "deserializers::map_to_enum")]
     pub rarity: Rarity,
     pub name: String,
 }
@@ -68,7 +64,7 @@ impl KillEaterAttribute {
 
 #[derive(Serialize, Deserialize, PartialEq, Clone, Debug)]
 pub struct RecipeInputItem {
-    #[serde(deserialize_with = "from_number_or_string")]
+    #[serde(deserialize_with = "deserializers::from_number_or_string")]
     pub quantity: u32,
     pub name: String,
 }
@@ -101,7 +97,7 @@ pub struct RecipeAttribute {
 pub struct SpellAttribute {
     #[serde(rename = "name")]
     #[serde(serialize_with = "to_display")]
-    #[serde(deserialize_with = "from_str")]
+    #[serde(deserialize_with = "deserializers::from_str")]
     pub spell: Spell,
 }
 

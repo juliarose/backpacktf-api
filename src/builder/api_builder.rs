@@ -1,9 +1,8 @@
-
+use super::middleware::get_default_middleware;
+use crate::BackpackAPI;
 use std::sync::Arc;
 use reqwest_middleware::ClientWithMiddleware;
 use reqwest::cookie::Jar;
-use crate::BackpackAPI;
-use super::middleware::get_default_middleware;
 
 const USER_AGENT_STRING: &str = "Mozilla/5.0 (X11; Linux x86_64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/97.0.4692.71 Safari/537.36";
 

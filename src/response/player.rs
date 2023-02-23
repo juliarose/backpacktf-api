@@ -1,8 +1,10 @@
+use super::deserializers;
+use crate::SteamID;
+use crate::time::ServerTime;
 use std::collections::HashMap;
 use serde::{Serialize, Deserialize};
-use crate::{SteamID, time::ServerTime, tf2_price::{get_metal_from_float, Currencies, types::Currency}};
 use chrono::serde::ts_seconds_option;
-use super::deserializers::string_or_number;
+use tf2_price::{get_metal_from_float, Currencies, types::Currency};
 use num_enum::{TryFromPrimitive, IntoPrimitive};
 use serde_repr::{Serialize_repr, Deserialize_repr};
 
@@ -16,7 +18,7 @@ pub struct Trust {
 /// A ban.
 #[derive(Serialize, Deserialize, PartialEq, Clone, Debug)]
 pub struct Ban {
-    #[serde(deserialize_with = "string_or_number")]
+    #[serde(deserialize_with = "deserializers::string_or_number")]
     pub r#type: u32,
     pub reason: String,
     #[serde(default)]

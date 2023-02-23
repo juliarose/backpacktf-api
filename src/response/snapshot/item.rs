@@ -1,11 +1,7 @@
-use serde::{Serialize, Deserialize};
 use crate::SteamID;
 use crate::response::attributes::{Attributes, Value as AttributeValue};
-use crate::response::deserializers::{
-    deserialize_attributes,
-    from_optional_number_or_string,
-    from_optional_number_or_string_integer,
-};
+use crate::response::deserializers;
+use serde::{Serialize, Deserialize};
 use tf2_enum::{
     Wear, Quality, KillstreakTier, Paint, StrangePart, Killstreaker, Sheen, Origin,
     Spell, FootprintsSpell, PaintSpell, Attribute, Attributes as EnumAttributes,
@@ -18,24 +14,24 @@ pub struct Item {
     #[serde(default)]
     pub flag_cannot_craft: bool,
     #[serde(default)]
-    #[serde(deserialize_with = "from_optional_number_or_string")]
+    #[serde(deserialize_with = "deserializers::from_optional_number_or_string")]
     pub id: Option<u64>,
     #[serde(default)]
-    #[serde(deserialize_with = "from_optional_number_or_string")]
+    #[serde(deserialize_with = "deserializers::from_optional_number_or_string")]
     pub original_id: Option<u64>,
     #[serde(default)]
-    #[serde(deserialize_with = "from_optional_number_or_string_integer")]
+    #[serde(deserialize_with = "deserializers::from_optional_number_or_string_integer")]
     pub level: Option<i32>,
     #[serde(default)]
-    #[serde(deserialize_with = "from_optional_number_or_string")]
+    #[serde(deserialize_with = "deserializers::from_optional_number_or_string")]
     pub inventory: Option<u32>,
     #[serde(default)]
-    #[serde(deserialize_with = "from_optional_number_or_string")]
+    #[serde(deserialize_with = "deserializers::from_optional_number_or_string")]
     pub quantity: Option<u32>,
     #[serde(default)]
     pub origin: Option<Origin>,
     #[serde(default)]
-    #[serde(deserialize_with = "deserialize_attributes")]
+    #[serde(deserialize_with = "deserializers::deserialize_attributes")]
     pub attributes: Attributes,
     pub marketplace_price: Option<f32>,
     pub marketplace_bot_steamid: Option<SteamID>,

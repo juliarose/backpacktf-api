@@ -1,5 +1,6 @@
+use super::item::Item;
+use super::item_params::ItemParams;
 use serde::Serializer;
-use super::{item::Item, item_params::ItemParams};
 
 pub fn buy_listing_item_into_params<S>(query: &Item, s: S) -> Result<S::Ok, S::Error>
 where

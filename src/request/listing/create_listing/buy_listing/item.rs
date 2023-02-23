@@ -1,7 +1,7 @@
+use super::{Attributable, ItemAttribute};
+use crate::response::attributes::{Value as AttributeValue, FloatValue};
 use serde::{Deserialize, Serialize};
 use tf2_enum::{KillstreakTier, Wear, Quality};
-use crate::response::attributes::{Value as AttributeValue, FloatValue};
-use super::{Attributable, ItemAttribute};
 
 #[derive(Deserialize, Serialize, PartialEq, Debug, Clone, Copy)]
 pub struct Item {

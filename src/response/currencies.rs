@@ -1,6 +1,7 @@
+use std::fmt;
+use std::cmp::{Ord, Ordering};
 use serde::{Deserialize, Serialize};
 pub use tf2_price::{ListingCurrencies, USDCurrencies};
-use std::{fmt, cmp::{Ord, Ordering}};
 
 #[derive(Deserialize, Serialize, PartialEq, Eq, Clone, Copy, Debug)]
 #[serde(untagged)]

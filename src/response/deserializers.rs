@@ -1,12 +1,9 @@
-use std::{str::FromStr, fmt::Display, marker::PhantomData};
-use crate::{
-    ListingIntent,
-    CurrencyType,
-    response::{
-        listing::Ban,
-        attributes::{Attributes, Attribute, Value as AttributeValue},
-    },
-};
+use crate::{ListingIntent, CurrencyType};
+use crate::response::listing::Ban;
+use crate::response::attributes::{Attributes, Attribute, Value as AttributeValue};
+use std::str::FromStr;
+use std::fmt::Display;
+use std::marker::PhantomData;
 use num_enum::TryFromPrimitive;
 use serde::Deserialize;
 use serde::de::{self, Deserializer, Visitor, MapAccess, SeqAccess, Unexpected, IntoDeserializer};

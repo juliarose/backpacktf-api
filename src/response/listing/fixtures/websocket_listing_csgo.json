@@ -1,0 +1,81 @@
+{
+    "id": "730_28727091699",
+    "steamid": "76561197988841702",
+    "appid": 730,
+    "currencies": {
+        "usd": 600
+    },
+    "value": {
+        "raw": 600,
+        "short": "$600.00",
+        "long": "600 $USD"
+    },
+    "tradeOffersPreferred": true,
+    "buyoutOnly": true,
+    "details": "⚡🗝️⚡🔥 𝟰𝟬𝟬 𝗧𝗙𝟮 𝗸𝗲𝘆𝘀 🔥⚡🗝️⚡\n𝐅𝐥𝐨𝐚𝐭: 𝟎.𝟎𝟎𝟖𝟖𝟒𝟗𝟕𝟕𝟐𝟔𝟐𝟒𝟔𝟕𝟏𝟓",
+    "listedAt": 1676801290,
+    "bumpedAt": 1676801290,
+    "intent": "sell",
+    "count": 1,
+    "promoted": true,
+    "status": "active",
+    "source": "user",
+    "item": {
+        "appid": 730,
+        "baseName": null,
+        "defindex": null,
+        "id": "28727091699",
+        "imageUrl": "https://steamcommunity-a.akamaihd.net/economy/image/-9a81dlWLwJ2UUGcVs_nsVtzdOEdtWwKGZZLQHTxDZ7I56KU0Zwwo4NUX4oFJZEHLbXH5ApeO4YmlhxYQknCRvCo04DEVlxkKgposr-kLAtl7PLJTjtO7dGzh7-HnvD8J_XVkjoFuMYiiLqUrI-k3le3r0s5amj7d9eTI1I-M1rW-Fm_xO-50Jfvot2XnhS4_w8U/168fx140f",
+        "marketName": "Desert Eagle | Blaze (Factory New)",
+        "name": "Desert Eagle | Blaze (Factory New)",
+        "origin": null,
+        "originalId": "",
+        "price": {
+            "steam": {
+                "currency": "usd",
+                "short": "$526.98",
+                "long": "",
+                "raw": 526.98,
+                "value": 52698
+            },
+            "suggested": {
+                "raw": 526.98,
+                "short": "526.98 keys",
+                "long": "$0.00",
+                "usd": 0
+            }
+        },
+        "quality": null,
+        "summary": "Restricted Pistol",
+        "wearTier": {
+            "id": 1,
+            "name": "Factory New",
+            "short": "FN"
+        },
+        "tradable": true,
+        "craftable": true,
+        "rarity": {
+            "id": 4,
+            "name": "Remarkable",
+            "color": "#8847FF"
+        }
+    },
+    "user": {
+        "id": "76561197988841702",
+        "name": "Leonchik65",
+        "avatar": "https://avatars.akamai.steamstatic.com/bef30fd7436038700e405362b248c0de42854cda_medium.jpg",
+        "avatarFull": "https://avatars.akamai.steamstatic.com/bef30fd7436038700e405362b248c0de42854cda_full.jpg",
+        "premium": true,
+        "online": true,
+        "banned": false,
+        "customNameStyle": "premium",
+        "acceptedSuggestions": 0,
+        "class": "premium",
+        "style": "",
+        "role": null,
+        "tradeOfferUrl": "https://steamcommunity.com/tradeoffer/new/?partner=28575974&token=RU_cdqrm",
+        "isMarketplaceSeller": false,
+        "flagImpersonated": null,
+        "bans": []
+    }
+}

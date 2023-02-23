@@ -1,27 +1,14 @@
-use std::time::Duration;
-use crate::{
-    SteamID,
-    BackpackAPIBuilder, 
-    error::Error,
-    ListingIntent,
-    currency_type::CurrencyType,
-    tf2_price::traits::SerializeCurrencies,
-    response,
-    request::{
-        self,
-        listing_serializers::option_buy_listing_item_into_params,
-        serializers::{
-            option_number_to_str,
-            comma_delimited_steamids,
-            listing_intent_enum_to_str,
-            currency_type_enum_to_str,
-        }
-    },
-};
 use super::{api_response, helpers};
+use crate::{SteamID, BackpackAPIBuilder, ListingIntent};
+use crate::error::Error;
+use crate::currency_type::CurrencyType;
+use crate::response;
+use crate::request::{self, listing_serializers::option_buy_listing_item_into_params, serializers};
+use std::time::Duration;
 use async_std::task::sleep;
 use serde::{Serialize, Deserialize, de::DeserializeOwned};
 use reqwest_middleware::ClientWithMiddleware;
+use tf2_price::traits::SerializeCurrencies;
 
 const RESPONSE_UNSUCCESSFUL_MESSAGE: &str = "Empty response";
 
@@ -184,7 +171,7 @@ impl BackpackAPI {
         #[derive(Serialize, Debug)]
         struct Params<'a, 'b> {
             key: &'a str,
-            #[serde(serialize_with = "comma_delimited_steamids")]
+            #[serde(serialize_with = "serializers::comma_delimited_steamids")]
             steamids: &'b [SteamID],
         }
         
@@ -227,7 +214,7 @@ impl BackpackAPI {
         #[derive(Serialize, Debug)]
         struct Params<'a, 'b> {
             key: &'a str,
-            #[serde(serialize_with = "comma_delimited_steamids")]
+            #[serde(serialize_with = "serializers::comma_delimited_steamids")]
             steamids: &'b [SteamID],
         }
         
@@ -293,9 +280,9 @@ impl BackpackAPI {
         struct Params<'a, 'b> {
             token: &'a str,
             item_name: &'b str,
-            #[serde(serialize_with = "listing_intent_enum_to_str")]
+            #[serde(serialize_with = "serializers::listing_intent_enum_to_str")]
             intent: &'b ListingIntent,
-            #[serde(serialize_with = "currency_type_enum_to_str")]
+            #[serde(serialize_with = "serializers::currency_type_enum_to_str")]
             currency: Option<CurrencyType>,
             min: Option<f32>,
             max: Option<f32>,
@@ -342,7 +329,7 @@ impl BackpackAPI {
         struct Params<'a, 'b> {
             token: &'a str,
             item_name: &'b str,
-            #[serde(serialize_with = "listing_intent_enum_to_str")]
+            #[serde(serialize_with = "serializers::listing_intent_enum_to_str")]
             intent: &'b ListingIntent,
         }
         
@@ -754,11 +741,11 @@ impl BackpackAPI {
         #[derive(Serialize, Debug)]
         struct Params<'a, 'b, T> {
             token: &'a str,
-            #[serde(serialize_with = "option_number_to_str", skip_serializing_if = "Option::is_none")]
+            #[serde(serialize_with = "serializers::option_number_to_str", skip_serializing_if = "Option::is_none")]
             id: Option<u64>,
             #[serde(serialize_with = "option_buy_listing_item_into_params", skip_serializing_if = "Option::is_none")]
             item: Option<&'b request::BuyListingItem>,
-            #[serde(serialize_with = "listing_intent_enum_to_str")]
+            #[serde(serialize_with = "serializers::listing_intent_enum_to_str")]
             intent: ListingIntent,
             #[serde(skip_serializing_if = "Option::is_none")]
             details: &'b Option<String>,

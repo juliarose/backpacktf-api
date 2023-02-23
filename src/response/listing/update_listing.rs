@@ -1,12 +1,10 @@
+use crate::{SteamID, ListingIntent};
+use crate::request;
+use crate::response::currencies::ResponseCurrencies;
+use crate::response::deserializers;
+use crate::time::ServerTime;
 use serde::{Deserialize, Serialize};
 use chrono::serde::ts_seconds;
-use crate::{
-    SteamID,
-    ListingIntent,
-    request,
-    response::{currencies::ResponseCurrencies, deserializers::listing_intent_enum_from_str},
-    time::ServerTime,
-};
 
 #[derive(Serialize, Deserialize, PartialEq, Clone, Debug)]
 pub struct ErrorListing<T> {
@@ -34,7 +32,7 @@ pub struct SuccessListing {
     pub listed_at: ServerTime,
     #[serde(with = "ts_seconds")]
     pub bumped_at: ServerTime,
-    #[serde(deserialize_with = "listing_intent_enum_from_str")]
+    #[serde(deserialize_with = "deserializers::listing_intent_enum_from_str")]
     pub intent: ListingIntent,
 }
 

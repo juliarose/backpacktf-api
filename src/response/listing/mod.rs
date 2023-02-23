@@ -13,15 +13,13 @@ pub use value::Value;
 pub use user_agent::UserAgent;
 pub use status::Status;
 
-use serde::{Serialize, Deserialize};
-use crate::{
-    SteamID,
-    ListingIntent,
-    time::ServerTime,
-    response::{currencies::ResponseCurrencies, deserializers::listing_intent_enum_from_str},
-};
-use chrono::serde::ts_seconds;
+use crate::{SteamID, ListingIntent};
+use crate::time::ServerTime;
+use crate::response::currencies::ResponseCurrencies;
+use crate::response::deserializers;
 use std::time::Duration;
+use chrono::serde::ts_seconds;
+use serde::{Serialize, Deserialize};
 use chrono::{Utc, Duration as ChronoDuration};
 
 #[derive(Serialize, Deserialize, PartialEq, Clone, Debug)]
@@ -43,7 +41,7 @@ pub struct Listing {
     pub listed_at: ServerTime,
     #[serde(with = "ts_seconds")]
     pub bumped_at: ServerTime,
-    #[serde(deserialize_with = "listing_intent_enum_from_str")]
+    #[serde(deserialize_with = "deserializers::listing_intent_enum_from_str")]
     pub intent: ListingIntent,
     pub item: Item,
     pub count: u32,

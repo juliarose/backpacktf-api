@@ -1,5 +1,5 @@
-use serde::{Deserialize, Serialize};
 use super::{Attributable, ItemAttribute, Item};
+use serde::{Deserialize, Serialize};
 use tf2_enum::Quality;
 
 #[derive(Deserialize, Serialize, PartialEq, Debug, Clone)]

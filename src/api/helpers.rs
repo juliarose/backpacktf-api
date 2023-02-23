@@ -1,6 +1,6 @@
-use serde::{Deserialize, de::DeserializeOwned};
 use crate::error::Error;
 use std::time::{Instant, Duration};
+use serde::{Deserialize, de::DeserializeOwned};
 use reqwest::{header::RETRY_AFTER, StatusCode};
 use log::error;
 

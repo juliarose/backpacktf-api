@@ -1,5 +1,6 @@
+use crate::SteamID;
+use crate::response::deserializers;
 use serde::{Serialize, Deserialize};
-use crate::{SteamID, response::deserializers::{deserialize_listing_bans, default_on_null}};
 use url::Url;
 use std::borrow::Cow;
 
@@ -18,13 +19,13 @@ pub struct User {
     pub avatar: String,
     pub avatar_full: String,
     #[serde(default)]
-    #[serde(deserialize_with = "default_on_null")]
+    #[serde(deserialize_with = "deserializers::default_on_null")]
     pub premium: bool,
     #[serde(default)]
-    #[serde(deserialize_with = "default_on_null")]
+    #[serde(deserialize_with = "deserializers::default_on_null")]
     pub online: bool,
     #[serde(default)]
-    #[serde(deserialize_with = "default_on_null")]
+    #[serde(deserialize_with = "deserializers::default_on_null")]
     pub banned: bool,
     pub custom_name_style: String,
     pub accepted_suggestions: u32,
@@ -32,13 +33,13 @@ pub struct User {
     pub style: String,
     pub trade_offer_url: Option<String>,
     #[serde(default)]
-    #[serde(deserialize_with = "default_on_null")]
+    #[serde(deserialize_with = "deserializers::default_on_null")]
     pub is_marketplace_seller: bool,
     #[serde(default)]
-    #[serde(deserialize_with = "default_on_null")]
+    #[serde(deserialize_with = "deserializers::default_on_null")]
     pub flag_impersonated: bool,
     #[serde(default)]
-    #[serde(deserialize_with = "deserialize_listing_bans")]
+    #[serde(deserialize_with = "deserializers::deserialize_listing_bans")]
     pub bans: Vec<Ban>,
 }
 

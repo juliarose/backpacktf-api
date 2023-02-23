@@ -1,10 +1,6 @@
+use crate::{SteamID, ListingIntent, CurrencyType};
+use crate::response::attributes::FloatValue;
 use serde::Serializer;
-use crate::{
-    SteamID,
-    ListingIntent,
-    CurrencyType,
-    response::attributes::FloatValue
-};
 
 fn comma_delimited_values<T: ToString>(values: &[T]) -> String {
     values

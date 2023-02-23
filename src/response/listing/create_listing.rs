@@ -1,5 +1,5 @@
-use serde::{Deserialize, Serialize};
 use crate::{request, response};
+use serde::{Deserialize, Serialize};
 
 #[derive(Serialize, Deserialize, PartialEq, Clone, Debug)]
 pub struct ErrorListing<T> {

@@ -1,8 +1,9 @@
 pub mod buy_listing;
 
-use serde::{Deserialize, Serialize};
-use crate::request::serializers::as_string;
 use buy_listing::serializers::buy_listing_item_into_params;
+
+use crate::request::serializers::as_string;
+use serde::{Deserialize, Serialize};
 
 #[derive(Deserialize, Serialize, PartialEq, Debug, Clone)]
 #[serde(tag = "intent")]
