@@ -1,9 +1,11 @@
 use crate::response::listing::Listing;
 use tokio_tungstenite::{tungstenite, connect_async};
 use futures_util::StreamExt;
-use serde::Deserialize;
+use serde::{Deserialize, Serialize};
 use serde_json::value::RawValue;
 use tokio::sync::mpsc;
+
+const APPID_TEAM_FORTRESS_2: u32 = 440;
 
 #[derive(Deserialize, Debug)]
 enum EventType {
@@ -24,6 +26,14 @@ struct EventMessage<'a> {
 pub enum Message {
     ListingUpdate(Listing),
     ListingDelete(Listing),
+    ListingUpdateOtherApp {
+        appid: u32,
+        payload: String,
+    },
+    ListingDeleteOtherApp {
+        appid: u32,
+        payload: String,
+    },
 }
 
 #[derive(thiserror::Error, Debug)]
@@ -32,6 +42,11 @@ pub enum Error {
     Url(#[from] url::ParseError),
     #[error("{}", .0)]
     Connect(#[from] tungstenite::Error),
+}
+
+#[derive(Debug, Deserialize, Serialize)]
+struct AppType {
+    appid: u32,
 }
 
 pub async fn connect() -> Result<mpsc::Receiver<Message>, Error> {
@@ -49,40 +64,36 @@ pub async fn connect() -> Result<mpsc::Receiver<Message>, Error> {
                     let bytes = data.as_slice();
                     
                     match serde_json::from_slice::<EventMessage>(bytes) {
-                        Ok(message) => {
-                            if let Err(error) = on_event(&message, &write).await {
-                                match error {
-                                    EventError::Serde(error) => {
-                                        log::debug!(
-                                            "Error deserializing event payload: {} {}",
-                                            error,
-                                            message.payload,
-                                        );
-                                    },
-                                    // connection likely dropped
-                                    EventError::Send(_) => {
-                                        break;
-                                    },
-                                }
+                        Ok(message) => if let Err(error) = on_event(&message, &write).await {
+                            match error {
+                                EventError::Serde(error) => {
+                                    log::debug!(
+                                        "Error deserializing event payload: {} {}",
+                                        error,
+                                        message.payload,
+                                    );
+                                },
+                                // connection likely dropped
+                                EventError::Send(_) => {
+                                    break;
+                                },
                             }
                         },
-                        Err(error) => {
-                            if bytes.is_empty() {
-                                // the message is empty...
-                                continue;
-                            } else if let Ok(message) = std::str::from_utf8(bytes) {
-                                log::debug!(
-                                    "Error deserializing event: {} {}",
-                                    error,
-                                    message,
-                                );
-                            } else {
-                                log::debug!(
-                                    "Error deserializing event: {}; Invalid utf8 string: {:?}",
-                                    error,
-                                    bytes,
-                                );
-                            }
+                        Err(error) => if bytes.is_empty() {
+                            // the message is empty...
+                            continue;
+                        } else if let Ok(message) = std::str::from_utf8(bytes) {
+                            log::debug!(
+                                "Error deserializing event: {} {}",
+                                error,
+                                message,
+                            );
+                        } else {
+                            log::debug!(
+                                "Error deserializing event: {}; Invalid utf8 string: {:?}",
+                                error,
+                                bytes,
+                            );
                         },
                     }
                 },
@@ -116,14 +127,36 @@ async fn on_event<'a>(
     write: &mpsc::Sender<Message>,
 ) -> Result<(), EventError> {
     match message.event {
-        EventType::ListingUpdate | EventType::ListingDelete => {
-            let listing = serde_json::from_str::<Listing>(message.payload.get())?;
-            let event = match message.event {
-                EventType::ListingUpdate => Message::ListingUpdate(listing),
-                EventType::ListingDelete => Message::ListingDelete(listing),
-            };
-            
-            write.send(event).await?;
+        EventType::ListingUpdate |
+        EventType::ListingDelete => {
+            match serde_json::from_str::<Listing>(message.payload.get()) {
+                Ok(listing) => {
+                    write.send(match message.event {
+                        EventType::ListingUpdate => Message::ListingUpdate(listing),
+                        EventType::ListingDelete => Message::ListingDelete(listing),
+                    }).await?;
+                },
+                Err(error) => if let Ok(AppType { appid }) = serde_json::from_str::<AppType>(message.payload.get()) {
+                    if appid != APPID_TEAM_FORTRESS_2 {
+                        let payload = message.payload.get().to_owned();
+                        
+                        write.send(match message.event {
+                            EventType::ListingUpdate => Message::ListingUpdateOtherApp {
+                                appid,
+                                payload,
+                            },
+                            EventType::ListingDelete => Message::ListingDeleteOtherApp {
+                                appid,
+                                payload,
+                            },
+                        }).await?;
+                    } else {
+                        return Err(error.into());
+                    }
+                } else {
+                    return Err(error.into());
+                },
+            }
             
             Ok(())
         },
