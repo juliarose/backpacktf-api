@@ -136,6 +136,7 @@ where
             
             Ok(Some(T::try_from(id).map_err(de::Error::custom)?))
         },
+        Value::Null => Ok(None),
         value => {
             Err(de::Error::custom(format!("expected a number, got `{value}`")))
         },

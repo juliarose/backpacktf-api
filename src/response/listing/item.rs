@@ -1,7 +1,7 @@
 use super::attributes;
 use crate::response::deserializers;
 use serde::{Serialize, Deserialize};
-use tf2_enum::{Wear, KillstreakTier, Killstreaker, Sheen, Quality, Paint, ItemSlot, Class};
+use tf2_enum::{Wear, KillstreakTier, Killstreaker, Sheen, Quality, Paint, ItemSlot, Class, Origin};
 
 #[derive(Serialize, Deserialize, PartialEq, Clone, Debug)]
 #[serde(rename_all = "camelCase")]
@@ -32,6 +32,9 @@ pub struct Item {
     #[serde(deserialize_with = "deserializers::presence")]
     pub dupe: bool,
     pub image_url: String,
+    #[serde(default)]
+    #[serde(deserialize_with = "deserializers::map_to_enum_option")]
+    pub origin: Option<Origin>,
     #[serde(default)]
     pub slot: Option<ItemSlot>,
     pub summary: String,
