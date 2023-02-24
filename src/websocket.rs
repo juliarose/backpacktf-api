@@ -28,11 +28,11 @@ pub enum Message {
     ListingDelete(Listing),
     ListingUpdateOtherApp {
         appid: u32,
-        payload: String,
+        payload: Box<RawValue>,
     },
     ListingDeleteOtherApp {
         appid: u32,
-        payload: String,
+        payload: Box<RawValue>,
     },
 }
 
@@ -138,7 +138,7 @@ async fn on_event<'a>(
                 },
                 Err(error) => if let Ok(AppType { appid }) = serde_json::from_str::<AppType>(message.payload.get()) {
                     if appid != APPID_TEAM_FORTRESS_2 {
-                        let payload = message.payload.get().to_owned();
+                        let payload = message.payload.to_owned();
                         
                         write.send(match message.event {
                             EventType::ListingUpdate => Message::ListingUpdateOtherApp {
