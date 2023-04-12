@@ -34,9 +34,12 @@ tokio = { version = "1", features = ["sync"], optional = true }
 tokio-tungstenite = { version = "0.17", features = ["native-tls"], optional = true }
 futures-util = { version = "0.3", optional = true }
 serde_bytes = { version = "0.11", optional = true }
+http = { version = "0.2.9", optional = true }
+data-encoding = { version = "2.3.3", optional = true }
+rand = { verison = "0.8.5", optional = true }
 
 [features]
-websocket = ["dep:tokio", "dep:tokio-tungstenite", "dep:futures-util", "dep:serde_bytes", "serde_json/raw_value"]
+websocket = ["dep:tokio", "dep:http", "dep:rand", "dep:data-encoding", "dep:tokio-tungstenite", "dep:futures-util", "dep:serde_bytes", "serde_json/raw_value"]
 
 [dev-dependencies]
 assert-json-diff = "^2.0.1"
@@ -47,3 +50,8 @@ criterion = "0.3"
 [[bench]]
 name = "deserialize"
 harness = false
+
+[[example]]
+name = "websocket"
+path = "examples/websocket.rs"
+required-features = ["websocket"]

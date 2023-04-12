@@ -4,6 +4,8 @@ use futures_util::StreamExt;
 use serde::{Deserialize, Serialize};
 use serde_json::value::RawValue;
 use tokio::sync::mpsc;
+use http::uri::Uri;
+use http::request::Request;
 
 const APPID_TEAM_FORTRESS_2: u32 = 440;
 
@@ -39,7 +41,11 @@ pub enum Message {
 #[derive(thiserror::Error, Debug)]
 pub enum Error {
     #[error("{}", .0)]
-    Url(#[from] url::ParseError),
+    Url(#[from] http::uri::InvalidUri),
+    #[error("Parsed URL does not contain hostname")]
+    UrlNoHostName,
+    #[error("Error parsing request parameters: {}", .0)]
+    RequestParse(#[from] http::Error),
     #[error("{}", .0)]
     Connect(#[from] tungstenite::Error),
 }
@@ -49,10 +55,35 @@ struct AppType {
     appid: u32,
 }
 
+const KEY_HEADERNAME: &str = "Sec-WebSocket-Key";
+
+/// Generate a random key for the `Sec-WebSocket-Key` header.
+pub fn generate_key() -> String {
+    // a base64-encoded (see Section 4 of [RFC4648]) value that,
+    // when decoded, is 16 bytes in length (RFC 6455)
+    let r: [u8; 16] = rand::random();
+    data_encoding::BASE64.encode(&r)
+}
+
 pub async fn connect() -> Result<mpsc::Receiver<Message>, Error> {
     let connect_addr = "wss://ws.backpack.tf/events";
-    let url = url::Url::parse(connect_addr)?;
-    let (ws_stream, _) = connect_async(url).await?;
+    let uri = connect_addr.parse::<Uri>()?;
+    let authority = uri.authority()
+        .ok_or(Error::UrlNoHostName)?.as_str();
+    let host = authority
+        .find('@')
+        .map(|idx| authority.split_at(idx + 1).1)
+        .unwrap_or_else(|| authority);
+    let request = Request::builder()
+        .header("batch-test", "true")
+        .header("Host", host)
+        .header("Connection", "Upgrade")
+        .header("Upgrade", "websocket")
+        .header("Sec-WebSocket-Version", "13")
+        .header("Sec-WebSocket-Key", generate_key())
+        .uri(uri)
+        .body(())?;
+    let (ws_stream, _) = connect_async(request).await?;
     let (write, read) = mpsc::channel::<Message>(100);
     let (_ws_write, mut ws_read) = ws_stream.split();
     
@@ -63,20 +94,24 @@ pub async fn connect() -> Result<mpsc::Receiver<Message>, Error> {
                     let data = message.into_data();
                     let bytes = data.as_slice();
                     
-                    match serde_json::from_slice::<EventMessage>(bytes) {
-                        Ok(message) => if let Err(error) = on_event(&message, &write).await {
-                            match error {
-                                EventError::Serde(error) => {
-                                    log::debug!(
-                                        "Error deserializing event payload: {} {}",
-                                        error,
-                                        message.payload,
-                                    );
-                                },
-                                // connection likely dropped
-                                EventError::Send(_) => {
-                                    break;
-                                },
+                    match serde_json::from_slice::<Vec<EventMessage>>(bytes) {
+                        Ok(messages) => {
+                            for message in messages {
+                                if let Err(error) = on_event(&message, &write).await {
+                                    match error {
+                                        EventError::Serde(error) => {
+                                            log::debug!(
+                                                "Error deserializing event payload: {} {}",
+                                                error,
+                                                message.payload,
+                                            );
+                                        },
+                                        // connection likely dropped
+                                        EventError::Send(_) => {
+                                            break;
+                                        },
+                                    }
+                                }
                             }
                         },
                         Err(error) => if bytes.is_empty() {
