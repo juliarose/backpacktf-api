@@ -55,8 +55,6 @@ struct AppType {
     appid: u32,
 }
 
-const KEY_HEADERNAME: &str = "Sec-WebSocket-Key";
-
 /// Generate a random key for the `Sec-WebSocket-Key` header.
 pub fn generate_key() -> String {
     // a base64-encoded (see Section 4 of [RFC4648]) value that,
