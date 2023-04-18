@@ -47,6 +47,7 @@ impl Ord for ResponseCurrencies {
     }
 }
 
+
 impl ResponseCurrencies {
     pub fn is_in_game(&self) -> bool {
         matches!(self, ResponseCurrencies::InGame(_))
