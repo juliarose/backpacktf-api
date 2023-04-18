@@ -36,7 +36,7 @@ futures-util = { version = "0.3", optional = true }
 serde_bytes = { version = "0.11", optional = true }
 http = { version = "0.2.9", optional = true }
 data-encoding = { version = "2.3.3", optional = true }
-rand = { verison = "0.8.5", optional = true }
+rand = { version = "0.8.5", optional = true }
 
 [features]
 websocket = ["dep:tokio", "dep:http", "dep:rand", "dep:data-encoding", "dep:tokio-tungstenite", "dep:futures-util", "dep:serde_bytes", "serde_json/raw_value"]
