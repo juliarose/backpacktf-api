@@ -196,9 +196,13 @@ where
             }
         },
         Value::Number(num) => {
-            let n: u64 = num.as_u64().ok_or_else(|| de::Error::custom("invalid number"))?;
+            if let Some(num) = num.as_u64() {
+                return Ok(Some(AttributeValue::Number(num)));
+            }
             
-            Ok(Some(AttributeValue::Number(n)))
+            let n: f64 = num.as_f64().ok_or_else(|| de::Error::custom("invalid number"))?;
+            
+            Ok(Some(AttributeValue::Float(n)))
         },
         Value::Null => Ok(None),
         _ => Err(de::Error::custom("invalid attribute")),

@@ -1,0 +1,61 @@
+{
+    "steamid": "76561198189218413",
+    "offers": 1,
+    "buyout": 0,
+    "details": "✨Pure Keys preferred, Open For all Offers. I always have Negotiable prices, can always beat bots/undercutters!  add my discord for Negotiation = dalajao, or add my steam✨",
+    "intent": "sell",
+    "timestamp": 1689522827,
+    "price": 159.43,
+    "item": {
+        "id": 13252416980,
+        "original_id": 0,
+        "defindex": 211,
+        "level": 0,
+        "quality": 11,
+        "inventory": 39,
+        "origin": 0,
+        "quantity": 1,
+        "attributes": [
+            {
+                "defindex": 725,
+                "value": 0.6,
+                "float_value": 0.6
+            },
+            {
+                "defindex": 834,
+                "value": 240,
+                "float_value": 240
+            },
+            {
+                "defindex": 2025,
+                "value": "1",
+                "float_value": 1
+            },
+            {
+                "defindex": -102,
+                "value": "steam://rungame/440/76561202255233023/+tf_econ_item_preview%20S76561198189218413A13252416980D16141150019382010427",
+                "float_value": 0
+            },
+            {
+                "defindex": 2053,
+                "value": 1,
+                "float_value": 1
+            },
+            {
+                "defindex": 379,
+                "value": 0,
+                "float_value": 0
+            },
+            {
+                "defindex": 380,
+                "value": 84,
+                "float_value": 84
+            }
+        ],
+        "flag_unknown_level": true
+    },
+    "currencies": {
+        "keys": 2
+    },
+    "bump": 1689598472
+}

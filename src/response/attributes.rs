@@ -9,6 +9,7 @@ pub type Attributes = HashMap<i32, Attribute>;
 #[serde(untagged)]
 pub enum Value {
     Number(u64),
+    Float(f64),
     String(String),
 }
 

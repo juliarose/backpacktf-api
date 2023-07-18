@@ -65,6 +65,14 @@ mod tests {
     }
     
     #[test]
+    fn parses_get_classifieds_snapshot_float_attribute() {
+        let listing: Listing = serde_json::from_str(include_str!("fixtures/snapshot_listing_float_attribute.json")).unwrap();
+        let attribute = listing.item.attributes.get(&725).unwrap();
+        
+        assert!(matches!(attribute.value.as_ref().unwrap(), AttributeValue::Float(_)));
+    }
+    
+    #[test]
     fn parses_listings() {
         let listing: Listing = serde_json::from_str(include_str!("fixtures/snapshot_listing_string_attributes.json")).unwrap();
         
