@@ -21,10 +21,12 @@ async fn main() -> Result<(), Error> {
         metal: scrap!(1),
     };
     let details = Some(format!("Buying Golden Frying Pan for {}!", &currencies));
-    let mut item = request::BuyListingItem::new(1071, Quality::Strange);
-    
-    item.killstreak_tier = Some(KillstreakTier::Professional);
-    
+    let item = request::BuyListingItem {
+        defindex: 1071,
+        quality: Quality::Strange,
+        killstreak_tier: Some(KillstreakTier::Professional),
+        ..request::BuyListingItem::default()
+    };
     let listing = backpacktf.create_listing(&request::CreateListing::Buy {
         item,
         currencies,
