@@ -18,7 +18,8 @@ pub struct Item {
     #[serde(default)]
     #[serde(deserialize_with = "deserializers::from_optional_number_or_string")]
     pub original_id: Option<u64>,
-    pub defindex: u32,
+    // must be i32 to account for marketplace cross-listing SKUs such as -100 (Random Craft Hat)
+    pub defindex: i32,
     #[serde(default)]
     pub craftable: bool,
     #[serde(default)]

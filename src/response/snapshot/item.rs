@@ -9,7 +9,8 @@ use tf2_enum::{
 
 #[derive(Serialize, Deserialize, PartialEq, Clone, Debug)]
 pub struct Item {
-    pub defindex: u32,
+    // must be i32 to account for marketplace cross-listing SKUs such as -100 (Random Craft Hat)
+    pub defindex: i32,
     pub quality: Quality,
     #[serde(default)]
     pub flag_cannot_craft: bool,
@@ -21,6 +22,7 @@ pub struct Item {
     pub original_id: Option<u64>,
     #[serde(default)]
     #[serde(deserialize_with = "deserializers::from_optional_number_or_string_integer")]
+    // Levels can sometimes be negative.
     pub level: Option<i32>,
     #[serde(default)]
     #[serde(deserialize_with = "deserializers::from_optional_number_or_string")]
