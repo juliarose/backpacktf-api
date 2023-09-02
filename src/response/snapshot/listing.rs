@@ -14,7 +14,7 @@ pub struct Listing {
     pub offers: bool,
     #[serde(deserialize_with = "deserializers::bool_from_int")]
     pub buyout: bool,
-    #[serde(deserialize_with = "deserializers::listing_intent_enum_from_str")]
+    #[serde(deserialize_with = "deserializers::listing_intent_enum_from_str_or_int")]
     pub intent: ListingIntent,
     pub details: Option<String>,
     #[serde(with = "ts_seconds")]

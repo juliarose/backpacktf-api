@@ -29,6 +29,8 @@ pub struct Listing {
     pub steamid: SteamID,
     pub appid: u32,
     pub currencies: ResponseCurrencies,
+    #[serde(default)]
+    #[serde(skip_serializing_if = "Option::is_none")]
     pub value: Option<Value>,
     #[serde(default)]
     pub trade_offers_preferred: bool,
@@ -36,18 +38,24 @@ pub struct Listing {
     pub buyout_only: bool,
     #[serde(default)]
     pub archived: bool,
+    #[serde(default)]
+    #[serde(skip_serializing_if = "Option::is_none")]
     pub details: Option<String>,
     #[serde(with = "ts_seconds")]
     pub listed_at: ServerTime,
     #[serde(with = "ts_seconds")]
     pub bumped_at: ServerTime,
-    #[serde(deserialize_with = "deserializers::listing_intent_enum_from_str")]
+    #[serde(deserialize_with = "deserializers::listing_intent_enum_from_str_or_int")]
     pub intent: ListingIntent,
     pub item: Item,
     pub count: u32,
     #[serde(default)]
     pub status: Status,
+    #[serde(default)]
+    #[serde(skip_serializing_if = "Option::is_none")]
     pub user_agent: Option<UserAgent>,
+    #[serde(default)]
+    #[serde(skip_serializing_if = "Option::is_none")]
     pub user: Option<User>,
 }
 
@@ -89,6 +97,15 @@ mod tests {
         assert_eq!(listing.item.quality, Quality::Unique);
         assert_eq!(listing.item.base_name, "Lucky Cat Hat");
         assert!(!strange);
+    }
+    
+    #[test]
+    fn deserializes_from_serialized_listing() {
+        let json_listing: Listing = serde_json::from_str(include_str!("fixtures/Strange Massed Flies Crone's Dome.json")).unwrap();
+        let json = serde_json::to_string(&json_listing).unwrap();
+        let listing: Listing = serde_json::from_str(&json).unwrap();
+        
+        assert!(json_listing.eq(&listing));
     }
     
     #[test]

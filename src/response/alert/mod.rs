@@ -12,7 +12,7 @@ use serde::{Deserialize, Serialize};
 pub struct Alert {
     pub id: String,
     pub item_name: String,
-    #[serde(deserialize_with = "deserializers::listing_intent_enum_from_str")]
+    #[serde(deserialize_with = "deserializers::listing_intent_enum_from_str_or_int")]
     pub intent: ListingIntent,
     pub appid: u32,
     pub steamid: SteamID,

@@ -32,7 +32,7 @@ pub struct SuccessListing {
     pub listed_at: ServerTime,
     #[serde(with = "ts_seconds")]
     pub bumped_at: ServerTime,
-    #[serde(deserialize_with = "deserializers::listing_intent_enum_from_str")]
+    #[serde(deserialize_with = "deserializers::listing_intent_enum_from_str_or_int")]
     pub intent: ListingIntent,
 }
 

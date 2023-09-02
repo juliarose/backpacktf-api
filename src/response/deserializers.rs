@@ -40,8 +40,13 @@ where
     D: Deserializer<'de>,
 {
     match Value::deserialize(deserializer)? {
+        // false if not defined
         Value::Null => Ok(false),
-        _ => Ok(true),
+        value => match value {
+            Value::Bool(v) => Ok(v),
+            Value::String(v) => Ok(v == "true"),
+            _ => Ok(true),
+        },
     }
 }
 
@@ -423,17 +428,47 @@ where
     deserializer.deserialize_any(BansVisitor)
 }
 
-pub fn listing_intent_enum_from_str<'de, D>(deserializer: D) -> Result<ListingIntent, D::Error>
+pub fn listing_intent_enum_from_str_or_int<'de, D>(deserializer: D) -> Result<ListingIntent, D::Error>
 where
     D: Deserializer<'de>
 {
-    let s = String::deserialize(deserializer)?;
+    struct ListingIntentVisitor;
     
-    match s.as_str() {
-        "buy" => Ok(ListingIntent::Buy),
-        "sell" => Ok(ListingIntent::Sell),
-        _ => Err(de::Error::custom("invalid intent")),
+    impl<'de> de::Visitor<'de> for ListingIntentVisitor {
+        type Value = ListingIntent;
+    
+        fn expecting(&self, formatter: &mut std::fmt::Formatter) -> std::fmt::Result {
+            formatter.write_str("an integer or a string")
+        }
+    
+        fn visit_u64<E>(self, v: u64) -> Result<Self::Value, E>
+        where
+            E: de::Error,
+        {
+            match u8::try_from(v) {
+                Ok(c) => {
+                    ListingIntent::try_from_primitive(c)
+                        .map_err(|_e| de::Error::custom("invalid intent: `{v}`"))
+                },
+                Err(_e) => {
+                    Err(de::Error::custom("invalid intent: `{v}`"))
+                }
+            }
+        }
+        
+        fn visit_str<E>(self, v: &str) -> Result<Self::Value, E>
+        where
+            E: de::Error,
+        {
+            match v {
+                "buy" => Ok(ListingIntent::Buy),
+                "sell" => Ok(ListingIntent::Sell),
+                _ => Err(de::Error::custom("invalid intent: `{v}`")),
+            }
+        }
     }
+    
+    deserializer.deserialize_any(ListingIntentVisitor)
 }
 
 pub fn currency_type_enum_from_str<'de, D>(deserializer: D) -> Result<CurrencyType, D::Error>
