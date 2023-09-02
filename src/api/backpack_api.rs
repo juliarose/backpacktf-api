@@ -4,6 +4,7 @@ use crate::error::Error;
 use crate::currency_type::CurrencyType;
 use crate::response;
 use crate::request::{self, listing_serializers::option_buy_listing_item_into_params, serializers};
+use std::borrow::Borrow;
 use std::time::Duration;
 use async_std::task::sleep;
 use serde::{Serialize, Deserialize, de::DeserializeOwned};
@@ -600,13 +601,16 @@ impl BackpackAPI {
     
     /// Deletes listings from the archive. A limit of 100 listings is imposed. Currently does not 
     /// work.
-    pub async fn delete_archived_listings(
+    pub async fn delete_archived_listings<T>(
         &self,
-        listing_ids: &[String],
-    ) -> Result<u32, Error> {
+        listing_ids: &[T],
+    ) -> Result<u32, Error> 
+    where
+        T: Borrow<String> + Serialize,
+    {
         #[derive(Serialize, Debug)]
-        struct Params<'a> {
-            listing_ids: &'a [String],
+        struct Params<'a, T> {
+            listing_ids: &'a [T],
         }
         
         if listing_ids.is_empty() {
@@ -762,17 +766,15 @@ impl BackpackAPI {
                 details,
                 buyout,
                 offers,
-            } => {
-                Params {
-                    token,
-                    id: None,
-                    item: Some(item),
-                    intent: ListingIntent::Buy,
-                    buyout,
-                    offers,
-                    details,
-                    currencies,
-                }
+            } => Params {
+                token,
+                id: None,
+                item: Some(item),
+                intent: ListingIntent::Buy,
+                buyout,
+                offers,
+                details,
+                currencies,
             },
             request::CreateListing::Sell {
                 id,
@@ -780,17 +782,15 @@ impl BackpackAPI {
                 details,
                 buyout,
                 offers,
-            } => {
-                Params {
-                    token,
-                    id: Some(*id),
-                    item: None,
-                    intent: ListingIntent::Sell,
-                    buyout,
-                    offers,
-                    details,
-                    currencies,
-                }
+            } => Params {
+                token,
+                id: Some(*id),
+                item: None,
+                intent: ListingIntent::Sell,
+                buyout,
+                offers,
+                details,
+                currencies,
             },
         };
         let listing: response::listing::Listing = self.post_json(
@@ -879,14 +879,17 @@ impl BackpackAPI {
     }
     
     /// Deletes listings. A limit of 100 listings is imposed.
-    pub async fn delete_listings(
+    pub async fn delete_listings<T>(
         &self,
-        listing_ids: &[String],
-    ) -> Result<u32, Error> {
+        listing_ids: &[T],
+    ) -> Result<u32, Error>
+    where
+        T: Borrow<String> + Serialize,
+    {
         #[derive(Serialize, Debug)]
-        struct Params<'a, 'b> {
+        struct Params<'a, 'b, T> {
             token: &'a str,
-            listing_ids: &'b [String],
+            listing_ids: &'b [T],
         }
         
         if listing_ids.is_empty() {
@@ -1344,10 +1347,13 @@ impl BackpackAPI {
     /// mass deletion of listings that need to be split into chunks and are rate limited
     /// to a certain number of requests per minute. If an error occurs, execution will 
     /// cease and an error will be added to the return value.
-    pub async fn delete_listings_chunked(
+    pub async fn delete_listings_chunked<T>(
         &self,
-        listing_ids: &[String],
-    ) -> (u32, Option<Error>) {
+        listing_ids: &[T],
+    ) -> (u32, Option<Error>) 
+    where
+        T: Borrow<String> + Serialize,
+    {
         let mut chunked = helpers::Cooldown::new(listing_ids);
         let mut all = 0;
         
@@ -1377,10 +1383,13 @@ impl BackpackAPI {
     /// mass deletion of archived listings that need to be split into chunks and are rate
     /// limited to a certain number of requests per minute. If an error occurs, execution will 
     /// cease and an error will be added to the return value.
-    pub async fn delete_archived_listings_chunked(
+    pub async fn delete_archived_listings_chunked<T>(
         &self,
-        listing_ids: &[String],
-    ) -> (u32, Option<Error>) {
+        listing_ids: &[T],
+    ) -> (u32, Option<Error>)
+    where
+        T: Borrow<String> + Serialize,
+    {
         let mut chunked = helpers::Cooldown::new(listing_ids);
         let mut all = 0;
         
