@@ -118,7 +118,7 @@ impl Item {
                             if let Some(float_value) = attribute.float_value {
                                 if let Some(float_value) = convert_float_u32(float_value) {
                                     if let Ok(spell) = FootprintsSpell::try_from(float_value) {
-                                        return Some(Spell::Footprints(spell));
+                                        return Some(spell.into());
                                     }
                                 }
                             }
@@ -129,7 +129,7 @@ impl Item {
                             if let Some(float_value) = attribute.float_value {
                                 if let Some(float_value) = convert_float_u32(float_value) {
                                     if let Ok(spell) = PaintSpell::try_from(float_value) {
-                                        return Some(Spell::Paint(spell));
+                                        return Some(spell.into());
                                     }
                                 }
                             }
