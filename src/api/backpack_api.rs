@@ -32,7 +32,6 @@ impl Default for BackpackAPI {
 }
 
 impl BackpackAPI {
-    
     const HOSTNAME: &'static str = "backpack.tf";
     
     pub fn builder() -> BackpackAPIBuilder {
