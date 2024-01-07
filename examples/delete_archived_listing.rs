@@ -1,4 +1,5 @@
-use backpacktf_api::{BackpackAPI, error::Error};
+use backpacktf_api::BackpackAPI;
+use backpacktf_api::error::Error;
 use dotenv::dotenv;
 use std::env;
 

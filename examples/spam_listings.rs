@@ -1,10 +1,8 @@
-use backpacktf_api::{
-    BackpackAPI,
-    request,
-    error::Error,
-    tf2_price::{Currencies, scrap},
-    tf2_enum::{Quality, KillstreakTier},
-};
+use backpacktf_api::BackpackAPI;
+use backpacktf_api::request;
+use backpacktf_api::error::Error;
+use tf2_price::{Currencies, scrap};
+use tf2_enum::{Quality, KillstreakTier};
 use dotenv::dotenv;
 use std::env;
 

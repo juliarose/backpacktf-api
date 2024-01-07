@@ -1,10 +1,8 @@
-use backpacktf_api::{
-    BackpackAPI,
-    request,
-    error::Error,
-    tf2_price::{Currencies, scrap},
-    tf2_enum::{Quality, KillstreakTier},
-};
+use backpacktf_api::BackpackAPI;
+use backpacktf_api::request::{BuyListingItem, CreateListing};
+use backpacktf_api::error::Error;
+use tf2_price::{Currencies, scrap};
+use tf2_enum::{Quality, KillstreakTier};
 use dotenv::dotenv;
 use std::env;
 
@@ -20,17 +18,15 @@ async fn main() -> Result<(), Error> {
         keys: 0,
         metal: scrap!(1),
     };
-    let details = Some(format!("Buying Golden Frying Pan for {}!", &currencies));
-    let item = request::BuyListingItem {
-        defindex: 1071,
-        quality: Quality::Strange,
-        killstreak_tier: Some(KillstreakTier::Professional),
-        ..request::BuyListingItem::default()
-    };
-    let listing = backpacktf.create_listing(&request::CreateListing::Buy {
-        item,
+    let listing = backpacktf.create_listing(&CreateListing::Buy {
         currencies,
-        details,
+        item: BuyListingItem {
+            defindex: 1071,
+            quality: Quality::Strange,
+            killstreak_tier: Some(KillstreakTier::Professional),
+            ..BuyListingItem::default()
+        },
+        details: Some(format!("Buying Golden Frying Pan for {currencies}!")),
         buyout: true,
         offers: true,
     }).await?;
