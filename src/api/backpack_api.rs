@@ -13,12 +13,8 @@ use tf2_price::traits::SerializeCurrencies;
 
 const RESPONSE_UNSUCCESSFUL_MESSAGE: &str = "Empty response";
 
-#[derive(Serialize, Deserialize, Debug)]
-struct Token<'a> {
-    token: &'a str,
-}
-
 /// Interface for backpack.tf API endpoints.
+#[derive(Debug, Clone)]
 pub struct BackpackAPI {
     key: Option<String>,
     token: Option<String>,
@@ -1413,4 +1409,9 @@ impl BackpackAPI {
         
         (all, None)
     }
+}
+
+#[derive(Serialize, Deserialize, Debug)]
+struct Token<'a> {
+    token: &'a str,
 }

@@ -1,3 +1,4 @@
+#[allow(clippy::module_inception)]
 pub mod create_listing;
 pub mod update_listing;
 
