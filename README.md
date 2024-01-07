@@ -29,7 +29,6 @@ let backpacktf = BackpackAPI::builder()
     .token("token")
     .build();
 let currencies = Currencies { keys: 0, metal: scrap!(1) };
-let details = Some(format!("Buying Golden Frying Pan for {currencies}!"));
 let item = BuyListingItem {
     defindex: 1071,
     quality: Quality::Strange,
@@ -40,7 +39,7 @@ let item = BuyListingItem {
 match backpacktf.create_listing(&CreateListing::Buy {
     item,
     currencies,
-    details,
+    details: Some(format!("Buying Golden Frying Pan for {currencies}!")),
     buyout: true,
     offers: true,
 }).await {
