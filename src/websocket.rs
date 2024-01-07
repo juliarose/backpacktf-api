@@ -9,6 +9,7 @@ use http::request::Request;
 
 const APPID_TEAM_FORTRESS_2: u32 = 440;
 
+/// The type of event from the websocket.
 #[derive(Deserialize, Debug)]
 enum EventType {
     #[serde(rename = "listing-update")]
@@ -17,6 +18,7 @@ enum EventType {
     ListingDelete,
 }
 
+/// An event from the websocket.
 #[derive(Deserialize, Debug)]
 struct EventMessage<'a> {
     event: EventType,
@@ -24,6 +26,7 @@ struct EventMessage<'a> {
     payload: &'a RawValue,
 }
 
+/// A message from the websocket.
 #[derive(Debug)]
 pub enum Message {
     ListingUpdate(Listing),
@@ -38,6 +41,7 @@ pub enum Message {
     },
 }
 
+/// An error from the websocket.
 #[derive(thiserror::Error, Debug)]
 pub enum Error {
     #[error("{}", .0)]
@@ -63,6 +67,7 @@ pub fn generate_key() -> String {
     data_encoding::BASE64.encode(&r)
 }
 
+/// Connect to the websocket.
 pub async fn connect() -> Result<mpsc::Receiver<Message>, Error> {
     let connect_addr = "wss://ws.backpack.tf/events";
     let uri = connect_addr.parse::<Uri>()?;
@@ -147,6 +152,7 @@ pub async fn connect() -> Result<mpsc::Receiver<Message>, Error> {
     Ok(read)
 }
 
+/// An error from an event.
 #[derive(thiserror::Error, Debug)]
 enum EventError {
     #[error("{}", .0)]
@@ -155,6 +161,7 @@ enum EventError {
     Serde(#[from] serde_json::Error),
 }
 
+/// Handle an event.
 async fn on_event<'a>(
     message: &EventMessage<'a>,
     write: &mpsc::Sender<Message>,

@@ -7,16 +7,21 @@ use tf2_enum::{
     Spell, FootprintsSpell, PaintSpell, Attribute, Attributes as EnumAttributes,
 };
 
+/// An item in a snapshot.
 #[derive(Serialize, Deserialize, PartialEq, Clone, Debug)]
 pub struct Item {
     // must be i32 to account for marketplace cross-listing SKUs such as -100 (Random Craft Hat)
     pub defindex: i32,
+    /// The quality of the item.
     pub quality: Quality,
+    /// Whether the is craftable or not.
     #[serde(default)]
     pub flag_cannot_craft: bool,
+    /// The ID of the item.
     #[serde(default)]
     #[serde(deserialize_with = "deserializers::from_optional_number_or_string")]
     pub id: Option<u64>,
+    /// The original ID of the item.
     #[serde(default)]
     #[serde(deserialize_with = "deserializers::from_optional_number_or_string")]
     pub original_id: Option<u64>,
@@ -52,7 +57,7 @@ fn convert_float_u32(float: f64) -> Option<u32> {
 }
 
 impl Item {
-
+    /// Gets the quality of the item.
     pub fn get_quality(&self) -> Quality {
         self.quality
     }
@@ -70,6 +75,7 @@ impl Item {
         None
     }
     
+    /// Gets the skin value of the item.
     pub fn get_skin_value(&self) -> Option<u32> {
         if let Some(attribute) = self.attributes.get(&834) {
             if let Some(AttributeValue::Number(value)) = attribute.value {
@@ -82,6 +88,7 @@ impl Item {
         None
     }
     
+    /// Gets the killstreak tier of the item.
     pub fn get_killstreak_tier(&self) -> Option<KillstreakTier> {
         if let Some(attribute) = self.attributes.get(&(KillstreakTier::DEFINDEX as i32)) {
             if let Some(float_value) = attribute.float_value {
@@ -96,6 +103,7 @@ impl Item {
         None
     }
     
+    /// Gets the wear of the item.
     pub fn get_wear(&self) -> Option<Wear> {
         if let Some(attribute) = self.attributes.get(&(Wear::DEFINDEX as i32)) {
             if let Some(float_value) = attribute.float_value {
@@ -108,6 +116,7 @@ impl Item {
         None
     }
     
+    /// Gets the spells on the item.
     pub fn get_spells(&self) -> Option<Vec<Spell>> {
         let spells = Spell::DEFINDEX
             .iter()
@@ -180,6 +189,7 @@ impl Item {
         }
     }
     
+    /// Gets the attributes on the item.
     pub fn get_paint(&self) -> Option<Paint> {
         if self.defindex < 5027 || self.defindex > 5077 {
             if let Some(attribute) = self.attributes.get(&(Paint::DEFINDEX as i32)) {
@@ -196,6 +206,7 @@ impl Item {
         None
     }
     
+    /// Gets the killstreaker of the item.
     pub fn get_killstreaker(&self) -> Option<Killstreaker> {
         if let Some(attribute) = self.attributes.get(&(Killstreaker::DEFINDEX as i32)) {
             if let Some(float_value) = attribute.float_value {
@@ -210,6 +221,7 @@ impl Item {
         None
     }
     
+    /// Gets the sheen of the item.
     pub fn get_sheen(&self) -> Option<Sheen> {
         if let Some(attribute) = self.attributes.get(&(Sheen::DEFINDEX as i32)) {
             if let Some(float_value) = attribute.float_value {
@@ -224,18 +236,22 @@ impl Item {
         None
     }
     
+    /// Checks if the item is craftable.
     pub fn is_craftable(&self) -> bool {
         !self.flag_cannot_craft
     }
     
+    /// Checks if the item is australium.
     pub fn is_australium(&self) -> bool {
         self.attributes.contains_key(&2027)
     }
     
+    /// Checks if the item is festivized.
     pub fn is_festivized(&self) -> bool {
         self.attributes.contains_key(&2053)
     }
     
+    /// Checks if the item is strange.
     pub fn is_strange(&self) -> bool {
         // strange quality items are not "strangified" items
         if self.quality == Quality::Strange {

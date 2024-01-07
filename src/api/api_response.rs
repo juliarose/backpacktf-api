@@ -1,3 +1,6 @@
+//! Contains wrappers for responses. These are not used directly by the user, but are used by the 
+//! API to deserialize responses.
+
 use crate::time::ServerTime;
 use crate::response;
 use crate::response::deserializers;

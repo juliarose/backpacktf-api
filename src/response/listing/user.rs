@@ -4,13 +4,15 @@ use serde::{Serialize, Deserialize};
 use url::Url;
 use std::borrow::Cow;
 
+/// A ban.
 #[derive(Serialize, Deserialize, PartialEq, Clone, Debug)]
 #[serde(rename_all = "camelCase")]
 pub struct Ban {
     // todo fill this out
-    // but you probably won't see this appear often in responses for listings
+    // you probably won't see this appear often in responses for listings
 }
 
+/// A user.
 #[derive(Serialize, Deserialize, PartialEq, Clone, Debug)]
 #[serde(rename_all = "camelCase")]
 pub struct User {
@@ -45,19 +47,16 @@ pub struct User {
 
 impl User {
     pub fn access_token(&self) -> Option<String> {
-        if let Some(trade_offer_url) = &self.trade_offer_url {
-            if let Ok(url) = Url::parse(trade_offer_url) {
-                let pairs = url.query_pairs();
-                
-                for (key, value) in pairs {
-                    if key == Cow::Borrowed("token") {
-                        if value.len() == 8 {
-                            return Some(value.to_string());
-                        } else {
-                            // not a valid token
-                            return None;
-                        }
-                    }
+        let trade_offer_url = self.trade_offer_url.as_ref()?;
+        let url = Url::parse(trade_offer_url).ok()?;
+            
+        for (key, value) in url.query_pairs() {
+            if key == Cow::Borrowed("token") {
+                if value.len() == 8 {
+                    return Some(value.to_string());
+                } else {
+                    // not a valid token
+                    return None;
                 }
             }
         }
