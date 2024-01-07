@@ -20,7 +20,7 @@ backpacktf-api = { git = "https://github.com/juliarose/backpacktf-api", features
 
 ```rs
 use backpacktf_api::BackpackAPI;
-use backpacktf_api::request::{self, BuyListingItem, CreateListing};
+use backpacktf_api::request::{BuyListingItem, CreateListing};
 use backpacktf_api::tf2_price::{Currencies, scrap};
 use backpacktf_api::tf2_enum::{Quality, KillstreakTier};
 
@@ -30,11 +30,11 @@ let backpacktf = BackpackAPI::builder()
     .build();
 let currencies = Currencies { keys: 0, metal: scrap!(1) };
 let details = Some(format!("Buying Golden Frying Pan for {currencies}!"));
-let item = request::BuyListingItem {
+let item = BuyListingItem {
     defindex: 1071,
     quality: Quality::Strange,
     killstreak_tier: Some(KillstreakTier::Professional),
-    ..request::BuyListingItem::default()
+    ..BuyListingItem::default()
 };
 
 match backpacktf.create_listing(&CreateListing::Buy {
