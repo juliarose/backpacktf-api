@@ -30,11 +30,13 @@ impl Default for BackpackAPI {
 impl BackpackAPI {
     const HOSTNAME: &'static str = "backpack.tf";
     
+    /// Creates a new builder for a [`BackpackAPI`].
     pub fn builder() -> BackpackAPIBuilder {
         BackpackAPIBuilder::default()
     }
     
-    pub fn new(
+    /// Creates a new [`BackpackAPI`] with the given key and token.
+    pub(crate) fn new(
         key: Option<String>,
         token: Option<String>,
         client: ClientWithMiddleware,
@@ -46,6 +48,7 @@ impl BackpackAPI {
         }
     }
     
+    /// Gets the URI for an API endpoint.
     fn get_api_uri(
         &self,
         endpoint: &str,
@@ -53,6 +56,7 @@ impl BackpackAPI {
         format!("https://api.{}/api{}", Self::HOSTNAME, endpoint)
     }
     
+    /// Gets the token for the API.
     fn get_token(&self) -> Result<&str, Error> {
         if let Some(token) = &self.token {
             Ok(token)
@@ -61,6 +65,7 @@ impl BackpackAPI {
         }
     }
     
+    /// Gets the key for the API.
     fn get_key(&self) -> Result<&str, Error> {
         if let Some(key) = &self.key {
             Ok(key)
@@ -69,6 +74,7 @@ impl BackpackAPI {
         }
     }
     
+    /// Sends a GET request.
     async fn get<T, D>(
         &self,
         uri: &str,
@@ -88,6 +94,7 @@ impl BackpackAPI {
         helpers::parses_response::<D>(response).await
     }
     
+    /// Sends a DELETE request.
     async fn delete<T>(
         &self,
         uri: &str,
@@ -106,6 +113,7 @@ impl BackpackAPI {
         Ok(())
     }
     
+    /// Sends a POST request.
     async fn post<T, D>(
         &self,
         uri: &str,
@@ -125,6 +133,7 @@ impl BackpackAPI {
         helpers::parses_response::<D>(response).await
     }
     
+    /// Sends a POST request and parses the JSON response body.
     async fn post_json<T, D>(
         &self,
         uri: &str,

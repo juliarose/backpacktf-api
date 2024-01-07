@@ -5,6 +5,7 @@ use buy_listing::serializers::buy_listing_item_into_params;
 use crate::request::serializers::as_string;
 use serde::{Deserialize, Serialize};
 
+/// Parameters for creating a listing.
 #[derive(Deserialize, Serialize, PartialEq, Debug, Clone)]
 #[serde(tag = "intent")]
 pub enum CreateListing<T> {
@@ -12,20 +13,28 @@ pub enum CreateListing<T> {
     Sell {
         #[serde(serialize_with = "as_string")]
         id: u64,
+        /// The currencies. In practice, any type that can be serialized can be supplied.
         currencies: T,
+        /// The message of the listing.
         #[serde(skip_serializing_if = "Option::is_none")]
         details: Option<String>,
+        /// Whether buyout is enabled.
         buyout: bool,
+        /// Whether offers are enabled.
         offers: bool,
     },
     #[serde(rename = "buy")]
     Buy {
         #[serde(serialize_with = "buy_listing_item_into_params")]
         item: buy_listing::Item,
+        /// The currencies. In practice, any type that can be serialized can be supplied.
         currencies: T,
+        /// The message of the listing.
         #[serde(skip_serializing_if = "Option::is_none")]
         details: Option<String>,
+        /// Whether buyout is enabled.
         buyout: bool,
+        /// Whether offers are enabled.
         offers: bool,
     }
 }

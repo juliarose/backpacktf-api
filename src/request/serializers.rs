@@ -2,7 +2,10 @@ use crate::{SteamID, ListingIntent, CurrencyType};
 use crate::response::attributes::FloatValue;
 use serde::Serializer;
 
-fn comma_delimited_values<T: ToString>(values: &[T]) -> String {
+/// Combines a list of values into a comma delimited string.
+fn comma_delimited_values<T: ToString>(
+    values: &[T],
+) -> String {
     values
         .iter()
         .map(|value| value.to_string())
@@ -10,7 +13,11 @@ fn comma_delimited_values<T: ToString>(values: &[T]) -> String {
         .join(",")
 }
 
-pub fn as_string<S, T>(value: &T, s: S) -> Result<S::Ok, S::Error>
+/// Serializes into a string.
+pub fn as_string<S, T>(
+    value: &T,
+    s: S,
+) -> Result<S::Ok, S::Error>
 where
     S: Serializer,
     T: ToString,
@@ -18,7 +25,11 @@ where
     s.serialize_str(&value.to_string())
 }
 
-pub fn comma_delimited<S, T>(values: &[T], s: S) -> Result<S::Ok, S::Error>
+/// Serializes a list of values into a comma delimited string.
+pub fn comma_delimited<S, T>(
+    values: &[T],
+    s: S,
+) -> Result<S::Ok, S::Error>
 where
     S: Serializer,
     T: ToString,
@@ -26,7 +37,11 @@ where
     s.serialize_str(&comma_delimited_values(values))
 }
 
-pub fn option_number_to_str<S, T>(value: &Option<T>, s: S) -> Result<S::Ok, S::Error>
+/// Serializes optional into a string.
+pub fn option_number_to_str<S, T>(
+    value: &Option<T>,
+    s: S,
+) -> Result<S::Ok, S::Error>
 where
     S: Serializer,
     T: ToString,
@@ -38,7 +53,11 @@ where
     }
 }
 
-pub fn comma_delimited_steamids<S>(values: &[SteamID], s: S) -> Result<S::Ok, S::Error>
+/// Serializes a list of SteamIDs into a comma delimited string.
+pub fn comma_delimited_steamids<S>(
+    values: &[SteamID],
+    s: S,
+) -> Result<S::Ok, S::Error>
 where
     S: Serializer
 {
@@ -51,8 +70,11 @@ where
     s.serialize_str(&steamids)
 }
 
-// todo make this generic
-pub fn listing_intent_enum_to_str<S>(value: &ListingIntent, s: S) -> Result<S::Ok, S::Error>
+/// Serializes listing intent into a string.
+pub fn listing_intent_enum_to_str<S>(
+    value: &ListingIntent,
+    s: S,
+) -> Result<S::Ok, S::Error>
 where
     S: Serializer
 {
@@ -62,7 +84,11 @@ where
     })
 }
 
-pub fn currency_type_enum_to_str<S>(value: &Option<CurrencyType>, s: S) -> Result<S::Ok, S::Error>
+/// Serializes currency type into a string.
+pub fn currency_type_enum_to_str<S>(
+    value: &Option<CurrencyType>,
+    s: S,
+) -> Result<S::Ok, S::Error>
 where
     S: Serializer
 {
@@ -76,7 +102,11 @@ where
     }
 }
 
-pub fn option_float_as_integers_when_whole<S>(value: &Option<FloatValue>, s: S) -> Result<S::Ok, S::Error>
+/// Serializes a float into an integer when the float is a whole number.
+pub fn option_float_as_integers_when_whole<S>(
+    value: &Option<FloatValue>,
+    s: S,
+) -> Result<S::Ok, S::Error>
 where
     S: Serializer,
 {

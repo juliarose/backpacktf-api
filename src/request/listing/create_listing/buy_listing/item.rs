@@ -3,22 +3,37 @@ use crate::response::attributes::{Value as AttributeValue, FloatValue};
 use serde::{Deserialize, Serialize};
 use tf2_enum::{KillstreakTier, Wear, Quality};
 
+/// An item.
 #[derive(Deserialize, Serialize, PartialEq, Debug, Clone, Copy)]
 pub struct Item {
+    /// The defindex of the item.
     pub defindex: u32,
+    /// The quality of the item.
     pub quality: Quality,
+    /// Whether the item is craftable.
     pub craftable: bool,
+    /// The killstreak tier of the item.
     pub killstreak_tier: Option<KillstreakTier>,
+    /// The particle of the item.
     pub particle: Option<u32>,
+    /// The wear of the item.
     pub wear: Option<Wear>,
+    /// The skin of the item.
     pub skin: Option<u32>,
+    /// Whether the item is strange.
     pub strange: bool,
+    /// Whether the item is festivized.
     pub festivized: bool,
+    /// Whether the item is australium.
     pub australium: bool,
 }
 
 impl Item {
-    pub fn new(defindex: u32, quality: Quality) -> Self {
+    /// Creates a new item.
+    pub fn new(
+        defindex: u32,
+        quality: Quality,
+    ) -> Self {
         Self {
             defindex,
             quality,
