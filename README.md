@@ -33,10 +33,10 @@ let backpacktf = BackpackAPI::builder()
 let currencies = Currencies { keys: 0, metal: scrap!(1) };
 let details = Some(format!("Buying Golden Frying Pan for {currencies}!"));
 let item = request::BuyListingItem {
-        defindex: 1071,
-        quality: Quality::Strange,
-        killstreak_tier: Some(KillstreakTier::Professional),
-        ..request::BuyListingItem::default()
+    defindex: 1071,
+    quality: Quality::Strange,
+    killstreak_tier: Some(KillstreakTier::Professional),
+    ..request::BuyListingItem::default()
 };
 
 match backpacktf.create_listing(&CreateListing::Buy {
