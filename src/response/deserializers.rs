@@ -6,7 +6,7 @@ use std::fmt::Display;
 use std::marker::PhantomData;
 use num_enum::TryFromPrimitive;
 use serde::Deserialize;
-use serde::de::{self, Deserializer, Visitor, MapAccess, SeqAccess, Unexpected, IntoDeserializer};
+use serde::de::{self, Deserializer, Visitor, MapAccess, SeqAccess, Unexpected};
 use serde_json::Value;
 
 pub fn bool_from_int<'de, D>(deserializer: D) -> Result<bool, D::Error>
@@ -337,20 +337,6 @@ where
         },
         Value::Null => Ok(None),
         _ => Err(de::Error::custom("not a number")),
-    }
-}
-
-pub fn empty_string_as_none<'de, D, T>(de: D) -> Result<Option<T>, D::Error>
-where
-    D: serde::Deserializer<'de>,
-    T: serde::Deserialize<'de>,
-{
-    let opt = Option::<String>::deserialize(de)?;
-    let opt = opt.as_deref();
-    
-    match opt {
-        None | Some("") => Ok(None),
-        Some(s) => T::deserialize(s.into_deserializer()).map(Some)
     }
 }
 

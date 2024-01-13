@@ -1,6 +1,6 @@
 use super::{api_response, helpers};
 use crate::{SteamID, BackpackAPIBuilder, ListingIntent};
-use crate::error::Error;
+use crate::error::{Error, ParameterError};
 use crate::currency_type::CurrencyType;
 use crate::response;
 use crate::request::{self, listing_serializers::option_buy_listing_item_into_params, serializers};
@@ -61,7 +61,7 @@ impl BackpackAPI {
         if let Some(token) = &self.token {
             Ok(token)
         } else {
-            Err(Error::MissingToken)
+            Err(ParameterError::MissingToken.into())
         }
     }
     
@@ -70,7 +70,7 @@ impl BackpackAPI {
         if let Some(key) = &self.key {
             Ok(key)
         } else {
-            Err(Error::MissingKey)
+            Err(ParameterError::MissingKey.into())
         }
     }
     
@@ -181,7 +181,9 @@ impl BackpackAPI {
         }
         
         if steamids.is_empty() {
-            return Err(Error::Parameter("No steamids given"));
+            return Err(ParameterError::Empty {
+                name: "steamids",
+            }.into());
         }
         
         let key = self.get_key()?;
@@ -224,7 +226,9 @@ impl BackpackAPI {
         }
         
         if steamids.is_empty() {
-            return Err(Error::Parameter("No steamids given"));
+            return Err(ParameterError::Empty {
+                name: "steamids",
+            }.into());
         }
         
         let key = self.get_key()?;
@@ -618,9 +622,14 @@ impl BackpackAPI {
         }
         
         if listing_ids.is_empty() {
-            return Err(Error::Parameter("No listings given"));
+            return Err(ParameterError::Empty {
+                name: "listing_ids",
+            }.into());
         } else if listing_ids.len() > 100 {
-            return Err(Error::Parameter("Maximum of 100 listings allowed"));
+            return Err(ParameterError::MaximumLengthExceeded {
+                name: "listing_ids",
+                max: 100,
+            }.into());
         }
         
         let token = self.get_token()?;
@@ -825,9 +834,14 @@ impl BackpackAPI {
         }
         
         if listings.is_empty() {
-            return Err(Error::Parameter("No listings given"));
+            return Err(ParameterError::Empty {
+                name: "listings",
+            }.into());
         } else if listings.len() > 100 {
-            return Err(Error::Parameter("Maximum of 100 listings allowed"));
+            return Err(ParameterError::MaximumLengthExceeded {
+                name: "listings",
+                max: 100,
+            }.into());
         }
         
         let token = self.get_token()?;
@@ -897,9 +911,14 @@ impl BackpackAPI {
         }
         
         if listing_ids.is_empty() {
-            return Err(Error::Parameter("No listings given"));
+            return Err(ParameterError::Empty {
+                name: "listing_ids",
+            }.into());
         } else if listing_ids.len() > 100 {
-            return Err(Error::Parameter("Maximum of 100 listings allowed"));
+            return Err(ParameterError::MaximumLengthExceeded {
+                name: "listing_ids",
+                max: 100,
+            }.into());
         }
         
         let token = self.get_token()?;
@@ -982,9 +1001,14 @@ impl BackpackAPI {
         }
         
         if listings.is_empty() {
-            return Err(Error::Parameter("No listings given"));
+            return Err(ParameterError::Empty {
+                name: "listings",
+            }.into());
         } else if listings.len() > 100 {
-            return Err(Error::Parameter("Maximum of 100 listings allowed"));
+            return Err(ParameterError::MaximumLengthExceeded {
+                name: "listings",
+                max: 100,
+            }.into());
         }
         
         let mapped = listings

@@ -3,6 +3,7 @@ use crate::response::deserializers;
 use serde::{Serialize, Deserialize};
 use tf2_enum::{Wear, KillstreakTier, Killstreaker, Sheen, Quality, Paint, ItemSlot, Class, Origin};
 
+/// An item.
 #[derive(Serialize, Deserialize, PartialEq, Clone, Debug)]
 #[serde(rename_all = "camelCase")]
 pub struct Item {

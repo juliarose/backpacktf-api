@@ -1,3 +1,5 @@
+//! Classifieds limits.
+
 use serde::{Serialize, Deserialize};
 
 /// The limits of the classifieds.
@@ -10,6 +12,7 @@ pub struct ClassifiedsLimits {
     pub used: u32,
     /// The total number of slots that can be used.
     pub total: u32,
+    /// The baseline number of slots.
     pub baseline: u32,
     /// The number of slots given from donations.
     pub donation_bonus: u32,

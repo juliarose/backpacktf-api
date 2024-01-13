@@ -1,15 +1,11 @@
+//! Error types.
+
 /// Any range of errors encountered when making requests.
 #[derive(thiserror::Error, Debug)]
 pub enum Error {
-    /// Token is missing.
-    #[error("Missing token")]
-    MissingToken,
-    /// Key is missing.
-    #[error("Missing key")]
-    MissingKey,
     /// An input parameter is missing or invalid.
     #[error("Invalid parameter: {}", .0)]
-    Parameter(&'static str),
+    Parameter(#[from] ParameterError),
     /// An error was encountered making a request.
     #[error("Request error: {}", .0)]
     Reqwest(#[from] reqwest::Error),
@@ -39,4 +35,29 @@ impl From<reqwest_middleware::Error> for Error {
             },
         }
     }
+}
+
+/// Any number of issues with a provided parameter.
+#[derive(thiserror::Error, Debug)]
+pub enum ParameterError {
+    /// Token is missing.
+    #[error("Missing token")]
+    MissingToken,
+    /// Key is missing.
+    #[error("Missing key")]
+    MissingKey,
+    /// An input parameter was empty.
+    #[error("Provided {} is empty", .name)]
+    Empty {
+        /// The name of the parameter.
+        name: &'static str,
+    },
+    /// An input parameter included too many values.
+    #[error("Provided {} exceeded maximum length of {}", .name, .max)]
+    MaximumLengthExceeded {
+        /// The name of the parameter.
+        name: &'static str,
+        /// The maximum length of the parameter.
+        max: usize,
+    },
 }

@@ -1,3 +1,5 @@
+//! Update listing.
+//! 
 use crate::{SteamID, ListingIntent};
 use crate::request;
 use crate::response::currencies::ResponseCurrencies;
@@ -9,9 +11,9 @@ use chrono::serde::ts_seconds;
 /// An error occurred when updating a listing.
 #[derive(Serialize, Deserialize, PartialEq, Clone, Debug)]
 pub struct ErrorListing<T> {
-    /// The error message.
+    /// The message in the response.
     pub message: String,
-    /// The query that was sent.
+    /// The query used to create the listing.
     pub query: request::UpdateListing<T>,
 }
 
@@ -52,4 +54,5 @@ pub struct SuccessListing {
     pub intent: ListingIntent,
 }
 
+/// The result of updating a listing.
 pub type Result<T> = std::result::Result<SuccessListing, ErrorListing<T>>;

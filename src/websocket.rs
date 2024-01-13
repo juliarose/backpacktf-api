@@ -1,3 +1,5 @@
+//! Module for connecting and reading from the backpack.tf websocket.
+
 use crate::response::listing::Listing;
 use tokio_tungstenite::{tungstenite, connect_async};
 use futures_util::StreamExt;
@@ -12,8 +14,10 @@ const APPID_TEAM_FORTRESS_2: u32 = 440;
 /// The type of event from the websocket.
 #[derive(Deserialize, Debug)]
 enum EventType {
+    /// A listing was updated.
     #[serde(rename = "listing-update")]
     ListingUpdate,
+    /// A listing was deleted.
     #[serde(rename = "listing-delete")]
     ListingDelete,
 }
@@ -21,7 +25,9 @@ enum EventType {
 /// An event from the websocket.
 #[derive(Deserialize, Debug)]
 struct EventMessage<'a> {
+    /// The type of event.
     event: EventType,
+    /// The payload of the event.
     #[serde(borrow)]
     payload: &'a RawValue,
 }
@@ -29,14 +35,22 @@ struct EventMessage<'a> {
 /// A message from the websocket.
 #[derive(Debug)]
 pub enum Message {
+    /// A listing was updated.
     ListingUpdate(Listing),
+    /// A listing was deleted.
     ListingDelete(Listing),
+    /// A listing from another app other than Team Fortress 2 was updated.
     ListingUpdateOtherApp {
+        /// The appid of the listing.
         appid: u32,
+        /// The payload of the event.
         payload: Box<RawValue>,
     },
+    /// A listing from another app other than Team Fortress 2 was deleted.
     ListingDeleteOtherApp {
+        /// The appid of the listing.
         appid: u32,
+        /// The payload of the event.
         payload: Box<RawValue>,
     },
 }
@@ -44,12 +58,16 @@ pub enum Message {
 /// An error from the websocket.
 #[derive(thiserror::Error, Debug)]
 pub enum Error {
+    /// An error was encountered parsing a URL.
     #[error("{}", .0)]
     Url(#[from] http::uri::InvalidUri),
+    /// The parsed URL does not contain a hostname.
     #[error("Parsed URL does not contain hostname")]
     UrlNoHostName,
+    /// An error was encountered parsing a request.
     #[error("Error parsing request parameters: {}", .0)]
     RequestParse(#[from] http::Error),
+    /// An error was encountered connecting to the websocket.
     #[error("{}", .0)]
     Connect(#[from] tungstenite::Error),
 }
@@ -69,23 +87,31 @@ pub fn generate_key() -> String {
 
 /// Connect to the websocket.
 pub async fn connect() -> Result<mpsc::Receiver<Message>, Error> {
-    let connect_addr = "wss://ws.backpack.tf/events";
-    let uri = connect_addr.parse::<Uri>()?;
-    let authority = uri.authority()
-        .ok_or(Error::UrlNoHostName)?.as_str();
-    let host = authority
-        .find('@')
-        .map(|idx| authority.split_at(idx + 1).1)
-        .unwrap_or_else(|| authority);
-    let request = Request::builder()
-        .header("batch-test", "true")
-        .header("Host", host)
-        .header("Connection", "Upgrade")
-        .header("Upgrade", "websocket")
-        .header("Sec-WebSocket-Version", "13")
-        .header("Sec-WebSocket-Key", generate_key())
-        .uri(uri)
-        .body(())?;
+    // Build our request for connecting to the websocket
+    let request = {
+        // The address to connect to.
+        let connect_addr = "wss://ws.backpack.tf/events";
+        let uri = connect_addr.parse::<Uri>()?;
+        let authority = uri.authority()
+            .ok_or(Error::UrlNoHostName)?.as_str();
+        let host = authority
+            .find('@')
+            .map(|idx| authority.split_at(idx + 1).1)
+            .unwrap_or_else(|| authority);
+        // Add the headers to the request
+        let request = Request::builder()
+            .header("Host", host)
+            .header("Connection", "Upgrade")
+            .header("Upgrade", "websocket")
+            .header("Sec-WebSocket-Version", "13")
+            // Required header to connect to the websocket server
+            // https://www.rfc-editor.org/rfc/rfc6455#page-57
+            .header("Sec-WebSocket-Key", generate_key())
+            .uri(uri)
+            .body(())?;
+        
+        request
+    };
     let (ws_stream, _) = connect_async(request).await?;
     let (write, read) = mpsc::channel::<Message>(100);
     let (_ws_write, mut ws_read) = ws_stream.split();

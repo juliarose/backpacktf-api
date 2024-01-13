@@ -10,5 +10,5 @@ pub mod alert;
 pub mod currencies;
 pub mod classifieds_limits;
 
-pub mod serializers;
-pub mod deserializers;
+pub(crate) mod serializers;
+pub(crate) mod deserializers;

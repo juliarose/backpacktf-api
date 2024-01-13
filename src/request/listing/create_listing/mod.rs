@@ -9,8 +9,10 @@ use serde::{Deserialize, Serialize};
 #[derive(Deserialize, Serialize, PartialEq, Debug, Clone)]
 #[serde(tag = "intent")]
 pub enum CreateListing<T> {
+    /// Parameters for creating a sell listing.
     #[serde(rename = "sell")]
     Sell {
+        /// The id of the item to list.
         #[serde(serialize_with = "as_string")]
         id: u64,
         /// The currencies. In practice, any type that can be serialized can be supplied.
@@ -23,8 +25,10 @@ pub enum CreateListing<T> {
         /// Whether offers are enabled.
         offers: bool,
     },
+    /// Parameters for creating a buy listing.
     #[serde(rename = "buy")]
     Buy {
+        /// The item to list.
         #[serde(serialize_with = "buy_listing_item_into_params")]
         item: buy_listing::Item,
         /// The currencies. In practice, any type that can be serialized can be supplied.

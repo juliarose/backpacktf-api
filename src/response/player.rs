@@ -1,3 +1,5 @@
+//! Players.
+
 use super::deserializers;
 use crate::SteamID;
 use crate::time::ServerTime;
@@ -43,7 +45,9 @@ impl Ban {
     }
 }
 
+/// A list of users.
 pub type Players = HashMap<SteamID, Player>;
+/// A list of users (v1).
 pub type PlayersV1 = HashMap<SteamID, PlayerV1>;
 
 /// The number of inventory slots.
@@ -130,12 +134,13 @@ pub struct Player {
     pub steamrep_scammer: bool,
 }
 
-// todo fill in remaining reasons
+/// The type of ban.
 #[derive(Serialize_repr, Deserialize_repr, Hash, Eq, PartialEq, Clone, Debug, TryFromPrimitive, IntoPrimitive)]
 #[repr(u32)]
 pub enum BanType {
     /// Banned from all features
     AllFeatures = 1,
+    // todo fill in remaining reasons
 }
 
 #[cfg(test)]

@@ -1,3 +1,5 @@
+//! A crate for interacting with the backpack.tf API.
+
 mod listing_intent;
 mod currency_type;
 mod api;

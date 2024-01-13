@@ -1,5 +1,6 @@
 use serde::{Serialize, Deserialize};
 
+/// Value.
 #[derive(Serialize, Deserialize, PartialEq, Clone, Debug)]
 #[serde(rename_all = "camelCase")]
 pub struct Value {

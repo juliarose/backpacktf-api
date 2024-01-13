@@ -1,17 +1,8 @@
+//! Serializers for request parameters.
+
 use crate::{SteamID, ListingIntent, CurrencyType};
 use crate::response::attributes::FloatValue;
 use serde::Serializer;
-
-/// Combines a list of values into a comma delimited string.
-fn comma_delimited_values<T: ToString>(
-    values: &[T],
-) -> String {
-    values
-        .iter()
-        .map(|value| value.to_string())
-        .collect::<Vec<String>>()
-        .join(",")
-}
 
 /// Serializes into a string.
 pub fn as_string<S, T>(
@@ -23,18 +14,6 @@ where
     T: ToString,
 {
     s.serialize_str(&value.to_string())
-}
-
-/// Serializes a list of values into a comma delimited string.
-pub fn comma_delimited<S, T>(
-    values: &[T],
-    s: S,
-) -> Result<S::Ok, S::Error>
-where
-    S: Serializer,
-    T: ToString,
-{
-    s.serialize_str(&comma_delimited_values(values))
 }
 
 /// Serializes optional into a string.

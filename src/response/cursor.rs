@@ -1,3 +1,5 @@
+/// A cursor for scrolling responses.
+
 use serde::{Serialize, Deserialize};
 
 /// Cursor for scrolling response/

@@ -1,3 +1,5 @@
+//! Currencies used in responses.
+
 use std::fmt;
 use std::cmp::{Ord, Ordering};
 use serde::{Deserialize, Serialize};

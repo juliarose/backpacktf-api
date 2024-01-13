@@ -8,4 +8,4 @@ pub use item::Item;
 pub use item_params::ItemParams;
 pub use item_attribute::ItemAttribute;
 
-pub mod serializers;
+pub(crate) mod serializers;

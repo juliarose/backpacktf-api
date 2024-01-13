@@ -1,19 +1,26 @@
+//! Attributes.
+
 use crate::request::serializers::option_float_as_integers_when_whole;
 use crate::response::deserializers;
 use std::collections::HashMap;
 use serde::{Serialize, Deserialize};
 
+/// A list of attributes.
 pub type Attributes = HashMap<i32, Attribute>;
 
 /// The value of an attribute.
 #[derive(Serialize, Deserialize, PartialEq, Clone, Debug)]
 #[serde(untagged)]
 pub enum Value {
+    /// An integer value.
     Number(u64),
+    /// A float value.
     Float(f64),
+    /// A string value.
     String(String),
 }
 
+/// A float value.
 pub type FloatValue = f64;
 
 /// An attribute of an item.

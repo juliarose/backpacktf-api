@@ -1,10 +1,12 @@
+//! Listing responses.
+
 mod user;
 mod user_agent;
 mod value;
 mod item;
 mod status;
-pub mod attributes;
 
+pub mod attributes;
 pub mod create_listing;
 pub mod update_listing;
 pub use user::{User, Ban};
@@ -22,6 +24,7 @@ use chrono::serde::ts_seconds;
 use serde::{Serialize, Deserialize};
 use chrono::{Utc, Duration as ChronoDuration};
 
+/// A listing.
 #[derive(Serialize, Deserialize, PartialEq, Clone, Debug)]
 #[serde(rename_all = "camelCase")]
 pub struct Listing {
@@ -60,6 +63,7 @@ pub struct Listing {
 }
 
 impl Listing {
+    /// Whether the listing is relistable by checking if the listing was listed after an interval.
     pub fn relistable(&self, interval: Duration) -> bool {
         if let Ok(interval) = ChronoDuration::from_std(interval) {
             let cutoff = Utc::now() - interval;
@@ -70,6 +74,7 @@ impl Listing {
         }
     }
     
+    /// Gets the access token of the listing's user.
     pub fn access_token(&self) -> Option<String> {
         if let Some(user) = &self.user {
             user.access_token()
@@ -77,7 +82,8 @@ impl Listing {
             None
         }
     }
-
+    
+    /// Whether the listing is managed by an agent.
     pub fn is_automatic(&self) -> bool {
         self.user_agent.is_some()
     }

@@ -1,3 +1,5 @@
+//! Currency types.
+
 use strum_macros::EnumString;
 use serde::{Serialize, Deserialize};
 

@@ -9,6 +9,6 @@ pub use listing::create_listing::buy_listing::{
     Item as BuyListingItem,
     ItemParams as BuyListingItemParams,
 };
-pub use listing::create_listing::buy_listing::serializers as listing_serializers;
 
-pub mod serializers;
+pub(crate) use listing::create_listing::buy_listing::serializers as listing_serializers;
+pub(crate) mod serializers;
