@@ -21,8 +21,8 @@ backpacktf-api = { git = "https://github.com/juliarose/backpacktf-api", features
 ```rs
 use backpacktf_api::BackpackAPI;
 use backpacktf_api::request::{BuyListingItem, CreateListing};
-use backpacktf_api::tf2_price::{Currencies, scrap};
-use backpacktf_api::tf2_enum::{Quality, KillstreakTier};
+use tf2_price::{Currencies, scrap};
+use tf2_enum::{Quality, KillstreakTier};
 
 let backpacktf = BackpackAPI::builder()
     .key("key")
