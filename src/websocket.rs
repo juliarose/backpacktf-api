@@ -25,6 +25,8 @@ enum EventType {
 /// An event from the websocket.
 #[derive(Deserialize, Debug)]
 struct EventMessage<'a> {
+    /// The event ID.
+    id: &'a str,
     /// The type of event.
     event: EventType,
     /// The payload of the event.
@@ -86,7 +88,7 @@ pub fn generate_key() -> String {
 }
 
 /// Connect to the websocket.
-pub async fn connect() -> Result<mpsc::Receiver<Message>, Error> {
+pub async fn connect() -> Result<mpsc::Receiver<(String, Message)>, Error> {
     // Build our request for connecting to the websocket
     let request = {
         // The address to connect to.
@@ -109,20 +111,20 @@ pub async fn connect() -> Result<mpsc::Receiver<Message>, Error> {
             .header("Sec-WebSocket-Key", generate_key())
             .uri(uri)
             .body(())?;
-        
+
         request
     };
     let (ws_stream, _) = connect_async(request).await?;
-    let (write, read) = mpsc::channel::<Message>(100);
+    let (write, read) = mpsc::channel::<(String, Message)>(100);
     let (_ws_write, mut ws_read) = ws_stream.split();
-    
+
     tokio::spawn(async move {
         while let Some(message) = ws_read.next().await {
             match message {
                 Ok(message) => {
                     let data = message.into_data();
                     let bytes = data.as_slice();
-                    
+
                     match serde_json::from_slice::<Vec<EventMessage>>(bytes) {
                         Ok(messages) => {
                             for message in messages {
@@ -171,10 +173,10 @@ pub async fn connect() -> Result<mpsc::Receiver<Message>, Error> {
                 },
             }
         }
-        
+
         drop(write);
     });
-    
+
     Ok(read)
 }
 
@@ -182,7 +184,7 @@ pub async fn connect() -> Result<mpsc::Receiver<Message>, Error> {
 #[derive(thiserror::Error, Debug)]
 enum EventError {
     #[error("{}", .0)]
-    Send(#[from] tokio::sync::mpsc::error::SendError<Message>),
+    Send(#[from] tokio::sync::mpsc::error::SendError<(String, Message)>),
     #[error("{}", .0)]
     Serde(#[from] serde_json::Error),
 }
@@ -190,23 +192,23 @@ enum EventError {
 /// Handle an event.
 async fn on_event<'a>(
     message: &EventMessage<'a>,
-    write: &mpsc::Sender<Message>,
+    write: &mpsc::Sender<(String, Message)>,
 ) -> Result<(), EventError> {
     match message.event {
         EventType::ListingUpdate |
         EventType::ListingDelete => {
             match serde_json::from_str::<Listing>(message.payload.get()) {
                 Ok(listing) => {
-                    write.send(match message.event {
+                    write.send((message.id.to_owned(), match message.event {
                         EventType::ListingUpdate => Message::ListingUpdate(listing),
                         EventType::ListingDelete => Message::ListingDelete(listing),
-                    }).await?;
+                    })).await?;
                 },
                 Err(error) => if let Ok(AppType { appid }) = serde_json::from_str::<AppType>(message.payload.get()) {
                     if appid != APPID_TEAM_FORTRESS_2 {
                         let payload = message.payload.to_owned();
-                        
-                        write.send(match message.event {
+
+                        write.send((message.id.to_owned(), match message.event {
                             EventType::ListingUpdate => Message::ListingUpdateOtherApp {
                                 appid,
                                 payload,
@@ -215,7 +217,7 @@ async fn on_event<'a>(
                                 appid,
                                 payload,
                             },
-                        }).await?;
+                        })).await?;
                     } else {
                         return Err(error.into());
                     }
@@ -223,7 +225,7 @@ async fn on_event<'a>(
                     return Err(error.into());
                 },
             }
-            
+
             Ok(())
         },
     }
