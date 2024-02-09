@@ -1,3 +1,5 @@
+//! Contains all the response structs for the various endpoints.
+
 pub mod listing;
 pub mod attributes;
 pub mod cursor;

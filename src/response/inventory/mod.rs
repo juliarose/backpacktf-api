@@ -1,5 +1,5 @@
 //! Inventory.
-//! 
+
 mod status;
 mod values;
 

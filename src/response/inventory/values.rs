@@ -1,3 +1,5 @@
+//! Inventory values.
+
 use serde::{Deserialize, Serialize};
 
 /// Inventory values.

@@ -1,3 +1,5 @@
+//! Inventory status.
+
 use crate::time::ServerTime;
 use serde::{Deserialize, Serialize};
 use chrono::serde::ts_seconds;

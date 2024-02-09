@@ -1,4 +1,4 @@
-//! Bundle.
+//! Notification bundle.
 
 use crate::response::listing::Listing;
 use serde::{Serialize, Deserialize};

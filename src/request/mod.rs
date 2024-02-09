@@ -1,3 +1,5 @@
+//! Contains all the request structures for the API.
+
 mod listing;
 mod alert;
 mod currencies;

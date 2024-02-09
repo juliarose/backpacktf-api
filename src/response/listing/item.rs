@@ -26,10 +26,10 @@ pub struct Item {
     #[serde(skip_serializing_if = "Option::is_none")]
     #[serde(deserialize_with = "deserializers::from_optional_number_or_string")]
     pub id: Option<u64>,
+    /// The item's ID. `None` if this listing is a buy order.
     #[serde(default)]
     #[serde(skip_serializing_if = "Option::is_none")]
     #[serde(deserialize_with = "deserializers::from_optional_number_or_string")]
-    /// The item's ID. `None` if this listing is a buy order.
     pub original_id: Option<u64>,
     // must be i32 to account for marketplace cross-listing SKUs such as -100 (Random Craft Hat)
     /// The item's defindex. This is not necessarily mapped to an item in the schema and can 
