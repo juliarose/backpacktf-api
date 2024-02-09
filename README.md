@@ -18,7 +18,7 @@ backpacktf-api = { git = "https://github.com/juliarose/backpacktf-api", features
 
 ## Usage
 
-```rs
+```rust
 use backpacktf_api::BackpackAPI;
 use backpacktf_api::request::{BuyListingItem, CreateListing};
 use tf2_price::{Currencies, scrap};

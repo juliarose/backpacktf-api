@@ -10,10 +10,15 @@ use tf2_enum::{StrangePart, Grade, Spell};
 #[derive(Serialize, Deserialize, PartialEq, Clone, Debug)]
 #[serde(rename_all = "camelCase")]
 pub struct ParticleAttribute {
+    /// The ID of the particle effect.
     pub id: u32,
+    /// The name of the particle effect.
     pub name: String,
+    /// The short name of the particle effect.
     pub short_name: String,
+    /// The image URL of the particle effect.
     pub image_url: String,
+    /// The type of the particle effect.
     pub r#type: String,
 }
 
@@ -21,10 +26,14 @@ pub struct ParticleAttribute {
 #[derive(Serialize, Deserialize, PartialEq, Clone, Debug)]
 #[serde(rename_all = "camelCase")]
 pub struct TextureAttribute {
+    /// The ID of the texture.
     pub id: u32,
+    /// The item defindex of the war paint (if this item originated from a war paint).
     pub item_defindex: Option<u32>,
+    /// The name of the texture.
     #[serde(deserialize_with = "deserializers::map_to_enum")]
     pub rarity: Grade,
+    /// The image URL of the texture.
     pub name: String,
 }
 
@@ -32,20 +41,16 @@ pub struct TextureAttribute {
 #[derive(Serialize, Deserialize, PartialEq, Clone, Debug)]
 #[serde(rename_all = "camelCase")]
 pub struct KillEaterTypeAttribute {
+    /// The ID of the kill eater type.
     pub id: Option<u32>,
+    /// The name of the kill eater type.
     pub name: String,
 }
 
 impl KillEaterTypeAttribute {
     /// If the ID correlates to a strange part, gets the strange part for this kill eater type.
     pub fn get_strange_part(&self) -> Option<StrangePart> {
-        let id = self.id.unwrap_or_default();
-        
-        if let Ok(strange_part) = StrangePart::try_from(id) {
-            return Some(strange_part);
-        }
-        
-        None
+        StrangePart::try_from(self.id?).ok()
     }
 }
 
@@ -54,7 +59,9 @@ impl KillEaterTypeAttribute {
 #[derive(Serialize, Deserialize, PartialEq, Clone, Debug)]
 #[serde(rename_all = "camelCase")]
 pub struct KillEaterAttribute {
+    /// The score of the kill eater attribute.
     pub score: u64,
+    /// The kill eater type of the kill eater attribute.
     pub kill_eater: KillEaterTypeAttribute,
 }
 
@@ -69,14 +76,17 @@ impl KillEaterAttribute {
 /// Represents a recipe input item.
 #[derive(Serialize, Deserialize, PartialEq, Clone, Debug)]
 pub struct RecipeInputItem {
+    /// The quantity of the input item.
     #[serde(deserialize_with = "deserializers::from_number_or_string")]
     pub quantity: u32,
+    /// The name of the input item.
     pub name: String,
 }
 
 /// Represents an item source.
 #[derive(Serialize, Deserialize, PartialEq, Clone, Debug)]
 pub struct ItemSource {
+    /// The defindex of the item source.
     pub defindex: u32,
 }
 
@@ -84,7 +94,9 @@ pub struct ItemSource {
 #[derive(Serialize, Deserialize, PartialEq, Clone, Debug)]
 #[serde(rename_all = "camelCase")]
 pub struct TargetItem {
+    /// The name of the target item.
     pub item_name: String,
+    /// The source of the target item.
     #[serde(rename = "_source")]
     pub source: ItemSource,
 }
@@ -93,9 +105,12 @@ pub struct TargetItem {
 #[derive(Serialize, Deserialize, PartialEq, Clone, Debug)]
 #[serde(rename_all = "camelCase")]
 pub struct RecipeAttribute {
+    /// The recipe input items.
     pub input_items: Vec<RecipeInputItem>,
+    /// The target item.
     #[serde(default)]
     pub target_item: Option<TargetItem>,
+    /// The output item.
     #[serde(default)]
     pub output_item: Option<Box<Item>>,
 }
@@ -104,6 +119,7 @@ pub struct RecipeAttribute {
 #[derive(Serialize, Deserialize, PartialEq, Clone, Debug)]
 #[serde(rename_all = "camelCase")]
 pub struct SpellAttribute {
+    /// The spell.
     #[serde(rename = "name")]
     #[serde(serialize_with = "to_display")]
     #[serde(deserialize_with = "deserializers::from_str")]

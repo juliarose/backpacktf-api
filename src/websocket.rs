@@ -74,20 +74,33 @@ pub enum Error {
     Connect(#[from] tungstenite::Error),
 }
 
+/// A listing from another app other than Team Fortress 2. This reads only the appid from the 
+/// payload.
 #[derive(Debug, Deserialize, Serialize)]
 struct AppType {
     appid: u32,
 }
 
-/// Generate a random key for the `Sec-WebSocket-Key` header.
-pub fn generate_key() -> String {
-    // a base64-encoded (see Section 4 of [RFC4648]) value that,
-    // when decoded, is 16 bytes in length (RFC 6455)
+/// An error from an event.
+#[derive(thiserror::Error, Debug)]
+enum EventError {
+    /// An error was encountered sending a message.
+    #[error("{}", .0)]
+    Send(#[from] tokio::sync::mpsc::error::SendError<(String, Message)>),
+    /// An error was encountered deserializing a message.
+    #[error("{}", .0)]
+    Serde(#[from] serde_json::Error),
+}
+
+/// Generates a random key for the `Sec-WebSocket-Key` header.
+fn generate_key() -> String {
+    // a base64-encoded (see Section 4 of [RFC4648]) value that, when decoded, is 16 bytes in 
+    // length (RFC 6455)
     let r: [u8; 16] = rand::random();
     data_encoding::BASE64.encode(&r)
 }
 
-/// Connect to the websocket.
+/// Connects to the websocket.
 pub async fn connect() -> Result<mpsc::Receiver<(String, Message)>, Error> {
     // Build our request for connecting to the websocket
     let request = {
@@ -115,8 +128,8 @@ pub async fn connect() -> Result<mpsc::Receiver<(String, Message)>, Error> {
         request
     };
     let (ws_stream, _) = connect_async(request).await?;
-    let (write, read) = mpsc::channel::<(String, Message)>(100);
-    let (_ws_write, mut ws_read) = ws_stream.split();
+    let (sender, read) = mpsc::channel::<(String, Message)>(100);
+    let (_ws_sender, mut ws_read) = ws_stream.split();
 
     tokio::spawn(async move {
         while let Some(message) = ws_read.next().await {
@@ -128,7 +141,8 @@ pub async fn connect() -> Result<mpsc::Receiver<(String, Message)>, Error> {
                     match serde_json::from_slice::<Vec<EventMessage>>(bytes) {
                         Ok(messages) => {
                             for message in messages {
-                                if let Err(error) = on_event(&message, &write).await {
+                                // parse and send the message to the sender, capturing any errors in the message
+                                if let Err(error) = on_event(&message, &sender).await {
                                     match error {
                                         EventError::Serde(error) => {
                                             log::debug!(
@@ -174,32 +188,23 @@ pub async fn connect() -> Result<mpsc::Receiver<(String, Message)>, Error> {
             }
         }
 
-        drop(write);
+        drop(sender);
     });
 
     Ok(read)
 }
 
-/// An error from an event.
-#[derive(thiserror::Error, Debug)]
-enum EventError {
-    #[error("{}", .0)]
-    Send(#[from] tokio::sync::mpsc::error::SendError<(String, Message)>),
-    #[error("{}", .0)]
-    Serde(#[from] serde_json::Error),
-}
-
-/// Handle an event.
+/// Handles an event.
 async fn on_event<'a>(
     message: &EventMessage<'a>,
-    write: &mpsc::Sender<(String, Message)>,
+    sender: &mpsc::Sender<(String, Message)>,
 ) -> Result<(), EventError> {
     match message.event {
         EventType::ListingUpdate |
         EventType::ListingDelete => {
             match serde_json::from_str::<Listing>(message.payload.get()) {
                 Ok(listing) => {
-                    write.send((message.id.to_owned(), match message.event {
+                    sender.send((message.id.to_owned(), match message.event {
                         EventType::ListingUpdate => Message::ListingUpdate(listing),
                         EventType::ListingDelete => Message::ListingDelete(listing),
                     })).await?;
@@ -208,7 +213,7 @@ async fn on_event<'a>(
                     if appid != APPID_TEAM_FORTRESS_2 {
                         let payload = message.payload.to_owned();
 
-                        write.send((message.id.to_owned(), match message.event {
+                        sender.send((message.id.to_owned(), match message.event {
                             EventType::ListingUpdate => Message::ListingUpdateOtherApp {
                                 appid,
                                 payload,

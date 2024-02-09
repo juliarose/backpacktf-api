@@ -1,5 +1,5 @@
 //! Update listing.
-//! 
+
 use crate::{SteamID, ListingIntent};
 use crate::request;
 use crate::response::currencies::ResponseCurrencies;

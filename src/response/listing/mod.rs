@@ -28,35 +28,52 @@ use chrono::{Utc, Duration as ChronoDuration};
 #[derive(Serialize, Deserialize, PartialEq, Clone, Debug)]
 #[serde(rename_all = "camelCase")]
 pub struct Listing {
+    /// The ID of the listing.
     pub id: String,
+    /// The SteamID of the listing's user.
     pub steamid: SteamID,
+    /// The appid of the listing.
     pub appid: u32,
+    /// The currencies of the listing.
     pub currencies: ResponseCurrencies,
+    /// The value of the listing.
     #[serde(default)]
     #[serde(skip_serializing_if = "Option::is_none")]
     pub value: Option<Value>,
+    /// Whether the user prefers trade offers for this listing.
     #[serde(default)]
     pub trade_offers_preferred: bool,
+    /// Whether the listing is a buyout only listing.
     #[serde(default)]
     pub buyout_only: bool,
+    /// Whether the listing is archived.
     #[serde(default)]
     pub archived: bool,
+    /// The details of the listing.
     #[serde(default)]
     #[serde(skip_serializing_if = "Option::is_none")]
     pub details: Option<String>,
+    /// The time the listing was listed at.
     #[serde(with = "ts_seconds")]
     pub listed_at: ServerTime,
+    /// The time the listing was bumped at.
     #[serde(with = "ts_seconds")]
     pub bumped_at: ServerTime,
+    /// The intent of the listing.
     #[serde(deserialize_with = "deserializers::listing_intent_enum_from_str_or_int")]
     pub intent: ListingIntent,
+    /// The item of the listing.
     pub item: Item,
+    /// The count of the listing.
     pub count: u32,
+    /// The status of the listing.
     #[serde(default)]
     pub status: Status,
+    /// The user agent of the listing.
     #[serde(default)]
     #[serde(skip_serializing_if = "Option::is_none")]
     pub user_agent: Option<UserAgent>,
+    /// The user of the listing.
     #[serde(default)]
     #[serde(skip_serializing_if = "Option::is_none")]
     pub user: Option<User>,

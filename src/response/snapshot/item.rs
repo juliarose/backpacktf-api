@@ -28,32 +28,31 @@ pub struct Item {
     #[serde(default)]
     #[serde(deserialize_with = "deserializers::from_optional_number_or_string_integer")]
     // Levels can sometimes be negative.
+    /// The level of the item.
     pub level: Option<i32>,
+    /// The position of the item in the backpack.
     #[serde(default)]
     #[serde(deserialize_with = "deserializers::from_optional_number_or_string")]
     pub inventory: Option<u32>,
+    /// The quantity of the item.
     #[serde(default)]
     #[serde(deserialize_with = "deserializers::from_optional_number_or_string")]
     pub quantity: Option<u32>,
+    /// The item's origin.
     #[serde(default)]
     pub origin: Option<Origin>,
+    /// The item's attributes.
     #[serde(default)]
     #[serde(deserialize_with = "deserializers::deserialize_attributes")]
     pub attributes: Attributes,
+    /// The item's marketplace price.
     pub marketplace_price: Option<f32>,
+    /// The marketplace bot's SteamID if the item is listed on marketplace.tf.
     pub marketplace_bot_steamid: Option<SteamID>,
+    /// The marketplace SKU if the item is listed on marketplace.tf.
     pub marketplace_sku: Option<String>,
+    /// The marketplace image URL if the item is listed on marketplace.tf.
     pub marketplace_image: Option<String>,
-}
-
-fn convert_float_u32(float: f64) -> Option<u32> {
-    let int = float as u32;
-    
-    if int as f64 == float {
-        Some(int)
-    } else {
-        None
-    }
 }
 
 impl Item {
@@ -259,5 +258,15 @@ impl Item {
         } else {
             self.attributes.contains_key(&214)
         }
+    }
+}
+
+fn convert_float_u32(float: f64) -> Option<u32> {
+    let int = float as u32;
+    
+    if int as f64 == float {
+        Some(int)
+    } else {
+        None
     }
 }

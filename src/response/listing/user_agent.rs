@@ -1,3 +1,5 @@
+//! Listing user agent.
+
 use crate::time::ServerTime;
 use serde::{Serialize, Deserialize};
 use chrono::serde::ts_seconds;

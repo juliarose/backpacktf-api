@@ -1,3 +1,5 @@
+//! Snapshot.
+
 mod listing;
 mod item;
 
@@ -8,13 +10,18 @@ use crate::time::ServerTime;
 use serde::{Serialize, Deserialize};
 use chrono::serde::ts_seconds;
 
+/// A snapshot.
 #[derive(Serialize, Deserialize, PartialEq, Clone, Debug)]
 #[serde(rename_all = "camelCase")]
 pub struct Snapshot {
+    /// The time the snapshot was taken at.
     #[serde(with = "ts_seconds")]
     pub created_at: ServerTime,
+    /// The appid of the snapshot.
     pub appid: Option<u32>,
+    /// The SKU of the snapshot.
     pub sku: String,
+    /// The listings in the snapshot.
     #[serde(default)]
     pub listings: Vec<Listing>,
 }
