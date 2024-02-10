@@ -92,17 +92,14 @@ fn get_retry_seconds(response: &reqwest::Response) -> Option<u64> {
 
 /// Sensible wait durations for retrying requests.
 pub fn retryable_duration(error: &Error) -> Option<Duration> {
-    match error {
-        Error::Http(response) => {
-            match response.status() {
-                StatusCode::BAD_GATEWAY => return Some(Duration::from_secs(5)),
-                StatusCode::TOO_MANY_REQUESTS => if let Some(seconds) = get_retry_seconds(response) {
-                    return Some(Duration::from_secs(seconds));
-                },
-                _ => {},
-            }
-        },
-        _ => {},
+    if let Error::Http(response) = error {
+        match response.status() {
+            StatusCode::BAD_GATEWAY => return Some(Duration::from_secs(5)),
+            StatusCode::TOO_MANY_REQUESTS => if let Some(seconds) = get_retry_seconds(response) {
+                return Some(Duration::from_secs(seconds));
+            },
+            _ => {},
+        }
     }
     
     None
