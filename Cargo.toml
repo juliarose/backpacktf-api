@@ -30,6 +30,8 @@ steamid-ng = "1.0.0"
 tf2-enum = "^0.9.1"
 tf2-price = "^0.12"
 log = "0.4.17"
+
+# Required for websocket feature
 tokio = { version = "1", features = ["sync"], optional = true }
 tokio-tungstenite = { version = "0.17", optional = true }
 futures-util = { version = "0.3", optional = true }
