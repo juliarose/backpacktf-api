@@ -1,8 +1,8 @@
-/// A cursor for scrolling responses.
+//! Cursor for scrolling response.
 
 use serde::{Serialize, Deserialize};
 
-/// Cursor for scrolling response/
+/// Cursor for scrolling response.
 #[derive(Serialize, Deserialize, PartialEq, Clone, Debug)]
 pub struct Cursor {
     /// How many items to skip.

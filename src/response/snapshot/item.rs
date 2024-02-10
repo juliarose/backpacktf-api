@@ -1,3 +1,5 @@
+//! Snapshot item.
+
 use crate::SteamID;
 use crate::response::attributes::{Attributes, Value as AttributeValue};
 use crate::response::deserializers;
@@ -11,6 +13,8 @@ use tf2_enum::{
 #[derive(Serialize, Deserialize, PartialEq, Clone, Debug)]
 pub struct Item {
     // must be i32 to account for marketplace cross-listing SKUs such as -100 (Random Craft Hat)
+    /// The item's defindex. This is not necessarily mapped to an item in the schema and can 
+    /// include values for non-standard items such as "Random Craft Hat" (-100).
     pub defindex: i32,
     /// The quality of the item.
     pub quality: Quality,
@@ -61,27 +65,22 @@ impl Item {
         self.quality
     }
     
-    // todo - I may change these to return explicit errors later on
-    // (attribute does not exist, failed to parse attribute)
-    // in addition, most of these methods can be written in a more generic way
+    /// Gets the particle value of the item.
     pub fn get_particle_value(&self) -> Option<u32> {
-        if let Some(attribute) = self.attributes.get(&134) {
-            if let Some(float_value) = attribute.float_value {
-                return convert_float_u32(float_value);
-            }
-        }
-        
-        None
+        get_attributes_float_u32(
+            &self.attributes,
+            134
+        )
     }
     
     /// Gets the skin value of the item.
     pub fn get_skin_value(&self) -> Option<u32> {
-        if let Some(attribute) = self.attributes.get(&834) {
-            if let Some(AttributeValue::Number(value)) = attribute.value {
-                if let Ok(value) = u32::try_from(value) {
-                    return Some(value);
-                }
-            }
+        let attribute = self.attributes.get(&834)?;
+        
+        if let Some(AttributeValue::Number(value)) = attribute.value {
+            let value = u32::try_from(value).ok()?;
+            
+            return Some(value);
         }
         
         None
@@ -89,30 +88,15 @@ impl Item {
     
     /// Gets the killstreak tier of the item.
     pub fn get_killstreak_tier(&self) -> Option<KillstreakTier> {
-        if let Some(attribute) = self.attributes.get(&(KillstreakTier::DEFINDEX as i32)) {
-            if let Some(float_value) = attribute.float_value {
-                if let Some(float_value) = convert_float_u32(float_value) {
-                    if let Ok(killstreak_tier) = KillstreakTier::try_from(float_value) {
-                        return Some(killstreak_tier);
-                    }
-                }
-            }
-        }
-        
-        None
+        try_from_float_value(&self.attributes)
     }
     
     /// Gets the wear of the item.
     pub fn get_wear(&self) -> Option<Wear> {
-        if let Some(attribute) = self.attributes.get(&(Wear::DEFINDEX as i32)) {
-            if let Some(float_value) = attribute.float_value {
-                if let Ok(wear) = Wear::try_from(float_value) {
-                    return Some(wear);
-                }
-            }
-        }
+        let attribute = self.attributes.get(&(Wear::DEFINDEX as i32))?;
+        let float_value = attribute.float_value?;
         
-        None
+        Wear::try_from(float_value).ok()
     }
     
     /// Gets the spells on the item.
@@ -120,38 +104,28 @@ impl Item {
         let spells = Spell::DEFINDEX
             .iter()
             .filter_map(|defindex| {
-                if let Some(attribute) = self.attributes.get(&(*defindex as i32)) {
-                    match *defindex {
-                        Spell::DEFINDEX_FOOTPRINTS => {
-                            if let Some(float_value) = attribute.float_value {
-                                if let Some(float_value) = convert_float_u32(float_value) {
-                                    if let Ok(spell) = FootprintsSpell::try_from(float_value) {
-                                        return Some(spell.into());
-                                    }
-                                }
-                            }
-                            
-                            None
-                        },
-                        Spell::DEFINDEX_PAINT => {
-                            if let Some(float_value) = attribute.float_value {
-                                if let Some(float_value) = convert_float_u32(float_value) {
-                                    if let Ok(spell) = PaintSpell::try_from(float_value) {
-                                        return Some(spell.into());
-                                    }
-                                }
-                            }
-                            
-                            None
-                        },
-                        Spell::DEFINDEX_VOICES_FROM_BELOW => Some(Spell::VoicesFromBelow),
-                        Spell::DEFINDEX_PUMPKIN_BOMBS => Some(Spell::PumpkinBombs),
-                        Spell::DEFINDEX_HALLOWEEN_FIRE => Some(Spell::HalloweenFire),
-                        Spell::DEFINDEX_EXORCISM => Some(Spell::Exorcism),
-                        _ => None,
-                    }
-                } else {
-                    None
+                let attribute = self.attributes.get(&(*defindex as i32))?;
+                
+                match *defindex {
+                    Spell::DEFINDEX_FOOTPRINTS => {
+                        let float_value = attribute.float_value?;
+                        let float_value = convert_float_u32(float_value)?;
+                        
+                        FootprintsSpell::try_from(float_value).ok()
+                            .map(|spell| spell.into())
+                    },
+                    Spell::DEFINDEX_PAINT => {
+                        let float_value = attribute.float_value?;
+                        let float_value = convert_float_u32(float_value)?;
+                        
+                        PaintSpell::try_from(float_value).ok()
+                            .map(|spell| spell.into())
+                    },
+                    Spell::DEFINDEX_VOICES_FROM_BELOW => Some(Spell::VoicesFromBelow),
+                    Spell::DEFINDEX_PUMPKIN_BOMBS => Some(Spell::PumpkinBombs),
+                    Spell::DEFINDEX_HALLOWEEN_FIRE => Some(Spell::HalloweenFire),
+                    Spell::DEFINDEX_EXORCISM => Some(Spell::Exorcism),
+                    _ => None,
                 }
             })
             .collect::<Vec<Spell>>();
@@ -163,21 +137,17 @@ impl Item {
         }
     }
     
+    /// Gets the strange parts on the item.
     pub fn get_strange_parts(&self) -> Option<Vec<StrangePart>> {
         let strange_parts = StrangePart::DEFINDEX 
             .iter()
             .filter_map(|defindex| {
-                self.attributes.get(&(*defindex as i32))
-                    .and_then(|attribute| attribute.float_value)
-                    .and_then(|float_value| {
-                        if let Some(float_value) = convert_float_u32(float_value) {
-                            if let Ok(strange_part) = StrangePart::try_from(float_value) {
-                                return Some(strange_part);
-                            }
-                        }
-                        
-                        None
-                    })
+                let float_value = get_attributes_float_u32(
+                    &self.attributes,
+                    *defindex as i32,
+                )?;
+                
+                StrangePart::try_from(float_value).ok()
             })
             .collect::<Vec<StrangePart>>();
         
@@ -188,51 +158,24 @@ impl Item {
         }
     }
     
-    /// Gets the attributes on the item.
+    /// Gets the paint on the item.
     pub fn get_paint(&self) -> Option<Paint> {
-        if self.defindex < 5027 || self.defindex > 5077 {
-            if let Some(attribute) = self.attributes.get(&(Paint::DEFINDEX as i32)) {
-                if let Some(float_value) = attribute.float_value {
-                    if let Some(float_value) = convert_float_u32(float_value) {
-                        if let Ok(paint) = Paint::try_from(float_value) {
-                            return Some(paint);
-                        }
-                    }
-                }
-            }
+        // 5027-5077 are paint defindexes
+        if self.defindex >= 5027 || self.defindex <= 5077 {
+            return None;
         }
         
-        None
+        try_from_float_value(&self.attributes)
     }
     
     /// Gets the killstreaker of the item.
     pub fn get_killstreaker(&self) -> Option<Killstreaker> {
-        if let Some(attribute) = self.attributes.get(&(Killstreaker::DEFINDEX as i32)) {
-            if let Some(float_value) = attribute.float_value {
-                if let Some(float_value) = convert_float_u32(float_value) {
-                    if let Ok(killstreaker) = Killstreaker::try_from(float_value) {
-                        return Some(killstreaker);
-                    }
-                }
-            }
-        }
-        
-        None
+        try_from_float_value(&self.attributes)
     }
     
     /// Gets the sheen of the item.
     pub fn get_sheen(&self) -> Option<Sheen> {
-        if let Some(attribute) = self.attributes.get(&(Sheen::DEFINDEX as i32)) {
-            if let Some(float_value) = attribute.float_value {
-                if let Some(float_value) = convert_float_u32(float_value) {
-                    if let Ok(sheen) = Sheen::try_from(float_value) {
-                        return Some(sheen);
-                    }
-                }
-            }
-        }
-        
-        None
+        try_from_float_value(&self.attributes)
     }
     
     /// Checks if the item is craftable.
@@ -269,4 +212,30 @@ fn convert_float_u32(float: f64) -> Option<u32> {
     } else {
         None
     }
+}
+
+/// Gets the float value of an attribute as a u32.
+fn get_attributes_float_u32(
+    attributes: &Attributes,
+    defindex: i32,
+) -> Option<u32> {
+    let attribute = attributes.get(&defindex)?;
+    let float_value = attribute.float_value?;
+    
+    convert_float_u32(float_value)
+}
+
+/// Attempts to convert an attribute float value to an enum value.
+fn try_from_float_value<T>(
+    attributes: &Attributes,
+) -> Option<T>
+where
+    T: TryFrom<u32> + Attribute,
+{
+    let float_value = get_attributes_float_u32(
+        attributes,
+        T::DEFINDEX as i32,
+    )?;
+    
+    T::try_from(float_value).ok()
 }

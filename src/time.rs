@@ -1,3 +1,5 @@
+//! Time.
+
 use chrono::{DateTime, Utc};
 
 /// The times used in this API.

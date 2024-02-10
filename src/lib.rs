@@ -1,5 +1,6 @@
 //! A crate for interacting with the backpack.tf API.
 
+#![warn(missing_docs)]
 mod listing_intent;
 mod currency_type;
 mod api;
