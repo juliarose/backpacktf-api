@@ -39,7 +39,7 @@ mod tests {
     #[test]
     fn parses_get_classifieds_snapshot_quality() {
         let snapshot: Snapshot = serde_json::from_str(include_str!("fixtures/snapshot.json")).unwrap();
-        let listing = snapshot.listings.get(0).unwrap();
+        let listing = snapshot.listings.first().unwrap();
         
         assert_eq!(listing.intent, ListingIntent::Sell);
         assert_eq!(listing.item.id, Some(10080129222));

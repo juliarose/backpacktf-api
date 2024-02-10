@@ -152,7 +152,7 @@ mod tests {
 
     #[test]
     fn next() {
-        let vec = (0..10000).into_iter().collect::<Vec<_>>();
+        let vec = (0..10000).collect::<Vec<_>>();
         let mut cooldown = Cooldown::new(&vec);
         
         for _i in 0..9 {
