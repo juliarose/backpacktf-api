@@ -625,7 +625,9 @@ impl BackpackAPI {
             return Err(ParameterError::Empty {
                 name: "listing_ids",
             }.into());
-        } else if listing_ids.len() > 100 {
+        }
+        
+        if listing_ids.len() > 100 {
             return Err(ParameterError::MaximumLengthExceeded {
                 name: "listing_ids",
                 max: 100,
@@ -814,7 +816,8 @@ impl BackpackAPI {
         Ok(listing)
     }
     
-    /// Creates listings. A limit of 100 listings is imposed.
+    /// Creates listings. A limit of 100 listings is imposed. Note that any type can be used for 
+    /// the currencies parameter as long as it implements all traits under `SerializeCurrencies`.
     pub async fn create_listings<T>(
         &self,
         listings: &[request::CreateListing<T>],
@@ -837,7 +840,9 @@ impl BackpackAPI {
             return Err(ParameterError::Empty {
                 name: "listings",
             }.into());
-        } else if listings.len() > 100 {
+        }
+        
+        if listings.len() > 100 {
             return Err(ParameterError::MaximumLengthExceeded {
                 name: "listings",
                 max: 100,
@@ -914,7 +919,9 @@ impl BackpackAPI {
             return Err(ParameterError::Empty {
                 name: "listing_ids",
             }.into());
-        } else if listing_ids.len() > 100 {
+        }
+        
+        if listing_ids.len() > 100 {
             return Err(ParameterError::MaximumLengthExceeded {
                 name: "listing_ids",
                 max: 100,
@@ -935,7 +942,8 @@ impl BackpackAPI {
         Ok(response.deleted)
     }
     
-    /// Updates a listing.
+    /// Updates a listing. Note that any type can be used for the currencies parameter as long as 
+    /// it implements all traits under `SerializeCurrencies`.
     pub async fn update_listing<T>(
         &self,
         id: &str,
@@ -968,7 +976,8 @@ impl BackpackAPI {
         Ok(body)
     }
     
-    /// Updates listings. A limit of 100 listings is imposed.
+    /// Updates listings. A limit of 100 listings is imposed. Note that any type can be used for 
+    /// the currencies parameter as long as it implements all traits under `SerializeCurrencies`.
     pub async fn update_listings<T>(
         &self,
         listings: &[request::UpdateListing<T>],
@@ -1004,7 +1013,9 @@ impl BackpackAPI {
             return Err(ParameterError::Empty {
                 name: "listings",
             }.into());
-        } else if listings.len() > 100 {
+        }
+        
+        if listings.len() > 100 {
             return Err(ParameterError::MaximumLengthExceeded {
                 name: "listings",
                 max: 100,
@@ -1299,10 +1310,11 @@ impl BackpackAPI {
         (listings, archived_listings_error)
     }
     
-    /// Bulk creates any number of listings. This is a convenience method which handles
-    /// mass creation of listings that need to be split into chunks and are rate limited
-    /// to a certain number of requests per minute. If an error occurs, execution will 
-    /// cease and an error will be added to the return value.
+    /// Bulk creates any number of listings. This is a convenience method which handles mass 
+    /// creation of listings that need to be split into chunks and are rate limited to a certain 
+    /// number of requests per minute. If an error occurs, execution will cease and an error will 
+    /// be added to the return value. Note that any type can be used for the currencies parameter 
+    /// as long as it implements all traits under `SerializeCurrencies`.
     pub async fn create_listings_chunked<T>(
         &self,
         listings: &[request::CreateListing<T>],
@@ -1335,10 +1347,11 @@ impl BackpackAPI {
         (all, None)
     }
     
-    /// Bulk updates any number of listings. This is a convenience method which handles
-    /// mass updating of listings that need to be split into chunks and are rate limited
-    /// to a certain number of requests per minute. If an error occurs, execution will 
-    /// cease and an error will be added to the return value.
+    /// Bulk updates any number of listings. This is a convenience method which handles mass 
+    /// updating of listings that need to be split into chunks and are rate limited to a certain 
+    /// number of requests per minute. If an error occurs, execution will cease and an error will 
+    /// be added to the return value. Note that any type can be used for the currencies parameter 
+    /// as long as it implements all traits under `SerializeCurrencies`.
     pub async fn update_listings_chunked<T>(
         &self,
         listings: &[request::UpdateListing<T>],
@@ -1371,10 +1384,10 @@ impl BackpackAPI {
         (all, None)
     }
     
-    /// Bulk deletes any number of listings. This is a convenience method which handles
-    /// mass deletion of listings that need to be split into chunks and are rate limited
-    /// to a certain number of requests per minute. If an error occurs, execution will 
-    /// cease and an error will be added to the return value.
+    /// Bulk deletes any number of listings. This is a convenience method which handles mass 
+    /// deletion of listings that need to be split into chunks and are rate limited to a certain 
+    /// number of requests per minute. If an error occurs, execution will cease and an error will 
+    /// be added to the return value.
     pub async fn delete_listings_chunked<T>(
         &self,
         listing_ids: &[T],
