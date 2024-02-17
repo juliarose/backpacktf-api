@@ -12,6 +12,9 @@ use reqwest_middleware::ClientWithMiddleware;
 use tf2_price::traits::SerializeCurrencies;
 
 const RESPONSE_UNSUCCESSFUL_MESSAGE: &str = "Empty response";
+const APPID_TEAM_FORTRESS_2: u32 = 440;
+const MAX_LISTINGS_REQUEST_LIMIT: usize = 100;
+const MAX_ALERTS_REQUEST_LIMIT: usize = 100;
 
 /// Interface for backpack.tf API endpoints.
 #[derive(Debug, Clone)]
@@ -159,10 +162,10 @@ impl BackpackAPI {
         steamid: &SteamID,
     ) -> Result<response::player::PlayerV1, Error> {
         let steamids: Vec<SteamID> = vec![*steamid];
-        let players = self.get_users_v1(&steamids).await?;
+        let mut players = self.get_users_v1(&steamids).await?;
         
-        if let Some(player) = players.get(steamid) {
-            Ok(player.to_owned())
+        if let Some(player) = players.remove(steamid) {
+            Ok(player)
         } else {
             Err(Error::Response("No player with SteamID in response".into()))
         }
@@ -204,10 +207,10 @@ impl BackpackAPI {
         steamid: &SteamID,
     ) -> Result<response::player::Player, Error> {
         let steamids: Vec<SteamID> = vec![*steamid];
-        let players = self.get_users(&steamids).await?;
+        let mut players = self.get_users(&steamids).await?;
         
-        if let Some(player) = players.get(steamid) {
-            Ok(player.to_owned())
+        if let Some(player) = players.remove(steamid) {
+            Ok(player)
         } else {
             Err(Error::Response("No player with SteamID in response".into()))
         }
@@ -492,7 +495,7 @@ impl BackpackAPI {
             "/classifieds/listings/snapshot",
             &Params {
                 token,
-                appid: 440,
+                appid: APPID_TEAM_FORTRESS_2,
                 sku,
             },
         ).await?;
@@ -627,10 +630,10 @@ impl BackpackAPI {
             }.into());
         }
         
-        if listing_ids.len() > 100 {
+        if listing_ids.len() > MAX_LISTINGS_REQUEST_LIMIT {
             return Err(ParameterError::MaximumLengthExceeded {
                 name: "listing_ids",
-                max: 100,
+                max: MAX_LISTINGS_REQUEST_LIMIT,
             }.into());
         }
         
@@ -819,12 +822,12 @@ impl BackpackAPI {
     
     /// Creates listings. A limit of 100 listings is imposed. Note that any type can be used for 
     /// the currencies parameter as long as it implements all traits under [`SerializeCurrencies`].
-    pub async fn create_listings<T>(
+    pub async fn create_listings<'a, T>(
         &self,
-        listings: &[request::CreateListing<T>],
-    ) -> Result<Vec<response::listing::create_listing::Result<T>>, Error>
+        listings: &'a [request::CreateListing<T>],
+    ) -> Result<Vec<response::listing::create_listing::Result<'a, T>>, Error>
     where
-        T: SerializeCurrencies + Clone
+        T: SerializeCurrencies
     {
         #[derive(Deserialize, Debug)]
         struct CreateListingResponse {
@@ -843,10 +846,10 @@ impl BackpackAPI {
             }.into());
         }
         
-        if listings.len() > 100 {
+        if listings.len() > MAX_LISTINGS_REQUEST_LIMIT {
             return Err(ParameterError::MaximumLengthExceeded {
                 name: "listings",
-                max: 100,
+                max: MAX_LISTINGS_REQUEST_LIMIT,
             }.into());
         }
         
@@ -868,14 +871,14 @@ impl BackpackAPI {
         let mut results = Vec::with_capacity(body.len());
         
         for (response, query) in body.into_iter().zip(listings) {
-            let result = response.result.to_owned();
+            let result = response.result;
             let error = response.error;
             
             if let Some(error) = error {
                 // there should be a query at this index...
                 results.push(Err(response::listing::create_listing::ErrorListing {
-                    message: error.message.to_owned(),
-                    query: query.clone(),
+                    message: error.message,
+                    query,
                 }));
             } else if let Some(listing) = result {
                 results.push(Ok(listing));
@@ -922,10 +925,10 @@ impl BackpackAPI {
             }.into());
         }
         
-        if listing_ids.len() > 100 {
+        if listing_ids.len() > MAX_LISTINGS_REQUEST_LIMIT {
             return Err(ParameterError::MaximumLengthExceeded {
                 name: "listing_ids",
-                max: 100,
+                max: MAX_LISTINGS_REQUEST_LIMIT,
             }.into());
         }
         
@@ -979,12 +982,12 @@ impl BackpackAPI {
     
     /// Updates listings. A limit of 100 listings is imposed. Note that any type can be used for 
     /// the currencies parameter as long as it implements all traits under [`SerializeCurrencies`].
-    pub async fn update_listings<T>(
+    pub async fn update_listings<'a, T>(
         &self,
-        listings: &[request::UpdateListing<T>],
-    ) -> Result<Vec<response::listing::update_listing::Result<T>>, Error>
+        listings: &'a [request::UpdateListing<T>],
+    ) -> Result<Vec<response::listing::update_listing::Result<'a, T>>, Error>
     where
-        T: SerializeCurrencies + Clone
+        T: SerializeCurrencies
     {
         #[derive(Deserialize, Debug)]
         struct ErrorResult {
@@ -1016,10 +1019,10 @@ impl BackpackAPI {
             }.into());
         }
         
-        if listings.len() > 100 {
+        if listings.len() > MAX_LISTINGS_REQUEST_LIMIT {
             return Err(ParameterError::MaximumLengthExceeded {
                 name: "listings",
-                max: 100,
+                max: MAX_LISTINGS_REQUEST_LIMIT,
             }.into());
         }
         
@@ -1057,7 +1060,7 @@ impl BackpackAPI {
             if let Some(query) = listings.get(error.index) {
                 results.push(Err(response::listing::update_listing::ErrorListing {
                     message: error.message,
-                    query: query.clone(),
+                    query,
                 }))
             } else {
                 // probably shouldn't ever happen but who knows
@@ -1182,7 +1185,7 @@ impl BackpackAPI {
         &self,
     ) -> (Vec<response::alert::Alert>, Option<Error>) {
         let mut all = Vec::new();
-        let mut limit = 100;
+        let mut limit = MAX_ALERTS_REQUEST_LIMIT as u32;
         let mut skip = 0;
         
         loop {
@@ -1195,15 +1198,17 @@ impl BackpackAPI {
                     if skip >= cursor.total {
                         // we done
                         break;
-                    } else {
-                        sleep(Duration::from_secs(4)).await;
+                    }
+                    
+                    sleep(Duration::from_secs(4)).await;
+                    continue;
+                },
+                Err(error) => {
+                    if let Some(duration) = helpers::retryable_duration(&error) {
+                        sleep(duration).await;
                         continue;
                     }
-                },
-                Err(error) => if let Some(duration) = helpers::retryable_duration(&error) {
-                    sleep(duration).await;
-                    continue;
-                } else {
+                    
                     return (all, Some(error))
                 },
             }
@@ -1220,7 +1225,7 @@ impl BackpackAPI {
         &self,
     ) -> (Vec<response::listing::Listing>, Option<Error>) {
         let mut all = Vec::new();
-        let mut limit = 100;
+        let mut limit = MAX_LISTINGS_REQUEST_LIMIT as u32;
         let mut skip = 0;
         
         loop {
@@ -1233,15 +1238,17 @@ impl BackpackAPI {
                     if skip >= cursor.total {
                         // we done
                         break;
-                    } else {
-                        sleep(Duration::from_secs(4)).await;
+                    }
+                    
+                    sleep(Duration::from_secs(4)).await;
+                    continue;
+                },
+                Err(error) => {
+                    if let Some(duration) = helpers::retryable_duration(&error) {
+                        sleep(duration).await;
                         continue;
                     }
-                },
-                Err(error) => if let Some(duration) = helpers::retryable_duration(&error) {
-                    sleep(duration).await;
-                    continue;
-                } else {
+                    
                     return (all, Some(error))
                 },
             }
@@ -1257,7 +1264,7 @@ impl BackpackAPI {
         &self,
     ) -> (Vec<response::listing::Listing>, Option<Error>) {
         let mut all = Vec::new();
-        let mut limit = 100;
+        let mut limit = MAX_LISTINGS_REQUEST_LIMIT as u32;
         let mut skip = 0;
         
         loop {
@@ -1270,15 +1277,17 @@ impl BackpackAPI {
                     if skip >= cursor.total {
                         // we done
                         break;
-                    } else {
-                        sleep(Duration::from_secs(4)).await;
+                    }
+                    
+                    sleep(Duration::from_secs(4)).await;
+                    continue;
+                },
+                Err(error) => {
+                    if let Some(duration) = helpers::retryable_duration(&error) {
+                        sleep(duration).await;
                         continue;
                     }
-                },
-                Err(error) => if let Some(duration) = helpers::retryable_duration(&error) {
-                    sleep(duration).await;
-                    continue;
-                } else {
+                    
                     return (all, Some(error))
                 },
             }
@@ -1316,12 +1325,12 @@ impl BackpackAPI {
     /// number of requests per minute. If an error occurs, execution will cease and an error will 
     /// be added to the return value. Note that any type can be used for the currencies parameter 
     /// as long as it implements all traits under [`SerializeCurrencies`].
-    pub async fn create_listings_chunked<T>(
+    pub async fn create_listings_chunked<'a, T>(
         &self,
-        listings: &[request::CreateListing<T>],
-    ) -> (Vec<response::listing::create_listing::Result<T>>, Option<Error>)
+        listings: &'a [request::CreateListing<T>],
+    ) -> (Vec<response::listing::create_listing::Result<'a, T>>, Option<Error>)
     where
-        T: SerializeCurrencies + Clone
+        T: SerializeCurrencies
     {
         let mut chunked = helpers::Cooldown::new(listings);
         let mut all = Vec::new();
@@ -1335,11 +1344,13 @@ impl BackpackAPI {
                         sleep(duration).await;
                     }
                 },
-                Err(error) => if let Some(duration) = helpers::retryable_duration(&error) {
-                    sleep(duration).await;
-                    chunked.go_back();
-                    continue;
-                } else {
+                Err(error) => {
+                    if let Some(duration) = helpers::retryable_duration(&error) {
+                        sleep(duration).await;
+                        chunked.go_back();
+                        continue;
+                    }
+                    
                     return (all, Some(error))
                 },
             }
@@ -1353,12 +1364,12 @@ impl BackpackAPI {
     /// number of requests per minute. If an error occurs, execution will cease and an error will 
     /// be added to the return value. Note that any type can be used for the currencies parameter 
     /// as long as it implements all traits under [`SerializeCurrencies`].
-    pub async fn update_listings_chunked<T>(
+    pub async fn update_listings_chunked<'a, T>(
         &self,
-        listings: &[request::UpdateListing<T>],
-    ) -> (Vec<response::listing::update_listing::Result<T>>, Option<Error>)
+        listings: &'a [request::UpdateListing<T>],
+    ) -> (Vec<response::listing::update_listing::Result<'a, T>>, Option<Error>)
     where
-        T: SerializeCurrencies + Clone
+        T: SerializeCurrencies
     {
         let mut chunked = helpers::Cooldown::new(listings);
         let mut all = Vec::new();
@@ -1372,11 +1383,13 @@ impl BackpackAPI {
                         sleep(duration).await;
                     }
                 },
-                Err(error) => if let Some(duration) = helpers::retryable_duration(&error) {
-                    sleep(duration).await;
-                    chunked.go_back();
-                    continue;
-                } else {
+                Err(error) => {
+                    if let Some(duration) = helpers::retryable_duration(&error) {
+                        sleep(duration).await;
+                        chunked.go_back();
+                        continue;
+                    }
+                    
                     return (all, Some(error))
                 },
             }
@@ -1408,11 +1421,13 @@ impl BackpackAPI {
                         sleep(duration).await;
                     }
                 },
-                Err(error) => if let Some(duration) = helpers::retryable_duration(&error) {
-                    sleep(duration).await;
-                    chunked.go_back();
-                    continue;
-                } else {
+                Err(error) => {
+                    if let Some(duration) = helpers::retryable_duration(&error) {
+                        sleep(duration).await;
+                        chunked.go_back();
+                        continue;
+                    }
+                    
                     return (all, Some(error))
                 },
             }
@@ -1444,11 +1459,13 @@ impl BackpackAPI {
                         sleep(duration).await;
                     }
                 },
-                Err(error) => if let Some(duration) = helpers::retryable_duration(&error) {
-                    sleep(duration).await;
-                    chunked.go_back();
-                    continue;
-                } else {
+                Err(error) => {
+                    if let Some(duration) = helpers::retryable_duration(&error) {
+                        sleep(duration).await;
+                        chunked.go_back();
+                        continue;
+                    }
+                    
                     return (all, Some(error))
                 },
             }

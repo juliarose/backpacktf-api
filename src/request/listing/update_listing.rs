@@ -1,6 +1,8 @@
 use serde::{Deserialize, Serialize};
 
 /// Parameters for updating a listing.
+/// 
+/// Currencies can be any type that can be serialized and deserialized.
 #[derive(Deserialize, Serialize, PartialEq, Debug, Clone)]
 pub struct UpdateListing<T> {
     /// The listing ID.

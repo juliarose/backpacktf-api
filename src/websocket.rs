@@ -26,7 +26,7 @@ enum EventType {
 #[derive(Deserialize, Debug)]
 struct EventMessage<'a> {
     /// The event ID.
-    id: &'a str,
+    id: String,
     /// The type of event.
     event: EventType,
     /// The payload of the event.
@@ -83,13 +83,13 @@ struct AppType {
 
 /// An error from an event.
 #[derive(thiserror::Error, Debug)]
-enum EventError {
+enum EventError<'a> {
     /// An error was encountered sending a message.
     #[error("{}", .0)]
     Send(#[from] tokio::sync::mpsc::error::SendError<(String, Message)>),
     /// An error was encountered deserializing a message.
     #[error("{}", .0)]
-    Serde(#[from] serde_json::Error),
+    Serde(serde_json::Error, &'a RawValue),
 }
 
 /// Generates a random key for the `Sec-WebSocket-Key` header.
@@ -142,13 +142,13 @@ pub async fn connect() -> Result<mpsc::Receiver<(String, Message)>, Error> {
                         Ok(messages) => {
                             for message in messages {
                                 // parse and send the message to the sender, capturing any errors in the message
-                                if let Err(error) = on_event(&message, &sender).await {
+                                if let Err(error) = on_event(message, &sender).await {
                                     match error {
-                                        EventError::Serde(error) => {
+                                        EventError::Serde(error, payload) => {
                                             log::debug!(
-                                                "Error deserializing event payload: {} {}",
+                                                "Error deserializing event payload: {}\n\n{}",
                                                 error,
-                                                message.payload,
+                                                payload,
                                             );
                                         },
                                         // connection likely dropped
@@ -159,21 +159,25 @@ pub async fn connect() -> Result<mpsc::Receiver<(String, Message)>, Error> {
                                 }
                             }
                         },
-                        Err(error) => if bytes.is_empty() {
-                            // the message is empty...
-                            continue;
-                        } else if let Ok(message) = std::str::from_utf8(bytes) {
-                            log::debug!(
-                                "Error deserializing event: {} {}",
-                                error,
-                                message,
-                            );
-                        } else {
-                            log::debug!(
-                                "Error deserializing event: {}; Invalid utf8 string: {:?}",
-                                error,
-                                bytes,
-                            );
+                        Err(error) => {
+                            if bytes.is_empty() {
+                                // the message is empty...
+                                continue;
+                            }
+                            
+                            if let Ok(message) = std::str::from_utf8(bytes) {
+                                log::debug!(
+                                    "Error deserializing event: {} {}",
+                                    error,
+                                    message,
+                                );
+                            } else {
+                                log::debug!(
+                                    "Error deserializing event: {}; Invalid utf8 string: {:?}",
+                                    error,
+                                    bytes,
+                                );
+                            }
                         },
                     }
                 },
@@ -196,42 +200,44 @@ pub async fn connect() -> Result<mpsc::Receiver<(String, Message)>, Error> {
 
 /// Handles an event.
 async fn on_event<'a>(
-    message: &EventMessage<'a>,
+    message: EventMessage<'a>,
     sender: &mpsc::Sender<(String, Message)>,
-) -> Result<(), EventError> {
+) -> Result<(), EventError<'a>> {
     match message.event {
         EventType::ListingUpdate |
         EventType::ListingDelete => {
             match serde_json::from_str::<Listing>(message.payload.get()) {
                 Ok(listing) => {
-                    sender.send((message.id.to_owned(), match message.event {
+                    sender.send((message.id, match message.event {
                         EventType::ListingUpdate => Message::ListingUpdate(listing),
                         EventType::ListingDelete => Message::ListingDelete(listing),
                     })).await?;
+                    return Ok(());
                 },
-                Err(error) => if let Ok(AppType { appid }) = serde_json::from_str::<AppType>(message.payload.get()) {
-                    if appid != APPID_TEAM_FORTRESS_2 {
-                        let payload = message.payload.to_owned();
-
-                        sender.send((message.id.to_owned(), match message.event {
-                            EventType::ListingUpdate => Message::ListingUpdateOtherApp {
-                                appid,
-                                payload,
-                            },
-                            EventType::ListingDelete => Message::ListingDeleteOtherApp {
-                                appid,
-                                payload,
-                            },
-                        })).await?;
-                    } else {
-                        return Err(error.into());
+                Err(error) => {
+                    if let Ok(AppType { appid }) = serde_json::from_str::<AppType>(message.payload.get()) {
+                        if appid != APPID_TEAM_FORTRESS_2 {
+                            // move the payload into a box
+                            let payload = message.payload.to_owned();
+                            
+                            sender.send((message.id, match message.event {
+                                EventType::ListingUpdate => Message::ListingUpdateOtherApp {
+                                    appid,
+                                    payload,
+                                },
+                                EventType::ListingDelete => Message::ListingDeleteOtherApp {
+                                    appid,
+                                    payload,
+                                },
+                            })).await?;
+                            
+                            return Ok(());
+                        }
                     }
-                } else {
-                    return Err(error.into());
+                    
+                    return Err(EventError::Serde(error, message.payload));
                 },
             }
-
-            Ok(())
         },
     }
 }

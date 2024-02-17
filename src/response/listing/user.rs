@@ -72,10 +72,10 @@ impl User {
             if key == Cow::Borrowed("token") {
                 if value.len() == 8 {
                     return Some(value.to_string());
-                } else {
-                    // not a valid token
-                    return None;
                 }
+                
+                // not a valid token
+                return None;
             }
         }
         

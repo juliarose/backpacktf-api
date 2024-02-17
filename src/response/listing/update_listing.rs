@@ -9,12 +9,12 @@ use serde::{Deserialize, Serialize};
 use chrono::serde::ts_seconds;
 
 /// An error occurred when updating a listing.
-#[derive(Serialize, Deserialize, PartialEq, Clone, Debug)]
-pub struct ErrorListing<T> {
+#[derive(PartialEq, Clone, Debug)]
+pub struct ErrorListing<'a, T> {
     /// The message in the response.
     pub message: String,
     /// The query used to create the listing.
-    pub query: request::UpdateListing<T>,
+    pub query: &'a request::UpdateListing<T>,
 }
 
 /// A listing was successfully created.
@@ -55,4 +55,4 @@ pub struct SuccessListing {
 }
 
 /// The result of updating a listing.
-pub type Result<T> = std::result::Result<SuccessListing, ErrorListing<T>>;
+pub type Result<'a, T> = std::result::Result<SuccessListing, ErrorListing<'a, T>>;

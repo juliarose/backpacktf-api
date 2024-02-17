@@ -1,9 +1,9 @@
 use backpacktf_api::BackpackAPI;
 use backpacktf_api::request::UpdateListing;
 use backpacktf_api::error::Error;
+use std::env;
 use tf2_price::{Currencies, scrap};
 use dotenv::dotenv;
-use std::env;
 
 #[tokio::main]
 async fn main() -> Result<(), Error> {
@@ -13,16 +13,28 @@ async fn main() -> Result<(), Error> {
         .key(&env::var("KEY").unwrap())
         .token(&env::var("TOKEN").unwrap())
         .build();
-    let listing = backpacktf.update_listings(&[UpdateListing {
-            id: "440_76561198080179568_86755d7981f2b4ffb983b9d054ec0c27".into(),
+    let updates = [
+        UpdateListing {
+            id: "440_76561198080179568_192a94e963374b02cc25081eeb36a13b".into(),
             currencies: Currencies {
                 keys: 0,
                 metal: scrap!(3),
             },
-            details: Some("yup".into()),
-        }]).await?;
+            details: Some("Buying".into()),
+        },
+    ];
+    let updates = backpacktf.update_listings(&updates).await?;
     
-    println!("Listings updated: {listing:?}");
+    for result in updates {
+        match result {
+            Ok(listing) => {
+                println!("Listing updated: {listing:?}");
+            },
+            Err(error) => {
+                println!("Error updating listing {}: {}", error.query.id, error.message)
+            },
+        }
+    }
     
     Ok(())
 }

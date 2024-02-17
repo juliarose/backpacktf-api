@@ -86,8 +86,8 @@ mod tests {
         assert!(listing.is_automatic());
         
         let intent = listing.intent;
-        let attribute_380 = listing.item.attributes.get(&380).unwrap().to_owned();
-        let attribute_383 = listing.item.attributes.get(&383).unwrap().to_owned();
+        let attribute_380 = listing.item.attributes.get(&380).unwrap();
+        let attribute_383 = listing.item.attributes.get(&383).unwrap();
         
         assert_eq!(intent, ListingIntent::Buy);
         assert_eq!(listing.item.quality, Quality::Strange);
@@ -101,6 +101,6 @@ mod tests {
         
         assert_eq!(listing.details, Some("Looking for a spelled exorcism strange frying pan (without parts is ok) ! Feel free to add me :D\ncan also buy a strange pan with these parts for 44 keys".into()));
         assert_eq!(attribute_380.float_value.unwrap(), 82.0);
-        assert_eq!(attribute_383.value.unwrap(), AttributeValue::Number(0));
+        assert_eq!(attribute_383.value.as_ref().unwrap(), &AttributeValue::Number(0));
     }
 }

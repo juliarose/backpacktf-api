@@ -94,7 +94,7 @@ mod tests {
         let response: GetAlertsResponse = serde_json::from_str(include_str!("fixtures/get_alerts.json")).unwrap();
         let alert = response.alerts.first().unwrap();
 
-        assert_eq!("Purple Energy Danger".to_string(), alert.item_name);    
+        assert_eq!("Purple Energy Danger", alert.item_name);    
     }
 
     #[test]
@@ -102,7 +102,7 @@ mod tests {
         let response: GetNotificationsResponse = serde_json::from_str(include_str!("fixtures/get_notifications.json")).unwrap();
         let particle = response.notifications.first().as_ref().unwrap().bundle.listing.as_ref().unwrap().item.particle.as_ref().unwrap();
 
-        assert_eq!("Purple Energy".to_string(), particle.name); 
+        assert_eq!("Purple Energy", particle.name); 
     }
 
     #[test]
