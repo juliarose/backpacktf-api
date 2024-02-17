@@ -88,11 +88,12 @@ mod tests {
     use super::*;
 
     #[test]
-    fn parses_listing() {
+    fn parses_user() {
         let response: User = serde_json::from_str(include_str!("fixtures/user.json")).unwrap();
         let token = response.access_token();
         
         assert_eq!(token, Some("iF6QGWOa".into()));
+        assert_eq!(response.id, SteamID::from(76561199101484822));
     }
 }
 

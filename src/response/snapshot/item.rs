@@ -142,9 +142,10 @@ impl Item {
         let strange_parts = StrangePart::DEFINDEX 
             .iter()
             .filter_map(|defindex| {
+                let defindex = i32::try_from(*defindex).ok()?;
                 let float_value = get_attributes_float_u32(
                     &self.attributes,
-                    *defindex as i32,
+                    defindex,
                 )?;
                 
                 StrangePart::try_from(float_value).ok()
@@ -232,9 +233,10 @@ fn try_from_float_value<T>(
 where
     T: TryFrom<u32> + Attribute,
 {
+    let defindex = i32::try_from(T::DEFINDEX).ok()?;
     let float_value = get_attributes_float_u32(
         attributes,
-        T::DEFINDEX as i32,
+        defindex,
     )?;
     
     T::try_from(float_value).ok()

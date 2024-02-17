@@ -91,7 +91,14 @@ where
 {
     if let Some(value) = value {
         if value.fract() == 0.0 {
-            s.serialize_u64(*value as u64)
+            let converted = *value as u64;
+            
+            // safely convert to u64
+            if converted as f64 == *value {
+                s.serialize_u64(converted)
+            } else {
+                s.serialize_f64(*value)
+            }
         } else {
             s.serialize_f64(*value)
         }
