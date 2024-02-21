@@ -4,7 +4,6 @@ use crate::SteamID;
 use crate::response::deserializers;
 use serde::{Serialize, Deserialize};
 use url::Url;
-use std::borrow::Cow;
 
 /// A ban.
 #[derive(Serialize, Deserialize, PartialEq, Clone, Debug)]
@@ -69,7 +68,7 @@ impl User {
         let url = Url::parse(trade_offer_url).ok()?;
             
         for (key, value) in url.query_pairs() {
-            if key == Cow::Borrowed("token") {
+            if key == "token" {
                 if value.len() == 8 {
                     return Some(value.to_string());
                 }

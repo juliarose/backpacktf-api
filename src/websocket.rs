@@ -9,6 +9,9 @@ use tokio::sync::mpsc;
 use http::uri::Uri;
 use http::request::Request;
 
+/// The websocket message receiver.
+pub type Receiver = mpsc::Receiver<(String, Message)>;
+
 const APPID_TEAM_FORTRESS_2: u32 = 440;
 
 /// The type of event from the websocket.
