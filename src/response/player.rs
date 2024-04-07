@@ -6,7 +6,7 @@ use crate::time::ServerTime;
 use std::collections::HashMap;
 use serde::{Serialize, Deserialize};
 use chrono::serde::ts_seconds_option;
-use tf2_price::{get_metal_from_float, Currencies, Currency};
+use tf2_price::{get_weapons_from_metal_float, Currencies, Currency};
 use num_enum::{TryFromPrimitive, IntoPrimitive};
 use serde_repr::{Serialize_repr, Deserialize_repr};
 
@@ -97,7 +97,7 @@ impl PlayerV1 {
         if let Some(inventory) = &self.inventory.get(&440) {
             Currencies {
                 keys: Currency::from(inventory.keys),
-                metal: get_metal_from_float(inventory.metal),
+                weapons: get_weapons_from_metal_float(inventory.metal),
             }
         } else {
             Currencies::new()

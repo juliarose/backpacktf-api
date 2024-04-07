@@ -33,8 +33,9 @@ mod tests {
         ListingIntent,
         tf2_enum::{Quality, Killstreaker, Sheen, StrangePart, Origin},
         response::attributes::Value as AttributeValue,
-        response::currencies::{ResponseCurrencies, ListingCurrencies},
+        response::currencies::ResponseCurrencies,
     };
+    use tf2_price::FloatCurrencies;
     
     #[test]
     fn parses_get_classifieds_snapshot_quality() {
@@ -45,7 +46,7 @@ mod tests {
         assert_eq!(listing.item.id, Some(10080129222));
         assert_eq!(listing.item.quality, Quality::Unusual);
         assert_eq!(listing.item.origin, Some(Origin::FoundInCrate));
-        assert_eq!(listing.currencies, ResponseCurrencies::InGame(ListingCurrencies { keys: 180.0, metal: 0 }));
+        assert_eq!(listing.currencies, ResponseCurrencies::InGame(FloatCurrencies { keys: 180.0, metal: 0.0 }));
     }
     
     #[test]
@@ -65,7 +66,7 @@ mod tests {
         let listing: Listing = serde_json::from_str(include_str!("fixtures/snapshot_listing_marketplace.json")).unwrap();
         
         if let ResponseCurrencies::Cash(currencies) = listing.currencies {
-            assert_eq!(currencies.usd, 8999);
+            assert_eq!(currencies, 89.99);
         } else {
             panic!("Currencies are not cash");
         }
@@ -94,7 +95,7 @@ mod tests {
         
         if let ResponseCurrencies::InGame(currencies) = listing.currencies {
             assert_eq!(currencies.keys, 44.0);
-            assert_eq!(currencies.metal, 0);
+            assert_eq!(currencies.metal, 0.0);
         } else {
             panic!("Currencies are not in-game");
         }

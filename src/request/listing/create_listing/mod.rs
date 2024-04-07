@@ -58,7 +58,7 @@ mod tests {
             details: Some("hello".into()),
             currencies: Currencies {
                 keys: 5,
-                metal: refined!(5),
+                weapons: refined!(5),
             },
             buyout: false,
             offers: false,
@@ -104,7 +104,7 @@ mod tests {
             details: Some("hello".into()),
             currencies: Currencies {
                 keys: 5,
-                metal: refined!(5) + scrap!(3),
+                weapons: refined!(5) + scrap!(3),
             },
             buyout: false,
             offers: false,

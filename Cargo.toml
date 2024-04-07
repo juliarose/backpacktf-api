@@ -28,7 +28,7 @@ strum_macros = "^0.23"
 thiserror = "^1.0"
 steamid-ng = "1.0.0"
 tf2-enum = "^0.9.1"
-tf2-price = "^0.12"
+tf2-price = { version = "^0.13", features = ["serde"] }
 log = "0.4.17"
 
 # Required for websocket feature

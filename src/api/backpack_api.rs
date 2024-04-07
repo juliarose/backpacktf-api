@@ -9,7 +9,6 @@ use std::time::Duration;
 use async_std::task::sleep;
 use serde::{Serialize, Deserialize, de::DeserializeOwned};
 use reqwest_middleware::ClientWithMiddleware;
-use tf2_price::traits::SerializeCurrencies;
 
 const RESPONSE_UNSUCCESSFUL_MESSAGE: &str = "Empty response";
 const APPID_TEAM_FORTRESS_2: u32 = 440;
@@ -662,7 +661,7 @@ impl BackpackAPI {
         currencies: &T,
     ) -> Result<response::listing::update_listing::SuccessListing, Error>
     where
-        T: SerializeCurrencies
+        T: Serialize
     {
         #[derive(Serialize, Debug)]
         struct JSONParams<'b, T>  {
@@ -759,7 +758,7 @@ impl BackpackAPI {
         listing: &request::CreateListing<T>,
     ) -> Result<response::listing::Listing, Error>
     where
-        T: SerializeCurrencies
+        T: Serialize
     {
         #[derive(Serialize, Debug)]
         struct Params<'a, 'b, T> {
@@ -827,7 +826,7 @@ impl BackpackAPI {
         listings: &'a [request::CreateListing<T>],
     ) -> Result<Vec<response::listing::create_listing::Result<'a, T>>, Error>
     where
-        T: SerializeCurrencies
+        T: Serialize
     {
         #[derive(Deserialize, Debug)]
         struct CreateListingResponse {
@@ -955,7 +954,7 @@ impl BackpackAPI {
         currencies: &T,
     ) -> Result<response::listing::update_listing::SuccessListing, Error>
     where
-        T: SerializeCurrencies
+        T: Serialize
     {
         #[derive(Serialize, Debug)]
         struct JSONParams<'b, T>  {
@@ -987,7 +986,7 @@ impl BackpackAPI {
         listings: &'a [request::UpdateListing<T>],
     ) -> Result<Vec<response::listing::update_listing::Result<'a, T>>, Error>
     where
-        T: SerializeCurrencies
+        T: Serialize
     {
         #[derive(Deserialize, Debug)]
         struct ErrorResult {
@@ -1330,7 +1329,7 @@ impl BackpackAPI {
         listings: &'a [request::CreateListing<T>],
     ) -> (Vec<response::listing::create_listing::Result<'a, T>>, Option<Error>)
     where
-        T: SerializeCurrencies
+        T: Serialize
     {
         let mut chunked = helpers::Cooldown::new(listings);
         let mut all = Vec::new();
@@ -1369,7 +1368,7 @@ impl BackpackAPI {
         listings: &'a [request::UpdateListing<T>],
     ) -> (Vec<response::listing::update_listing::Result<'a, T>>, Option<Error>)
     where
-        T: SerializeCurrencies
+        T: Serialize
     {
         let mut chunked = helpers::Cooldown::new(listings);
         let mut all = Vec::new();

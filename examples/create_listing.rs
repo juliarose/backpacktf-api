@@ -16,7 +16,7 @@ async fn main() -> Result<(), Error> {
         .build();
     let currencies = Currencies {
         keys: 0,
-        metal: scrap!(1),
+        weapons: scrap!(1),
     };
     let listing = backpacktf.create_listing(&CreateListing::Buy {
         currencies,

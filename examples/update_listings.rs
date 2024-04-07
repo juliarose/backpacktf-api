@@ -18,7 +18,7 @@ async fn main() -> Result<(), Error> {
             id: "440_76561198080179568_192a94e963374b02cc25081eeb36a13b".into(),
             currencies: Currencies {
                 keys: 0,
-                metal: scrap!(3),
+                weapons: scrap!(3),
             },
             details: Some("Buying".into()),
         },

@@ -16,7 +16,7 @@ async fn main() -> Result<(), Error> {
         .build();
     let currencies = Currencies {
         keys: 0,
-        metal: scrap!(1),
+        weapons: scrap!(1),
     };
     let mut item = request::BuyListingItem::new(1071, Quality::Strange);
     

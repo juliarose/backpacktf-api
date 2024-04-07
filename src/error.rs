@@ -61,3 +61,14 @@ pub enum ParameterError {
         max: usize,
     },
 }
+
+/// Error converting response currencies to currencies.
+#[derive(Debug, thiserror::Error)]
+pub enum TryFromResponseCurrenciesError {
+    /// Currencies are cash currencies.
+    #[error("Currencies are cash currencies")]
+    IsCash,
+    /// Error converting float currencies to currencies.
+    #[error("Error converting float currencies to currencies: {}", .0)]
+    TryFromFloatCurrenciesError(#[from] tf2_price::error::TryFromFloatCurrenciesError),
+}
