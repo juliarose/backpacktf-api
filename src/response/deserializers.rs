@@ -4,7 +4,7 @@ use crate::response::attributes::{Attributes, Attribute, Value as AttributeValue
 use std::str::FromStr;
 use std::fmt::Display;
 use std::marker::PhantomData;
-use num_enum::TryFromPrimitive;
+use crate::tf2_enum::num_enum::TryFromPrimitive;
 use serde::Deserialize;
 use serde::de::{self, Deserializer, Visitor, MapAccess, SeqAccess, Unexpected};
 use serde_json::Value;

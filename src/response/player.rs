@@ -7,7 +7,7 @@ use std::collections::HashMap;
 use serde::{Serialize, Deserialize};
 use chrono::serde::ts_seconds_option;
 use tf2_price::{get_weapons_from_metal_float, Currencies, Currency};
-use num_enum::{TryFromPrimitive, IntoPrimitive};
+use crate::tf2_enum::num_enum::{TryFromPrimitive, IntoPrimitive};
 use serde_repr::{Serialize_repr, Deserialize_repr};
 
 /// The user's trust ratings.
