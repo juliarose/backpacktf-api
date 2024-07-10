@@ -68,6 +68,9 @@ pub enum TryFromResponseCurrenciesError {
     /// Currencies are cash currencies.
     #[error("Currencies are cash currencies")]
     IsCash,
+    /// Currencies are in-game with hat currencies.
+    #[error("Currencies are in-game with hat currencies")]
+    IsInGameWithHat,
     /// Error converting float currencies to currencies.
     #[error("Error converting float currencies to currencies: {}", .0)]
     TryFromFloatCurrenciesError(#[from] tf2_price::error::TryFromFloatCurrenciesError),

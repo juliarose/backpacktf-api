@@ -1,6 +1,7 @@
 use crate::error::Error;
 use std::time::{Instant, Duration};
-use serde::{Deserialize, de::DeserializeOwned};
+use serde::Deserialize;
+use serde::de::DeserializeOwned;
 use reqwest::{header::RETRY_AFTER, StatusCode};
 use log::error;
 
@@ -8,10 +9,10 @@ use log::error;
 pub struct Cooldown<'a, T> {
     start_time: Instant,
     i: usize,
-    chunk_i: usize,
+    cooldown_counter: usize,
     limit: usize,
     cooldown: u64,
-    chunks: Vec<&'a [T]>,
+    chunks: std::slice::Chunks<'a, T>,
 }
 
 impl<'a, T> Cooldown<'a, T> 
@@ -21,42 +22,37 @@ where
     pub fn new(
         data: &'a [T],
     ) -> Self {
-        let chunks: Vec<_> = data.chunks(100).collect();
-        
         Self {
             start_time: Instant::now(),
             i: 0,
-            chunk_i: 0,
+            cooldown_counter: 0,
             limit: 10,
             cooldown: 60,
-            chunks,
+            chunks: data.chunks(100),
         }
     }
     
-    pub fn reset(&mut self) {
-        self.start_time = Instant::now();
-    }
-    
     pub fn go_back(&mut self) {
-        self.reset();
+        self.start_time = Instant::now();
+        self.cooldown_counter = 0;
         
+        // Make sure we don't go below 0 as this will underflow
         if self.i > 0 {
-            self.chunk_i = 0;
             self.i -= 1;
         }
     }
     
     pub fn next(&mut self) -> Option<(&'a [T], Option<Duration>)> {
-        if let Some(chunk) = self.chunks.get(self.i) {
+        if let Some(chunk) = self.chunks.nth(self.i) {
             self.i += 1;
-            self.chunk_i += 1;
+            self.cooldown_counter += 1;
             
             // we can skip the wait
             if 
                 // if we have reached the end
                 self.i == self.chunks.len() ||
                 // or the current chunk index is under the limit
-                self.chunk_i <= self.limit
+                self.cooldown_counter <= self.limit
             {
                 Some((chunk, None))
             } else {
@@ -68,7 +64,7 @@ where
                 };
                 
                 self.start_time = Instant::now();
-                self.chunk_i = 0;
+                self.cooldown_counter = 0;
                 
                 Some((chunk, Some(Duration::from_secs(wait))))
             }

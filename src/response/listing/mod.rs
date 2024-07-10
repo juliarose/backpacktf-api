@@ -185,5 +185,16 @@ mod tests {
         
         assert_eq!(listing.status, Status::Other("sus".into()));
     }
+    
+    #[test]
+    fn parses_hat_currencies() {
+        let listing: Listing = serde_json::from_str(include_str!("fixtures/hat_currencies.json")).unwrap();
+        
+        assert_eq!(listing.currencies, ResponseCurrencies::InGameWithHat {
+            keys: 0.0,
+            metal: 1.5,
+            hat: 1.0
+        });
+    }
 }
 

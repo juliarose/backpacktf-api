@@ -6,7 +6,7 @@ use std::cmp::{Ord, Ordering};
 use serde::{Serialize, Deserializer};
 use serde::de::{self, MapAccess};
 use serde_json::Value;
-use tf2_price::{FloatCurrencies, Currencies};
+use tf2_price::{FloatCurrencies, Currencies, Currency};
 
 /// Generally, this will be in-game currencies, but it can also be cash currencies for 
 /// marketplace.tf cross-listings.
@@ -32,6 +32,15 @@ use tf2_price::{FloatCurrencies, Currencies};
 pub enum ResponseCurrencies {
     /// In-game currencies.
     InGame(FloatCurrencies),
+    /// In-game currencies which includes a hat value.
+    InGameWithHat {
+        /// Keys.
+        keys: f32,
+        /// Metal.
+        metal: f32,
+        /// Hat value.
+        hat: f32,
+    },
     /// Cash currencies for marketplace.tf cross-listings.
     Cash(f32),
 }
@@ -50,6 +59,7 @@ impl TryFrom<ResponseCurrencies> for Currencies {
     fn try_from(currencies: ResponseCurrencies) -> Result<Self, Self::Error> {
         match currencies {
             ResponseCurrencies::InGame(currencies) => Ok(currencies.try_into()?),
+            ResponseCurrencies::InGameWithHat { .. } => Err(TryFromResponseCurrenciesError::IsInGameWithHat),
             ResponseCurrencies::Cash(_) => Err(TryFromResponseCurrenciesError::IsCash),
         }
     }
@@ -59,6 +69,18 @@ impl fmt::Display for ResponseCurrencies {
     fn fmt(&self, f: &mut fmt::Formatter<'_>) -> fmt::Result {
         match self {
             ResponseCurrencies::InGame(currencies) => write!(f, "{currencies}"),
+            ResponseCurrencies::InGameWithHat { keys, metal, hat } => {
+                let currencies = FloatCurrencies {
+                    keys: *keys,
+                    metal: *metal,
+                };
+                
+                if currencies.is_empty() {
+                    write!(f, "{hat} hat")
+                } else {
+                    write!(f, "{currencies}, {hat} hat")
+                }
+            },
             ResponseCurrencies::Cash(currencies) => write!(f, "{currencies}"),
         }
     }
@@ -80,16 +102,50 @@ impl Ord for ResponseCurrencies {
                     Ordering::Less
                 }
             },
+            ResponseCurrencies::InGameWithHat {
+                keys,
+                metal,
+                hat,
+            } => {
+                let currencies = FloatCurrencies {
+                    keys: *keys,
+                    metal: *metal,
+                };
+                
+                if let ResponseCurrencies::InGameWithHat {
+                    keys: other_keys,
+                    metal: other_metal,
+                    hat: other_hat,
+                } = other {
+                    let other_currencies = FloatCurrencies {
+                        keys: *other_keys,
+                        metal: *other_metal,
+                    };
+                    
+                    if currencies == other_currencies {
+                        if hat == other_hat {
+                            Ordering::Equal
+                        } else if hat < other_hat {
+                            Ordering::Less
+                        } else {
+                            Ordering::Greater
+                        }
+                    } else {
+                        currencies.cmp(&other_currencies)
+                    }
+                } else {
+                    // prefer in-game currencies
+                    Ordering::Greater
+                }
+            },
             ResponseCurrencies::Cash(currencies) => {
                 if let ResponseCurrencies::Cash(other) = other {
                     if currencies == other {
                         Ordering::Equal
                     } else if currencies < other {
                         Ordering::Less
-                    } else if currencies > other {
-                        Ordering::Greater
                     } else {
-                        Ordering::Equal
+                        Ordering::Greater
                     }
                 } else {
                     // prefer in-game currencies
@@ -140,6 +196,41 @@ impl Serialize for ResponseCurrencies {
                 // Should serialize nicely with no decimals on whole numbers
                 currencies.serialize(serializer)
             },
+            ResponseCurrencies::InGameWithHat {
+                keys,
+                metal,
+                hat,
+            } => {
+                use serde::ser::SerializeStruct;
+                
+                let mut s = serializer.serialize_struct("Currencies", 3)?;
+                
+                if *keys == 0.0 {
+                    s.skip_field("keys")?;
+                } else if keys.fract() == 0.0 {
+                    s.serialize_field("metal", &(*keys as Currency))?;
+                } else {
+                    s.serialize_field("keys", &keys)?;
+                }
+                
+                if *metal == 0.0 {
+                    s.skip_field("metal")?;
+                } else if metal.fract() == 0.0 {
+                    s.serialize_field("metal", &(*metal as Currency))?;
+                } else {
+                    s.serialize_field("metal", metal)?;
+                }
+                
+                if *hat == 0.0 {
+                    s.skip_field("hat")?;
+                } else if metal.fract() == 0.0 {
+                    s.serialize_field("hat", &(*hat as Currency))?;
+                } else {
+                    s.serialize_field("hat", &hat)?;
+                }
+                
+                s.end()
+            }
             ResponseCurrencies::Cash(usd) => {
                 SerializeUSD { usd }.serialize(serializer)
             },
@@ -166,6 +257,7 @@ impl<'de> serde::Deserialize<'de> for ResponseCurrencies {
                 M: MapAccess<'de>,
             {
                 let mut float_currencies = FloatCurrencies::new();
+                let mut hat = None;
                 let mut contains_value = false;
                 
                 while let Some((currency_name, value)) = access.next_entry::<String, Value>()? {
@@ -181,7 +273,7 @@ impl<'de> serde::Deserialize<'de> for ResponseCurrencies {
                         },
                     };
                     
-                    // I doubt a response would contain all three of these fields at the same time
+                    // I doubt a response would contain all of these fields at the same time
                     match currency_name.as_str() {
                         "keys" => {
                             float_currencies.keys = float_value;
@@ -194,10 +286,22 @@ impl<'de> serde::Deserialize<'de> for ResponseCurrencies {
                         "usd" => {
                             return Ok(ResponseCurrencies::Cash(float_value));
                         },
+                        "hat" => {
+                            hat = Some(float_value);
+                            contains_value = true;
+                        }
                         _ => {
                             return Err(de::Error::custom(format!("invalid currency type: `{currency_name}`")));
                         },
                     }
+                }
+                
+                if let Some(hat) = hat {
+                    return Ok(ResponseCurrencies::InGameWithHat {
+                        keys: float_currencies.keys,
+                        metal: float_currencies.metal,
+                        hat,
+                    });
                 }
                 
                 if !contains_value {

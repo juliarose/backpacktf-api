@@ -1,0 +1,86 @@
+{
+    "id": "440_14613584054",
+    "steamid": "76561199123726690",
+    "appid": 440,
+    "currencies": {
+        "metal": 1.5,
+        "hat": 1
+    },
+    "value": {
+        "raw": 2.885,
+        "short": "2.89 ref",
+        "long": "1.5 ref"
+    },
+    "details": "just wanna get rid of it so just send me an trade offer\n",
+    "listedAt": 1719728674,
+    "bumpedAt": 1720314810,
+    "intent": "sell",
+    "count": 1,
+    "status": "active",
+    "source": "steam",
+    "item": {
+        "appid": 440,
+        "baseName": "Infernal Impaler",
+        "defindex": 575,
+        "id": "14613584054",
+        "imageUrl": "https://steamcdn-a.akamaihd.net/apps/440/icons/infernal_impaler.9259a5b1e57bdce5e4cdec7ac0960e36916d86a2.png",
+        "marketName": "The Infernal Impaler",
+        "name": "The Infernal Impaler",
+        "origin": {
+            "id": 0,
+            "name": "Timed Drop"
+        },
+        "originalId": "7080536825",
+        "price": {
+            "community": {
+                "value": 1,
+                "valueHigh": 1,
+                "currency": "hat",
+                "raw": 1.385,
+                "short": "1.33–1.44 ref",
+                "long": "Random Craft Hat, 1.39 ref, $0.0291",
+                "usd": 0.029084999999999996,
+                "updatedAt": 1706749449,
+                "difference": 0.05500000000000016
+            },
+            "suggested": {
+                "raw": 1.385,
+                "short": "1.39 ref",
+                "long": "1.39 ref, $0.0291",
+                "usd": 0.029084999999999996
+            }
+        },
+        "quality": {
+            "id": 6,
+            "name": "Unique",
+            "color": "#FFD700"
+        },
+        "summary": "Level 13 Headgear",
+        "level": 13,
+        "class": [
+            "Soldier"
+        ],
+        "slot": "misc",
+        "tradable": true,
+        "craftable": true,
+        "tag": null
+    },
+    "user": {
+        "id": "76561199123726690",
+        "name": "Huller",
+        "avatar": "https://avatars.steamstatic.com/7b59a89a2492730a13b332f3949ed7fdd6700d3c_medium.jpg",
+        "avatarFull": "https://avatars.steamstatic.com/7b59a89a2492730a13b332f3949ed7fdd6700d3c_full.jpg",
+        "premium": false,
+        "online": false,
+        "banned": false,
+        "customNameStyle": "",
+        "acceptedSuggestions": 0,
+        "class": "",
+        "style": "",
+        "role": null,
+        "tradeOfferUrl": "https://steamcommunity.com/tradeoffer/new/?partner=1163460962&token=bLS5T96L",
+        "isMarketplaceSeller": false,
+        "flagImpersonated": null,
+        "bans": []
+    }
+}
