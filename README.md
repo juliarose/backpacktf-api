@@ -28,7 +28,12 @@ let backpacktf = BackpackAPI::builder()
     .key("key")
     .token("token")
     .build();
-let currencies = Currencies { keys: 0, metal: scrap!(1) };
+let currencies = Currencies {
+    keys: 0,
+    // Metal is defined as an integer as the number of weapons
+    // but serializes to { "metal": 0.11 }
+    weapons: scrap!(1),
+};
 
 match backpacktf.create_listing(&CreateListing::Buy {
     currencies,

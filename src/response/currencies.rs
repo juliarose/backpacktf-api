@@ -289,7 +289,7 @@ impl<'de> serde::Deserialize<'de> for ResponseCurrencies {
                         "hat" => {
                             hat = Some(float_value);
                             contains_value = true;
-                        }
+                        },
                         _ => {
                             return Err(de::Error::custom(format!("invalid currency type: `{currency_name}`")));
                         },
