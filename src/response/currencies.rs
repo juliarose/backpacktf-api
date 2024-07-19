@@ -74,11 +74,23 @@ impl fmt::Display for ResponseCurrencies {
                     keys: *keys,
                     metal: *metal,
                 };
+                let hat_currency = *hat as Currency;
+                let is_whole_number = hat_currency as f32 == *hat;
                 
-                if currencies.is_empty() {
-                    write!(f, "{hat} hat")
+                if is_whole_number {
+                    // use number without trailing decimals
+                    if currencies.is_empty() {
+                        write!(f, "{hat_currency} hat")
+                    } else {
+                        write!(f, "{currencies}, {hat_currency} hat")
+                    }
                 } else {
-                    write!(f, "{currencies}, {hat} hat")
+                    // use float number
+                    if currencies.is_empty() {
+                        write!(f, "{hat} hat")
+                    } else {
+                        write!(f, "{currencies}, {hat} hat")
+                    }
                 }
             },
             ResponseCurrencies::Cash(currencies) => write!(f, "{currencies}"),
