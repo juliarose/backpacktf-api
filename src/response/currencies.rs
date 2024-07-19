@@ -208,7 +208,7 @@ impl Serialize for ResponseCurrencies {
                 if *keys == 0.0 {
                     s.skip_field("keys")?;
                 } else if keys.fract() == 0.0 {
-                    s.serialize_field("metal", &(*keys as Currency))?;
+                    s.serialize_field("keys", &(*keys as Currency))?;
                 } else {
                     s.serialize_field("keys", &keys)?;
                 }
