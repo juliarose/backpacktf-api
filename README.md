@@ -41,7 +41,7 @@ match backpacktf.create_listing(&CreateListing::Buy {
         defindex: 1071,
         quality: Quality::Strange,
         killstreak_tier: Some(KillstreakTier::Professional),
-        ..BuyListingItem::default()
+        ..Default::default()
     },
     details: Some(format!("Buying Golden Frying Pan for {currencies}!")),
     buyout: true,

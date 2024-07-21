@@ -4,11 +4,11 @@ use super::deserializers;
 use crate::SteamID;
 use crate::time::ServerTime;
 use std::collections::HashMap;
-use serde::{Serialize, Deserialize};
 use chrono::serde::ts_seconds_option;
-use tf2_price::{get_weapons_from_metal_float, Currencies, Currency};
-use crate::tf2_enum::num_enum::{TryFromPrimitive, IntoPrimitive};
+use serde::{Serialize, Deserialize};
 use serde_repr::{Serialize_repr, Deserialize_repr};
+use tf2_price::{get_weapons_from_metal_float, Currencies, Currency};
+use tf2_enum::num_enum::{TryFromPrimitive, IntoPrimitive};
 
 /// The user's trust ratings.
 #[derive(Serialize, Deserialize, PartialEq, Clone, Debug)]
@@ -39,7 +39,7 @@ pub struct Ban {
 }
 
 impl Ban {
-    /// The user is permanently banned.
+    /// Is the user permanently banned?
     pub fn permabanned(&self) -> bool {
         self.start > self.end
     }

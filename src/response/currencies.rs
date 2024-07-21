@@ -12,18 +12,16 @@ use tf2_price::{FloatCurrencies, Currencies, Currency};
 /// marketplace.tf cross-listings.
 /// 
 /// It is best to use this as an intermediate type for converting into [`Currencies`] as it 
-/// provides a safe way to handle currencies.
+/// provides more ergonomic ways to handle currencies (arithmetic, comparison, etc.).
 /// 
 /// # Examples
 /// ```
 /// use backpacktf_api::response::currencies::ResponseCurrencies;
-/// use tf2_price::{Currencies, FloatCurrencies, refined};
+/// use tf2_price::{Currencies, refined};
 /// 
-/// let response_currencies = ResponseCurrencies::InGame(FloatCurrencies {
-///     keys: 2.0,
-///     metal: 1.0,
-/// });
-/// let currencies: Currencies = response_currencies.try_into().unwrap();
+/// let json = r#"{"keys": 2, "metal": 1}"#;
+/// let response_currencies = serde_json::from_str::<ResponseCurrencies>(json).unwrap();
+/// let currencies  = Currencies::try_from(response_currencies).unwrap();
 /// 
 /// assert_eq!(currencies.keys, 2);
 /// assert_eq!(currencies.weapons, refined!(1));
@@ -47,9 +45,9 @@ pub enum ResponseCurrencies {
 
 impl Eq for ResponseCurrencies {}
 
-impl Into<ResponseCurrencies> for FloatCurrencies {
-    fn into(self) -> ResponseCurrencies {
-        ResponseCurrencies::InGame(self)
+impl From<FloatCurrencies> for ResponseCurrencies {
+    fn from(val: FloatCurrencies) -> Self {
+        ResponseCurrencies::InGame(val)
     }
 }
 
@@ -242,7 +240,7 @@ impl Serialize for ResponseCurrencies {
                 }
                 
                 s.end()
-            }
+            },
             ResponseCurrencies::Cash(usd) => {
                 SerializeUSD { usd }.serialize(serializer)
             },
