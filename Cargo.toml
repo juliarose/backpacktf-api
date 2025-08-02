@@ -18,27 +18,27 @@ serde_repr = "^0.1"
 serde-enum-str = "0.3"
 reqwest = { version = "^0.12", features = ["json", "cookies", "gzip", "http2", "native-tls-alpn"], default-features = false }
 reqwest-retry = "^0.1"
-reqwest-middleware = "^0.1"
+reqwest-middleware = "^0.4"
 url = "^2.2"
 chrono = { version = "^0.4", features = ["serde"] }
 anyhow = "^1.0"
 strum = { version = "^0.23", features = ["derive"] }
 strum_macros = "^0.23"
-thiserror = "^1.0"
-steamid-ng = "1.0.0"
+thiserror = "^2.0"
+steamid-ng = "^1.0"
 tf2-enum = "^0.9.3"
 num_enum = "^0.7"
 tf2-price = { version = "^0.13", features = ["serde"] }
-log = "0.4.17"
+log = "^0.4"
 
 # Required for websocket feature
 tokio = { version = "1", features = ["sync"], optional = true }
-tokio-tungstenite = { version = "0.17", optional = true }
-futures-util = { version = "0.3", optional = true }
-serde_bytes = { version = "0.11", optional = true }
-http = { version = "0.2.9", optional = true }
-data-encoding = { version = "2.3.3", optional = true }
-rand = { version = "0.8.5", optional = true }
+tokio-tungstenite = { version = "^0.17", optional = true }
+futures-util = { version = "^0.3", optional = true }
+serde_bytes = { version = "^0.11", optional = true }
+http = { version = "^0.2", optional = true }
+data-encoding = { version = "^2.3", optional = true }
+rand = { version = "^0.8", optional = true }
 
 [features]
 default = ["native-tls"]
