@@ -1,8 +1,8 @@
-use super::middleware::get_default_middleware;
+use super::middleware::get_default_client;
 use crate::BackpackAPI;
 use std::sync::Arc;
-use reqwest_middleware::ClientWithMiddleware;
 use reqwest::cookie::Jar;
+use reqwest::Client;
 
 const USER_AGENT_STRING: &str = "Mozilla/5.0 (X11; Linux x86_64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/97.0.4692.71 Safari/537.36";
 
@@ -11,7 +11,7 @@ const USER_AGENT_STRING: &str = "Mozilla/5.0 (X11; Linux x86_64) AppleWebKit/537
 pub struct BackpackAPIBuilder {
     key: Option<String>,
     token: Option<String>,
-    client: Option<ClientWithMiddleware>,
+    client: Option<Client>,
     user_agent: &'static str,
 }
 
@@ -45,7 +45,7 @@ impl BackpackAPIBuilder {
     }
     
     /// Sets the client.
-    pub fn client(mut self, client: ClientWithMiddleware) -> Self {
+    pub fn client(mut self, client: Client) -> Self {
         self.client = Some(client);
         self
     }
@@ -60,7 +60,7 @@ impl BackpackAPIBuilder {
     pub fn build(self) -> BackpackAPI {
         let cookies = Arc::new(Jar::default());
         let client = self.client.unwrap_or_else(|| {
-            get_default_middleware(
+            get_default_client(
                 Arc::clone(&cookies),
                 self.user_agent,
             )

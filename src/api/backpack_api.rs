@@ -8,7 +8,7 @@ use std::borrow::Borrow;
 use std::time::Duration;
 use async_std::task::sleep;
 use serde::{Serialize, Deserialize, de::DeserializeOwned};
-use reqwest_middleware::ClientWithMiddleware;
+use reqwest::Client;
 
 const RESPONSE_UNSUCCESSFUL_MESSAGE: &str = "Empty response";
 const APPID_TEAM_FORTRESS_2: u32 = 440;
@@ -20,7 +20,7 @@ const MAX_ALERTS_REQUEST_LIMIT: usize = 100;
 pub struct BackpackAPI {
     key: Option<String>,
     token: Option<String>,
-    client: ClientWithMiddleware,
+    client: Client,
 }
 
 impl Default for BackpackAPI {
@@ -41,7 +41,7 @@ impl BackpackAPI {
     pub(crate) fn new(
         key: Option<String>,
         token: Option<String>,
-        client: ClientWithMiddleware,
+        client: Client,
     ) -> Self {
         Self {
             key,
@@ -461,20 +461,19 @@ impl BackpackAPI {
         
         Ok(notifications)
     }
-
+    
     /// Marks notifications as read.
     pub async fn mark_unread_notifications(
         &self,
     ) -> Result<(), Error> {
         let token = self.get_token()?;
+        
         self.post(
             "/notifications/unread",
             &Token {
                 token,
             },
-        ).await?;
-        
-        Ok(())
+        ).await
     }
 
     /// Gets a classifieds snapshot. SKU is the name of an item e.g. "Strange Pain Train".
@@ -1092,14 +1091,13 @@ impl BackpackAPI {
         id: &str,
     ) -> Result<(), Error> {
         let token = self.get_token()?;
+        
         self.post_json(
             &format!("/v2/classifieds/listings/{id}/demote"),
             &Token {
                 token,
             },
-        ).await?;
-        
-        Ok(())
+        ).await
     }
     
     /// Gets limits for batch requests.
@@ -1152,14 +1150,13 @@ impl BackpackAPI {
         &self,
     ) -> Result<(), Error> {
         let token = self.get_token()?;
+        
         self.post(
             "/agent/stop",
             &Token {
                 token,
             },
-        ).await?;
-        
-        Ok(())
+        ).await
     }
     
     /// Gets your classifieds limits.

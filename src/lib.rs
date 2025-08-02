@@ -23,5 +23,4 @@ pub use tf2_enum;
 pub use steamid_ng::SteamID;
 
 pub use reqwest;
-pub use reqwest_middleware;
 pub use reqwest::cookie::Jar;
