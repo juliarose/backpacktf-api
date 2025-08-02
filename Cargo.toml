@@ -30,10 +30,10 @@ log = "^0.4"
 
 # Required for websocket feature
 tokio = { version = "1", features = ["sync"], optional = true }
-tokio-tungstenite = { version = "^0.17", optional = true }
+tokio-tungstenite = { version = "^0.27", optional = true }
 futures-util = { version = "^0.3", optional = true }
 serde_bytes = { version = "^0.11", optional = true }
-http = { version = "^0.2", optional = true }
+http = { version = "^1.3", optional = true }
 data-encoding = { version = "^2.3", optional = true }
 rand = { version = "^0.8", optional = true }
 

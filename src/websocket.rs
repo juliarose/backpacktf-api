@@ -139,7 +139,7 @@ pub async fn connect() -> Result<mpsc::Receiver<(String, Message)>, Error> {
             match message {
                 Ok(message) => {
                     let data = message.into_data();
-                    let bytes = data.as_slice();
+                    let bytes = data.as_ref();
 
                     match serde_json::from_slice::<Vec<EventMessage>>(bytes) {
                         Ok(messages) => {
