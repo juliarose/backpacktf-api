@@ -2,7 +2,7 @@ use super::middleware::get_default_client;
 use crate::BackpackAPI;
 use std::sync::Arc;
 use reqwest::cookie::Jar;
-use reqwest::Client;
+use reqwest_middleware::ClientWithMiddleware;
 
 const USER_AGENT_STRING: &str = "Mozilla/5.0 (X11; Linux x86_64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/97.0.4692.71 Safari/537.36";
 
@@ -11,7 +11,7 @@ const USER_AGENT_STRING: &str = "Mozilla/5.0 (X11; Linux x86_64) AppleWebKit/537
 pub struct BackpackAPIBuilder {
     key: Option<String>,
     token: Option<String>,
-    client: Option<Client>,
+    client: Option<ClientWithMiddleware>,
     user_agent: &'static str,
 }
 
@@ -45,7 +45,7 @@ impl BackpackAPIBuilder {
     }
     
     /// Sets the client.
-    pub fn client(mut self, client: Client) -> Self {
+    pub fn client(mut self, client: ClientWithMiddleware) -> Self {
         self.client = Some(client);
         self
     }

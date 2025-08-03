@@ -8,7 +8,7 @@ use std::borrow::Borrow;
 use std::time::Duration;
 use async_std::task::sleep;
 use serde::{Serialize, Deserialize, de::DeserializeOwned};
-use reqwest::Client;
+use reqwest_middleware::ClientWithMiddleware;
 
 const RESPONSE_UNSUCCESSFUL_MESSAGE: &str = "Empty response";
 const APPID_TEAM_FORTRESS_2: u32 = 440;
@@ -20,7 +20,7 @@ const MAX_ALERTS_REQUEST_LIMIT: usize = 100;
 pub struct BackpackAPI {
     key: Option<String>,
     token: Option<String>,
-    client: Client,
+    client: ClientWithMiddleware,
 }
 
 impl Default for BackpackAPI {
@@ -41,7 +41,7 @@ impl BackpackAPI {
     pub(crate) fn new(
         key: Option<String>,
         token: Option<String>,
-        client: Client,
+        client: ClientWithMiddleware,
     ) -> Self {
         Self {
             key,

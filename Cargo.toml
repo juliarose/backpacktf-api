@@ -17,6 +17,8 @@ serde_json = "^1.0"
 serde_repr = "^0.1"
 serde-enum-str = "0.3"
 reqwest = { version = "^0.12", features = ["json", "cookies", "gzip", "http2", "native-tls-alpn"], default-features = false }
+reqwest-retry = "^0.7"
+reqwest-middleware = { version = "^0.4", features = ["json"] }
 url = "^2.2"
 chrono = { version = "^0.4", features = ["serde"] }
 strum = { version = "^0.23", features = ["derive"] }
@@ -27,6 +29,7 @@ tf2-enum = "^0.9.3"
 num_enum = "^0.7"
 tf2-price = { version = "^0.13", features = ["serde"] }
 log = "^0.4"
+anyhow = "^1.0"
 
 # Required for websocket feature
 tokio = { version = "1", features = ["sync"], optional = true }
