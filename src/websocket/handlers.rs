@@ -89,7 +89,7 @@ pub async fn read_events(
                             match on_event(message, &sender).await {
                                 Ok(_) => {},
                                 Err(EventError::Serde(error, payload)) => {
-                                    println!("Error deserializing event payload: {error}\n\n{payload}");
+                                    log::debug!("Error deserializing event payload: {error}\n\n{payload}");
                                 },
                                 // This means the channel is closed, so we can stop reading messages.
                                 Err(EventError::Send(_)) => {
@@ -105,27 +105,27 @@ pub async fn read_events(
                     Err(error) => {
                         // If we encounter an error deserializing the event, log it.
                         if let Ok(message) = std::str::from_utf8(bytes.as_ref()) {
-                            println!("Error deserializing event: {error} {message}");
+                            log::debug!("Error deserializing event: {error} {message}");
                         } else {
-                            println!("Error deserializing event: {error}; Invalid utf8 string: {bytes:?}");
+                            log::debug!("Error deserializing event: {error}; Invalid utf8 string: {bytes:?}");
                         }
                     },
                 }
             },
             // We don't expect binary messages, but if we do, log it.
-            Ok(WsMessage::Binary(_)) => println!("Received unexpected binary message"),
+            Ok(WsMessage::Binary(_)) => log::debug!("Received unexpected binary message"),
             // If we receive a close frame, we can stop reading messages.
             Ok(WsMessage::Close(frame)) => {
-                println!("Connection closed: {:?}", frame);
+                log::debug!("Connection closed: {:?}", frame);
                 break;
             },
-            Ok(WsMessage::Frame(frame)) => println!("Frame received: {}", frame),
+            Ok(WsMessage::Frame(frame)) => log::debug!("Frame received: {}", frame),
             // Ping/pongs are handled automatically by the library, so we can ignore them.
             Ok(WsMessage::Ping(_)) |
             Ok(WsMessage::Pong(_)) => {},
             Err(error) => {
                 // dropped?
-                println!("Connection dropped: {}", error);
+                log::debug!("Connection dropped: {}", error);
                 break;
             },
         }
