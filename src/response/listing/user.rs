@@ -39,13 +39,16 @@ pub struct User {
     pub banned: bool,
     /// The user's custom name style.
     pub custom_name_style: String,
-    /// The user's number of accepted price suggestions.
+    /// The user's number of accepted price suggestions. This is sometimes empty and will be `0` in that case.
+    #[serde(default)]
     pub accepted_suggestions: u32,
     /// The user's class.
     pub class: String,
     /// The user's style.
     pub style: String,
     /// The user's trade offer URL, if set.
+    #[serde(default)]
+    #[serde(skip_serializing_if = "Option::is_none")]
     pub trade_offer_url: Option<String>,
     /// The user's backpack URL.
     #[serde(default)]

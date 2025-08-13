@@ -93,11 +93,7 @@ impl Listing {
     
     /// Gets the access token of the listing's user.
     pub fn access_token(&self) -> Option<String> {
-        if let Some(user) = &self.user {
-            user.access_token()
-        } else {
-            None
-        }
+        self.user.as_ref().and_then(|user| user.access_token())
     }
     
     /// Whether the listing is managed by an agent.
