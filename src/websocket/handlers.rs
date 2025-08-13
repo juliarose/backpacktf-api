@@ -1,8 +1,9 @@
 //! Handlers for reading messages.
 
+use std::string;
+
 use super::Message;
 use crate::response::listing::Listing;
-use crate::websocket::message;
 use tokio::sync::mpsc::error::SendError;
 use tokio::sync::mpsc;
 use tokio::net::TcpStream;
@@ -14,15 +15,6 @@ use serde_json::value::RawValue;
 
 const APPID_TEAM_FORTRESS_2: u32 = 440;
 
-/// Reason why messages stopped being read.
-#[derive(Debug, Clone, PartialEq, Eq)]
-pub enum ReadClosed {
-    /// An error was encountered sending a message.
-    ReceiverDropped,
-    /// An error was encountered deserializing a message.
-    ConnectionClosed,
-}
-
 /// An error from an event.
 #[derive(thiserror::Error, Debug)]
 enum EventError<'a> {
@@ -32,7 +24,7 @@ enum EventError<'a> {
     /// An error was encountered deserializing a message.
     #[error("{}", .0)]
     Serde(serde_json::Error, &'a RawValue),
-    /// Unreachable
+    /// This should be unreachable.
     #[error("Unreachable code reached")]
     Unreachable,
 }
@@ -70,10 +62,94 @@ struct AppType {
     appid: u32,
 }
 
+/// A payload which includes a message was received.
+#[derive(Debug, Deserialize)]
+struct StringMessage {
+    message: String,
+}
+
+/// Intermediary for converting raw messages into [`Message`].
+struct Event {
+    id: String,
+    message: Message,
+}
+
+impl<'a> TryFrom<EventMessage<'a>> for Event {
+    type Error = EventError<'a>;
+    
+    fn try_from(message: EventMessage<'a>) -> Result<Self, Self::Error> {
+        use EventType::*;
+        
+        match message.event {
+            ListingUpdate |
+            ListingDelete => {
+                match serde_json::from_str::<Listing>(message.payload.get()) {
+                    Ok(listing) => {
+                        match message.event {
+                            EventType::ListingUpdate => Ok(Event {
+                                id: message.id,
+                                message: Message::ListingUpdate(listing)
+                            }),
+                            EventType::ListingDelete => Ok(Event {
+                                id: message.id,
+                                message: Message::ListingDelete(listing)
+                            }),
+                            _ => Err(EventError::Unreachable),
+                        }
+                    },
+                    Err(error) => {
+                        if let Ok(AppType { appid }) = serde_json::from_str::<AppType>(message.payload.get()) {
+                            if appid != APPID_TEAM_FORTRESS_2 {
+                                // move the payload into a box
+                                let payload = message.payload.to_owned();
+                                
+                                return match message.event {
+                                    EventType::ListingUpdate => Ok(Event {
+                                        id: message.id,
+                                        message: Message::ListingUpdateOtherApp {
+                                            appid,
+                                            payload,
+                                        },
+                                    }),
+                                    EventType::ListingDelete => Ok(Event {
+                                        id: message.id,
+                                        message: Message::ListingDeleteOtherApp {
+                                            appid,
+                                            payload,
+                                        },
+                                    }),
+                                    // Shouldn't be reachable
+                                    _ => Err(EventError::Unreachable),
+                                };
+                            }
+                        }
+                        
+                        return Err(EventError::Serde(error, message.payload));
+                    },
+                }
+            },
+            EventType::ClientLimitExceeded => {
+                // move the payload into a box
+                if let Ok(string_message) = serde_json::from_str::<StringMessage>(message.payload.get()) {
+                    return Ok(Event {
+                        id: message.id,
+                        message: Message::ClientLimitExceeded(string_message.message),
+                    });
+                }
+                
+                Ok(Event {
+                    id: message.id,
+                    message: Message::ClientLimitExceeded(message.payload.get().to_owned()),
+                })
+            },
+        }
+    }
+}
+
 pub async fn read_events(
     mut stream: WebSocketStream<MaybeTlsStream<TcpStream>>,
     sender: mpsc::Sender<(String, Message)>,
-) -> ReadClosed {
+) {
     while let Some(message) = stream.next().await {
         match message {
             Ok(WsMessage::Text(bytes)) => {
@@ -92,13 +168,8 @@ pub async fn read_events(
                                     log::debug!("Error deserializing event payload: {error}\n\n{payload}");
                                 },
                                 // This means the channel is closed, so we can stop reading messages.
-                                Err(EventError::Send(_)) => {
-                                    return ReadClosed::ReceiverDropped;
-                                },
-                                Err(EventError::Unreachable) => {
-                                    // Shouldn't occur
-                                    continue;
-                                },
+                                Err(EventError::Send(_)) => break,
+                                Err(EventError::Unreachable) => continue,
                             }
                         }
                     },
@@ -127,82 +198,6 @@ pub async fn read_events(
                 // dropped?
                 log::debug!("Connection dropped: {}", error);
                 break;
-            },
-        }
-    }
-    
-    // If the loop was exited, the connection was closed.
-    ReadClosed::ConnectionClosed
-}
-
-struct Event {
-    id: String,
-    message: Message,
-}
-
-impl<'a> TryFrom<EventMessage<'a>> for Event {
-    type Error = EventError<'a>;
-    
-    fn try_from(message: EventMessage<'a>) -> Result<Self, Self::Error> {
-        match message.event {
-            EventType::ListingUpdate |
-            EventType::ListingDelete => {
-                match serde_json::from_str::<Listing>(message.payload.get()) {
-                    Ok(listing) => {
-                        match message.event {
-                            EventType::ListingUpdate => Ok(Event {
-                                id: message.id,
-                                message: Message::ListingUpdate(listing)
-                            }),
-                            EventType::ListingDelete => Ok(Event {
-                                id: message.id,
-                                message: Message::ListingDelete(listing)
-                            }),
-                            // Shouldn't be reachable
-                            _ => Err(EventError::Unreachable),
-                        }
-                    },
-                    Err(error) => {
-                        if let Ok(AppType { appid }) = serde_json::from_str::<AppType>(message.payload.get()) {
-                            if appid != APPID_TEAM_FORTRESS_2 {
-                                // move the payload into a box
-                                let payload = message.payload.to_owned();
-                                
-                                return match message.event {
-                                    EventType::ListingUpdate => Ok(Event {
-                                        id: message.id,
-                                        message: Message::ListingUpdateOtherApp {
-                                            appid,
-                                            payload,
-                                        }
-                                    }),
-                                    EventType::ListingDelete => Ok(Event {
-                                        id: message.id,
-                                        message: Message::ListingDeleteOtherApp {
-                                            appid,
-                                            payload,
-                                        }
-                                    }),
-                                    // Shouldn't be reachable
-                                    _ => Err(EventError::Unreachable),
-                                };
-                            }
-                        }
-                        
-                        return Err(EventError::Serde(error, message.payload));
-                    },
-                }
-            },
-            EventType::ClientLimitExceeded => {
-                // move the payload into a box
-                let payload = message.payload.to_owned();
-                
-                return Ok(Event {
-                    id: message.id,
-                    message: Message::ClientLimitExceeded {
-                        payload
-                    }
-                });
             },
         }
     }

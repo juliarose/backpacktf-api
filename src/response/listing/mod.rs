@@ -20,6 +20,7 @@ use crate::time::ServerTime;
 use crate::response::currencies::ResponseCurrencies;
 use crate::response::deserializers;
 use std::time::Duration;
+use std::fmt;
 use chrono::serde::ts_seconds;
 use serde::{Serialize, Deserialize};
 use chrono::{Utc, Duration as ChronoDuration};
@@ -42,12 +43,15 @@ pub struct Listing {
     pub value: Option<Value>,
     /// Whether the user prefers trade offers for this listing.
     #[serde(default)]
+    #[serde(skip_serializing_if = "deserializers::is_false")]
     pub trade_offers_preferred: bool,
     /// Whether the listing is a buyout only listing.
     #[serde(default)]
+    #[serde(skip_serializing_if = "deserializers::is_false")]
     pub buyout_only: bool,
     /// Whether the listing is archived.
     #[serde(default)]
+    #[serde(skip_serializing_if = "deserializers::is_false")]
     pub archived: bool,
     /// The details of the listing.
     #[serde(default)]
@@ -99,6 +103,23 @@ impl Listing {
     /// Whether the listing is managed by an agent.
     pub fn is_automatic(&self) -> bool {
         self.user_agent.is_some()
+    }
+}
+
+impl fmt::Display for Listing {
+    fn fmt(&self, f: &mut fmt::Formatter<'_>) -> fmt::Result {
+        // Looks like 
+        write!(
+            f,
+            "[{}] {} ({} for {})",
+            u64::from(self.steamid),
+            self.item,
+            match self.intent {
+                ListingIntent::Buy => "buying",
+                ListingIntent::Sell => "selling",
+            },
+            self.currencies,
+        )
     }
 }
 

@@ -545,3 +545,8 @@ where
     
     deserializer.deserialize_any(NumericVisitor::new())
 }
+
+/// Checks if the bool is false. This is used in "skip_serializing_if" macros.
+pub fn is_false(bool: &bool) -> bool {
+    !bool
+}

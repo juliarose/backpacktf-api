@@ -2,6 +2,7 @@
 
 use super::attributes;
 use crate::response::deserializers;
+use std::fmt;
 use serde::{Serialize, Deserialize};
 use tf2_enum::{Wear, KillstreakTier, Killstreaker, Sheen, Quality, Paint, ItemSlot, Class, Origin};
 
@@ -129,3 +130,8 @@ pub struct Item {
     pub spells: Option<Vec<attributes::SpellAttribute>>,
 }
 
+impl fmt::Display for Item {
+    fn fmt(&self, f: &mut fmt::Formatter<'_>) -> fmt::Result {
+        write!(f, "{}", self.name)
+    }
+}

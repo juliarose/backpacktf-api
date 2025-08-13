@@ -1,6 +1,7 @@
 //! A parsed message from the websocket.
 
 use crate::response::listing::Listing;
+use std::fmt;
 use serde_json::value::RawValue;
 
 /// A message from the websocket.
@@ -28,9 +29,22 @@ pub enum Message {
         /// The payload of the event.
         payload: Box<RawValue>,
     },
-    /// The client was exceeded.
-    ClientLimitExceeded {
-        /// The payload of the event.
-        payload: Box<RawValue>,
-    },
+    /// The client was exceeded. The contained string contains more details.
+    ClientLimitExceeded(String),
+}
+
+impl fmt::Display for Message {
+    fn fmt(&self, f: &mut fmt::Formatter<'_>) -> fmt::Result {
+        match self {
+            Message::ListingUpdate(listing) => write!(f, "ListingUpdate: {}", listing),
+            Message::ListingDelete(listing) => write!(f, "ListingDelete: {}", listing),
+            Message::ListingUpdateOtherApp { appid, payload } => {
+                write!(f, "ListingUpdateOtherApp: appid={}, payload={}", appid, payload)
+            }
+            Message::ListingDeleteOtherApp { appid, payload } => {
+                write!(f, "ListingDeleteOtherApp: appid={}, payload={}", appid, payload)
+            }
+            Message::ClientLimitExceeded(message) => write!(f, "ClientLimitExceeded: {}", message),
+        }
+    }
 }

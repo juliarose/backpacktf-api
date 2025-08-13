@@ -1,6 +1,7 @@
 //! Listing intents.
 
 use crate::tf2_enum::num_enum::{IntoPrimitive, TryFromPrimitive};
+use std::fmt;
 use serde_repr::{Serialize_repr, Deserialize_repr};
 
 /// The intent of a listing.
@@ -11,4 +12,13 @@ pub enum ListingIntent {
     Buy = 0,
     /// Sell listing.
     Sell = 1,
+}
+
+impl fmt::Display for ListingIntent {
+    fn fmt(&self, f: &mut fmt::Formatter<'_>) -> fmt::Result {
+        match self {
+            ListingIntent::Buy => write!(f, "Buy"),
+            ListingIntent::Sell => write!(f, "Sell"),
+        }
+    }
 }

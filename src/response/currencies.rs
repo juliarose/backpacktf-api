@@ -91,7 +91,7 @@ impl fmt::Display for ResponseCurrencies {
                     }
                 }
             },
-            ResponseCurrencies::Cash(currencies) => write!(f, "{currencies}"),
+            ResponseCurrencies::Cash(dollars) => write!(f, "{dollars:.2}"),
         }
     }
 }

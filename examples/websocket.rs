@@ -5,7 +5,7 @@ async fn main() {
     match connect().await {
         Ok(mut websocket) => {
              while let Some((_, message)) = websocket.recv().await {
-                println!("{message:?}");
+                println!("{message}");
             }
         },
         // Server responded with an HTTP error
