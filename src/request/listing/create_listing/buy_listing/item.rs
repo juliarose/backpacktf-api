@@ -1,7 +1,9 @@
 use super::{Attributable, ItemAttribute};
-use crate::response::attributes::{Value as AttributeValue, FloatValue};
 use serde::{Deserialize, Serialize};
-use tf2_enum::{KillstreakTier, Wear, Quality};
+use tf2_enum::{Attributes, AttributeSet, KillstreakTier, Paint, Quality, SpellSet, StrangePartSet, Wear};
+use tf2_enum::econ_attributes::{
+    IsAustralium, IsFestivized, KillEater, KillEaterUserScore, PaintkitProtoDefIndex, SetAttachedParticle
+};
 
 /// An item.
 #[derive(Deserialize, Serialize, PartialEq, Debug, Clone, Copy)]
@@ -26,10 +28,18 @@ pub struct Item {
     pub festivized: bool,
     /// Whether the item is australium.
     pub australium: bool,
+    /// The paint of the item.
+    pub paint: Option<Paint>,
+    /// The spells of the item.
+    #[serde(skip_serializing_if = "SpellSet::is_empty")]
+    pub spells: SpellSet,
+    /// The strange parts of the item.
+    #[serde(skip_serializing_if = "StrangePartSet::is_empty")]
+    pub strange_parts: StrangePartSet,
 }
 
 impl Item {
-    /// Creates a new item.
+    /// Creates a new item with the given defindex and quality.
     pub fn new(
         defindex: u32,
         quality: Quality,
@@ -37,15 +47,99 @@ impl Item {
         Self {
             defindex,
             quality,
-            craftable: true,
-            killstreak_tier: None,
-            particle: None,
-            wear: None,
-            skin: None,
-            strange: false,
-            festivized: false,
-            australium: false,
+            ..Default::default()
         }
+    }
+    
+    /// Sets the defindex.
+    pub fn defindex(mut self, defindex: u32) -> Self {
+        self.defindex = defindex;
+        self
+    }
+    
+    /// Sets the quality.
+    pub fn quality(mut self, quality: Quality) -> Self {
+        self.quality = quality;
+        self
+    }
+
+    /// Sets whether the item is craftable.
+    pub fn craftable(mut self, craftable: bool) -> Self {
+        self.craftable = craftable;
+        self
+    }
+
+    /// Sets the killstreak tier.
+    pub fn killstreak_tier(mut self, killstreak_tier: KillstreakTier) -> Self {
+        self.killstreak_tier = Some(killstreak_tier);
+        self
+    }
+
+    /// Sets the particle.
+    pub fn particle(mut self, particle: u32) -> Self {
+        self.particle = Some(particle);
+        self
+    }
+
+    /// Sets the wear.
+    pub fn wear(mut self, wear: Option<Wear>) -> Self {
+        self.wear = wear;
+        self
+    }
+
+    /// Sets the skin.
+    pub fn skin(mut self, skin: u32) -> Self {
+        self.skin = Some(skin);
+        self
+    }
+
+    /// Sets whether the item is strange.
+    pub fn strange(mut self, strange: bool) -> Self {
+        self.strange = strange;
+        self
+    }
+
+    /// Sets whether the item is festivized.
+    pub fn festivized(mut self, festivized: bool) -> Self {
+        self.festivized = festivized;
+        self
+    }
+
+    /// Sets whether the item is australium.
+    pub fn australium(mut self, australium: bool) -> Self {
+        self.australium = australium;
+        self
+    }
+
+    /// Sets the paint.
+    pub fn paint(mut self, paint: Paint) -> Self {
+        self.paint = Some(paint);
+        self
+    }
+    
+    /// Sets the spells.
+    pub fn spells(mut self, spells: SpellSet) -> Self {
+        self.spells = spells;
+        self
+    }
+    
+    /// Sets the strange parts.
+    pub fn strange_parts(mut self, strange_parts: StrangePartSet) -> Self {
+        self.strange_parts = strange_parts;
+        self
+    }
+    
+    fn compute_attribute_len(&self) -> usize {
+        self.killstreak_tier.is_some() as usize
+            + self.particle.is_some() as usize
+            + self.strange as usize
+            + self.australium as usize
+            + self.festivized as usize
+            + self.paint.is_some() as usize
+            + self.wear.is_some() as usize
+            + self.skin.is_some() as usize
+            + self.spells.len()
+            + (self.strange_parts.len() * 2)
     }
 }
 
@@ -62,86 +156,76 @@ impl Default for Item {
             strange: false,
             festivized: false,
             australium: false,
+            paint: None,
+            spells: SpellSet::default(),
+            strange_parts: StrangePartSet::default(),
         }
     }
 }
 
 impl Attributable for Item {
     fn as_attributes(&self) -> Vec<ItemAttribute> {
-        let mut attributes: Vec<ItemAttribute> = Vec::new();
+        // Since we know exactly how many elements we need to insert, we can preallocate the
+        // vector.
+        let capacity = self.compute_attribute_len();
+        let mut attributes: Vec<ItemAttribute> = Vec::with_capacity(capacity);
         
         if let Some(killstreak_tier) = &self.killstreak_tier {
-            
-            attributes.push(ItemAttribute {
-                // killstreak_tier
-                defindex: 2025,
-                value: None,
-                float_value: Some(*killstreak_tier as u32 as f64),
-            });
+            attributes.push(as_attr(killstreak_tier));
         }
         
         if let Some(particle) = self.particle {
-            attributes.push(ItemAttribute {
-                // set_attached_particle
-                defindex: 134,
-                value: None,
-                float_value: Some(particle as f64),
-            });
+            attributes.push(as_attr(&SetAttachedParticle::from(particle)));
         }
         
         if self.strange {
-            attributes.push(ItemAttribute {
-                // kill_eater
-                defindex: 214,
-                value: None,
-                float_value: None,
-            });
+            attributes.push(as_attr(&KillEater::default()));
         }
         
         if self.australium {
-            attributes.push(ItemAttribute {
-                // is_australium_item
-                defindex: 2027,
-                value: None,
-                float_value: None,
-            });
+            attributes.push(as_attr(&IsAustralium::default()));
         }
         
         if self.festivized {
-            attributes.push(ItemAttribute {
-                // is_festive
-                defindex: 2053,
-                value: None,
-                float_value: None,
-            });
+            attributes.push(as_attr(&IsFestivized::default()));
+        }
+        
+        if let Some(paint) = &self.paint {
+            attributes.push(as_attr(paint));
         }
         
         if let Some(wear) = &self.wear {
-            let float_value: FloatValue = match wear {
-                Wear::FactoryNew => 0.2,
-                Wear::MinimalWear => 0.4,
-                Wear::FieldTested => 0.6,
-                Wear::WellWorn => 0.8,
-                Wear::BattleScarred => 1.0,
-            };
-            
-            attributes.push(ItemAttribute {
-                // set_item_texture_wear
-                defindex: 725,
-                value: None,
-                float_value: Some(float_value),
-            });
+            attributes.push(as_attr(wear));
         }
         
         if let Some(skin) = self.skin {
-            attributes.push(ItemAttribute {
-                // paintkit_proto_def_index
-                defindex: 834,
-                value: Some(AttributeValue::Number(skin as u64)),
-                float_value: None,
-            });
+            attributes.push(as_attr(&PaintkitProtoDefIndex::from(skin as u32)));
+        }
+        
+        for attribute in self.spells.iter_attributes() {
+            attributes.push(ItemAttribute::from_attributes::<<SpellSet as AttributeSet>::Item>(attribute));
+        }
+        
+        for (
+            attribute,
+            defindex,
+        ) in self.strange_parts.iter_attributes().zip(KillEaterUserScore::DEFINDEX) {
+            // Probably not entirely necessary but also push the attribute for the count.
+            attributes.push(ItemAttribute::from_attributes_with_defindex(
+                &KillEaterUserScore(100),
+                *defindex as i32,
+            ));
+            attributes.push(ItemAttribute::from_attributes::<<StrangePartSet as AttributeSet>::Item>(attribute));
         }
         
         attributes
     }
+}
+
+
+fn as_attr<A>(item: &A) -> ItemAttribute
+where
+    A: tf2_enum::Attribute
+{
+    ItemAttribute::from_attribute(item)
 }

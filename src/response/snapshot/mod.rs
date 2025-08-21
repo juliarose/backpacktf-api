@@ -102,6 +102,6 @@ mod tests {
         
         assert_eq!(listing.details, Some("Looking for a spelled exorcism strange frying pan (without parts is ok) ! Feel free to add me :D\ncan also buy a strange pan with these parts for 44 keys".into()));
         assert_eq!(attribute_380.float_value.unwrap(), 82.0);
-        assert_eq!(attribute_383.value.as_ref().unwrap(), &AttributeValue::Number(0));
+        assert_eq!(attribute_383.value.as_ref().unwrap(), &AttributeValue::Integer(0));
     }
 }

@@ -652,7 +652,7 @@ impl BackpackAPI {
     }
     
     /// Updates a listing from the archive. Note that any type can be used for the currencies 
-    /// parameter as long as it implements all traits under [`SerializeCurrencies`].
+    /// parameter as long as it implements [`Serialize`].
     pub async fn update_archived_listing<T>(
         &self,
         id: &str,
@@ -819,7 +819,7 @@ impl BackpackAPI {
     }
     
     /// Creates listings. A limit of 100 listings is imposed. Note that any type can be used for 
-    /// the currencies parameter as long as it implements all traits under [`SerializeCurrencies`].
+    /// the currencies parameter as long as it implements [`Serialize`].
     pub async fn create_listings<'a, T>(
         &self,
         listings: &'a [request::CreateListing<T>],
@@ -945,7 +945,7 @@ impl BackpackAPI {
     }
     
     /// Updates a listing. Note that any type can be used for the currencies parameter as long as 
-    /// it implements all traits under [`SerializeCurrencies`].
+    /// it implements [`Serialize`].
     pub async fn update_listing<T>(
         &self,
         id: &str,
@@ -979,7 +979,7 @@ impl BackpackAPI {
     }
     
     /// Updates listings. A limit of 100 listings is imposed. Note that any type can be used for 
-    /// the currencies parameter as long as it implements all traits under [`SerializeCurrencies`].
+    /// the currencies parameter as long as it implements [`Serialize`].
     pub async fn update_listings<'a, T>(
         &self,
         listings: &'a [request::UpdateListing<T>],
@@ -1320,7 +1320,7 @@ impl BackpackAPI {
     /// creation of listings that need to be split into chunks and are rate limited to a certain 
     /// number of requests per minute. If an error occurs, execution will cease and an error will 
     /// be added to the return value. Note that any type can be used for the currencies parameter 
-    /// as long as it implements all traits under [`SerializeCurrencies`].
+    /// as long as it implements [`Serialize`].
     pub async fn create_listings_chunked<'a, T>(
         &self,
         listings: &'a [request::CreateListing<T>],
@@ -1359,7 +1359,7 @@ impl BackpackAPI {
     /// updating of listings that need to be split into chunks and are rate limited to a certain 
     /// number of requests per minute. If an error occurs, execution will cease and an error will 
     /// be added to the return value. Note that any type can be used for the currencies parameter 
-    /// as long as it implements all traits under [`SerializeCurrencies`].
+    /// as long as it implements [`Serialize`].
     pub async fn update_listings_chunked<'a, T>(
         &self,
         listings: &'a [request::UpdateListing<T>],

@@ -1,7 +1,5 @@
 //! Handlers for reading messages.
 
-use std::string;
-
 use super::Message;
 use crate::response::listing::Listing;
 use tokio::sync::mpsc::error::SendError;

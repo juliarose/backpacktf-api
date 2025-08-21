@@ -1,7 +1,12 @@
 //! Snapshot item.
 
 use crate::SteamID;
-use crate::response::attributes::{Attributes, Value as AttributeValue};
+use crate::response::attributes::{
+    Attributes,
+    Value as AttributeValue,
+    Integer as AttributeInteger,
+    FloatValue,
+};
 use crate::response::deserializers;
 use serde::{Serialize, Deserialize};
 use tf2_enum::{
@@ -77,8 +82,8 @@ impl Item {
     pub fn get_skin_value(&self) -> Option<u32> {
         let attribute = self.attributes.get(&834)?;
         
-        if let Some(AttributeValue::Number(value)) = attribute.value {
-            let value = u32::try_from(value).ok()?;
+        if let Some(AttributeValue::Integer(value)) = attribute.value {
+            let value = AttributeInteger::try_from(value).ok()?;
             
             return Some(value);
         }
@@ -205,10 +210,10 @@ impl Item {
     }
 }
 
-fn convert_float_u32(float: f64) -> Option<u32> {
+fn convert_float_u32(float: FloatValue) -> Option<u32> {
     let int = float as u32;
     
-    if int as f64 == float {
+    if int as FloatValue == float {
         Some(int)
     } else {
         None

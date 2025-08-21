@@ -8,7 +8,7 @@ use chrono::serde::ts_seconds_option;
 use serde::{Serialize, Deserialize};
 use serde_repr::{Serialize_repr, Deserialize_repr};
 use tf2_price::{get_weapons_from_metal_float, Currencies, Currency};
-use tf2_enum::num_enum::{TryFromPrimitive, IntoPrimitive};
+use tf2_enum::{TryFromPrimitive, IntoPrimitive};
 
 /// The user's trust ratings.
 #[derive(Serialize, Deserialize, PartialEq, Clone, Debug)]

@@ -33,14 +33,14 @@ impl BackpackAPIBuilder {
     }
     
     /// Sets the API key.
-    pub fn key(mut self, key: &str) -> Self {
-        self.key = Some(key.into());
+    pub fn key(mut self, key: String) -> Self {
+        self.key = Some(key);
         self
     }
     
     /// Sets the API token.
-    pub fn token(mut self, token: &str) -> Self {
-        self.token = Some(token.into());
+    pub fn token(mut self, token: String) -> Self {
+        self.token = Some(token);
         self
     }
     

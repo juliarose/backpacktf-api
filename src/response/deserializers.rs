@@ -1,7 +1,13 @@
 use crate::{ListingIntent, CurrencyType};
 use crate::response::listing::Ban;
-use crate::response::attributes::{Attributes, Attribute, Value as AttributeValue};
-use crate::tf2_enum::num_enum::TryFromPrimitive;
+use crate::response::attributes::{
+    Attributes,
+    Attribute,
+    Value as AttributeValue,
+    FloatValue as AttributeFloatValue,
+    Integer as AttributeInteger,
+};
+use crate::tf2_enum::TryFromPrimitive;
 use std::str::FromStr;
 use std::fmt::Display;
 use std::marker::PhantomData;
@@ -196,18 +202,18 @@ where
             }
             
             match s.parse::<u64>() {
-                Ok(n) => Ok(Some(AttributeValue::Number(n))),
+                Ok(n) => Ok(Some(AttributeValue::Integer(n as AttributeInteger))),
                 Err(_) => Ok(Some(AttributeValue::String(s))),
             }
         },
         Value::Number(num) => {
             if let Some(num) = num.as_u64() {
-                return Ok(Some(AttributeValue::Number(num)));
+                return Ok(Some(AttributeValue::Integer(num as AttributeInteger)));
             }
             
-            let n: f64 = num.as_f64().ok_or_else(|| de::Error::custom("invalid number"))?;
+            let n = num.as_f64().ok_or_else(|| de::Error::custom("invalid number"))?;
             
-            Ok(Some(AttributeValue::Float(n)))
+            Ok(Some(AttributeValue::Float(n as AttributeFloatValue)))
         },
         Value::Null => Ok(None),
         _ => Err(de::Error::custom("invalid attribute")),
@@ -316,7 +322,7 @@ where
     }
 }
 
-pub fn from_optional_float_or_string<'de, D>(deserializer: D) -> Result<Option<f64>, D::Error>
+pub fn from_optional_float_or_string<'de, D>(deserializer: D) -> Result<Option<AttributeFloatValue>, D::Error>
 where
     D: Deserializer<'de>
 {
@@ -326,14 +332,14 @@ where
                 return Ok(None);
             }
             
-            let n = s.parse::<f64>().map_err(de::Error::custom)?;
+            let n = s.parse::<AttributeFloatValue>().map_err(de::Error::custom)?;
                 
             Ok(Some(n))
         },
         Value::Number(num) => {
             let n: f64 = num.as_f64().ok_or_else(|| de::Error::custom("invalid number"))?;
             
-            Ok(Some(n))
+            Ok(Some(n as AttributeFloatValue))
         },
         Value::Null => Ok(None),
         _ => Err(de::Error::custom("not a number")),

@@ -82,27 +82,13 @@ where
 }
 
 /// Serializes a float into an integer when the float is a whole number.
-pub fn option_float_as_integers_when_whole<S>(
+pub fn option_float_as_integers_when_whole<S: Serializer>(
     value: &Option<FloatValue>,
     s: S,
-) -> Result<S::Ok, S::Error>
-where
-    S: Serializer,
-{
-    if let Some(value) = value {
-        if value.fract() == 0.0 {
-            let converted = *value as u64;
-            
-            // safely convert to u64
-            if converted as f64 == *value {
-                s.serialize_u64(converted)
-            } else {
-                s.serialize_f64(*value)
-            }
-        } else {
-            s.serialize_f64(*value)
-        }
-    } else {
-        s.serialize_none()
+) -> Result<S::Ok, S::Error> {
+    match value {
+        Some(v) if v.fract() == 0.0 && (*v as u32 as FloatValue == *v) => s.serialize_u64(*v as u64),
+        Some(v) => s.serialize_f32(*v),
+        None => s.serialize_none(),
     }
 }

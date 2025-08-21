@@ -21,6 +21,7 @@ pub use currency_type::CurrencyType;
 
 pub use tf2_price;
 pub use tf2_enum;
+pub use steamid_ng;
 pub use steamid_ng::SteamID;
 
 pub use reqwest;

@@ -8,8 +8,8 @@ async fn main() -> Result<(), Error> {
     dotenv().ok();
     
     let backpacktf = BackpackAPI::builder()
-        .key(&env::var("KEY").unwrap())
-        .token(&env::var("TOKEN").unwrap())
+        .key(env::var("KEY").unwrap())
+        .token(env::var("TOKEN").unwrap())
         .build();
     let (
         listings,

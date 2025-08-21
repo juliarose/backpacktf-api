@@ -8,20 +8,51 @@ use serde::{Serialize, Deserialize};
 /// A list of attributes.
 pub type Attributes = HashMap<i32, Attribute>;
 
+/// A float value.
+pub type FloatValue = f32;
+/// An integer.
+pub type Integer = u32;
+
 /// The value of an attribute.
 #[derive(Serialize, Deserialize, PartialEq, Clone, Debug)]
 #[serde(untagged)]
 pub enum Value {
     /// An integer value.
-    Number(u64),
+    Integer(Integer),
     /// A float value.
-    Float(f64),
+    Float(FloatValue),
     /// A string value.
     String(String),
 }
 
-/// A float value.
-pub type FloatValue = f64;
+impl From<tf2_enum::AttributeValue> for Value {
+    fn from(value: tf2_enum::AttributeValue) -> Self {
+        match value {
+            tf2_enum::AttributeValue::Integer(n) => Value::Integer(n),
+            tf2_enum::AttributeValue::Float(f) => Value::Float(f),
+            tf2_enum::AttributeValue::String(s) => Value::String(s),
+            tf2_enum::AttributeValue::None => Value::Integer(0),
+        }
+    }
+}
+
+impl From<Integer> for Value {
+    fn from(value: Integer) -> Self {
+        Value::Integer(value)
+    }
+}
+
+impl From<FloatValue> for Value {
+    fn from(value: FloatValue) -> Self {
+        Value::Float(value)
+    }
+}
+
+impl From<f64> for Value {
+    fn from(value: f64) -> Self {
+        (value as FloatValue).into()
+    }
+}
 
 /// An attribute of an item.
 #[derive(Serialize, Deserialize, PartialEq, Clone, Debug)]

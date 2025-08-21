@@ -15,7 +15,8 @@ pub enum CreateListing<T> {
         /// The id of the item to list.
         #[serde(serialize_with = "as_string")]
         id: u64,
-        /// The currencies. In practice, any type that can be serialized can be supplied.
+        /// The currencies. Any type that can be serialized can be supplied. It should contain
+        /// "keys" and/or "metal" fields.
         currencies: T,
         /// The message of the listing.
         #[serde(skip_serializing_if = "Option::is_none")]
@@ -31,7 +32,8 @@ pub enum CreateListing<T> {
         /// The item to list.
         #[serde(serialize_with = "buy_listing_item_into_params")]
         item: buy_listing::Item,
-        /// The currencies. In practice, any type that can be serialized can be supplied.
+        /// The currencies. Any type that can be serialized can be supplied. It should contain
+        /// "keys" and/or "metal" fields.
         currencies: T,
         /// The message of the listing.
         #[serde(skip_serializing_if = "Option::is_none")]
@@ -46,9 +48,9 @@ pub enum CreateListing<T> {
 #[cfg(test)]
 mod tests {
     use super::*;
-    use crate::tf2_price::{Currencies, refined, scrap};
-    use tf2_enum::{Quality, KillstreakTier};
-    use assert_json_diff::assert_json_include;
+    use crate::tf2_price::{Currencies, ref_to_weps};
+    use tf2_enum::{KillstreakTier, Quality, Spell, SpellSet, StrangePart, StrangePartSet};
+    use assert_json_diff::assert_json_eq;
     use serde_json::{self, json, Value};
     
     #[test]
@@ -58,7 +60,7 @@ mod tests {
             details: Some("hello".into()),
             currencies: Currencies {
                 keys: 5,
-                weapons: refined!(5),
+                weapons: ref_to_weps!(5),
             },
             buyout: false,
             offers: false,
@@ -80,35 +82,34 @@ mod tests {
             "offers": false
         });
         
-        assert_json_include!(
-            actual: actual,
-            expected: expected,
+        assert_json_eq!(
+            actual,
+            expected,
         );
     }
     
     #[test]
     fn serializes_attributes_correctly() {
-        let json = serde_json::to_string(&CreateListing::Buy {
-            item: buy_listing::Item {
-                defindex: 10,
-                quality: Quality::Strange,
-                craftable: true,
-                killstreak_tier: Some(KillstreakTier::Professional),
-                particle: None,
-                wear: None,
-                skin: None,
-                strange: false,
-                festivized: false,
-                australium: false,
-            },
+        let item = buy_listing::Item::new(10, Quality::Strange)
+            .killstreak_tier(KillstreakTier::Professional)
+            .spells(SpellSet::double(
+                Spell::DieJob,
+                Spell::HeadlessHorseshoes,
+            ))
+            .strange_parts(StrangePartSet::single(
+                StrangePart::TauntKills,
+            ));
+        let listing = CreateListing::Buy {
+            item,
             details: Some("hello".into()),
             currencies: Currencies {
                 keys: 5,
-                weapons: refined!(5) + scrap!(3),
+                weapons: ref_to_weps!(5.33),
             },
             buyout: false,
             offers: false,
-        }).unwrap();
+        };
+        let json = serde_json::to_string(&listing).unwrap();
         let actual: Value = serde_json::from_str(&json).unwrap();
         let expected = json!({
             "intent": "buy",
@@ -120,6 +121,22 @@ mod tests {
                     {
                         "defindex": 2025,
                         "float_value": 3,
+                    },
+                    {
+                        "defindex":1004,
+                        "float_value": 0
+                    },
+                    {
+                        "defindex":1005,
+                        "float_value": 2
+                    },
+                    {
+                        "defindex": 379,
+                        "value": 0
+                    },
+                    {
+                        "defindex": 380,
+                        "float_value": 77
                     }
                 ]
             },
@@ -132,9 +149,9 @@ mod tests {
             "offers": false
         });
         
-        assert_json_include!(
-            actual: actual,
-            expected: expected,
+        assert_json_eq!(
+            actual,
+            expected,
         );
     }
 }

@@ -17,14 +17,14 @@ use tf2_price::{FloatCurrencies, Currencies, Currency};
 /// # Examples
 /// ```
 /// use backpacktf_api::response::currencies::ResponseCurrencies;
-/// use tf2_price::{Currencies, refined};
+/// use tf2_price::{Currencies, ref_to_weps};
 /// 
 /// let json = r#"{"keys": 2, "metal": 1}"#;
 /// let response_currencies = serde_json::from_str::<ResponseCurrencies>(json).unwrap();
 /// let currencies  = Currencies::try_from(response_currencies).unwrap();
 /// 
 /// assert_eq!(currencies.keys, 2);
-/// assert_eq!(currencies.weapons, refined!(1));
+/// assert_eq!(currencies.weapons, ref_to_weps!(1));
 /// ````
 #[derive(PartialEq, Clone, Copy, Debug)]
 pub enum ResponseCurrencies {
@@ -91,7 +91,7 @@ impl fmt::Display for ResponseCurrencies {
                     }
                 }
             },
-            ResponseCurrencies::Cash(dollars) => write!(f, "{dollars:.2}"),
+            ResponseCurrencies::Cash(usd) => write!(f, "${usd:.2}"),
         }
     }
 }
@@ -148,11 +148,11 @@ impl Ord for ResponseCurrencies {
                     Ordering::Greater
                 }
             },
-            ResponseCurrencies::Cash(currencies) => {
+            ResponseCurrencies::Cash(usd) => {
                 if let ResponseCurrencies::Cash(other) = other {
-                    if currencies == other {
+                    if usd == other {
                         Ordering::Equal
-                    } else if currencies < other {
+                    } else if usd < other {
                         Ordering::Less
                     } else {
                         Ordering::Greater
@@ -196,6 +196,8 @@ impl Serialize for ResponseCurrencies {
     where
         S: serde::Serializer
     {
+        use serde::ser::SerializeStruct;
+        
         #[derive(Serialize)]
         struct SerializeUSD<'a> {
             usd: &'a f32,
@@ -211,8 +213,6 @@ impl Serialize for ResponseCurrencies {
                 metal,
                 hat,
             } => {
-                use serde::ser::SerializeStruct;
-                
                 let mut s = serializer.serialize_struct("Currencies", 3)?;
                 
                 if *keys == 0.0 {
@@ -323,5 +323,17 @@ impl<'de> serde::Deserialize<'de> for ResponseCurrencies {
         }
         
         deserializer.deserialize_any(ResponseCurrenciesVisitor)
+    }
+}
+
+#[cfg(test)]
+mod tests {
+    use super::*;
+    
+    #[test]
+    fn formats_cash_value() {
+        assert_eq!(format!("{}", ResponseCurrencies::Cash(10.0)), "$10.00");
+        assert_eq!(format!("{}", ResponseCurrencies::Cash(0.12)), "$0.12");
+        assert_eq!(format!("{}", ResponseCurrencies::Cash(1000.12)), "$1000.12");
     }
 }

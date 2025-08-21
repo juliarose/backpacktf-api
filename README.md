@@ -34,15 +34,12 @@ let currencies = Currencies {
     // but serializes to { "metal": 0.11 }
     weapons: scrap!(1),
 };
+let item = BuyListingItem::new(1071, Quality::Strange)
+    .killstreak_tier(KillstreakTier::Professional);
 
 match backpacktf.create_listing(&CreateListing::Buy {
     currencies,
-    item: BuyListingItem {
-        defindex: 1071,
-        quality: Quality::Strange,
-        killstreak_tier: Some(KillstreakTier::Professional),
-        ..Default::default()
-    },
+    item,
     details: Some(format!("Buying Golden Frying Pan for {currencies}!")),
     buyout: true,
     offers: true,

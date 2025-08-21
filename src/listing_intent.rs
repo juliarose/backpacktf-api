@@ -1,6 +1,6 @@
 //! Listing intents.
 
-use crate::tf2_enum::num_enum::{IntoPrimitive, TryFromPrimitive};
+use crate::tf2_enum::{IntoPrimitive, TryFromPrimitive};
 use std::fmt;
 use serde_repr::{Serialize_repr, Deserialize_repr};
 
