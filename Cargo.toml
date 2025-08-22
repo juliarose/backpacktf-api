@@ -26,7 +26,7 @@ serde_repr = "^0.1"
 steamid-ng = "^1.0"
 strum = { version = "^0.24", features = ["derive"] }
 strum_macros = "^0.24"
-tf2-enum = "^0.12"
+tf2-enum = "^0.13"
 tf2-price = { version = "^0.14", features = ["serde"] }
 thiserror = "^2"
 url = "^2.5"
