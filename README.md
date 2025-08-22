@@ -21,7 +21,7 @@ backpacktf-api = { git = "https://github.com/juliarose/backpacktf-api", features
 ```rust
 use backpacktf_api::BackpackAPI;
 use backpacktf_api::request::{BuyListingItem, CreateListing};
-use tf2_price::{Currencies, scrap};
+use tf2_price::{Currencies, ref_to_weps};
 use tf2_enum::{Quality, KillstreakTier};
 
 let backpacktf = BackpackAPI::builder()
@@ -32,7 +32,7 @@ let currencies = Currencies {
     keys: 0,
     // Metal is defined as an integer as the number of weapons
     // but serializes to { "metal": 0.11 }
-    weapons: scrap!(1),
+    weapons: ref_to_weps!(0.11),
 };
 let item = BuyListingItem::new(1071, Quality::Strange)
     .killstreak_tier(KillstreakTier::Professional);
